@@ -51,6 +51,9 @@
 
 ## 자산 계획
 
+- 배경 이미지 경로:
+  - `/home/kindsr/projects/shortform-factory-studio/episodes/nabi-korea-trip-001/assets/backgrounds/images`
+  - 파일명 권장: `seoul.*`, `busan.*`, `jeju.*`
 - 음악: 현재 없음. 첫 버전은 무음 업로드
 - 효과음: 없음
 - 오버레이: 장면별 위치 라벨, 하단 AI 고지

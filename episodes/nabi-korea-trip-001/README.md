@@ -12,6 +12,7 @@
 - 썸네일: `./final/nabi-korea-trip-001-thumb.png`
 - 게시 패킷: `./publish-packet.json`
 - 렌더 스크립트: `./render_prototype.py`
+- 배경 이미지 입력: `./assets/backgrounds/images/seoul.*`, `busan.*`, `jeju.*`
 
 주의:
 
