@@ -1,56 +1,56 @@
-# Reference Shortform Workflow
+# 참조 이미지 기반 쇼츠 워크플로우
 
-This workspace is the operational home for `Shortform Factory` character-driven short-form video production.
+이 작업공간은 `Shortform Factory`의 캐릭터 중심 쇼츠 및 단편 영상 제작을 위한 운영 루트입니다.
 
-## Default Rule
+## 기본 원칙
 
-Start with reference-image-driven production.
+처음에는 참조 이미지 기반 제작부터 시작합니다.
 
-- choose a protagonist
-- curate canonical reference images
-- create a shot packet
-- generate keyframes or stills
-- expand into clips
-- edit, QA, disclose, and publish
+- 주인공을 정한다
+- 캐노니컬 참조 이미지를 선별한다
+- 쇼트 패킷을 만든다
+- 키프레임 또는 스틸을 생성한다
+- 이를 클립으로 확장한다
+- 편집, QA, 고지, 게시까지 진행한다
 
-Only escalate to character-specific LoRA or similar training when repeated episodes need tighter identity lock than reference-only generation can provide.
+반복되는 에피소드에서 참조 이미지 방식만으로는 동일 인물성이 충분히 유지되지 않을 때만 캐릭터 전용 LoRA나 유사 학습 방식으로 넘어갑니다.
 
-## Required Inputs Per Episode
+## 에피소드별 필수 입력값
 
-- protagonist name
-- character bible path
-- reference folder path
-- source issue id
-- style target
-- output ratio and duration
-- disclosure placement
-- shot list
+- 주인공 이름
+- 캐릭터 바이블 경로
+- 참조 폴더 경로
+- 원본 이슈 ID
+- 스타일 목표
+- 출력 비율과 길이
+- 고지 표시 위치
+- 쇼트 리스트
 
-## Required Inputs Per Recurring Character
+## 반복 등장 캐릭터별 필수 항목
 
 - `bible.md`
 - `prompts.md`
 - `refs/`
-- optional `lora/`
-- rights note
+- 선택적 `lora/`
+- 권리 메모
 
-## Working Folders
+## 작업 폴더
 
 - `characters/`
-  - recurring protagonists and their canonical assets
+  - 반복 등장 주인공과 그 캐노니컬 자산
 - `episodes/`
-  - episode-by-episode packets, renders, and final media
+  - 에피소드별 패킷, 렌더, 최종 산출물
 - `shared/`
-  - reusable overlays, styles, music, and SFX
+  - 재사용 가능한 오버레이, 스타일, 음악, 효과음
 - `inbound/references/`
-  - raw inspiration or approved upstream reference drops
+  - 원본 참고 이미지 또는 승인된 외부 참조 드롭
 
-## Production Gate
+## 제작 게이트
 
-Do not mark an episode ready for generation or publish if any of these are missing:
+아래 항목 중 하나라도 빠져 있으면 에피소드를 생성 준비 완료 또는 게시 준비 완료로 표시하지 않습니다.
 
-- protagonist
-- reference path
-- disclosure placement
-- final file location plan
-- QA signoff requirement
+- 주인공
+- 참조 경로
+- 고지 위치
+- 최종 파일 저장 계획
+- QA 승인 요구사항

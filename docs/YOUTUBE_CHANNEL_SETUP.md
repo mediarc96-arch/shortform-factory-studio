@@ -1,54 +1,54 @@
-# YouTube Channel Setup
+# YouTube 채널 설정
 
-This guide is the recommended sequence for connecting a real YouTube channel to `Shortform Factory`.
+이 문서는 실제 YouTube 채널을 `Shortform Factory`에 연결할 때 권장되는 순서를 정리한 가이드입니다.
 
-Only `Channel Publisher & Analyst` should hold YouTube credentials.
+YouTube 자격증명은 `Channel Publisher & Analyst`만 가져야 합니다.
 
-## Required Values
+## 필요한 값
 
-You need these four values:
+아래 4개 값이 필요합니다.
 
 - `YOUTUBE_CHANNEL_ID`
 - `YOUTUBE_OAUTH_CLIENT_ID`
 - `YOUTUBE_OAUTH_CLIENT_SECRET`
 - `YOUTUBE_OAUTH_REFRESH_TOKEN`
 
-Recommended additional values:
+권장 추가 값:
 
 - `YOUTUBE_DEFAULT_PRIVACY_STATUS=private`
 - `YOUTUBE_DEFAULT_CATEGORY_ID=22`
 - `YOUTUBE_DISCLOSURE_TEXT=AI로 만들어진 영상입니다.`
 - `YOUTUBE_NOTIFY_SUBSCRIBERS=false`
 
-## 1. Prepare Google Cloud
+## 1. Google Cloud 준비
 
-In Google Cloud Console:
+Google Cloud Console에서:
 
-1. Open the target project.
-2. Enable `YouTube Data API v3`.
-3. Create an OAuth client.
-4. Use `Desktop app` as the client type.
-5. Copy the client ID and client secret.
+1. 대상 프로젝트를 엽니다.
+2. `YouTube Data API v3`를 활성화합니다.
+3. OAuth client를 생성합니다.
+4. client 타입은 `Desktop app`으로 설정합니다.
+5. client ID와 client secret을 복사합니다.
 
-If the OAuth app is still in `Testing`:
+OAuth 앱이 아직 `Testing` 상태라면:
 
-1. Open the Google Auth/OAuth audience settings.
-2. Add the real Google account you will log in with as a `Test user`.
+1. Google Auth/OAuth audience 설정을 엽니다.
+2. 실제로 로그인할 Google 계정을 `Test user`로 추가합니다.
 
-## 2. Get The Channel ID
+## 2. 채널 ID 확인
 
-In YouTube:
+YouTube에서:
 
-1. Sign in as the real channel owner.
-2. Open `Settings`.
-3. Open `Advanced settings`.
-4. Copy the channel ID.
+1. 실제 채널 소유자 계정으로 로그인합니다.
+2. `Settings`를 엽니다.
+3. `Advanced settings`를 엽니다.
+4. 채널 ID를 복사합니다.
 
-Store that as `YOUTUBE_CHANNEL_ID`.
+이 값을 `YOUTUBE_CHANNEL_ID`로 저장합니다.
 
-## 3. Get The Refresh Token
+## 3. Refresh Token 받기
 
-Run the OAuth helper on the Paperclip server:
+Paperclip 서버에서 OAuth helper를 실행합니다.
 
 ```bash
 cd /home/kindsr/paperclip
@@ -57,72 +57,72 @@ node scripts/youtube-oauth-bootstrap.mjs \
   --client-secret "<YOUR_CLIENT_SECRET>"
 ```
 
-If your browser is on your local machine, use SSH port forwarding first:
+브라우저가 로컬 PC에 있다면 먼저 SSH 포트 포워딩을 사용합니다.
 
 ```bash
 ssh -L 8789:127.0.0.1:8789 kindsr@<paperclip-server>
 ```
 
-Then:
+그 다음:
 
-1. Open the URL printed by the helper in your browser.
-2. Log in with the actual YouTube channel owner Google account.
-3. Approve access.
-4. Wait for the helper to print:
+1. helper가 출력한 URL을 브라우저에서 엽니다.
+2. 실제 YouTube 채널 소유자 Google 계정으로 로그인합니다.
+3. 접근 권한을 승인합니다.
+4. helper가 아래 값을 출력할 때까지 기다립니다.
    - `refreshToken`
    - `channelId`
    - `channelTitle`
 
-Use:
+사용 방법:
 
 - `refreshToken` -> `YOUTUBE_OAUTH_REFRESH_TOKEN`
-- `channelId` -> `YOUTUBE_CHANNEL_ID` only if it is not `null`
+- `channelId` -> `null`이 아닐 때만 `YOUTUBE_CHANNEL_ID`
 
-If `channelId` is `null`, use the channel ID copied from YouTube settings instead.
+`channelId`가 `null`이면 YouTube 설정 화면에서 직접 복사한 채널 ID를 사용합니다.
 
-## 4. Register Secrets In Paperclip
+## 4. Paperclip에 secret 등록
 
-Company:
+회사:
 
 - `Shortform Factory`
 
-Agent:
+에이전트:
 
 - `Channel Publisher & Analyst`
 
-UI path:
+UI 경로:
 
-1. Open `Shortform Factory`.
-2. Open `Agents`.
-3. Open `Channel Publisher & Analyst`.
-4. Open `Configuration`.
-5. Open `Permissions & Configuration`.
-6. Find `Environment variables`.
+1. `Shortform Factory`를 엽니다.
+2. `Agents`를 엽니다.
+3. `Channel Publisher & Analyst`를 엽니다.
+4. `Configuration`을 엽니다.
+5. `Permissions & Configuration`을 엽니다.
+6. `Environment variables`를 찾습니다.
 
-Create rows for:
+아래 키로 row를 만듭니다.
 
 - `YOUTUBE_CHANNEL_ID`
 - `YOUTUBE_OAUTH_CLIENT_ID`
 - `YOUTUBE_OAUTH_CLIENT_SECRET`
 - `YOUTUBE_OAUTH_REFRESH_TOKEN`
 
-Then add:
+그 다음 아래 값도 추가합니다.
 
 - `YOUTUBE_DEFAULT_PRIVACY_STATUS`
 - `YOUTUBE_DEFAULT_CATEGORY_ID`
 - `YOUTUBE_DISCLOSURE_TEXT`
 - `YOUTUBE_NOTIFY_SUBSCRIBERS`
 
-For each sensitive value:
+민감한 값마다:
 
-1. Enter it as `Plain`.
-2. Click `Seal`.
-3. Save it as a company secret.
-4. Save the agent configuration.
+1. 우선 `Plain`으로 입력합니다.
+2. `Seal`을 클릭합니다.
+3. 회사 secret으로 저장합니다.
+4. agent 설정 전체를 저장합니다.
 
-## 5. Run A Manual Dry Run
+## 5. 수동 Dry Run 실행
 
-Before letting the agent upload, verify directly:
+agent가 실제로 업로드하기 전에 직접 검증합니다.
 
 ```bash
 cd /home/kindsr/paperclip
@@ -138,11 +138,11 @@ AI로 만들어진 영상입니다." \
   --video-file "/absolute/path/to/test.mp4"
 ```
 
-This validates the credentials and request shape without actually publishing.
+이 단계는 실제 게시 없이 자격증명과 요청 형식을 검증합니다.
 
-## 6. Run A Private Test Upload
+## 6. Private 테스트 업로드 실행
 
-If the dry run is clean:
+dry run이 정상이라면:
 
 ```bash
 cd /home/kindsr/paperclip
@@ -159,36 +159,36 @@ AI로 만들어진 영상입니다." \
   --publish
 ```
 
-Use `private` for the first upload test.
+첫 업로드 테스트는 `private`로 유지합니다.
 
-## 7. Agent-Driven Uploads
+## 7. Agent 기반 업로드
 
-After credentials are set, `Channel Publisher & Analyst` can upload from a publish packet issue comment.
+자격증명을 설정한 뒤에는 `Channel Publisher & Analyst`가 publish packet 이슈 코멘트에서 바로 업로드할 수 있습니다.
 
-The comment must begin with:
+코멘트는 아래 heading으로 시작해야 합니다.
 
 ```md
 ## YouTube Publish Packet Ready
 ```
 
-Then include a JSON code block with the publish payload.
+그 아래에 publish payload를 담은 JSON 코드 블록을 넣습니다.
 
-## Current Working Directory
+## 현재 작업 디렉터리
 
-The `Shortform Factory` agents are currently set to use:
+현재 `Shortform Factory` agent들의 작업 루트는 아래로 설정되어 있습니다.
 
 - `/home/kindsr/projects/shortform-factory-studio`
 
-That should be the canonical place for:
+이 경로를 아래 산출물의 canonical 작업 위치로 사용합니다.
 
-- episode packets
-- renders
-- thumbnails
-- final video exports
+- 에피소드 패킷
+- 렌더 결과물
+- 썸네일
+- 최종 영상 파일
 
-## Guardrails
+## 운영 가드레일
 
-- Do not give YouTube secrets to `CEO`, `Head of Content`, `Script Writer`, or other creative agents.
-- Keep the first test upload `private`.
-- Include `AI로 만들어진 영상입니다.` in the YouTube description.
-- If the OAuth app is still in testing mode, expect tester restrictions and possible token fragility.
+- YouTube secret을 `CEO`, `Head of Content`, `Script Writer`나 다른 제작 agent에게 주지 않습니다.
+- 첫 테스트 업로드는 `private`로 유지합니다.
+- YouTube 설명란에는 `AI로 만들어진 영상입니다.`를 포함합니다.
+- OAuth 앱이 아직 testing 상태라면 tester 제한과 토큰 불안정성이 있을 수 있습니다.

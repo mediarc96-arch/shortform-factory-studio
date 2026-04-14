@@ -1,51 +1,51 @@
-# Episode Packet Template
+# 에피소드 패킷 템플릿
 
-## Metadata
+## 메타데이터
 
-- Episode slug:
-- Source issue:
-- Protagonist:
-- Character bible:
-- Reference folder:
-- Output target:
-- Duration target:
-- Disclosure text:
+- 에피소드 슬러그:
+- 원본 이슈:
+- 주인공:
+- 캐릭터 바이블:
+- 참조 폴더:
+- 출력 대상:
+- 목표 길이:
+- 고지 문구:
 
-## Topic
+## 주제
 
-- Topic:
-- Viewer promise:
-- Hook:
+- 주제:
+- 시청자에게 주는 약속:
+- 훅:
 
-## Script
+## 스크립트
 
-- Narration:
-- On-screen text:
+- 내레이션:
+- 화면 자막:
 - CTA:
 
-## Shot Plan
+## 쇼트 계획
 
-1. Shot:
-   - purpose:
-   - reference:
-   - prompt:
-   - expected output:
-2. Shot:
-   - purpose:
-   - reference:
-   - prompt:
-   - expected output:
+1. 쇼트:
+   - 목적:
+   - 참조:
+   - 프롬프트:
+   - 기대 출력:
+2. 쇼트:
+   - 목적:
+   - 참조:
+   - 프롬프트:
+   - 기대 출력:
 
-## Asset Plan
+## 자산 계획
 
-- Music:
-- SFX:
-- Overlays:
-- Captions:
+- 음악:
+- 효과음:
+- 오버레이:
+- 캡션:
 
-## Delivery
+## 산출물
 
-- Render folder:
-- Final folder:
-- Thumbnail or cover requirement:
-- QA checklist:
+- 렌더 폴더:
+- 최종 폴더:
+- 썸네일 또는 커버 요구사항:
+- QA 체크리스트:

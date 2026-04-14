@@ -1,53 +1,53 @@
-# Character Bible Template
+# 캐릭터 바이블 템플릿
 
-## Identity
+## 기본 정보
 
-- Name:
-- Series or world:
-- Role in the channel:
-- Rights status:
+- 이름:
+- 시리즈 또는 세계관:
+- 채널 내 역할:
+- 권리 상태:
 
-## Canonical Look
+## 캐노니컬 외형
 
-- Age band:
-- Face and hair anchors:
-- Body or silhouette anchors:
-- Wardrobe anchors:
-- Signature props:
+- 연령대:
+- 얼굴 및 헤어 핵심 요소:
+- 체형 또는 실루엣 핵심 요소:
+- 의상 핵심 요소:
+- 시그니처 소품:
 
-## Allowed Variation
+## 허용되는 변화
 
-- Expressions:
-- Camera angles:
-- Outfit variations:
-- Scene types:
+- 표정:
+- 카메라 각도:
+- 의상 변형:
+- 장면 유형:
 
-## Forbidden Drift
+## 금지되는 드리프트
 
-- Never change:
-- Avoid:
+- 절대 바꾸지 말 것:
+- 피해야 할 것:
 
-## Performance And Tone
+## 연기와 톤
 
-- Personality:
-- Speaking tone:
-- Movement style:
+- 성격:
+- 말투:
+- 움직임 스타일:
 
-## Prompt Base
+## 프롬프트 기본값
 
-- Core prompt:
-- Negative prompt:
-- Style notes:
+- 핵심 프롬프트:
+- 네거티브 프롬프트:
+- 스타일 메모:
 
-## Reference Assets
+## 참조 자산
 
-- Canonical image 1:
-- Canonical image 2:
-- Canonical image 3:
-- Backup variations:
+- 대표 이미지 1:
+- 대표 이미지 2:
+- 대표 이미지 3:
+- 보조 변형본:
 
-## Training
+## 학습
 
-- Mode: `reference-only` or `character-lora`
-- If trained, adapter version:
-- Notes:
+- 방식: `reference-only` 또는 `character-lora`
+- 학습했다면 어댑터 버전:
+- 메모:
