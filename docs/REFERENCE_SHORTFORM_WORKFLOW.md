@@ -54,3 +54,14 @@
 - 고지 위치
 - 최종 파일 저장 계획
 - QA 승인 요구사항
+
+## Paperclip 이슈 운영
+
+Paperclip에서는 새 에피소드와 기존 에피소드 수정을 명확히 구분해야 합니다.
+
+- 새 에피소드 제작은 `new issue`
+- 아직 게시되지 않은 기존 에피소드 수정은 기존 이슈의 `comment`
+- 이미 게시된 영상을 다시 렌더하거나 다시 업로드해야 하면 `new issue`
+- 제목, 설명, privacy 같은 메타데이터만 수정할 때는 기존 이슈의 `comment`
+
+세부 규칙과 템플릿은 [PAPERCLIP_ISSUE_OPERATIONS.md](./PAPERCLIP_ISSUE_OPERATIONS.md)를 따른다.
