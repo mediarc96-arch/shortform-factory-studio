@@ -5,6 +5,7 @@ import asyncio
 import argparse
 import json
 import math
+import os
 import subprocess
 from pathlib import Path
 
@@ -76,8 +77,21 @@ DEFAULT_CONFIG = {
 
 WIDTH = 1080
 HEIGHT = 1920
-FONT_REGULAR = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc")
-FONT_BOLD = Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc")
+FONT_REGULAR_CANDIDATES = [
+    Path(os.environ.get("SHORTFORM_FONT_REGULAR", "")).expanduser(),
+    Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+    Path("/home/kindsr/projects/devscent-inmemorytrip-main/backend/app/infrastructure/pdf/fonts/Pretendard-Regular.otf"),
+    Path("/home/kindsr/projects/devscent-atrader/.venv/lib/python3.12/site-packages/pykrx/NanumBarunGothic.ttf"),
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
+]
+FONT_BOLD_CANDIDATES = [
+    Path(os.environ.get("SHORTFORM_FONT_BOLD", "")).expanduser(),
+    Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"),
+    Path("/home/kindsr/projects/devscent-inmemorytrip-main/backend/app/infrastructure/pdf/fonts/Pretendard-Bold.otf"),
+    Path("/home/kindsr/projects/devscent-atrader/.venv/lib/python3.12/site-packages/pykrx/NanumBarunGothic.ttf"),
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
+]
 DEFAULT_EDGE_VOICES = {
     "ko": "ko-KR-SunHiNeural",
     "en": "en-US-JennyNeural",
@@ -406,8 +420,13 @@ def generate_narration_segments(packet: dict, config: dict, episode_dir: Path) -
 
 
 def load_font(size: int, *, bold: bool = False) -> ImageFont.FreeTypeFont:
-    font_path = FONT_BOLD if bold and FONT_BOLD.exists() else FONT_REGULAR
-    return ImageFont.truetype(str(font_path), size=size)
+    candidates = FONT_BOLD_CANDIDATES if bold else FONT_REGULAR_CANDIDATES
+    for font_path in candidates:
+        if not font_path.is_file():
+            continue
+        if font_path.exists():
+            return ImageFont.truetype(str(font_path), size=size)
+    raise RuntimeError(f"No usable font found for {'bold' if bold else 'regular'} text rendering.")
 
 
 def contain(image: Image.Image, *, width: int | None = None, height: int | None = None) -> Image.Image:

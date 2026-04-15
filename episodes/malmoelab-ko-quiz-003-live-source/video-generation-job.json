@@ -1,0 +1,18 @@
+{
+  "provider": "runway",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom quiz frame as a polished short-form educational shot. Keep all visible Korean and English text unchanged and legible. Add only subtle motion: a gentle camera push-in, soft chalk dust in the air, slight teacher breathing motion, and a natural classroom stillness. Do not add new objects, extra text, or layout changes. Keep the result vertical and clean for a premium quiz short.",
+    "promptImage": "./renders/frames/frame-0000.png",
+    "ratio": "720:1280",
+    "duration": 4
+  },
+  "runner": {
+    "outputFile": "./renders/runway/malmoelab-ko-quiz-003-live-source-veo3.1_fast.mp4",
+    "manifestFile": "./renders/runway/malmoelab-ko-quiz-003-live-source-veo3.1_fast.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": true
+  }
+}

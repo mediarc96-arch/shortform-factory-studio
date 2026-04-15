@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-004-agent-source",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-15T17:14:20+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "4f99fb84-7443-479b-917e-afcb8711db2d",
+    "senseId": "da4e96a7-eb8f-42bb-a1b7-d8adc02901e9",
+    "exampleId": "1a9953e8-4dee-4e28-b0e3-a44ba7dddfd3",
+    "wordText": "사과",
+    "wordRomanization": "sagwa",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "모양이 둥글고 붉으며 새콤하고 단맛이 나는 과일.",
+    "definitionTranslated": "A round-shaped sweet and sour fruit with red skin.",
+    "englishGloss": "apple",
+    "exampleText": "아침마다 사과 한 개를 먹는다.",
+    "exampleTranslationText": "I eat an apple every morning.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 사과",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "아침마다 ___ 한 개를 먹는다.",
+    "fullSentence": "아침마다 사과 한 개를 먹는다.",
+    "blankedSentenceRomanization": "achimmada ___ han gaereul meokneunda.",
+    "fullSentenceRomanization": "achimmada sagwa han gaereul meokneunda.",
+    "answerWord": "사과",
+    "answerRomanization": "sagwa",
+    "answerGloss": "apple",
+    "answerTranslation": "I eat an apple every morning."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}

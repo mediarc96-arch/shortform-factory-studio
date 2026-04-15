@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-003-live-source",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-15T16:43:10+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "0dd3b5ac-c941-4fdd-9f51-aefb8b8a4af7",
+    "senseId": "9a77db54-15b8-41f2-ba3a-59aa0102ccf6",
+    "exampleId": "fe667d51-6008-4abf-8e05-6d58e7de98e3",
+    "wordText": "책",
+    "wordRomanization": "chaek",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 20.1,
+    "definition": "글이나 그림 등을 인쇄하여 묶어 놓은 것.",
+    "definitionTranslated": "Pieces of writing, pictures, etc., that are printed and bound.",
+    "englishGloss": "book",
+    "exampleText": "책을 읽고 메모를 합니다.",
+    "exampleTranslationText": "I read a book and take notes.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 책",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "___을 읽고 메모를 합니다.",
+    "fullSentence": "책을 읽고 메모를 합니다.",
+    "blankedSentenceRomanization": "___eul ilkgo memoreul hapnida.",
+    "fullSentenceRomanization": "chaekeul ilkgo memoreul hapnida.",
+    "answerWord": "책",
+    "answerRomanization": "chaek",
+    "answerGloss": "book",
+    "answerTranslation": "I read a book and take notes."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}
