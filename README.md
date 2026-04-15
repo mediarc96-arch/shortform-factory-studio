@@ -14,14 +14,17 @@ Do not store large production assets inside Paperclip runtime directories.
 ## Structure
 
 ```text
-characters/
+characters/   캐릭터 이미지 및 아이덴티티
   _template/
-episodes/
+episodes/     완료된 작업 영상 
   _template/
-docs/
+docs/         문서
 inbound/
   references/
 shared/
+  backgrounds/  영상제작시 배경으로 사용할 리소스
+    images/
+    videos/
   styles/
   overlays/
   music/
