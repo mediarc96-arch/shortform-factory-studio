@@ -65,3 +65,12 @@ Paperclip에서는 새 에피소드와 기존 에피소드 수정을 명확히 �
 - 제목, 설명, privacy 같은 메타데이터만 수정할 때는 기존 이슈의 `comment`
 
 세부 규칙과 템플릿은 [PAPERCLIP_ISSUE_OPERATIONS.md](./PAPERCLIP_ISSUE_OPERATIONS.md)를 따른다.
+
+## 교육형 빈칸 퀴즈 포맷
+
+말모이랩 기반 한글 교육 쇼츠는 별도 운영 규칙을 따른다.
+
+- 칠판 템플릿 + 빈칸 문장 + 영어 질문 + 정답 공개 구조를 기본으로 한다.
+- 온스크린 AI 고지 문구는 넣지 않는다.
+- 설명란에서 음악/배경/권리 출처를 처리한다.
+- 말모이랩 DB 소싱과 중복 회피 규칙은 [MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md](./MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md)를 따른다.
