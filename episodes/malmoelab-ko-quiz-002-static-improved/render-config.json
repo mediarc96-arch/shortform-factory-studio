@@ -1,0 +1,45 @@
+{
+  "outputSlug": "malmoelab-ko-quiz-002-static-improved",
+  "teacherImage": "/home/kindsr/projects/shortform-factory-studio/shared/backgrounds/images/korean/teacher.png",
+  "fps": 15,
+  "durationSeconds": 15,
+  "titleCardDuration": 2.0,
+  "questionDuration": 7.0,
+  "engagementDuration": 2.0,
+  "answerDuration": 4.0,
+  "ctaUrl": "https://malmoelab.com",
+  "buttonCaption": "Learn more at malmoelab.com",
+  "aiAssetGeneration": {
+    "enabled": false
+  },
+  "narration": {
+    "enabled": true,
+    "mode": "auto",
+    "contentLanguageCode": "ko",
+    "learnerLanguageCode": "en",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-4%",
+    "pitch": "-2Hz",
+    "volume": "+0%",
+    "segments": []
+  },
+  "teacherForeground": {
+    "enabled": true,
+    "motionEnabled": false,
+    "width": 360,
+    "offsetX": 8,
+    "offsetY": 310,
+    "crop": [0.61, 0.06, 0.99, 0.98]
+  },
+  "theme": {
+    "accent": "#4263EB",
+    "accentWarm": "#FFC857",
+    "text": "#FFFDF8",
+    "boardText": "#FFFDF8",
+    "boardSubtext": "#D9ECD7",
+    "boardFill": "#1F5A3D",
+    "boardStroke": "#BDE2C8",
+    "cardFill": "#08111D",
+    "cardFillMuted": "#0E1726"
+  }
+}

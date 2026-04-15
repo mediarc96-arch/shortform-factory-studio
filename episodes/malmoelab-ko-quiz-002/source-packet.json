@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-002",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-15T05:24:47+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "5cbed95c-c7e1-49d6-a5a8-f315119b035c",
+    "senseId": "06d0382b-c480-4b7d-8207-d06327d9374d",
+    "exampleId": "a157625f-2bcb-4ffa-a5d9-41e0d1125978",
+    "wordText": "집",
+    "wordRomanization": "jip",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 20.1,
+    "definition": "사람이나 동물이 추위나 더위 등을 막고 그 속에 들어 살기 위해 지은 건물.",
+    "definitionTranslated": "A structure built by a human or animal to serve as protection from cold, heat, etc., and as a place to live in.",
+    "englishGloss": "house",
+    "exampleText": "저녁에는 집에서 쉽니다.",
+    "exampleTranslationText": "I rest at home in the evening.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 집",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "저녁에는 ___에서 쉽니다.",
+    "fullSentence": "저녁에는 집에서 쉽니다.",
+    "blankedSentenceRomanization": "jeonyeokeneun ___eseo swipnida.",
+    "fullSentenceRomanization": "jeonyeokeneun jipeseo swipnida.",
+    "answerWord": "집",
+    "answerRomanization": "jip",
+    "answerGloss": "house",
+    "answerTranslation": "I rest at home in the evening."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}

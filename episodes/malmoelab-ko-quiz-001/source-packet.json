@@ -1,0 +1,45 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-001",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "selectedAt": "2026-04-15T04:38:00+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "35bc15e0-6d51-4991-8ebf-f0fcc9918fe7",
+    "senseId": "de3cc877-28e2-411f-ae4a-f5069ccdaade",
+    "exampleId": "90534879-1a9b-4f18-a978-7f546ebad247",
+    "wordText": "병원",
+    "wordRomanization": "byeongwon",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "시설을 갖추고 의사와 간호사가 병든 사람을 치료해 주는 곳.",
+    "definitionTranslated": "An institution with facilities and doctors and nurses to treat sick people.",
+    "englishGloss": "hospital",
+    "exampleText": "몸이 안 좋아서 병원에 전화했습니다.",
+    "exampleTranslationText": "I called the hospital because I was not feeling well.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 병원",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "몸이 안 좋아서 ___에 전화했습니다.",
+    "fullSentence": "몸이 안 좋아서 병원에 전화했습니다.",
+    "blankedSentenceRomanization": "momi an johaseo ___e jeonhwahaetseupnida.",
+    "fullSentenceRomanization": "momi an johaseo byeongwone jeonhwahaetseupnida.",
+    "answerWord": "병원",
+    "answerRomanization": "byeongwon",
+    "answerGloss": "hospital",
+    "answerTranslation": "I called the hospital because I was not feeling well."
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": false
+  }
+}

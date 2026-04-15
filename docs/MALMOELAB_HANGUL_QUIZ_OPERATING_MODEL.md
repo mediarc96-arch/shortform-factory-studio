@@ -53,6 +53,53 @@
 - 배경/선생님/칠판은 반복 사용 가능한 템플릿 자산으로 관리한다.
 - 예문, 빈칸, 정답, 보조 캡션만 episode별로 바뀌는 형태를 기본으로 한다.
 
+## Nano Banana 2 자산 생성 규칙
+
+`Video Editor`는 `Nano Banana 2`에 해당하는 Gemini 이미지 모델(`gemini-3.1-flash-image-preview`)을 **영상 자체 생성**이 아니라 **패널용 이미지 자산 생성**에 사용한다.
+
+하지만 현재 기본 운영 모드는 이 단계 없이 진행한다.
+
+- 기본값: `teacherImage` 기반 template-only 렌더
+- 선택값: API key가 준비된 경우에만 Gemini 패널 자산 생성 사용
+
+즉 `GEMINI_IMAGE_API_KEY`가 없다고 해서 제작 파이프라인이 막히면 안 된다.
+
+권장 순서:
+
+1. `source-packet.json` 생성
+2. 기본 모드면 `scripts/render_malmoelab_quiz.py` 실행
+3. 생성형 자산을 쓸 때만 `render-config.json`에서 `aiAssetGeneration.enabled=true`
+4. 그 경우 `scripts/generate_gemini_quiz_assets.py` 실행 후 다시 렌더
+
+생성 결과:
+
+- `title-panel.png`
+- `question-panel.png`
+- `answer-panel.png`
+- `asset-manifest.json`
+
+운영 원칙:
+
+- 생성형 이미지에는 칠판 위 문자, 로고, 자막을 직접 그리지 않는다.
+- 실제 한글 문장, 로마자, 영어 질문, 정답 공개 문구는 최종 렌더러가 오버레이한다.
+- 즉 이미지 생성 모델은 선생님 포즈, 교실 분위기, 칠판의 빈 시각 공간만 만든다.
+
+권장 secret / env:
+
+- `GEMINI_IMAGE_API_KEY`
+
+대체 허용:
+
+- `GEMINI_API_KEY`
+- `GOOGLE_API_KEY`
+
+`GEMINI_IMAGE_API_KEY`를 우선 권장하는 이유는, `gemini_local` CLI 로그인과 별도로 이미지 생성 API 키를 분리해 관리하기 쉽기 때문이다.
+
+현재 운영 방침:
+
+- 우선은 template-only 모드로 제작
+- 반복 제작 포맷이 안정화된 뒤 필요할 때만 Gemini 패널 자산 생성 추가
+
 ## 참여 유도 문구 규칙
 
 `Double tap` 문구는 좋아요 유도용 참여 카피로만 쓴다.
@@ -65,6 +112,25 @@
   - 예: `Double tap to reveal the answer.`
 
 즉, 실제 기능이 없는 상호작용을 약속하면 안 된다.
+
+## TTS 언어 규칙
+
+- TTS는 시청자의 모국어가 아니라 **교육 대상 언어**를 읽어야 한다.
+- 영어권 사용자 대상 한글 교육 쇼츠라도, 음성은 한국어 문장과 한국어 정답을 한국어 발음으로 읽는다.
+- learner-facing 질문, 보조 캡션, CTA는 영어로 유지할 수 있다.
+- 즉 `caption language`와 `narration language`는 분리될 수 있다.
+- `contentLanguageCode`는 교육 대상 언어를 뜻하고, `learnerLanguageCode`는 시청자 보조 언어를 뜻한다.
+- `malmoelab-ko-quiz-*`는 기본적으로:
+  - `contentLanguageCode = ko`
+  - `learnerLanguageCode = en`
+  - `narrationLanguageCode = ko`
+
+운영 원칙:
+
+- 수동 영어 TTS 세그먼트를 episode마다 복사해서 쓰지 않는다.
+- source packet 또는 render config의 언어 코드를 기준으로 자동 내레이션을 만든다.
+- voice 선택도 `contentLanguageCode`를 우선 기준으로 한다.
+- 나중에 일본어, 영어, 중국어 교육 포맷으로 확장하더라도 같은 규칙을 유지한다.
 
 ## AI 고지 규칙
 
@@ -239,7 +305,7 @@ DB 접속정보는 repo에 적지 않는다.
 - `Script Writer`
   - 영어 질문 문구, reveal 문구, CTA 문구 작성
 - `Video Editor`
-  - 칠판 레이아웃, 팔 모션, 음악, 최종 합성
+  - 칠판 레이아웃, 팔 모션, Gemini 패널 자산 생성, 음악, 최종 합성
 - `Quality & Fact Checker`
   - 한글, 로마자, 정답, 출처, 권리 검수
 - `Channel Publisher & Analyst`
@@ -274,4 +340,3 @@ DB 접속정보는 repo에 적지 않는다.
 - publish packet
 - rights / music attribution data
 - YouTube upload URL
-

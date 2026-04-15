@@ -1,0 +1,40 @@
+{
+  "teacherImage": "/home/kindsr/projects/shortform-factory-studio/shared/backgrounds/images/korean/teacher.png",
+  "fps": 15,
+  "durationSeconds": 15,
+  "panelImages": {
+    "title": "",
+    "question": "",
+    "answer": ""
+  },
+  "titleCardDuration": 2.0,
+  "questionDuration": 7.0,
+  "engagementDuration": 2.0,
+  "answerDuration": 4.0,
+  "ctaUrl": "https://malmoelab.com",
+  "buttonCaption": "Learn more at malmoelab.com",
+  "aiAssetGeneration": {
+    "enabled": false,
+    "model": "gemini-3.1-flash-image-preview",
+    "outputDir": "renders/generated-assets",
+    "referenceImage": "",
+    "apiKeyEnvVar": "GEMINI_IMAGE_API_KEY",
+    "imageSize": "2K",
+    "stylePrompt": "",
+    "negativePrompt": "Do not add any text, letters, Korean writing, English writing, numbers, logos, watermarks, speech bubbles, interface chrome, stickers, or captions anywhere in the image. Keep the chalkboard visually clean so typography can be composited later.",
+    "promptOverrides": {
+      "title": "",
+      "question": "",
+      "answer": ""
+    }
+  },
+  "musicFile": "",
+  "musicCredit": {},
+  "theme": {
+    "accent": "#7C4DFF",
+    "accentWarm": "#FFBE5C",
+    "text": "#F7F3EC",
+    "boardText": "#F5F0E8",
+    "boardSubtext": "#D9D0BF"
+  }
+}
