@@ -13,6 +13,18 @@
   "answerDuration": 4.0,
   "ctaUrl": "https://malmoelab.com",
   "buttonCaption": "Learn more at malmoelab.com",
+  "motionPanel": {
+    "enabled": true,
+    "videoFile": "./renders/runway/malmoelab-ko-quiz-003-live-source-veo3.1_fast.mp4",
+    "loopMode": "pingpong",
+    "outputDir": "renders/motion-panel",
+    "cropInsetPx": [
+      0,
+      72,
+      0,
+      0
+    ]
+  },
   "aiAssetGeneration": {
     "enabled": false,
     "model": "gemini-3.1-flash-image-preview",

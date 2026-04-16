@@ -1,0 +1,19 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Korean classroom quiz thinking shot. Keep the exact teacher from the reference image: white and blue gradient hair, violet eyes, black hanbok, traditional Korean gat, black gloves. The teacher holds a warm expectant smile and sways very slightly, waiting for the student to think. Keep the green chalkboard clean with open space for later overlays. Leave visual room in the lower right for a cute timer graphic that will be added later. Do not render any text, letters, countdown numbers, logos, subtitles, or watermarks. Calm, premium educational atmosphere, vertical 9:16.",
+    "image": "../reference/opening-first-frame.png",
+    "duration": 5,
+    "aspect_ratio": "9:16",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-2-thinking.mp4",
+    "manifestFile": "../renders/grok/scene-2-thinking.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

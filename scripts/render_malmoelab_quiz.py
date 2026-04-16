@@ -6,6 +6,7 @@ import argparse
 import json
 import math
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -54,6 +55,13 @@ DEFAULT_CONFIG = {
         "rotationDegrees": 1.6,
         "periodSeconds": 3.2,
     },
+    "motionPanel": {
+        "enabled": False,
+        "videoFile": "",
+        "loopMode": "pingpong",
+        "outputDir": "renders/motion-panel",
+        "cropInsetPx": [0, 0, 0, 0],
+    },
     "aiAssetGeneration": {
         "enabled": False,
         "model": "gemini-3.1-flash-image-preview",
@@ -98,6 +106,11 @@ DEFAULT_EDGE_VOICES = {
     "ja": "ja-JP-NanamiNeural",
     "zh": "zh-CN-XiaoxiaoNeural",
 }
+FFMPEG_STATIC_CANDIDATES = [
+    Path(os.environ.get("SHORTFORM_FFMPEG", "")).expanduser(),
+    Path("/tmp/paperclip-ffmpeg/node_modules/ffmpeg-static/ffmpeg"),
+    Path("/tmp/shortform-factory-bin/ffmpeg"),
+]
 
 
 def parse_args() -> argparse.Namespace:
@@ -362,6 +375,68 @@ def draw_teacher_foreground(base: Image.Image, teacher_cutout: Image.Image, conf
     panel = Image.new("RGBA", current.size, (0, 0, 0, 0))
     panel.paste(current, mask=mask)
     base.alpha_composite(panel, (x, y))
+
+
+def resolve_ffmpeg_binary() -> str:
+    for candidate in FFMPEG_STATIC_CANDIDATES:
+        if str(candidate).strip() and candidate.is_file():
+            return str(candidate)
+    system_ffmpeg = shutil.which("ffmpeg")
+    if system_ffmpeg:
+        return system_ffmpeg
+    raise RuntimeError("No usable ffmpeg binary found. Set SHORTFORM_FFMPEG or install ffmpeg.")
+
+
+def extract_motion_panel_frames(video_path: Path, output_dir: Path, *, panel_rect: tuple[int, int, int, int], fps: int) -> list[Path]:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for old_frame in output_dir.glob("frame-*.png"):
+        old_frame.unlink()
+
+    left, top, width, height = panel_rect
+    crop_left = left / WIDTH
+    crop_top = top / HEIGHT
+    crop_width = width / WIDTH
+    crop_height = height / HEIGHT
+    vf = (
+        f"crop=iw*{crop_width:.8f}:ih*{crop_height:.8f}:iw*{crop_left:.8f}:ih*{crop_top:.8f},"
+        f"fps={fps},"
+        f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+        f"crop={width}:{height}"
+    )
+    run_ffmpeg(
+        [
+            "-y",
+            "-i",
+            str(video_path),
+            "-vf",
+            vf,
+            "-start_number",
+            "0",
+            str(output_dir / "frame-%04d.png"),
+        ]
+    )
+    frames = sorted(output_dir.glob("frame-*.png"))
+    if not frames:
+        raise RuntimeError(f"Failed to extract motion panel frames from {video_path}")
+    return frames
+
+
+def select_looped_frame(frames: list[Path], frame_index: int, loop_mode: str) -> Path:
+    if not frames:
+        raise RuntimeError("No motion frames available")
+    if loop_mode == "pingpong" and len(frames) > 1:
+        cycle = len(frames) * 2 - 2
+        index_in_cycle = frame_index % cycle
+        if index_in_cycle >= len(frames):
+            index_in_cycle = cycle - index_in_cycle
+        return frames[index_in_cycle]
+    return frames[frame_index % len(frames)]
+
+
+def normalize_insets(values: list[int] | tuple[int, ...] | None) -> tuple[int, int, int, int]:
+    if not values or len(values) != 4:
+        return (0, 0, 0, 0)
+    return tuple(max(0, int(value)) for value in values)  # type: ignore[return-value]
 
 
 def draw_board_surface(draw: ImageDraw.ImageDraw, board_rect: tuple[int, int, int, int], config: dict):
@@ -655,7 +730,12 @@ def build_publish_packet(packet: dict, config: dict, final_video: Path, thumbnai
 
 
 def run_ffmpeg(cmd: list[str]) -> None:
-    subprocess.run(cmd, check=True)
+    resolved_cmd = list(cmd)
+    if resolved_cmd and resolved_cmd[0] == "ffmpeg":
+        resolved_cmd[0] = resolve_ffmpeg_binary()
+    elif resolved_cmd:
+        resolved_cmd = [resolve_ffmpeg_binary(), *resolved_cmd]
+    subprocess.run(resolved_cmd, check=True)
 
 
 def build_narration_mix(packet: dict, episode_dir: Path, config: dict, duration_seconds: int) -> Path | None:
@@ -778,6 +858,22 @@ def main() -> int:
     phase_panel_images = load_phase_panel_images(config, episode_dir, width=int(config["panelWidth"]))
     teacher_foreground = build_foreground_teacher(teacher_image, config)
     panel_top = int(config["panelTop"])
+    panel_left = (WIDTH - fallback_panel_image.width) // 2
+    motion_panel_cfg = config.get("motionPanel") or {}
+    motion_panel_frames: list[Path] = []
+    if motion_panel_cfg.get("enabled"):
+        video_path = resolve_existing_path(episode_dir, str(motion_panel_cfg.get("videoFile") or ""))
+        if video_path is None:
+            raise RuntimeError("motionPanel.enabled is true but motionPanel.videoFile was not found.")
+        inset_left, inset_top, inset_right, inset_bottom = normalize_insets(motion_panel_cfg.get("cropInsetPx"))
+        crop_width = max(1, fallback_panel_image.width - inset_left - inset_right)
+        crop_height = max(1, fallback_panel_image.height - inset_top - inset_bottom)
+        motion_panel_frames = extract_motion_panel_frames(
+            video_path,
+            resolve_path(episode_dir, str(motion_panel_cfg.get("outputDir") or "renders/motion-panel")),
+            panel_rect=(panel_left + inset_left, panel_top + inset_top, crop_width, crop_height),
+            fps=fps,
+        )
     board_cfg = config["boardRect"]
 
     accent = rgb(config["theme"]["accent"])
@@ -791,10 +887,15 @@ def main() -> int:
         frame = background.copy()
         draw = ImageDraw.Draw(frame, "RGBA")
         phase_key = "title" if frame_index < title_cut else ("question" if frame_index < engagement_cut else "answer")
-        panel_image = phase_panel_images.get(phase_key, fallback_panel_image)
+        if motion_panel_frames:
+            panel_image = Image.open(
+                select_looped_frame(motion_panel_frames, frame_index, str(motion_panel_cfg.get("loopMode") or "pingpong"))
+            ).convert("RGBA")
+        else:
+            panel_image = phase_panel_images.get(phase_key, fallback_panel_image)
         panel_left = (WIDTH - panel_image.width) // 2
         scale = panel_image.width / teacher_image.width
-        wobble_top = panel_top + int(math.sin(t * 1.8) * 6)
+        wobble_top = panel_top if motion_panel_frames else panel_top + int(math.sin(t * 1.8) * 6)
         draw_panel(frame, panel_image, top=wobble_top)
         board_rect = (
             int(panel_left + board_cfg["left"] * scale),
@@ -872,8 +973,6 @@ def main() -> int:
     video_only_path = episode_dir / "renders" / f"tmp-{slug}-video-only.mp4"
     run_ffmpeg(
         [
-            "ffmpeg",
-            "-y",
             "-framerate",
             str(fps),
             "-i",

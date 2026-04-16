@@ -1,0 +1,19 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Korean repeat-after-me teaching shot. Keep the exact teacher from the reference image: white and blue gradient hair, violet eyes, black hanbok, traditional Korean gat, black gloves. The teacher faces the camera directly, smiles warmly, and makes a slow follow-me teaching gesture with one hand while standing in front of a clean green chalkboard. Calm encouraging classroom mood, natural blinking, subtle hand motion, no extra characters. Do not render any text, letters, subtitles, logos, signs, or watermarks. Premium educational short, vertical 9:16.",
+    "image": "../reference/opening-first-frame.png",
+    "duration": 12,
+    "aspect_ratio": "9:16",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-4-repeat.mp4",
+    "manifestFile": "../renders/grok/scene-4-repeat.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

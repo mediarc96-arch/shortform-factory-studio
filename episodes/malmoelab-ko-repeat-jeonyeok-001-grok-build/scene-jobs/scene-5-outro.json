@@ -1,0 +1,19 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Korean classroom outro shot. Keep the exact teacher from the reference image: white and blue gradient hair, violet eyes, black hanbok, traditional Korean gat, black gloves. The teacher smiles brightly and gives a soft goodbye wave toward the camera in front of a clean green chalkboard. Warm positive ending energy, natural motion, premium classroom lighting. Do not render any text, letters, subtitles, logos, or watermarks. Vertical 9:16 educational short.",
+    "image": "../reference/opening-first-frame.png",
+    "duration": 2,
+    "aspect_ratio": "9:16",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-5-outro.mp4",
+    "manifestFile": "../renders/grok/scene-5-outro.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

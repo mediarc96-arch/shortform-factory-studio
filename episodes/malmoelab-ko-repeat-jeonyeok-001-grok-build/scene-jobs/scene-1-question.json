@@ -1,0 +1,19 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Korean classroom learning shot. Keep the exact teacher from the reference image: white and blue gradient hair, violet eyes, black hanbok, traditional Korean gat, black gloves. The teacher smiles gently and points toward the chalkboard with a calm teaching gesture. Keep a clean green chalkboard with open empty space for later text overlays. Do not render any text, letters, subtitles, logos, symbols, countdowns, or watermarks. Bright classroom lighting, premium educational short, vertical 9:16, natural subtle motion only.",
+    "image": "../reference/opening-first-frame.png",
+    "duration": 3,
+    "aspect_ratio": "9:16",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-1-question.mp4",
+    "manifestFile": "../renders/grok/scene-1-question.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

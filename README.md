@@ -87,3 +87,40 @@ The asset-generation step writes:
 - `episodes/<slug>/renders/generated-assets/asset-manifest.json`
 
 If those files exist, the renderer uses them automatically. Otherwise it falls back to `teacherImage`.
+
+## Docker Ownership Safety
+
+이 repo에서 `git add .` 할 때 아래 에러가 나면 거의 항상 Docker가 bind-mounted repo에 `root` 소유 파일이나 `.git/objects`를 만든 경우입니다.
+
+```text
+error: insufficient permission for adding an object to repository database .git/objects
+```
+
+원칙:
+
+- repo를 건드리는 `docker run`은 항상 현재 사용자 UID/GID로 실행
+- 이미 떠 있는 컨테이너에서 repo에 쓰는 `docker exec`도 현재 사용자 UID/GID로 실행
+- root 컨테이너 안에서 `git add`, `git commit`, `git push` 하지 않기
+
+Helper scripts:
+
+```bash
+scripts/docker-run-as-user.sh <image> [command...]
+scripts/docker-exec-as-user.sh <container> <command...>
+scripts/fix-repo-permissions.sh
+```
+
+Examples:
+
+```bash
+scripts/docker-run-as-user.sh python:3.12 bash -lc 'python --version'
+scripts/docker-exec-as-user.sh my-container bash
+scripts/fix-repo-permissions.sh
+```
+
+직접 `docker` 명령을 써야 하면 최소한 아래 옵션은 유지하세요.
+
+```bash
+docker run --user "$(id -u):$(id -g)" ...
+docker exec -u "$(id -u):$(id -g)" ...
+```
