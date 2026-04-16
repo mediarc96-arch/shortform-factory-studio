@@ -1,6 +1,6 @@
 {
-  "_template": "malmoelab-hangul-repeat-v2",
-  "_changelog": "v2: 9:16 세로 → 16:9 가로. 구도/카메라/스타일 명시. 텍스트는 Grok 생성 금지, 후편집 합성으로 전환.",
+  "_template": "malmoelab-hangul-repeat-v3",
+  "_changelog": "v3: IN FRONT OF 위치. 오프닝/엔딩 고정. 나레이션 순차. 로마자 TTS 없음.",
   "_instructions": [
     "1. 모든 {{PLACEHOLDER}} 를 source-packet.json 값으로 치환할 것.",
     "2. scene-0 은 기존 오프닝 클립 트림. Grok 생성 불필요.",
@@ -9,6 +9,13 @@
     "5. 모든 씬 prompt 에 구도 지시(선생님 오른쪽 30%, 칠판 왼쪽 70%) 항상 포함.",
     "6. 각 씬 결과는 renders/grok/ 에 저장."
   ],
+
+  "_audioRule": {
+    "CRITICAL": "한국어와 영어 나레이션 동시 재생 절대 금지.",
+    "playbackOrder": "한국어 먼저 → 0.3~0.5초 간격 → 영어",
+    "romanization": "화면에만 표시. TTS로 읽지 않음.",
+    "sfx": "나레이션이 없는 구간에서만 재생."
+  },
 
   "provider": "xai_grok",
   "episodeSlug": "{{EPISODE_SLUG}}",
@@ -27,22 +34,21 @@
 
     {
       "sceneId": "scene-0-opening",
-      "timeSec": [0, 3],
-      "type": "trim_existing_clip",
-      "sourceFile": "D:\\Work\\2025_DevScent\\600_Marketing\\ShortformFactory\\1_Opening.mp4",
+      "timeSec": [0, 7],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/01_Opening.mp4",
       "trimStartSec": 0,
-      "trimEndSec": 3,
+      "trimEndSec": 7,
       "extractReferenceFrame": {
         "enabled": true,
         "frameTimeSec": 2.5,
         "outputFile": "./renders/frames/opening-ref.png"
       },
-      "overlay": {
-        "titleKo": "말모이랩 한글공부",
-        "titleEn": "Malmoelab Korean",
-        "position": "top-center",
-        "fontColor": "#F5F0E8",
-        "fontSize": 36
+      "subtitles": "NONE",
+      "reusable": true,
+      "audio": {
+        "narration": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.",
+        "narrationVoice": "Korean male, calm"
       }
     },
 
@@ -56,7 +62,7 @@
       "image": "./renders/frames/opening-ref.png",
       "outputFile": "./renders/grok/scene-1-question.mp4",
 
-      "prompt": "Animate this character in a Korean classroom scene. 3D anime-style render. COMPOSITION: The teacher character stands on the RIGHT SIDE of the frame, taking up roughly 30-35% of the horizontal width. She is visible from the waist up. A large green chalkboard fills the LEFT 65-70% of the frame behind her, with a clean empty writing surface. The camera is at a medium distance, eye-level, like a student sitting at a desk looking at the teacher. MOTION: The teacher smiles warmly, makes a gentle introducing gesture with her right hand pointing toward the chalkboard, and sways very slightly. Natural breathing motion, subtle blinking. Keep the chalkboard surface clean and empty — no text, no writing, no marks. Warm classroom lighting from above. Horizontal 16:9 widescreen format. Do NOT add any text, letters, numbers, subtitles, logos, or watermarks anywhere in the image.",
+      "prompt": "Animate this character in a Korean classroom scene. 3D anime-style render. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible on the LEFT (65-70% width). The teacher is BETWEEN the camera and the chalkboard. The teacher is clearly BETWEEN the camera and the chalkboard. She is visible from the waist up. The chalkboard has a clean empty writing surface. The camera is at a medium distance, eye-level, like a student sitting at a desk looking at the teacher. MOTION: The teacher smiles warmly, makes a gentle introducing gesture with her right hand pointing toward the chalkboard, and sways very slightly. Natural breathing motion, subtle blinking. Keep the chalkboard surface clean and empty — no text, no writing, no marks. Warm classroom lighting from above. Horizontal 16:9 widescreen format. Do NOT add any text, letters, numbers, subtitles, logos, or watermarks anywhere in the image.",
 
       "postOverlays": {
         "zone": "chalkboard area (left 65%)",
@@ -83,7 +89,7 @@
       "image": "./renders/frames/opening-ref.png",
       "outputFile": "./renders/grok/scene-2-thinking.mp4",
 
-      "prompt": "Animate this character in a Korean classroom waiting scene. 3D anime-style render. COMPOSITION: Same as before — teacher on the RIGHT SIDE (30-35% width), large green chalkboard on the LEFT (65-70% width). Medium shot, waist-up view. MOTION: The teacher has an expectant, encouraging smile. She tilts her head slightly and sways gently, as if patiently waiting for a student's answer. Her eyes occasionally glance toward the chalkboard then back to the camera. Very calm, minimal motion. The chalkboard remains clean and empty — no text at all. Warm classroom lighting, educational atmosphere. Horizontal 16:9. Do NOT add any text, letters, countdown numbers, clocks, timer graphics, subtitles, logos, or watermarks.",
+      "prompt": "Animate this character in a Korean classroom waiting scene. 3D anime-style render. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible on the LEFT (65-70% width). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up view. MOTION: The teacher has an expectant, encouraging smile. She tilts her head slightly and sways gently, as if patiently waiting for a student's answer. Her eyes occasionally glance toward the chalkboard then back to the camera. Very calm, minimal motion. The chalkboard remains clean and empty — no text at all. Warm classroom lighting, educational atmosphere. Horizontal 16:9. Do NOT add any text, letters, countdown numbers, clocks, timer graphics, subtitles, logos, or watermarks.",
 
       "postOverlays": {
         "keepPreviousContent": true,
@@ -109,7 +115,7 @@
       "image": "./renders/frames/opening-ref.png",
       "outputFile": "./renders/grok/scene-3-answer.mp4",
 
-      "prompt": "Animate this character in a Korean classroom answer-reveal scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher picks up a piece of white chalk with her right hand and reaches toward the chalkboard, making a slow deliberate writing motion in the air near the chalkboard surface. After the writing gesture, she steps back slightly and gestures toward the chalkboard with a satisfied, proud expression and a small nod. The chalkboard itself remains clean — the actual text will be composited later. Warm classroom lighting with a subtle brightness increase to signal a success moment. Horizontal 16:9. Do NOT add any text, letters, Korean characters, chalk marks, subtitles, logos, or watermarks.",
+      "prompt": "Animate this character in a Korean classroom answer-reveal scene. 3D anime-style render. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible on the LEFT (65-70% width). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up. MOTION: The teacher picks up a piece of white chalk with her right hand and reaches toward the chalkboard, making a slow deliberate writing motion in the air near the chalkboard surface. After the writing gesture, she steps back slightly and gestures toward the chalkboard with a satisfied, proud expression and a small nod. The chalkboard itself remains clean — the actual text will be composited later. Warm classroom lighting with a subtle brightness increase to signal a success moment. Horizontal 16:9. Do NOT add any text, letters, Korean characters, chalk marks, subtitles, logos, or watermarks.",
 
       "postOverlays": {
         "zone": "chalkboard area",
@@ -140,7 +146,7 @@
       "image": "./renders/frames/opening-ref.png",
       "outputFile": "./renders/grok/scene-4-repeat.mp4",
 
-      "prompt": "Animate this character in a Korean classroom repeat-after-me teaching scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher faces the camera directly with a warm, encouraging smile. She makes a slow rhythmic teaching gesture — gently moving her right hand in a 'follow along' beat pattern, as if conducting a pronunciation drill. Her mouth opens and closes naturally as if speaking each word slowly and clearly. Between words she pauses and nods encouragingly. Occasional gentle head tilts. The chalkboard behind remains clean. Calm classroom energy, soft lighting. Horizontal 16:9. Do NOT add any text, letters, subtitles, word cards, logos, or watermarks.",
+      "prompt": "Animate this character in a Korean classroom repeat-after-me teaching scene. 3D anime-style render. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible on the LEFT (65-70% width). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up. MOTION: The teacher faces the camera directly with a warm, encouraging smile. She makes a slow rhythmic teaching gesture — gently moving her right hand in a 'follow along' beat pattern, as if conducting a pronunciation drill. Her mouth opens and closes naturally as if speaking each word slowly and clearly. Between words she pauses and nods encouragingly. Occasional gentle head tilts. The chalkboard remains clean. Calm classroom energy, soft lighting. Horizontal 16:9. Do NOT add any text, letters, subtitles, word cards, logos, or watermarks.",
 
       "postOverlays": {
         "zone": "chalkboard center area",
@@ -157,29 +163,28 @@
 
       "audio": {
         "narrationKoFile": "./audio/narration-ko.mp3",
-        "narrationEnFile": "./audio/narration-en.mp3"
+        "narrationEnFile": "./audio/narration-en.mp3",
+        "playbackOrder": "sequential",
+        "rule": "한국어 먼저 → 완전히 끝난 뒤 → 0.3~0.5초 간격 → 영어",
+        "pauseAfterKoMs": 400,
+        "romanizationRule": "화면에만 표시. TTS 없음."
       }
     },
 
     {
-      "sceneId": "scene-5-outro",
-      "timeSec": [28, 30],
-      "type": "image_to_video",
-      "durationSec": 2,
+      "sceneId": "scene-5-ending",
+      "timeSec": [35, 40],
+      "type": "fixed_clip_or_generate_once",
+      "durationSec": 5,
       "ratio": "16:9",
       "resolution": "1080p",
       "image": "./renders/frames/opening-ref.png",
-      "outputFile": "./renders/grok/scene-5-outro.mp4",
+      "outputFile": "./renders/grok/scene-5-ending.mp4",
+      "reusable": true,
 
-      "prompt": "Animate this character in a Korean classroom farewell scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher smiles brightly and warmly waves goodbye with her right hand — a gentle, friendly wave toward the camera. She gives a small bow of the head as a polite Korean farewell. Cheerful and encouraging expression. The chalkboard behind remains clean. Positive warm ending energy, classroom lighting fading slightly. Horizontal 16:9. Do NOT add any text, letters, subtitles, logos, CTA banners, or watermarks.",
+      "prompt": "Animate this character in a Korean classroom farewell scene. 3D anime-style render. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible on the LEFT (65-70% width). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up. MOTION: The teacher smiles brightly and warmly waves goodbye with her right hand — a gentle, friendly wave toward the camera. She gives a small bow of the head as a polite Korean farewell. Cheerful and encouraging expression. The chalkboard remains clean. Positive warm ending energy, classroom lighting fading slightly. Horizontal 16:9. Do NOT add any text, letters, subtitles, logos, CTA banners, or watermarks.",
 
       "postOverlays": {
-        "zone": "chalkboard area",
-        "content": {
-          "line1_ko": "{{SENTENCE_KO}}",
-          "line2_en": "{{SENTENCE_EN}}",
-          "line3_romanization": "{{SENTENCE_ROMANIZATION}}"
-        },
         "ctaBanner": {
           "text": "말모이랩에서 더 배우기 — malmoelab.com",
           "position": "bottom-center",
@@ -189,6 +194,8 @@
       },
 
       "audio": {
+        "narration": "그럼 다음시간에 또 만나요.",
+        "narrationVoice": "Korean male, calm",
         "bgmFadeOut": true
       }
     }
@@ -196,13 +203,14 @@
   ],
 
   "postProduction": {
-    "editOrder": ["scene-0-opening", "scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat", "scene-5-outro"],
-    "totalTargetDurationSec": 30,
+    "editOrder": ["scene-0-opening", "scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat", "scene-5-ending"],
+    "totalTargetDurationSec": "40~45",
     "outputFile": "./final/{{EPISODE_SLUG}}.mp4",
     "thumbnailFile": "./final/{{EPISODE_SLUG}}-thumb.png",
     "thumbnailFromSceneSec": 13,
     "textCompositing": {
       "note": "Grok은 깨끗한 칠판 영상만 생성. 모든 텍스트는 후편집에서 칠판 영역에 합성.",
+      "romanizationRule": "화면에만 표시. TTS 없음.",
       "chalkboardZone": { "x": "0%", "y": "5%", "width": "63%", "height": "90%" },
       "fontStyle": {
         "korean": { "color": "#F5F0E8", "sizePx": 48, "texture": "chalk" },

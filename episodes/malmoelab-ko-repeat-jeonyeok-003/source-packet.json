@@ -1,0 +1,95 @@
+{
+  "episodeSlug": "malmoelab-ko-repeat-jeonyeok-003",
+  "seriesSlug": "malmoelab-hangul-repeat",
+  "formatType": "fill_blank_repeat",
+  "version": "v3",
+  "totalDurationSeconds": "40~45 (오프닝 5~7 + 본편 25~27 + 엔딩 3~5)",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "createdAt": "2026-04-16",
+
+  "opening": {
+    "type": "fixed_clip",
+    "sourceFile": "characters/daehan/01_Opening.mp4",
+    "narration": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.",
+    "narrationVoice": "Korean male, calm",
+    "subtitles": "NONE",
+    "reusable": true
+  },
+
+  "ending": {
+    "type": "fixed_clip_or_generate_once",
+    "narration": "그럼 다음시간에 또 만나요.",
+    "narrationVoice": "Korean male, calm",
+    "ctaText": "말모이랩에서 더 배우기 — malmoelab.com",
+    "reusable": true
+  },
+
+  "character": {
+    "name": "대한 (Daehan)",
+    "hairColor": "white-blue gradient",
+    "eyeColor": "purple",
+    "outfit": ["Korean traditional gat (갓)", "black hanbok", "black gloves"],
+    "renderStyle": "3D anime",
+    "referenceImage": "characters/daehan/Daehan_KoreanTeacher_3D.jpg",
+    "position": "IN FRONT OF chalkboard, right side of frame"
+  },
+
+  "scene": {
+    "background": "classroom with green chalkboard",
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "composition": {
+      "teacherPosition": "right 30-35%, IN FRONT OF chalkboard",
+      "chalkboardPosition": "left 65-70%",
+      "cameraDistance": "medium shot, waist-up",
+      "cameraAngle": "eye-level"
+    }
+  },
+
+  "lesson": {
+    "sentenceKo": "저녁에는 집에서 쉽니다.",
+    "sentenceEn": "I relax at house in the Evening.",
+    "sentenceRomanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+    "blankedSentenceKo": "저녁에는 ___에서 쉽니다.",
+    "blankedSentenceEn": "I relax at ___ in the Evening.",
+    "blankedSentenceRomanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
+    "answerWord": "집",
+    "answerRomanization": "Jip",
+    "answerGloss": "House"
+  },
+
+  "choices": [
+    { "order": 1, "korean": "집",     "romanization": "Jip",        "gloss": "House",    "isAnswer": true  },
+    { "order": 2, "korean": "회사",   "romanization": "Hoesa",      "gloss": "Company",  "isAnswer": false },
+    { "order": 3, "korean": "화장실", "romanization": "Hwajangsil", "gloss": "Bathroom", "isAnswer": false }
+  ],
+
+  "narration": {
+    "CRITICAL_RULE": "한국어 → 간격 → 영어 순차 재생. 절대 겹치지 않음. 로마자는 TTS 없이 화면에만 표시.",
+    "tracks": {
+      "ko": { "voice": "Korean male, calm, very slow", "speedMultiplier": 0.75 },
+      "en": { "voice": "English female, soft and clear", "speedMultiplier": 0.85 }
+    },
+    "romanizationRule": "화면에 텍스트로만 표시. TTS로 절대 읽지 않음."
+  },
+
+  "sfx": {
+    "ticking": { "file": "shared/sfx/ticking.mp3", "cueTimeSec": 10, "label": "또깍 또깍 또깍" },
+    "correct":  { "file": "shared/sfx/correct.mp3", "cueTimeSec": 15, "label": "또로롱~" }
+  },
+
+  "theme": {
+    "accent": "#7C4DFF",
+    "accentWarm": "#FFBE5C",
+    "text": "#F7F3EC",
+    "boardText": "#F5F0E8",
+    "boardSubtext": "#D9D0BF"
+  },
+
+  "cta": {
+    "caption": "말모이랩에서 더 배우기",
+    "url": "https://malmoelab.com"
+  }
+}

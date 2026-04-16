@@ -1,26 +1,38 @@
 {
-  "_template": "malmoelab-hangul-repeat-v2",
-  "_changelog": "v2: 9:16 → 16:9 가로. 구도/카메라 규칙 추가. 렌더 스타일 3D anime 명시.",
+  "_template": "malmoelab-hangul-repeat-v3",
+  "_changelog": "v3: IN FRONT OF 위치 수정. 오프닝/엔딩 고정 클립. 나레이션 순차 재생. 로마자 TTS 제거.",
   "_instructions": "모든 {{PLACEHOLDER}} 값을 실제 데이터로 치환한 뒤 저장. 이 파일 자체는 수정하지 말 것.",
 
   "episodeSlug": "{{EPISODE_SLUG}}",
   "seriesSlug": "malmoelab-hangul-repeat",
   "formatType": "fill_blank_repeat",
-  "totalDurationSeconds": 30,
+  "totalDurationSeconds": "40~45",
   "contentLanguageCode": "ko",
   "learnerLanguageCode": "en",
   "narrationLanguageCode": "ko",
   "createdAt": "{{ISO8601_TIMESTAMP}}",
 
   "opening": {
-    "sourceFile": "D:\\Work\\2025_DevScent\\600_Marketing\\ShortformFactory\\1_Opening.mp4",
+    "sourceFile": "characters/daehan/01_Opening.mp4",
     "trimStartSec": 0,
     "trimEndSec": 3,
-    "referenceFrameOutput": "./renders/frames/opening-ref.png"
+    "referenceFrameOutput": "./renders/frames/opening-ref.png",
+    "subtitles": "NONE",
+    "narration": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.",
+    "reusable": true
+  },
+
+  "ending": {
+    "type": "fixed_clip_or_generate_once",
+    "narration": "그럼 다음시간에 또 만나요.",
+    "narrationVoice": "Korean male, calm",
+    "ctaText": "말모이랩에서 더 배우기 — malmoelab.com",
+    "reusable": true
   },
 
   "character": {
-    "name": "선생님",
+    "name": "대한 (Daehan)",
+    "position": "IN FRONT OF chalkboard, right side of frame",
     "hairColor": "white-blue gradient",
     "eyeColor": "purple",
     "outfit": ["Korean traditional gat (갓)", "black hanbok", "black gloves"],
@@ -95,6 +107,8 @@
   ],
 
   "narration": {
+    "CRITICAL_RULE": "한국어→간격→영어 순차 재생. 절대 겹침 금지. 로마자는 TTS 없이 화면만.",
+    "romanizationRule": "화면에 텍스트로만 표시. TTS로 읽지 않음.",
     "tracks": {
       "ko": {
         "voice": "Korean male, calm, very slow and articulate",

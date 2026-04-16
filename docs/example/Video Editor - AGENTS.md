@@ -31,6 +31,89 @@ If a cut depends on generated footage, record which frame set or render folder p
 For classroom quiz Shorts, treat the chalkboard area as the primary learning surface and keep overlays from obscuring the sentence.
 Use engagement CTA copy as visual framing only. Do not animate or frame it as if tapping changes the video state.
 Keep AI disclosure out of the visible frame unless the brief explicitly requires it; put attribution and disclosure in publish metadata instead.
+
+## malmoelab-hangul-repeat 시리즈 운영 규칙
+
+### 영상 구조 (오프닝 + 본편 + 엔딩)
+
+이 시리즈의 최종 영상은 3파트로 구성된다:
+
+1. **오프닝** (고정 클립, 약 5~7초)
+   - 소스: `characters/daehan/01_Opening.mp4`
+   - 나레이션: 차분한 한국 남성 목소리 — "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다."
+   - 자막/텍스트 오버레이: **없음** (깨끗한 영상 그대로 사용)
+   - 이 클립은 모든 에피소드에서 동일하게 재사용한다. 매번 새로 생성하지 않는다.
+
+2. **본편** (씬 1~5, 약 27~30초)
+   - Grok으로 씬별 생성 후 합성.
+   - 에피소드마다 학습 문장/단어가 바뀐다.
+
+3. **엔딩** (고정 클립, 약 3~5초)
+   - 선생님이 환하게 웃으며 손을 흔드는 영상.
+   - 나레이션: 차분한 한국 남성 목소리 — "그럼 다음시간에 또 만나요."
+   - CTA 표시: "말모이랩에서 더 배우기 — malmoelab.com"
+   - 이 클립도 모든 에피소드에서 동일하게 재사용한다.
+
+최종 영상 총 길이: 약 40~45초 (오프닝 + 본편 30초 + 엔딩).
+오프닝/엔딩은 본편 30초에 간섭하지 않고 앞뒤에 붙인다.
+
+### 나레이션 오디오 순차 재생 규칙 (절대 겹침 금지)
+
+**가장 중요한 규칙: 한국어 나레이션과 영어 나레이션은 절대 동시에 재생되면 안 된다.**
+
+나레이션 순서:
+1. 한국어 남성이 먼저 말한다.
+2. 한국어 나레이션이 **완전히 끝난 뒤** 영어 여성이 말한다.
+3. 두 트랙이 시간적으로 겹치는 구간이 있어서는 안 된다.
+
+로마자 표기(Romanization) 처리:
+- 로마자는 **화면에 텍스트로만 표시**한다.
+- 로마자를 TTS로 읽지 않는다.
+- 나레이션에는 한국어 발음과 영어 번역만 포함한다.
+
+오디오 믹싱 시 확인 사항:
+- 각 나레이션 세그먼트의 시작 시간(startSec)은 이전 세그먼트의 종료 시간 이후여야 한다.
+- 세그먼트 간 최소 0.3초의 간격을 둔다.
+- BGM은 전 구간 볼륨 0.15 이하로 유지한다.
+- SFX(틱톡, 정답음)는 나레이션이 없는 구간에서만 재생한다.
+
+따라하기(씬 4) 구간의 나레이션 순서:
+```
+한국 남성: "따라해 보세요"
+[0.5초 간격]
+영어 여성: "Repeat after me"
+[0.5초 간격]
+
+[단어별 반복 — 각 단어 2회]
+한국 남성: "집"       → [0.3초 간격] → 영어 여성: "House"
+[0.5초 간격]
+한국 남성: "집"       → [0.3초 간격] → 영어 여성: "House"
+[0.7초 간격]
+한국 남성: "회사"     → [0.3초 간격] → 영어 여성: "Company"
+... (같은 패턴)
+```
+
+화면에는 한국어 + 로마자 + 영어가 함께 표시되지만,
+**오디오는 한국어 → (간격) → 영어 순서로만 재생**한다.
+
+### Grok 프롬프트 필수 규칙
+
+선생님 캐릭터 위치:
+- 선생님은 반드시 칠판 **앞(in front of)**에 서 있어야 한다.
+- 프롬프트에 "behind"를 사용하지 않는다.
+- 올바른 표현: "The teacher stands IN FRONT OF the chalkboard, on the right side of the frame"
+- 잘못된 표현: "chalkboard fills the left side behind her" ← 이렇게 쓰면 선생님이 칠판 뒤로 간다.
+
+구도:
+- 16:9 가로 형식.
+- 선생님: 프레임 오른쪽 30~35%.
+- 칠판: 프레임 왼쪽 65~70%.
+- 카메라: 미디엄샷, 허리 위, 눈높이.
+
+텍스트:
+- Grok에게 텍스트 생성을 요청하지 않는다.
+- 칠판은 항상 깨끗하게 유지한다.
+- 모든 텍스트(한국어/영어/로마자/보기)는 후편집에서 합성한다.
 For malmoelab-ko-quiz-* episodes, render from scripts/render_malmoelab_quiz.py and the episode's source-packet.json plus render-config.json.
 For language-learning shorts, narration voice and spoken script must follow the educational content language, not the learner language.
 For malmoelab-ko-quiz-*, learner-facing captions can stay English, but TTS must read Korean with a Korean voice unless the brief explicitly says otherwise.

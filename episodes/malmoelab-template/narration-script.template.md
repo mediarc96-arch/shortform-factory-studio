@@ -5,6 +5,14 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ---
 
+## ⚠️ 핵심 규칙
+
+1. **한국어와 영어 나레이션은 절대 동시 재생 금지.** 순차 재생만 허용.
+2. **로마자는 TTS로 읽지 않음.** 화면에 텍스트로만 표시.
+3. 각 세그먼트 사이 최소 0.3초 간격.
+
+---
+
 ## 성우 / TTS 지시사항
 
 | 트랙 | 조건 | 속도 | 톤 |
@@ -18,7 +26,13 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ## 타임코드별 대사
 
-### [00:03 ~ 00:06] 씬 1 — 문제 제시
+### [오프닝] 0~7초 — 고정 클립
+🇰🇷 KO: "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다."
+(자막 없음. 영상에 내장된 나레이션.)
+
+---
+
+### [00:07 ~ 00:10] 씬 1 — 문제 제시
 
 ```
 🇰🇷 KO (남성, 느리게):
@@ -66,16 +80,18 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 #### ▶ 1번 단어 (정답: {{ANSWER_WORD}})
 
+> 로마자(Jip, Hoesa, Hwajangsil)는 오디오로 읽지 않음. 화면 표시만.
+
 ```
 [1회차]
 🇰🇷 KO: "{{ANSWER_WORD}}"           [0.5초]
-🇰🇷 KO: "{{ANSWER_ROMANIZATION}}"   [0.5초]
-🇺🇸 EN: "{{ANSWER_ROMANIZATION}} — {{ANSWER_GLOSS}}"  [0.7초]
+  → 간격 0.3~0.5초
+🇺🇸 EN: "{{ANSWER_GLOSS}}"  [0.7초]
 
 [2회차]
 🇰🇷 KO: "{{ANSWER_WORD}}"
-🇰🇷 KO: "{{ANSWER_ROMANIZATION}}"
-🇺🇸 EN: "{{ANSWER_ROMANIZATION}} — {{ANSWER_GLOSS}}"
+  → 간격 0.3~0.5초
+🇺🇸 EN: "{{ANSWER_GLOSS}}"
 ```
 
 #### ▶ 2번 단어 ({{CHOICE_DISTRACTORA_KO}})
@@ -83,13 +99,13 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 ```
 [1회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORA_KO}}"            [0.5초]
-🇰🇷 KO: "{{CHOICE_DISTRACTORA_ROMANIZATION}}"   [0.5초]
-🇺🇸 EN: "{{CHOICE_DISTRACTORA_ROMANIZATION}} — {{CHOICE_DISTRACTORA_GLOSS}}"  [0.7초]
+  → 간격 0.3~0.5초
+🇺🇸 EN: "{{CHOICE_DISTRACTORA_GLOSS}}"  [0.7초]
 
 [2회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORA_KO}}"
-🇰🇷 KO: "{{CHOICE_DISTRACTORA_ROMANIZATION}}"
-🇺🇸 EN: "{{CHOICE_DISTRACTORA_ROMANIZATION}} — {{CHOICE_DISTRACTORA_GLOSS}}"
+  → 간격 0.3~0.5초
+🇺🇸 EN: "{{CHOICE_DISTRACTORA_GLOSS}}"
 ```
 
 #### ▶ 3번 단어 ({{CHOICE_DISTRACTORB_KO}})
@@ -97,13 +113,13 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 ```
 [1회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORB_KO}}"            [0.5초]
-🇰🇷 KO: "{{CHOICE_DISTRACTORB_ROMANIZATION}}"   [0.7초]
-🇺🇸 EN: "{{CHOICE_DISTRACTORB_ROMANIZATION}} — {{CHOICE_DISTRACTORB_GLOSS}}"  [0.7초]
+  → 간격 0.3~0.5초
+🇺🇸 EN: "{{CHOICE_DISTRACTORB_GLOSS}}"  [0.7초]
 
 [2회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORB_KO}}"
-🇰🇷 KO: "{{CHOICE_DISTRACTORB_ROMANIZATION}}"
-🇺🇸 EN: "{{CHOICE_DISTRACTORB_ROMANIZATION}} — {{CHOICE_DISTRACTORB_GLOSS}}"
+  → 간격 0.3~0.5초
+🇺🇸 EN: "{{CHOICE_DISTRACTORB_GLOSS}}"
 ```
 
 > 단어 순서: choices 배열의 ① ② ③ 번호 순서가 아닌  
@@ -111,12 +127,9 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ---
 
-### [00:28 ~ 00:30] 씬 5 — 마무리
-
-```
-(나레이션 없음)
+### [엔딩] — 고정 클립
+🇰🇷 KO: "그럼 다음시간에 또 만나요."
 🎵 BGM 페이드아웃
-```
 
 ---
 
@@ -124,6 +137,7 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ```json
 {
+  "_rule": "한국어→간격→영어 순차 재생. 로마자는 TTS 없음(화면 표시만).",
   "ko_track": {
     "text_segments": [
       "{{BLANKED_NARRATION_KO_PART1}}",
@@ -131,34 +145,23 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
       "{{BLANKED_NARRATION_KO_PART2}}",
       "[PAUSE:500ms]",
       "따라해 보세요.",
-      "[PAUSE:300ms]",
+      "[PAUSE:400ms]",
       "{{ANSWER_WORD}}",
       "[PAUSE:500ms]",
-      "{{ANSWER_ROMANIZATION}}",
-      "[PAUSE:500ms]",
       "{{ANSWER_WORD}}",
-      "[PAUSE:500ms]",
-      "{{ANSWER_ROMANIZATION}}",
       "[PAUSE:700ms]",
       "{{CHOICE_DISTRACTORA_KO}}",
       "[PAUSE:500ms]",
-      "{{CHOICE_DISTRACTORA_ROMANIZATION}}",
-      "[PAUSE:500ms]",
       "{{CHOICE_DISTRACTORA_KO}}",
-      "[PAUSE:500ms]",
-      "{{CHOICE_DISTRACTORA_ROMANIZATION}}",
       "[PAUSE:700ms]",
       "{{CHOICE_DISTRACTORB_KO}}",
       "[PAUSE:500ms]",
-      "{{CHOICE_DISTRACTORB_ROMANIZATION}}",
-      "[PAUSE:500ms]",
-      "{{CHOICE_DISTRACTORB_KO}}",
-      "[PAUSE:500ms]",
-      "{{CHOICE_DISTRACTORB_ROMANIZATION}}"
+      "{{CHOICE_DISTRACTORB_KO}}"
     ],
     "voice": "Korean male, calm",
     "speed": 0.75,
-    "outputFile": "./audio/narration-ko.mp3"
+    "outputFile": "./audio/narration-ko.mp3",
+    "note": "로마자(Romanization)는 TTS로 읽지 않는다. 화면에만 표시."
   },
   "en_track": {
     "text_segments": [
@@ -167,22 +170,23 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
       "{{BLANKED_NARRATION_EN_PART2}}",
       "[PAUSE:500ms]",
       "Repeat after me.",
-      "[PAUSE:300ms]",
-      "{{ANSWER_ROMANIZATION}} — {{ANSWER_GLOSS}}",
+      "[PAUSE:400ms]",
+      "{{ANSWER_GLOSS}}",
       "[PAUSE:700ms]",
-      "{{ANSWER_ROMANIZATION}} — {{ANSWER_GLOSS}}",
+      "{{ANSWER_GLOSS}}",
       "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORA_ROMANIZATION}} — {{CHOICE_DISTRACTORA_GLOSS}}",
+      "{{CHOICE_DISTRACTORA_GLOSS}}",
       "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORA_ROMANIZATION}} — {{CHOICE_DISTRACTORA_GLOSS}}",
+      "{{CHOICE_DISTRACTORA_GLOSS}}",
       "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORB_ROMANIZATION}} — {{CHOICE_DISTRACTORB_GLOSS}}",
+      "{{CHOICE_DISTRACTORB_GLOSS}}",
       "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORB_ROMANIZATION}} — {{CHOICE_DISTRACTORB_GLOSS}}"
+      "{{CHOICE_DISTRACTORB_GLOSS}}"
     ],
     "voice": "English female, soft",
     "speed": 0.85,
-    "outputFile": "./audio/narration-en.mp3"
+    "outputFile": "./audio/narration-en.mp3",
+    "playbackRule": "한국어 세그먼트가 완전히 끝난 뒤 0.3~0.5초 간격 후 재생"
   }
 }
 ```

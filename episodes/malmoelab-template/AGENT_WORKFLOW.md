@@ -20,6 +20,9 @@ Paperclip agent가 따라야 할 **전체 실행 순서**를 정의한다.
 | 오프닝 소스 | `D:\Work\2025_DevScent\600_Marketing\ShortformFactory\1_Opening.mp4` |
 | 영상 생성 도구 | **Grok** (씬별 생성 후 합성) |
 | 나레이션 | 한국 남성 TTS (느림) + 영어 여성 TTS |
+| 오프닝 | 고정 클립 (`characters/daehan/01_Opening.mp4`), 자막 없음 |
+| 엔딩 | 고정 클립 (마무리 인사 "그럼 다음시간에 또 만나요.") |
+| 총 길이 | 40~45초 (오프닝 5~7 + 본편 25~27 + 엔딩 3~5) |
 
 기존 15초 퀴즈 포맷(`malmoelab-hangul-quiz`)과 별개의 시리즈다.  
 문장은 중복 사용 금지. 단어(choices)는 재사용 허용.
@@ -188,12 +191,13 @@ Grok 씬 생성은 STEP 9에서 실행한다.
 
 **v2부터 모든 Grok 프롬프트에 반드시 포함해야 할 6가지 요소:**
 
-1. **구도 명시** (필수):
+1. **구도 + 위치 명시** (필수):
    ```
-   COMPOSITION: The teacher character stands on the RIGHT SIDE of the frame,
-   taking up roughly 30-35% of the horizontal width. A large green chalkboard
-   fills the LEFT 65-70% of the frame behind her.
+   COMPOSITION: The teacher character stands IN FRONT OF the chalkboard,
+   on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible
+   on the LEFT (65-70% width). The teacher is BETWEEN the camera and the chalkboard.
    ```
+   ⚠️ "behind" 사용 금지. 반드시 "IN FRONT OF" 사용.
 
 2. **카메라 거리 명시** (필수):
    ```
@@ -259,6 +263,17 @@ Grok 씬 생성은 STEP 9에서 실행한다.
 
 파일 경로: `data/used_sentences.jsonl`  
 방식: 파일 맨 끝에 한 줄 append.
+
+---
+
+### ⚠️ 나레이션 오디오 순차 재생 규칙
+
+**절대 규칙: 한국어와 영어 나레이션은 동시 재생 금지.**
+
+- 한국어 남성이 먼저 말한다.
+- 한국어가 **완전히 끝난 뒤** 0.3~0.5초 간격을 두고 영어 여성이 말한다.
+- 로마자(Romanization)는 TTS로 읽지 않는다. 화면에 텍스트로만 표시한다.
+- SFX(틱톡, 정답음)는 나레이션이 없는 구간에서만 재생한다.
 
 ---
 
@@ -329,6 +344,11 @@ SFX 파일 경로:
 
 아래 항목을 모두 통과해야 `publish-ready` 로 표시한다.
 
+- [ ] **선생님 위치**: 칠판 앞(IN FRONT OF)에 있는지 확인. 칠판 뒤가 아님.
+- [ ] **나레이션 겹침 없음**: 한국어 끝 → 간격 → 영어 순차 재생 확인.
+- [ ] **로마자 TTS 없음**: 로마자가 음성으로 읽히지 않는지 확인.
+- [ ] **오프닝 자막 없음**: 01_Opening.mp4에 텍스트 오버레이가 없는지 확인.
+- [ ] **엔딩 나레이션**: "그럼 다음시간에 또 만나요." 포함 확인.
 - [ ] 총 길이 28~32초 범위 내
 - [ ] **16:9 가로 형식인지 확인** (세로 9:16 아님)
 - [ ] **구도**: 선생님 오른쪽 30~35%, 칠판 왼쪽 65~70% 확인
