@@ -1,0 +1,30 @@
+{
+  "provider": "runway",
+  "status": "failed",
+  "taskType": "image_to_video",
+  "taskId": "f1222f6e-bb6a-4cf7-9327-5e6597a1e4c4",
+  "taskStatus": "SUCCEEDED",
+  "jobPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-repeat-jeonyeok-003-runway-build/scene-jobs/scene-2-thinking.json",
+  "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-repeat-jeonyeok-003-runway-build/renders/runway/scene-2-thinking.manifest.json",
+  "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-repeat-jeonyeok-003-runway-build/renders/runway/scene-2-thinking.mp4",
+  "outputUrls": [
+    "https://dnznrvs05pmza.cloudfront.net/veo3.1/projects/vertex-ai-claude-431722/locations/us-central1/publishers/google/models/veo-3.1-fast-generate-001/operations/9f56e7e6-8fdc-4354-8317-6b42d6c988d5/image_to_video___https___runway_uploads_prod_s3_amazonaws_com_ephemeral_uploads_56988769_8d758112_7f.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZTQyZmY1ZThkNzBmNWNlYSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc3NjQzNDc5Mn0.pRddqIXTSGsZxy71z5gKJInbOJ5QStQAhZQhNCsSwUU"
+  ],
+  "errorMessage": "fetch failed",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot as a quiet thinking pause. Keep the exact same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean traditional gat, black hanbok, black gloves. The teacher stays on the right side of the frame in front of the green chalkboard, holding a gentle waiting pose with a hopeful smile, as if giving the learner time to think. Use very subtle motion: breathing, small head movement, tiny hand relaxation, mild camera drift. Keep the chalkboard blank and clean. No readable text, no alarm text, no subtitles, no watermarks, no yellow tone change.",
+    "promptImage": "runway://eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU2OTg4NzY5LCJ1cGxvYWRCdWNrZXQiOiJydW53YXktdXBsb2Fkcy1wcm9kIiwidXBsb2FkS2V5IjoiZXBoZW1lcmFsLXVwbG9hZHMvNTY5ODg3NjkvOGQ3NTgxMTItN2YwZC00ZWI4LTllZDQtNzYwM2MzMjI0MmU2L2ZpbGUucG5nIiwidHlwZSI6ImVwaGVtZXJhbCIsImNvbnRlbnRUeXBlIjoiaW1hZ2UvcG5nIiwiaWF0IjoxNzc2MzM3NjIzLCJleHAiOjE3NzY0MjQwMjMsImlzcyI6Imh0dHBzOi8vYXBpLmRldi5ydW53YXltbC5jb20ifQ.v4sjn2jJYoWKT8hS1RXRc5-CN38nesMV7Rtr5WFij4c",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "generatedAt": "2026-04-16T11:08:59.339Z",
+  "task": {
+    "id": "f1222f6e-bb6a-4cf7-9327-5e6597a1e4c4",
+    "createdAt": "2026-04-16T11:07:06.013Z",
+    "status": "SUCCEEDED",
+    "output": [
+      "https://dnznrvs05pmza.cloudfront.net/veo3.1/projects/vertex-ai-claude-431722/locations/us-central1/publishers/google/models/veo-3.1-fast-generate-001/operations/9f56e7e6-8fdc-4354-8317-6b42d6c988d5/image_to_video___https___runway_uploads_prod_s3_amazonaws_com_ephemeral_uploads_56988769_8d758112_7f.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZTQyZmY1ZThkNzBmNWNlYSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc3NjQzNDc5Mn0.pRddqIXTSGsZxy71z5gKJInbOJ5QStQAhZQhNCsSwUU"
+    ]
+  }
+}

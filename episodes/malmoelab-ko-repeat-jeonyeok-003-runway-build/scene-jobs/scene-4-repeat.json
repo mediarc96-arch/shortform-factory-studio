@@ -1,0 +1,18 @@
+{
+  "provider": "runway",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot for repeat-after-me practice. Keep the exact same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean traditional gat, black hanbok, black gloves. The teacher stands on the right side of the frame in front of the green chalkboard, alternating between a soft follow-along gesture toward the camera and a teaching gesture toward the board. Motion should feel calm and natural, suitable for language learning: light breathing, hand guidance, small head movement, no exaggerated action. Keep the board blank and clean for later text overlay. No readable text, no subtitles, no watermarks, no extra characters, no lighting shift.",
+    "promptImage": "../reference/opening-ref.png",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "runner": {
+    "outputFile": "../renders/runway/scene-4-repeat.mp4",
+    "manifestFile": "../renders/runway/scene-4-repeat.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

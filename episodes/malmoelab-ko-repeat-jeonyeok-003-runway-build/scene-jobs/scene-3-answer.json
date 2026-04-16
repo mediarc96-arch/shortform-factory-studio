@@ -1,0 +1,18 @@
+{
+  "provider": "runway",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot for the answer reveal. Keep the exact same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean traditional gat, black hanbok, black gloves. The teacher stands on the right side of the frame in front of the green chalkboard and makes a slow chalk-writing gesture toward the left side of the board, with a small confident nod. Motion should be natural and modest: soft arm movement, breathing, gentle camera push-in. Keep the chalkboard blank for later post-composited text. No readable text, no symbols, no subtitles, no watermarks, no strong yellow lighting or dramatic color changes.",
+    "promptImage": "../reference/opening-ref.png",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "runner": {
+    "outputFile": "../renders/runway/scene-3-answer.mp4",
+    "manifestFile": "../renders/runway/scene-3-answer.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}
