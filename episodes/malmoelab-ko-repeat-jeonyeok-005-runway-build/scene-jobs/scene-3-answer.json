@@ -1,0 +1,18 @@
+{
+  "provider": "runway",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot for the answer reveal. Keep the same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean gat, black hanbok, black gloves. Keep the teacher in the RIGHT THIRD OF THE FRAME and the LEFT TWO-THIRDS as a blank green chalkboard. Do not center the teacher. Motion: turn slightly toward the board, make one short answer-reveal gesture in the air, then open the left palm toward the board and give a confident nod. Lighting stays neutral and consistent. Clothing must stay plain black with no tag, no hanging placard, no badge, no letters, and no symbols. The chalkboard must stay blank. No readable text, no chalk marks, no subtitles, no logos, no watermarks.",
+    "promptImage": "../reference/opening-ref.png",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "runner": {
+    "outputFile": "../renders/runway/scene-3-answer.mp4",
+    "manifestFile": "../renders/runway/scene-3-answer.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

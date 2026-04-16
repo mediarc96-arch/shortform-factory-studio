@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this 3D anime teacher character leading a repeat-after-me drill in a Korean classroom. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard and must stay in the RIGHT THIRD OF THE FRAME, with her body centered around 72-78% of the image width. Leave the LEFT TWO-THIRDS open for the clean chalkboard. The teacher must NOT be centered. Medium shot, waist-up, eye-level. MOTION: The teacher faces the camera with a warm encouraging smile and clearly leads pronunciation practice. Use distinct follow-along teaching motion here: start with an open-palm cue toward the learner, then use two measured beat-count gestures with the hand, then an encouraging nod between words. Her mouth opens and closes naturally as if speaking each word slowly and clearly. Keep the motion patient and supportive, with subtle variation across the clip so it does not look like the same gesture looping. LIGHTING: Calm soft classroom lighting. FORMAT: Horizontal 16:9. IMPORTANT: Do NOT generate any text, letters, word cards, subtitles, logos, or watermarks.",
+    "image": "../reference/opening-ref.png",
+    "duration": 12,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-4-repeat.mp4",
+    "manifestFile": "../renders/grok/scene-4-repeat.manifest.json"
+  }
+}

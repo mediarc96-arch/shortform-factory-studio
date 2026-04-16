@@ -1158,6 +1158,7 @@ def narration_segments(packet: dict, job: dict | None = None) -> list[dict]:
                         "text": text,
                         "pause_after": float(item.get("pauseAfterMs") or 0) / 1000.0,
                         "start_after_sfx": float(item.get("startAfterSfxMs") or 0) / 1000.0,
+                        "mix_volume": float(item.get("mixVolume")) if item.get("mixVolume") is not None else 1.0,
                         "scene_id": scene_id,
                         "scene_start": scene_start,
                     }
@@ -1237,6 +1238,7 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
             cursor = cursor_by_scene.get(scene_id, 0.0)
             relative_start = max(cursor, float(segment["start_after_sfx"]))
             start = scene_start + relative_start
+            mix_volume = float(segment["mix_volume"]) if segment.get("mix_volume") is not None else 1.0
             generated.append(
                 {
                     "path": audio_path,
@@ -1244,7 +1246,7 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
                     "relative_start": relative_start,
                     "scene_id": scene_id,
                     "duration": duration,
-                    "volume": float(profile.get("gain") or 1.0),
+                    "volume": float(profile.get("gain") or 1.0) * mix_volume,
                     "lang": str(segment["lang"]),
                     "text": str(segment["text"]),
                 }
@@ -1403,7 +1405,9 @@ def build_audio_mix(
         filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
         mix_inputs.append(f"[{label}]")
 
-    filter_parts.append(f"{''.join(mix_inputs)}amix=inputs={len(mix_inputs)}:dropout_transition=0,volume=1.0[out]")
+    filter_parts.append(
+        f"{''.join(mix_inputs)}amix=inputs={len(mix_inputs)}:dropout_transition=0:normalize=0,volume=1.0[out]"
+    )
     cmd.extend(
         [
             "-filter_complex",

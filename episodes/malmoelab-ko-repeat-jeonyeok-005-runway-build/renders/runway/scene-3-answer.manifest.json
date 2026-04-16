@@ -1,0 +1,30 @@
+{
+  "provider": "runway",
+  "status": "succeeded",
+  "taskType": "image_to_video",
+  "taskId": "b7a3bf4c-1047-4d58-b20f-8c20dc9a2a87",
+  "taskStatus": "SUCCEEDED",
+  "jobPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-repeat-jeonyeok-005-runway-build/scene-jobs/scene-3-answer.json",
+  "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-repeat-jeonyeok-005-runway-build/renders/runway/scene-3-answer.manifest.json",
+  "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-repeat-jeonyeok-005-runway-build/renders/runway/scene-3-answer.mp4",
+  "outputUrls": [
+    "https://dnznrvs05pmza.cloudfront.net/veo3.1/projects/vertex-ai-claude-431722/locations/us-central1/publishers/google/models/veo-3.1-fast-generate-001/operations/343d36c7-6e5d-496e-82f9-b82c7568f5e9/image_to_video___https___runway_uploads_prod_s3_amazonaws_com_ephemeral_uploads_56988769_33af9031_a2.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzcyODQ2NTRmNmE1MzIwMyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc3NjQ3NTM0OH0.FwEtJVN0PECiQtMwU6MpVZ87Xfx5BRe9c56r7ejP9P8"
+  ],
+  "errorMessage": null,
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot for the answer reveal. Keep the same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean gat, black hanbok, black gloves. Keep the teacher in the RIGHT THIRD OF THE FRAME and the LEFT TWO-THIRDS as a blank green chalkboard. Do not center the teacher. Motion: turn slightly toward the board, make one short answer-reveal gesture in the air, then open the left palm toward the board and give a confident nod. Lighting stays neutral and consistent. Clothing must stay plain black with no tag, no hanging placard, no badge, no letters, and no symbols. The chalkboard must stay blank. No readable text, no chalk marks, no subtitles, no logos, no watermarks.",
+    "promptImage": "runway://eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU2OTg4NzY5LCJ1cGxvYWRCdWNrZXQiOiJydW53YXktdXBsb2Fkcy1wcm9kIiwidXBsb2FkS2V5IjoiZXBoZW1lcmFsLXVwbG9hZHMvNTY5ODg3NjkvMzNhZjkwMzEtYTJmZC00NzFiLTgwNWItN2NjZWYxOGU2MGJhL2ZpbGUucG5nIiwidHlwZSI6ImVwaGVtZXJhbCIsImNvbnRlbnRUeXBlIjoiaW1hZ2UvcG5nIiwiaWF0IjoxNzc2MzQ2ODk1LCJleHAiOjE3NzY0MzMyOTUsImlzcyI6Imh0dHBzOi8vYXBpLmRldi5ydW53YXltbC5jb20ifQ.JTNPMSShrq-x-w0aKhbZtahiyHE6-2Ya_oIqDFNTQew",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "generatedAt": "2026-04-16T13:42:35.643Z",
+  "task": {
+    "id": "b7a3bf4c-1047-4d58-b20f-8c20dc9a2a87",
+    "createdAt": "2026-04-16T13:41:37.639Z",
+    "status": "SUCCEEDED",
+    "output": [
+      "https://dnznrvs05pmza.cloudfront.net/veo3.1/projects/vertex-ai-claude-431722/locations/us-central1/publishers/google/models/veo-3.1-fast-generate-001/operations/343d36c7-6e5d-496e-82f9-b82c7568f5e9/image_to_video___https___runway_uploads_prod_s3_amazonaws_com_ephemeral_uploads_56988769_33af9031_a2.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzcyODQ2NTRmNmE1MzIwMyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc3NjQ3NTM0OH0.FwEtJVN0PECiQtMwU6MpVZ87Xfx5BRe9c56r7ejP9P8"
+    ]
+  }
+}

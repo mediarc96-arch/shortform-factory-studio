@@ -1,0 +1,18 @@
+{
+  "provider": "runway",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot as a quiet thinking pause. Keep the exact same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean traditional gat, black hanbok, black gloves. The teacher stands in front of the green chalkboard in the RIGHT THIRD OF THE FRAME, with the LEFT TWO-THIRDS open for a clean blank chalkboard. She must not be centered. This scene should feel clearly different from the question scene: one hand rests near her waist, her head tilts slightly, she listens patiently, and gives a small encouraging nod while waiting for the learner's answer. Her eyes alternate gently between the chalkboard and the camera. Very calm minimal motion, natural breathing, subtle blinking, no pointing, no conducting gesture, no visible clock text. No readable text, no symbols, no subtitles, no watermarks, no yellow tone change.",
+    "promptImage": "../reference/opening-ref.png",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "runner": {
+    "outputFile": "../renders/runway/scene-2-thinking.mp4",
+    "manifestFile": "../renders/runway/scene-2-thinking.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

@@ -1,0 +1,7 @@
+scene_id,start_sec,end_sec,start_frame,end_frame
+scene-0-opening,0.000,6.000,0,179
+scene-1-question,6.000,12.000,180,359
+scene-2-thinking,12.000,15.200,360,455
+scene-3-answer,15.200,21.200,456,635
+scene-4-repeat,21.200,37.600,636,1127
+scene-5-ending,37.600,42.600,1128,1277

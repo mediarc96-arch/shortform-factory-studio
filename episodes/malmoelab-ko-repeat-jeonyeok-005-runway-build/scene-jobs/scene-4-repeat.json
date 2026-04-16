@@ -1,0 +1,18 @@
+{
+  "provider": "runway",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "veo3.1_fast",
+    "promptText": "Animate this Korean classroom teacher shot for repeat-after-me pronunciation practice. Keep the same teacher identity as the reference image: white-blue gradient hair, purple eyes, Korean gat, black hanbok, black gloves. Keep the teacher in the RIGHT THIRD OF THE FRAME and the LEFT TWO-THIRDS as a blank green chalkboard. Do not center the teacher. Motion: open-palm cue to the learner, two measured beat-count gestures, then an encouraging nod. Keep the motion warm and varied. Lighting stays calm and soft. Clothing must stay plain black with no tag, no hanging placard, no badge, no letters, and no symbols. No readable text, no word cards, no subtitles, no logos, no watermarks, no extra characters.",
+    "promptImage": "../reference/opening-ref.png",
+    "ratio": "1280:720",
+    "duration": 4
+  },
+  "runner": {
+    "outputFile": "../renders/runway/scene-4-repeat.mp4",
+    "manifestFile": "../renders/runway/scene-4-repeat.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}
