@@ -89,16 +89,28 @@ def build_scene_timeline(job: dict) -> list[dict]:
     scenes = []
     for raw_scene in job.get("scenes", []):
         start, end = parse_scene_times(raw_scene.get("timeSec"))
+        scene_duration = max(0.1, end - start)
         output_file = raw_scene.get("outputFile") or raw_scene.get("generateOnce", {}).get("outputFile") or f"./renders/grok/{raw_scene['sceneId']}.mp4"
-        source = "opening" if raw_scene.get("type") == "fixed_clip" and raw_scene.get("sceneId") == "scene-0-opening" else "grok"
+        scene_type = str(raw_scene.get("type") or "")
+        if scene_type == "fixed_clip" and raw_scene.get("sceneId") == "scene-0-opening":
+            source = "opening"
+        elif scene_type == "fixed_clip" or raw_scene.get("sourceFile"):
+            source = "fixed_clip"
+        else:
+            source = "grok"
+        source_duration = float(raw_scene.get("sourceDurationSec") or scene_duration)
         scenes.append(
             {
                 "id": raw_scene["sceneId"],
                 "source": source,
                 "start": start,
                 "end": end,
-                "clip_duration": max(0.1, end - start),
+                "scene_duration": scene_duration,
+                "clip_duration": max(0.1, source_duration),
                 "output_name": Path(output_file).name,
+                "source_file": raw_scene.get("sourceFile"),
+                "source_start_sec": float(raw_scene.get("sourceStartSec") or 0.0),
+                "loop_source": bool(raw_scene.get("loopSource") or False),
             }
         )
     return scenes or clone_default_scenes()
@@ -294,7 +306,10 @@ def local_progress(scene: dict, t: float) -> float:
 
 def clip_progress(scene: dict, t: float) -> float:
     clip_duration = float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1))
-    return max(0.0, min((t - scene["start"]) / clip_duration, 0.999999))
+    elapsed = max(0.0, t - scene["start"])
+    if scene.get("loop_source"):
+        return max(0.0, min((elapsed % clip_duration) / clip_duration, 0.999999))
+    return max(0.0, min(elapsed / clip_duration, 0.999999))
 
 
 def draw_card(draw: ImageDraw.ImageDraw, rect: tuple[int, int, int, int], fill: tuple[int, int, int, int], radius: int):
@@ -318,6 +333,242 @@ def draw_alarm_clock(draw: ImageDraw.ImageDraw, center: tuple[int, int], progres
     draw.line((cx, cy, cx + int(36 * scale), cy + int(16 * scale)), fill=(52, 77, 115, 255), width=hand_stroke)
     dot = max(5, int(8 * scale))
     draw.ellipse((cx - dot, cy - dot, cx + dot, cy + dot), fill=(52, 77, 115, 255))
+
+
+def chalk_text(
+    draw: ImageDraw.ImageDraw,
+    position: tuple[int, int],
+    text: str,
+    *,
+    font: ImageFont.FreeTypeFont,
+    fill: tuple[int, int, int, int],
+    anchor: str = "la",
+    shadow: tuple[int, int, int, int] = (10, 28, 18, 150),
+):
+    x, y = position
+    shadow_offset = max(1, font.size // 24)
+    stroke_width = max(1, font.size // 18)
+    draw.text((x + shadow_offset, y + shadow_offset), text, font=font, fill=shadow, anchor=anchor)
+    draw.text(
+        (x, y),
+        text,
+        font=font,
+        fill=fill,
+        anchor=anchor,
+        stroke_width=stroke_width,
+        stroke_fill=(18, 48, 34, min(255, fill[3])),
+    )
+
+
+def draw_chalk_multiline(
+    draw: ImageDraw.ImageDraw,
+    lines: list[str],
+    *,
+    x: int,
+    y: int,
+    font: ImageFont.FreeTypeFont,
+    fill: tuple[int, int, int, int],
+    line_gap: int,
+) -> int:
+    cursor = y
+    for line in lines:
+        chalk_text(draw, (x, cursor), line, font=font, fill=fill)
+        cursor += font.size + line_gap
+    return cursor
+
+
+def draw_repeat_v3_scene_wide(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, t: float, *, width: int, height: int):
+    base_width, base_height = 1920, 1080
+    theme = packet["theme"]
+    lesson = packet["lesson"]
+    choices = packet["choices"]
+    scene_id = scene["id"]
+    accent = rgb(theme["accent"])
+    accent_warm = rgb(theme["accentWarm"])
+    board_text = rgb(theme["boardText"])
+    board_subtext = rgb(theme["boardSubtext"])
+
+    board_rect = scale_rect((120, 118, 1170, 860), width=width, height=height, base_width=base_width, base_height=base_height)
+    left = board_rect[0]
+    top = board_rect[1]
+    max_width = board_rect[2] - board_rect[0]
+
+    heading_font = load_font(scale_size(42, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    ko_font = load_font(scale_size(64, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    en_font = load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height))
+    roman_font = load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height))
+    choice_font = load_font(scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    answer_font = load_font(scale_size(96, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    badge_font = load_font(scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    repeat_font = load_font(scale_size(118, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    gloss_font = load_font(scale_size(42, width=width, height=height, base_width=base_width, base_height=base_height))
+
+    heading_fill = (*accent_warm, 252)
+    board_fill = (*board_text, 248)
+    sub_fill = (*board_subtext, 235)
+    accent_fill = (*accent, 245)
+
+    if scene_id == "scene-0-opening":
+        return
+
+    if scene_id in {"scene-5-ending", "scene-5-outro"}:
+        cta_rect = scale_rect((670, 918, 1840, 1008), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(
+            cta_rect,
+            radius=scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height),
+            fill=(*accent, 220),
+        )
+        cta_text = packet.get("ending", {}).get("ctaText") or f"{packet['cta']['caption']} — malmoelab.com"
+        draw.text(
+            ((cta_rect[0] + cta_rect[2]) // 2, (cta_rect[1] + cta_rect[3]) // 2),
+            cta_text,
+            font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True),
+            fill=(255, 255, 255, 255),
+            anchor="mm",
+        )
+        return
+
+    if scene_id in {"scene-1-question", "scene-2-thinking"}:
+        chalk_text(draw, (left, top), "문장을 완성해 보세요", font=heading_font, fill=heading_fill)
+        y = top + scale_size(76, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_lines = wrap_text(draw, lesson["blankedSentenceKo"], ko_font, max_width)
+        y = draw_chalk_multiline(
+            draw,
+            ko_lines,
+            x=left,
+            y=y,
+            font=ko_font,
+            fill=board_fill,
+            line_gap=scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height, floor=4),
+        )
+        y += scale_size(18, width=width, height=height, base_width=base_width, base_height=base_height)
+        chalk_text(draw, (left, y), lesson["blankedSentenceRomanization"], font=roman_font, fill=sub_fill)
+        y += scale_size(58, width=width, height=height, base_width=base_width, base_height=base_height)
+        en_lines = wrap_text(draw, lesson["blankedSentenceEn"], en_font, max_width)
+        y = draw_chalk_multiline(
+            draw,
+            en_lines,
+            x=left,
+            y=y,
+            font=en_font,
+            fill=sub_fill,
+            line_gap=scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height, floor=3),
+        )
+        y += scale_size(64, width=width, height=height, base_width=base_width, base_height=base_height)
+        chalk_text(draw, (left, y), "보기", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=heading_fill)
+        y += scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)
+        for item in choices:
+            option_text = f"{item['order']}. {item['korean']}   {item['romanization']}   ({item['gloss']})"
+            chalk_text(draw, (left, y), option_text, font=choice_font, fill=board_fill)
+            y += scale_size(62, width=width, height=height, base_width=base_width, base_height=base_height)
+        if scene_id == "scene-2-thinking":
+            progress = local_progress(scene, t)
+            clock_center = (
+                board_rect[2] - scale_size(140, width=width, height=height, base_width=base_width, base_height=base_height),
+                board_rect[3] - scale_size(126, width=width, height=height, base_width=base_width, base_height=base_height),
+            )
+            draw_alarm_clock(draw, clock_center, progress, scale=min(width / base_width, height / base_height) * 0.9)
+        return
+
+    if scene_id == "scene-3-answer":
+        badge_rect = scale_rect((128, 110, 292, 168), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(
+            badge_rect,
+            radius=scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height),
+            fill=(*accent, 210),
+        )
+        draw.text(
+            ((badge_rect[0] + badge_rect[2]) // 2, (badge_rect[1] + badge_rect[3]) // 2),
+            "정답",
+            font=badge_font,
+            fill=(255, 255, 255, 255),
+            anchor="mm",
+        )
+        y = top + scale_size(92, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_lines = wrap_text(draw, lesson["sentenceKo"], ko_font, max_width)
+        y = draw_chalk_multiline(
+            draw,
+            ko_lines,
+            x=left,
+            y=y,
+            font=ko_font,
+            fill=board_fill,
+            line_gap=scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height, floor=4),
+        )
+        y += scale_size(18, width=width, height=height, base_width=base_width, base_height=base_height)
+        chalk_text(draw, (left, y), lesson["sentenceRomanization"], font=roman_font, fill=sub_fill)
+        y += scale_size(56, width=width, height=height, base_width=base_width, base_height=base_height)
+        en_lines = wrap_text(draw, lesson["sentenceEn"], en_font, max_width)
+        y = draw_chalk_multiline(
+            draw,
+            en_lines,
+            x=left,
+            y=y,
+            font=en_font,
+            fill=sub_fill,
+            line_gap=scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height, floor=3),
+        )
+        progress = min(1.0, max(0.0, local_progress(scene, t) * 1.6))
+        answer_alpha = int(120 + 135 * progress)
+        answer_y = board_rect[3] - scale_size(150, width=width, height=height, base_width=base_width, base_height=base_height)
+        chalk_text(draw, (left + scale_size(260, width=width, height=height, base_width=base_width, base_height=base_height), answer_y), lesson["answerWord"], font=answer_font, fill=(*accent, answer_alpha), anchor="mm")
+        underline_width = scale_size(240, width=width, height=height, base_width=base_width, base_height=base_height)
+        underline_height = scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height, floor=4)
+        center_x = left + scale_size(260, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(
+            (center_x - underline_width // 2, answer_y + scale_size(44, width=width, height=height, base_width=base_width, base_height=base_height), center_x + underline_width // 2, answer_y + scale_size(44, width=width, height=height, base_width=base_width, base_height=base_height) + underline_height),
+            radius=underline_height // 2,
+            fill=(*accent, min(255, answer_alpha)),
+        )
+        return
+
+    if scene_id == "scene-4-repeat":
+        chalk_text(draw, (left, top), "따라해 보세요", font=heading_font, fill=heading_fill)
+        chalk_text(
+            draw,
+            (left, top + scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)),
+            "Repeat after me",
+            font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), bold=True),
+            fill=sub_fill,
+        )
+        repeat_sequence = repeat_sequence_from_packet(packet)
+        repeat_items = ((packet.get("_renderTimings") or {}).get(scene_id) or {}).get("repeat_items") or []
+        relative_t = max(0.0, t - float(scene["start"]))
+        if repeat_items:
+            current = repeat_items[0]
+            for item in repeat_items:
+                if relative_t >= float(item.get("start") or 0.0):
+                    current = item
+                else:
+                    break
+            current_ko = current.get("textKo") or repeat_sequence[0]["korean"]
+            current_romanization = current.get("textRomanization") or repeat_sequence[0]["romanization"]
+            current_gloss = current.get("textGloss") or repeat_sequence[0]["gloss"]
+            repeat_mark = current.get("badge") or "1/2"
+        else:
+            progress = local_progress(scene, t)
+            seq_index = min(len(repeat_sequence) - 1, int(progress * len(repeat_sequence)))
+            current = repeat_sequence[seq_index]
+            current_ko = current["korean"]
+            current_romanization = current["romanization"]
+            current_gloss = current["gloss"]
+            repeat_mark = "2/2" if seq_index % 2 == 1 else "1/2"
+        chalk_text(draw, (left + scale_size(260, width=width, height=height, base_width=base_width, base_height=base_height), top + scale_size(290, width=width, height=height, base_width=base_width, base_height=base_height)), current_ko, font=repeat_font, fill=board_fill, anchor="mm")
+        chalk_text(draw, (left + scale_size(260, width=width, height=height, base_width=base_width, base_height=base_height), top + scale_size(430, width=width, height=height, base_width=base_width, base_height=base_height)), current_romanization, font=load_font(scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=accent_fill, anchor="mm")
+        chalk_text(draw, (left + scale_size(260, width=width, height=height, base_width=base_width, base_height=base_height), top + scale_size(508, width=width, height=height, base_width=base_width, base_height=base_height)), current_gloss, font=gloss_font, fill=sub_fill, anchor="mm")
+        badge_rect = (
+            left + scale_size(50, width=width, height=height, base_width=base_width, base_height=base_height),
+            top + scale_size(642, width=width, height=height, base_width=base_width, base_height=base_height),
+            left + scale_size(220, width=width, height=height, base_width=base_width, base_height=base_height),
+            top + scale_size(700, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
+        draw.rounded_rectangle(
+            badge_rect,
+            radius=scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height),
+            fill=(*accent, 210),
+        )
+        draw.text(((badge_rect[0] + badge_rect[2]) // 2, (badge_rect[1] + badge_rect[3]) // 2), repeat_mark, font=badge_font, fill=(255, 255, 255, 255), anchor="mm")
+        return
 
 
 def draw_title(draw: ImageDraw.ImageDraw, packet: dict, *, width: int, height: int, mode: str):
@@ -434,7 +685,6 @@ def draw_board_scene_vertical(draw: ImageDraw.ImageDraw, packet: dict, scene: di
         if scene_id == "scene-2-thinking":
             progress = local_progress(scene, t)
             draw_alarm_clock(draw, (board_rect[2] - scale_size(128, width=width, height=height, base_width=base_width, base_height=base_height), board_rect[3] - scale_size(144, width=width, height=height, base_width=base_width, base_height=base_height)), progress)
-            draw.text((left, board_rect[3] - scale_size(80, width=width, height=height, base_width=base_width, base_height=base_height)), "또깍 또깍 또깍", font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 235, 194, 252), anchor="la")
         draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height)), "천천히 듣고 정답을 생각해 보세요", font=load_font(scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
         draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(106, width=width, height=height, base_width=base_width, base_height=base_height)), "Listen first, then choose the right word.", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
         return
@@ -516,14 +766,8 @@ def draw_board_scene_wide(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, 
     scene_id = scene["id"]
 
     if str(packet.get("version") or "").lower() == "v3":
-        if scene_id == "scene-0-opening":
-            return
-        if scene_id in {"scene-5-outro", "scene-5-ending"}:
-            cta_rect = scale_rect((620, 916, 1840, 1008), width=width, height=height, base_width=base_width, base_height=base_height)
-            draw.rounded_rectangle(cta_rect, radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 232))
-            cta_text = packet.get("ending", {}).get("ctaText") or f"{packet['cta']['caption']} — malmoelab.com"
-            draw.text(((cta_rect[0] + cta_rect[2]) // 2, (cta_rect[1] + cta_rect[3]) // 2), cta_text, font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
-            return
+        draw_repeat_v3_scene_wide(draw, packet, scene, t, width=width, height=height)
+        return
 
     board_rect = scale_rect((46, 170, 1298, 860), width=width, height=height, base_width=base_width, base_height=base_height)
     footer_rect = scale_rect((46, 886, 1298, 1036), width=width, height=height, base_width=base_width, base_height=base_height)
@@ -582,7 +826,6 @@ def draw_board_scene_wide(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, 
                 progress,
                 scale=min(width / base_width, height / base_height) * 0.9,
             )
-            draw.text((left, board_rect[3] - scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)), "또깍 또깍 또깍", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 235, 194, 252), anchor="la")
         draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), "천천히 듣고 정답을 생각해 보세요", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
         draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(82, width=width, height=height, base_width=base_width, base_height=base_height)), "Listen first, then choose the right word.", font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
         return
@@ -723,6 +966,24 @@ def media_duration(path: Path) -> float:
     return hours * 3600 + minutes * 60 + seconds
 
 
+def trim_audio_edges(audio_path: Path) -> Path:
+    trimmed_path = audio_path.with_name(f"{audio_path.stem}.trim{audio_path.suffix}")
+    run_ffmpeg(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(audio_path),
+            "-af",
+            "silenceremove=start_periods=1:start_duration=0.05:start_threshold=-45dB:stop_periods=-1:stop_duration=0.10:stop_threshold=-45dB",
+            str(trimmed_path),
+        ]
+    )
+    if trimmed_path.is_file() and trimmed_path.stat().st_size > 0:
+        trimmed_path.replace(audio_path)
+    return audio_path
+
+
 def edge_rate_from_multiplier(value: float | int | str | None, *, fallback: str) -> str:
     try:
         multiplier = float(value)
@@ -737,15 +998,61 @@ def voice_profile(packet: dict, lang: str) -> dict:
     track = tracks.get(lang, {})
     if lang == "ko":
         return {
-            "voice": "ko-KR-InJoonNeural",
+            "voice": track.get("edgeVoice") or "ko-KR-InJoonNeural",
             "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-12%"),
-            "pitch": "-2Hz",
+            "pitch": str(track.get("pitch") or "-2Hz"),
+            "gain": float(track.get("gain") or 1.0),
         }
     return {
-        "voice": "en-US-JennyNeural",
-        "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-8%"),
-        "pitch": "+0Hz",
+        "voice": track.get("edgeVoice") or "en-US-GuyNeural",
+        "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-6%"),
+        "pitch": str(track.get("pitch") or "-1Hz"),
+        "gain": float(track.get("gain") or 1.0),
     }
+
+
+def build_render_timing_map(packet: dict, job: dict | None, tts_segments: list[dict]) -> dict:
+    if not is_repeat_v3(packet, job or {}):
+        return {}
+    by_scene: dict[str, list[dict]] = {}
+    for segment in tts_segments:
+        scene_id = str(segment.get("scene_id") or "")
+        if not scene_id:
+            continue
+        by_scene.setdefault(scene_id, []).append(
+            {
+                "relative_start": float(segment.get("relative_start") or 0.0),
+                "duration": float(segment.get("duration") or 0.0),
+                "lang": str(segment.get("lang") or ""),
+                "text": str(segment.get("text") or ""),
+            }
+        )
+    render_timings: dict[str, dict] = {}
+    for raw_scene in (job or {}).get("scenes", []):
+        scene_id = str(raw_scene.get("sceneId") or "")
+        scene_segments = sorted(by_scene.get(scene_id, []), key=lambda item: item["relative_start"])
+        render_timings[scene_id] = {"segments": scene_segments}
+        if scene_id != "scene-4-repeat":
+            continue
+        overlay_sequence = (raw_scene.get("postOverlays") or {}).get("sequence") or []
+        repeat_items = [item for item in overlay_sequence if item.get("textKo") and item.get("badge")]
+        ko_repeat_segments = [
+            item
+            for item in scene_segments
+            if item.get("lang") == "ko" and item.get("text") not in {"따라해 보세요.", "Repeat after me."}
+        ]
+        if ko_repeat_segments and repeat_items:
+            render_timings[scene_id]["repeat_items"] = [
+                {
+                    "start": segment["relative_start"],
+                    "textKo": item.get("textKo"),
+                    "textRomanization": item.get("textRomanization"),
+                    "textGloss": item.get("textGloss"),
+                    "badge": item.get("badge"),
+                }
+                for item, segment in zip(repeat_items, ko_repeat_segments)
+            ]
+    return render_timings
 
 
 def extract_audio_segment(video_path: Path, output_path: Path, *, start: float, duration: float) -> Path | None:
@@ -865,6 +1172,7 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
                     volume="+0%",
                 )
             )
+            trim_audio_edges(audio_path)
             duration = media_duration(audio_path)
             scene_id = str(segment["scene_id"])
             scene_start = float(segment["scene_start"])
@@ -878,7 +1186,9 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
                     "relative_start": relative_start,
                     "scene_id": scene_id,
                     "duration": duration,
-                    "volume": 1.0,
+                    "volume": float(profile.get("gain") or 1.0),
+                    "lang": str(segment["lang"]),
+                    "text": str(segment["text"]),
                 }
             )
             cursor_by_scene[scene_id] = relative_start + duration + float(segment["pause_after"])
@@ -896,6 +1206,7 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
                 volume="+0%",
             )
         )
+        trim_audio_edges(audio_path)
         generated.append({"path": audio_path, "start": segment["start"], "volume": 1.0})
     return generated
 
@@ -920,7 +1231,7 @@ def generate_sine_effect(output_path: Path, *, frequency: int, duration: float, 
 
 def stretch_v3_scene_timeline(scenes: list[dict], tts_segments: list[dict], opening_audio_path: Path | None) -> list[dict]:
     required: dict[str, float] = {
-        str(scene["id"]): float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1))
+        str(scene["id"]): float(scene.get("scene_duration") or max(scene["end"] - scene["start"], 0.1))
         for scene in scenes
     }
     for segment in tts_segments:
@@ -936,8 +1247,9 @@ def stretch_v3_scene_timeline(scenes: list[dict], tts_segments: list[dict], open
     cursor = 0.0
     for scene in scenes:
         clip_duration = float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1))
-        duration = max(clip_duration, required.get(str(scene["id"]), clip_duration))
-        updated.append({**scene, "start": cursor, "end": cursor + duration, "clip_duration": clip_duration})
+        base_duration = float(scene.get("scene_duration") or max(scene["end"] - scene["start"], 0.1))
+        duration = max(base_duration, required.get(str(scene["id"]), base_duration))
+        updated.append({**scene, "start": cursor, "end": cursor + duration, "scene_duration": duration, "clip_duration": clip_duration})
         cursor += duration
     return updated
 
@@ -960,7 +1272,8 @@ def build_audio_mix(
     segments = [dict(segment) for segment in segments_override] if segments_override is not None else generate_tts_segments(packet, narration_dir, job=job)
 
     opening_audio = opening_audio_override
-    if opening_audio is None and is_repeat_v3(packet, job or {}) and opening_video is not None:
+    opening_audio_mode = str(packet.get("opening", {}).get("audioMode") or "embedded").strip().lower()
+    if opening_audio is None and opening_audio_mode != "tts" and is_repeat_v3(packet, job or {}) and opening_video is not None:
         opening_scene = next((scene for scene in scenes or [] if scene["id"] == "scene-0-opening"), None)
         if opening_scene is not None:
             opening_duration = float(opening_scene.get("clip_duration") or max(opening_scene["end"] - opening_scene["start"], 0.1))
@@ -1031,7 +1344,7 @@ def build_audio_mix(
         filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
         mix_inputs.append(f"[{label}]")
 
-    filter_parts.append(f"{''.join(mix_inputs)}amix=inputs={len(mix_inputs)}:dropout_transition=0,volume=1.2[out]")
+    filter_parts.append(f"{''.join(mix_inputs)}amix=inputs={len(mix_inputs)}:dropout_transition=0,volume=1.0[out]")
     cmd.extend(
         [
             "-filter_complex",
@@ -1094,7 +1407,9 @@ def main() -> int:
     if is_repeat_v3(packet, job):
         narration_dir = build_dir / "renders" / "narration"
         prebuilt_segments = generate_tts_segments(packet, narration_dir, job=job)
-        if opening_scene is not None:
+        packet["_renderTimings"] = build_render_timing_map(packet, job, prebuilt_segments)
+        opening_audio_mode = str(packet.get("opening", {}).get("audioMode") or "embedded").strip().lower()
+        if opening_scene is not None and opening_audio_mode != "tts":
             opening_audio_path = extract_audio_segment(
                 opening_video,
                 narration_dir / "opening-audio.m4a",
@@ -1117,12 +1432,20 @@ def main() -> int:
     for scene in scenes:
         if scene["source"] == "opening":
             continue
+        if scene["source"] == "fixed_clip":
+            scene_video = resolve_project_path(scene.get("source_file"), base_dir=source_packet_path.parent)
+            if scene_video is None:
+                raise RuntimeError(f"Unable to resolve fixed clip for {scene['id']}")
+        else:
+            scene_video = build_dir / "renders" / "grok" / scene.get("output_name", f"{scene['id']}.mp4")
         scene_frames[scene["id"]] = extract_clip_frames(
-            build_dir / "renders" / "grok" / scene.get("output_name", f"{scene['id']}.mp4"),
+            scene_video,
             build_dir / "renders" / "scene-frames" / scene["id"],
             fps=FPS,
             width=width,
             height=height,
+            start=float(scene.get("source_start_sec") or 0.0),
+            duration=float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1)),
         )
 
     frames_dir = build_dir / "renders" / "frames"

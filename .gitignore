@@ -1,2 +1,8 @@
 episodes/*/renders/frames/*.png
+episodes/*/renders/opening-frames/
+episodes/*/renders/scene-frames/
+episodes/*/renders/frames/
+episodes/*/renders/grok/*.orig.mp4
 episodes/*/renders/tmp-*.mp4
+.venv-render/
+scripts/__pycache__/

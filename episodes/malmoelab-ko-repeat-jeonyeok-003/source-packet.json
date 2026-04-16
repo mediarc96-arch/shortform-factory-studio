@@ -3,22 +3,24 @@
   "seriesSlug": "malmoelab-hangul-repeat",
   "formatType": "fill_blank_repeat",
   "version": "v3",
-  "totalDurationSeconds": "40~45 (오프닝 5~7 + 본편 25~27 + 엔딩 3~5)",
+  "totalDurationSeconds": "37~38 (오프닝 6 + 본편 27~28 + 엔딩 4.2)",
   "contentLanguageCode": "ko",
   "learnerLanguageCode": "en",
   "createdAt": "2026-04-16",
 
   "opening": {
     "type": "fixed_clip",
-    "sourceFile": "characters/daehan/01_Opening.mp4",
+    "sourceFile": "characters/daehan/01_Opening_clean.mp4",
+    "audioMode": "tts",
     "narration": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.",
-    "narrationVoice": "Korean male, calm",
+    "narrationVoice": "Korean male TTS, same as content narration",
     "subtitles": "NONE",
     "reusable": true
   },
 
   "ending": {
-    "type": "fixed_clip_or_generate_once",
+    "type": "fixed_clip",
+    "sourceFile": "characters/daehan/02_Ending.mp4",
     "narration": "그럼 다음시간에 또 만나요.",
     "narrationVoice": "Korean male, calm",
     "ctaText": "말모이랩에서 더 배우기 — malmoelab.com",
@@ -50,10 +52,10 @@
 
   "lesson": {
     "sentenceKo": "저녁에는 집에서 쉽니다.",
-    "sentenceEn": "I relax at house in the Evening.",
+    "sentenceEn": "I relax at house in the evening.",
     "sentenceRomanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
     "blankedSentenceKo": "저녁에는 ___에서 쉽니다.",
-    "blankedSentenceEn": "I relax at ___ in the Evening.",
+    "blankedSentenceEn": "I relax at ___ in the evening.",
     "blankedSentenceRomanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
     "answerWord": "집",
     "answerRomanization": "Jip",
@@ -61,23 +63,35 @@
   },
 
   "choices": [
-    { "order": 1, "korean": "집",     "romanization": "Jip",        "gloss": "House",    "isAnswer": true  },
-    { "order": 2, "korean": "회사",   "romanization": "Hoesa",      "gloss": "Company",  "isAnswer": false },
+    { "order": 1, "korean": "집", "romanization": "Jip", "gloss": "House", "isAnswer": true },
+    { "order": 2, "korean": "회사", "romanization": "Hoesa", "gloss": "Company", "isAnswer": false },
     { "order": 3, "korean": "화장실", "romanization": "Hwajangsil", "gloss": "Bathroom", "isAnswer": false }
   ],
 
   "narration": {
-    "CRITICAL_RULE": "한국어 → 간격 → 영어 순차 재생. 절대 겹치지 않음. 로마자는 TTS 없이 화면에만 표시.",
+    "CRITICAL_RULE": "이번 버전은 한국어 남성 음성만 사용한다. 영어와 로마자는 화면에만 표시하고 TTS로 읽지 않는다. 오프닝과 본편과 엔딩은 같은 음성 톤과 속도를 유지한다.",
     "tracks": {
-      "ko": { "voice": "Korean male, calm, very slow", "speedMultiplier": 0.75 },
-      "en": { "voice": "English female, soft and clear", "speedMultiplier": 0.85 }
+      "ko": {
+        "voice": "Korean male, calm, consistent across opening, content, and ending",
+        "edgeVoice": "ko-KR-InJoonNeural",
+        "speedMultiplier": 1.02,
+        "pitch": "+0Hz",
+        "gain": 1.0
+      },
+      "en": {
+        "voice": "English on-screen only",
+        "edgeVoice": "en-US-GuyNeural",
+        "speedMultiplier": 1.0,
+        "pitch": "+0Hz",
+        "gain": 0.0
+      }
     },
     "romanizationRule": "화면에 텍스트로만 표시. TTS로 절대 읽지 않음."
   },
 
   "sfx": {
-    "ticking": { "file": "shared/sfx/ticking.mp3", "cueTimeSec": 10, "label": "또깍 또깍 또깍" },
-    "correct":  { "file": "shared/sfx/correct.mp3", "cueTimeSec": 15, "label": "또로롱~" }
+    "ticking": { "file": "shared/sfx/ticking.mp3", "cueTimeSec": 14, "label": "" },
+    "correct": { "file": "shared/sfx/correct.mp3", "cueTimeSec": 18, "label": "또로롱~" }
   },
 
   "theme": {

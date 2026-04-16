@@ -1,13 +1,15 @@
 {
-  "provider": "xai_grok",
+  "provider": "template_loop",
   "episodeSlug": "malmoelab-ko-repeat-jeonyeok-003",
   "version": "v3",
   "changelog": [
-    "v3: 'behind' → 'in front of' 수정 (선생님이 칠판 앞에 서도록)",
-    "v3: 오프닝/엔딩을 고정 클립으로 분리 (Grok 생성 아님)",
-    "v3: 나레이션 순차 재생 규칙 명시 (겹침 금지)",
-    "v3: 로마자는 화면 표시만, TTS 읽기 금지",
-    "v3: 오프닝 자막 제거"
+    "v3 revised: 오프닝을 자막 없는 fixed template로 교체",
+    "v3 revised: 엔딩을 characters/daehan/02_Ending.mp4 fixed template로 교체",
+    "v3 revised: 본편 나레이션은 남성 음성만 사용",
+    "v3 revised: 본편을 Daehan fixed template loop 기반으로 재구성",
+    "v3 revised: 영어 나레이션 제거, 한국어만 재생",
+    "v3 revised: 칠판 위 chalk overlay 전용 합성으로 변경",
+    "v3 revised: 정답 장면의 과도한 warm boost 제거"
   ],
 
   "referenceImageFile": "./renders/frames/opening-ref.png",
@@ -17,59 +19,59 @@
     "layout": "teacher RIGHT 30-35% IN FRONT OF chalkboard, chalkboard visible on LEFT 65-70%",
     "cameraDistance": "medium shot, teacher waist-up",
     "cameraAngle": "eye-level, student desk perspective",
-    "textOverlayZone": "chalkboard area — Grok 텍스트 금지, 후편집 합성",
-    "style": "3D anime, consistent with 01_Opening.mp4",
+    "textOverlayZone": "chalkboard area only — Grok 텍스트 금지, 후편집으로 칠판 위에만 합성",
+    "style": "3D anime, consistent with Daehan template clips",
     "CRITICAL": "선생님은 칠판 앞(IN FRONT OF)에 서 있어야 함. behind 사용 금지."
   },
 
   "_audioRule": {
-    "CRITICAL": "한국어 나레이션과 영어 나레이션은 절대 동시 재생 금지. 반드시 순차 재생.",
-    "sequence": "한국어 완료 → 0.3초 간격 → 영어 시작",
-    "romanization": "화면에 텍스트로만 표시. TTS로 읽지 않음."
+    "CRITICAL": "이번 버전은 남성 한국어 음성만 사용. 영어와 로마자는 화면에만 표시한다.",
+    "sequence": "한국어 완료 후 짧은 간격 유지",
+    "romanization": "화면에만 표시. TTS로 읽지 않음."
   },
 
   "scenes": [
-
     {
       "sceneId": "scene-0-opening",
-      "timeSec": [0, 7],
+      "timeSec": [0, 6],
       "type": "fixed_clip",
-      "sourceFile": "characters/daehan/01_Opening.mp4",
+      "sourceFile": "characters/daehan/01_Opening_clean.mp4",
       "reusable": true,
-      "reusableNote": "모든 에피소드에서 동일하게 사용. 매번 새로 생성하지 않음.",
-      "subtitles": "NONE — 자막/텍스트 오버레이 없음. 깨끗한 영상 그대로 사용.",
+      "reusableNote": "자막 없는 clean opening template. 모든 에피소드에서 재사용.",
+      "subtitles": "NONE",
       "audio": {
-        "narration": {
-          "voice": "Korean male, calm",
-          "text": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.",
-          "note": "이 나레이션은 오프닝 클립에 미리 내장. 에피소드 생성 시 별도 TTS 불필요."
-        }
+        "mode": "tts",
+        "narrationSequence": [
+          { "lang": "ko", "voice": "male", "text": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.", "pauseAfterMs": 0 }
+        ]
       },
       "extractReferenceFrame": {
         "enabled": true,
-        "frameTimeSec": 3.0,
+        "frameTimeSec": 2.5,
         "outputFile": "./renders/frames/opening-ref.png"
       }
     },
 
     {
       "sceneId": "scene-1-question",
-      "timeSec": [7, 10],
-      "type": "image_to_video",
-      "durationSec": 3,
+      "timeSec": [6, 12],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/01_Opening_clean.mp4",
+      "sourceStartSec": 6.5,
+      "sourceDurationSec": 2.4,
+      "loopSource": true,
+      "durationSec": 6,
       "ratio": "16:9",
       "resolution": "1080p",
-      "image": "./renders/frames/opening-ref.png",
-      "outputFile": "./renders/grok/scene-1-question.mp4",
-
-      "prompt": "Animate this 3D anime teacher character in a Korean classroom. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, positioned on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible on the LEFT side (65-70% width) with a clean empty green surface — the teacher is clearly BETWEEN the camera and the chalkboard, not behind it. Medium shot showing the teacher from the waist up, camera at eye-level. MOTION: The teacher smiles warmly and points toward the chalkboard with her right hand in a gentle presenting gesture. She sways very slightly with natural breathing. LIGHTING: Warm overhead classroom lighting. FORMAT: Horizontal 16:9 widescreen. IMPORTANT: Do NOT generate any text, letters, numbers, Korean characters, subtitles, logos, or watermarks.",
-
+      "prompt": "Replaced with fixed Daehan template loop to keep character appearance and motion consistent from opening through content.",
       "postOverlays": {
-        "zone": "chalkboard area (left 65%)",
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
         "content": {
+          "headingKo": "문장을 완성해 보세요",
           "line1_ko": "저녁에는 ___에서 쉽니다.",
           "line2_romanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
-          "line3_en": "I relax at ___ in the Evening.",
+          "line3_en": "I relax at ___ in the evening.",
           "choices": [
             "① 집  Jip  (House)",
             "② 회사  Hoesa  (Company)",
@@ -77,31 +79,30 @@
           ]
         }
       },
-
       "audio": {
         "narrationSequence": [
-          { "lang": "ko", "voice": "male", "text": "저녁에는…", "pauseAfterMs": 1000 },
-          { "lang": "ko", "voice": "male", "text": "…에서 쉽니다.", "pauseAfterMs": 500 },
-          { "lang": "en", "voice": "female", "text": "I relax at…", "pauseAfterMs": 1000 },
-          { "lang": "en", "voice": "female", "text": "…in the Evening.", "pauseAfterMs": 0 }
+          { "lang": "ko", "voice": "male", "text": "저녁에는...", "pauseAfterMs": 180 },
+          { "lang": "ko", "voice": "male", "text": "...에서 쉽니다.", "pauseAfterMs": 0 }
         ],
-        "RULE": "한국어 완전 종료 후 → 0.5초 → 영어 시작. 절대 겹치지 않음."
+        "RULE": "한국어만 재생. 영어와 로마자는 화면 표시만."
       }
     },
 
     {
       "sceneId": "scene-2-thinking",
-      "timeSec": [10, 15],
-      "type": "image_to_video",
-      "durationSec": 5,
+      "timeSec": [12, 15.2],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/01_Opening_clean.mp4",
+      "sourceStartSec": 6.8,
+      "sourceDurationSec": 2.2,
+      "loopSource": true,
+      "durationSec": 3.2,
       "ratio": "16:9",
       "resolution": "1080p",
-      "image": "./renders/frames/opening-ref.png",
-      "outputFile": "./renders/grok/scene-2-thinking.mp4",
-
-      "prompt": "Animate this 3D anime teacher character waiting patiently in a Korean classroom. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, positioned on the RIGHT SIDE of the frame (30-35% width). The clean green chalkboard is visible on the LEFT (65-70%). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up, eye-level camera. MOTION: The teacher has an expectant encouraging smile, tilts her head slightly side to side, and gently sways as if waiting for a student to answer. Very calm minimal motion, natural blinking. FORMAT: Horizontal 16:9. IMPORTANT: Do NOT generate any text, letters, countdown numbers, clock graphics, subtitles, logos, or watermarks.",
-
+      "prompt": "Replaced with fixed Daehan template loop to keep character appearance and motion consistent while the learner thinks.",
       "postOverlays": {
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
         "keepPreviousContent": true,
         "addClockAnimation": {
           "position": "bottom-right of chalkboard area",
@@ -109,43 +110,44 @@
           "countdownSec": 3
         }
       },
-
       "audio": {
         "narration": "NONE",
         "sfx": {
           "file": "shared/sfx/ticking.mp3",
-          "label": "또깍 또깍 또깍",
-          "repeat": 3
+          "label": "",
+          "repeat": 3,
+          "startSec": 0.35
         }
       }
     },
 
     {
       "sceneId": "scene-3-answer",
-      "timeSec": [15, 20],
-      "type": "image_to_video",
-      "durationSec": 5,
+      "timeSec": [15.2, 21.2],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/01_Opening_clean.mp4",
+      "sourceStartSec": 7.0,
+      "sourceDurationSec": 2.4,
+      "loopSource": true,
+      "durationSec": 6,
       "ratio": "16:9",
       "resolution": "1080p",
-      "image": "./renders/frames/opening-ref.png",
-      "outputFile": "./renders/grok/scene-3-answer.mp4",
-
-      "prompt": "Animate this 3D anime teacher character revealing an answer in a Korean classroom. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, positioned on the RIGHT SIDE of the frame (30-35% width). The clean green chalkboard takes up the LEFT (65-70%). The teacher is clearly BETWEEN the camera and the chalkboard, partially overlapping the chalkboard edge. Medium shot, waist-up. MOTION: The teacher picks up white chalk, reaches toward the chalkboard with her right hand making a slow writing motion. After writing, she steps back slightly and gestures toward the chalkboard with a satisfied proud expression and a small nod. Her face shows genuine pride and encouragement. LIGHTING: Warm classroom lighting with a subtle brightness boost for the success moment. FORMAT: Horizontal 16:9. IMPORTANT: Do NOT generate any text, chalk marks, Korean characters, letters, subtitles, logos, or watermarks.",
-
+      "prompt": "Replaced with fixed Daehan template loop to keep character appearance and motion consistent while the answer is revealed.",
       "postOverlays": {
-        "zone": "chalkboard area",
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
         "content": {
+          "headingKo": "정답",
           "line1_ko": "저녁에는 집에서 쉽니다.",
           "line1_romanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
-          "line1_en": "I relax at house in the Evening.",
+          "line1_en": "I relax at house in the evening.",
           "answerHighlight": {
             "word": "집",
             "color": "#7C4DFF",
-            "animation": "chalk-write-in then pop-glow"
+            "animation": "chalk-write-in"
           }
         }
       },
-
       "audio": {
         "sfx": {
           "file": "shared/sfx/correct.mp3",
@@ -153,80 +155,67 @@
           "startSec": 0
         },
         "narrationSequence": [
-          { "lang": "ko", "voice": "male", "text": "정답은 집입니다.", "startAfterSfxMs": 1000, "pauseAfterMs": 500 },
-          { "lang": "en", "voice": "female", "text": "The answer is house.", "pauseAfterMs": 0 }
+          { "lang": "ko", "voice": "male", "text": "정답은 집입니다.", "startAfterSfxMs": 350, "pauseAfterMs": 140 },
+          { "lang": "ko", "voice": "male", "text": "저녁에는 집에서 쉽니다.", "pauseAfterMs": 0 }
         ],
-        "RULE": "효과음 완료 후 → 한국어 → 간격 → 영어. 겹침 금지."
+        "RULE": "효과음 후 한국어 정답 멘트와 완성 문장만 순차 재생. 영어와 로마자는 화면 표시만."
       }
     },
 
     {
       "sceneId": "scene-4-repeat",
-      "timeSec": [20, 32],
-      "type": "image_to_video",
-      "durationSec": 12,
+      "timeSec": [21.2, 33.4],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/01_Opening_clean.mp4",
+      "sourceStartSec": 6.7,
+      "sourceDurationSec": 2.6,
+      "loopSource": true,
+      "durationSec": 12.2,
       "ratio": "16:9",
       "resolution": "1080p",
-      "image": "./renders/frames/opening-ref.png",
-      "outputFile": "./renders/grok/scene-4-repeat.mp4",
-
-      "prompt": "Animate this 3D anime teacher character leading a repeat-after-me drill in a Korean classroom. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, positioned on the RIGHT SIDE of the frame (30-35% width). The clean chalkboard is visible on the LEFT (65-70%). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up, eye-level. MOTION: The teacher faces the camera directly with a warm encouraging smile. She makes a slow rhythmic teaching gesture — gently moving her right hand in a follow-along beat pattern as if conducting a pronunciation drill. Her mouth opens and closes naturally as if speaking each word slowly. Between words she pauses and nods encouragingly. Patient supportive expression throughout, occasional gentle head tilts. LIGHTING: Calm soft classroom lighting. FORMAT: Horizontal 16:9. IMPORTANT: Do NOT generate any text, letters, word cards, subtitles, logos, or watermarks.",
-
+      "prompt": "Replaced with fixed Daehan template loop to keep character appearance and motion consistent during repeat practice.",
       "postOverlays": {
-        "zone": "chalkboard center area",
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
         "sequence": [
-          { "offsetSec": 0.0,  "textKo": "따라해 보세요", "textEn": "Repeat after me", "style": "instruction" },
-          { "offsetSec": 1.5,  "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "1/2" },
-          { "offsetSec": 3.5,  "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "2/2" },
-          { "offsetSec": 5.5,  "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "1/2" },
-          { "offsetSec": 7.5,  "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "2/2" },
-          { "offsetSec": 9.0,  "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "1/2" },
-          { "offsetSec": 10.5, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "2/2" }
+          { "offsetSec": 0.0, "textKo": "따라해 보세요", "textEn": "Repeat after me", "style": "instruction" },
+          { "offsetSec": 2.0, "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "1/2" },
+          { "offsetSec": 4.0, "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "2/2" },
+          { "offsetSec": 6.1, "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "1/2" },
+          { "offsetSec": 8.2, "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "2/2" },
+          { "offsetSec": 10.2, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "1/2" },
+          { "offsetSec": 12.0, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "2/2" }
         ],
-        "romanizationNote": "로마자(Jip, Hoesa, Hwajangsil)는 화면에만 표시. TTS로 읽지 않음."
+        "romanizationNote": "로마자는 화면에만 표시. TTS로 읽지 않음."
       },
-
       "audio": {
         "narrationSequence": [
-          { "lang": "ko", "voice": "male", "text": "따라해 보세요.", "pauseAfterMs": 500 },
-          { "lang": "en", "voice": "female", "text": "Repeat after me.", "pauseAfterMs": 700 },
+          { "lang": "ko", "voice": "male", "text": "따라해 보세요.", "pauseAfterMs": 240 },
 
-          { "lang": "ko", "voice": "male", "text": "집", "pauseAfterMs": 300 },
-          { "lang": "en", "voice": "female", "text": "House", "pauseAfterMs": 500 },
-          { "lang": "ko", "voice": "male", "text": "집", "pauseAfterMs": 300 },
-          { "lang": "en", "voice": "female", "text": "House", "pauseAfterMs": 700 },
+          { "lang": "ko", "voice": "male", "text": "집", "pauseAfterMs": 180 },
+          { "lang": "ko", "voice": "male", "text": "집", "pauseAfterMs": 260 },
 
-          { "lang": "ko", "voice": "male", "text": "회사", "pauseAfterMs": 300 },
-          { "lang": "en", "voice": "female", "text": "Company", "pauseAfterMs": 500 },
-          { "lang": "ko", "voice": "male", "text": "회사", "pauseAfterMs": 300 },
-          { "lang": "en", "voice": "female", "text": "Company", "pauseAfterMs": 700 },
+          { "lang": "ko", "voice": "male", "text": "회사", "pauseAfterMs": 180 },
+          { "lang": "ko", "voice": "male", "text": "회사", "pauseAfterMs": 260 },
 
-          { "lang": "ko", "voice": "male", "text": "화장실", "pauseAfterMs": 300 },
-          { "lang": "en", "voice": "female", "text": "Bathroom", "pauseAfterMs": 500 },
-          { "lang": "ko", "voice": "male", "text": "화장실", "pauseAfterMs": 300 },
-          { "lang": "en", "voice": "female", "text": "Bathroom", "pauseAfterMs": 0 }
+          { "lang": "ko", "voice": "male", "text": "화장실", "pauseAfterMs": 180 },
+          { "lang": "ko", "voice": "male", "text": "화장실", "pauseAfterMs": 0 }
         ],
-        "RULE": "모든 세그먼트는 순차 재생. 이전 세그먼트 + pauseAfterMs 이후에 다음 세그먼트 시작. 절대 겹치지 않음.",
-        "romanizationRule": "로마자(Jip, Hoesa, Hwajangsil)는 TTS로 읽지 않는다. 화면 표시만."
+        "RULE": "한국어만 순차 재생. 반복 파트가 끝난 뒤에만 엔딩 시작. 영어와 로마자는 화면 표시만.",
+        "romanizationRule": "로마자는 TTS로 읽지 않는다. 화면 표시만."
       }
     },
 
     {
       "sceneId": "scene-5-ending",
-      "timeSec": [32, 37],
-      "type": "fixed_clip_or_generate",
-      "durationSec": 5,
+      "timeSec": [33.4, 37.6],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/02_Ending.mp4",
+      "durationSec": 4.2,
       "ratio": "16:9",
       "resolution": "1080p",
       "reusable": true,
-      "reusableNote": "엔딩도 모든 에피소드에서 동일하게 재사용. 한 번 생성 후 고정.",
-
-      "generateOnce": {
-        "image": "./renders/frames/opening-ref.png",
-        "prompt": "Animate this 3D anime teacher character saying goodbye in a Korean classroom. COMPOSITION: The teacher stands IN FRONT OF a large green chalkboard, positioned on the RIGHT SIDE of the frame (30-35% width). The clean chalkboard on the LEFT (65-70%). The teacher is clearly BETWEEN the camera and the chalkboard. Medium shot, waist-up. MOTION: The teacher smiles brightly and warmly waves goodbye with her right hand — a gentle friendly wave toward the camera. She gives a small polite bow of the head as a Korean farewell. Her expression is cheerful and encouraging, as if saying see you next time. LIGHTING: Warm positive ending energy, classroom lighting gently fading. FORMAT: Horizontal 16:9. IMPORTANT: Do NOT generate any text, letters, subtitles, logos, or watermarks.",
-        "outputFile": "./renders/grok/scene-5-ending.mp4"
-      },
-
+      "reusableNote": "미소 + 손인사 + 고개 숙임 ending template.",
       "postOverlays": {
         "ctaBanner": {
           "text": "말모이랩에서 더 배우기 — malmoelab.com",
@@ -235,7 +224,6 @@
           "textColor": "#F7F3EC"
         }
       },
-
       "audio": {
         "narrationSequence": [
           { "lang": "ko", "voice": "male", "text": "그럼 다음시간에 또 만나요.", "pauseAfterMs": 0 }
@@ -244,7 +232,6 @@
         "bgmFadeDurationSec": 3
       }
     }
-
   ],
 
   "postProduction": {
@@ -257,33 +244,34 @@
       "scene-5-ending"
     ],
     "structure": {
-      "opening": { "scenes": ["scene-0-opening"], "durationSec": "5~7", "fixed": true },
-      "main": { "scenes": ["scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat"], "durationSec": "~25" },
-      "ending": { "scenes": ["scene-5-ending"], "durationSec": "3~5", "fixed": true }
+      "opening": { "scenes": ["scene-0-opening"], "durationSec": 6, "fixed": true },
+      "main": { "scenes": ["scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat"], "durationSec": "27~28" },
+      "ending": { "scenes": ["scene-5-ending"], "durationSec": 4.2, "fixed": true }
     },
-    "totalTargetDurationSec": "40~45",
+    "totalTargetDurationSec": "37~38",
     "outputFile": "./final/malmoelab-ko-repeat-jeonyeok-003.mp4",
     "thumbnailFile": "./final/malmoelab-ko-repeat-jeonyeok-003-thumb.png",
-    "thumbnailFromSceneSec": 18,
+    "thumbnailFromSceneSec": 21,
 
     "textCompositing": {
-      "note": "Grok은 깨끗한 칠판 영상만 생성. 모든 텍스트는 후편집에서 칠판 영역에 합성.",
-      "chalkboardZone": { "x": "0%", "y": "5%", "width": "63%", "height": "90%" },
+      "note": "Grok은 깨끗한 칠판 영상만 생성. 모든 텍스트는 후편집에서 칠판 위 분필 스타일로만 합성.",
+      "style": "chalkboard_only",
+      "chalkboardZone": { "x": "5%", "y": "10%", "width": "54%", "height": "68%" },
       "fontStyle": {
-        "korean": { "color": "#F5F0E8", "sizePx": 48, "texture": "chalk" },
-        "english": { "color": "#D9D0BF", "sizePx": 36 },
-        "romanization": { "color": "#FFBE5C", "sizePx": 28, "italic": true, "audioRule": "화면만. TTS 없음." },
-        "blank": { "color": "#7C4DFF", "sizePx": 48, "underline": true },
-        "answerReveal": { "color": "#7C4DFF", "sizePx": 56, "bold": true }
+        "korean": { "color": "#F5F0E8", "sizePx": 54, "texture": "chalk" },
+        "english": { "color": "#D9D0BF", "sizePx": 34, "texture": "chalk-soft" },
+        "romanization": { "color": "#D9D0BF", "sizePx": 28, "italic": true, "audioRule": "화면만. TTS 없음." },
+        "blank": { "color": "#7C4DFF", "sizePx": 54, "underline": true },
+        "answerReveal": { "color": "#7C4DFF", "sizePx": 60, "bold": true }
       }
     },
 
     "audioMix": {
       "bgmFile": "shared/music/bgm-calm-classroom.mp3",
-      "bgmVolume": 0.15,
+      "bgmVolume": 0.12,
       "narrationVolume": 1.0,
-      "sfxVolume": 0.8,
-      "CRITICAL_RULE": "나레이션 세그먼트는 순차 재생만 허용. 한국어 끝 → 간격 → 영어 시작. 절대 겹치지 않음."
+      "sfxVolume": 0.75,
+      "CRITICAL_RULE": "한국어와 영어는 순차 재생만 허용. 모든 본편 음성은 남성 목소리만 사용."
     }
   }
 }
