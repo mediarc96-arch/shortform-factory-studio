@@ -50,6 +50,71 @@ SCENES = [
 ]
 
 
+def clone_default_scenes() -> list[dict]:
+    return [dict(scene) for scene in SCENES]
+
+
+def resolve_project_path(raw_path: str | None, *, base_dir: Path | None = None) -> Path | None:
+    if not str(raw_path or "").strip():
+        return None
+    path = Path(str(raw_path))
+    if path.is_absolute():
+        return path
+    candidates = []
+    if base_dir is not None:
+        candidates.append((base_dir / path).resolve())
+    candidates.append((ROOT / path).resolve())
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    if base_dir is not None:
+        return (base_dir / path).resolve()
+    return (ROOT / path).resolve()
+
+
+def load_episode_job(source_packet_path: Path) -> dict:
+    job_path = source_packet_path.parent / "video-generation-job.json"
+    if job_path.is_file():
+        return load_json(job_path)
+    return {}
+
+
+def parse_scene_times(value: list | tuple) -> tuple[float, float]:
+    if not isinstance(value, (list, tuple)) or len(value) != 2:
+        raise ValueError(f"Invalid timeSec range: {value!r}")
+    return float(value[0]), float(value[1])
+
+
+def build_scene_timeline(job: dict) -> list[dict]:
+    scenes = []
+    for raw_scene in job.get("scenes", []):
+        start, end = parse_scene_times(raw_scene.get("timeSec"))
+        output_file = raw_scene.get("outputFile") or raw_scene.get("generateOnce", {}).get("outputFile") or f"./renders/grok/{raw_scene['sceneId']}.mp4"
+        source = "opening" if raw_scene.get("type") == "fixed_clip" and raw_scene.get("sceneId") == "scene-0-opening" else "grok"
+        scenes.append(
+            {
+                "id": raw_scene["sceneId"],
+                "source": source,
+                "start": start,
+                "end": end,
+                "clip_duration": max(0.1, end - start),
+                "output_name": Path(output_file).name,
+            }
+        )
+    return scenes or clone_default_scenes()
+
+
+def is_repeat_v3(packet: dict, job: dict) -> bool:
+    return packet.get("formatType") == "fill_blank_repeat" and str(packet.get("version") or "").lower() == "v3" and bool(job.get("scenes"))
+
+
+def parse_total_duration_seconds(packet: dict, scenes: list[dict]) -> float:
+    raw_value = packet.get("totalDurationSeconds")
+    if isinstance(raw_value, (int, float)):
+        return float(raw_value)
+    return max((float(scene["end"]) for scene in scenes), default=30.0)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Render a Grok-assisted repeat/fill-blank Korean short.")
     parser.add_argument("--source-packet", required=True)
@@ -215,16 +280,21 @@ def pick_frame(frames: list[Path], progress: float) -> Image.Image:
     return Image.open(frames[index]).convert("RGBA")
 
 
-def scene_for_time(t: float) -> dict:
-    for scene in SCENES:
+def scene_for_time(t: float, scenes: list[dict]) -> dict:
+    for scene in scenes:
         if scene["start"] <= t < scene["end"]:
             return scene
-    return SCENES[-1]
+    return scenes[-1]
 
 
 def local_progress(scene: dict, t: float) -> float:
     duration = max(scene["end"] - scene["start"], 0.001)
     return max(0.0, min((t - scene["start"]) / duration, 0.999999))
+
+
+def clip_progress(scene: dict, t: float) -> float:
+    clip_duration = float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1))
+    return max(0.0, min((t - scene["start"]) / clip_duration, 0.999999))
 
 
 def draw_card(draw: ImageDraw.ImageDraw, rect: tuple[int, int, int, int], fill: tuple[int, int, int, int], radius: int):
@@ -251,6 +321,8 @@ def draw_alarm_clock(draw: ImageDraw.ImageDraw, center: tuple[int, int], progres
 
 
 def draw_title(draw: ImageDraw.ImageDraw, packet: dict, *, width: int, height: int, mode: str):
+    if str(packet.get("version") or "").lower() == "v3":
+        return
     if mode == "wide":
         base_width, base_height = 1920, 1080
         header_rect = scale_rect((46, 34, 1210, 154), width=width, height=height, base_width=base_width, base_height=base_height)
@@ -301,6 +373,17 @@ def draw_board_scene_vertical(draw: ImageDraw.ImageDraw, packet: dict, scene: di
     accent = rgb(theme["accent"])
     accent_warm = rgb(theme["accentWarm"])
     board_text = rgb(theme["boardText"])
+    scene_id = scene["id"]
+
+    if str(packet.get("version") or "").lower() == "v3":
+        if scene_id == "scene-0-opening":
+            return
+        if scene_id in {"scene-5-outro", "scene-5-ending"}:
+            cta_rect = scale_rect((96, 1696, 984, 1796), width=width, height=height, base_width=base_width, base_height=base_height)
+            draw.rounded_rectangle(cta_rect, radius=scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 232))
+            cta_text = packet.get("ending", {}).get("ctaText") or f"{packet['cta']['caption']} — malmoelab.com"
+            draw.text(((cta_rect[0] + cta_rect[2]) // 2, (cta_rect[1] + cta_rect[3]) // 2), cta_text, font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+            return
 
     board_rect = scale_rect((76, 272, 1004, 1494), width=width, height=height, base_width=base_width, base_height=base_height)
     footer_rect = scale_rect((76, 1546, 1004, 1826), width=width, height=height, base_width=base_width, base_height=base_height)
@@ -311,7 +394,6 @@ def draw_board_scene_vertical(draw: ImageDraw.ImageDraw, packet: dict, scene: di
     left = board_rect[0] + scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)
     top = board_rect[1] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)
     max_width = board_rect[2] - board_rect[0] - scale_size(68, width=width, height=height, base_width=base_width, base_height=base_height)
-    scene_id = scene["id"]
     lesson = packet["lesson"]
     choices = packet["choices"]
 
@@ -431,6 +513,17 @@ def draw_board_scene_wide(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, 
     accent = rgb(theme["accent"])
     accent_warm = rgb(theme["accentWarm"])
     board_text = rgb(theme["boardText"])
+    scene_id = scene["id"]
+
+    if str(packet.get("version") or "").lower() == "v3":
+        if scene_id == "scene-0-opening":
+            return
+        if scene_id in {"scene-5-outro", "scene-5-ending"}:
+            cta_rect = scale_rect((620, 916, 1840, 1008), width=width, height=height, base_width=base_width, base_height=base_height)
+            draw.rounded_rectangle(cta_rect, radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 232))
+            cta_text = packet.get("ending", {}).get("ctaText") or f"{packet['cta']['caption']} — malmoelab.com"
+            draw.text(((cta_rect[0] + cta_rect[2]) // 2, (cta_rect[1] + cta_rect[3]) // 2), cta_text, font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+            return
 
     board_rect = scale_rect((46, 170, 1298, 860), width=width, height=height, base_width=base_width, base_height=base_height)
     footer_rect = scale_rect((46, 886, 1298, 1036), width=width, height=height, base_width=base_width, base_height=base_height)
@@ -441,7 +534,6 @@ def draw_board_scene_wide(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, 
     left = board_rect[0] + scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)
     top = board_rect[1] + scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height)
     max_width = board_rect[2] - board_rect[0] - scale_size(68, width=width, height=height, base_width=base_width, base_height=base_height)
-    scene_id = scene["id"]
     lesson = packet["lesson"]
     choices = packet["choices"]
 
@@ -613,7 +705,106 @@ def repeat_sequence_from_packet(packet: dict) -> list[dict]:
     return [choices[0], choices[0], choices[1], choices[1], choices[2], choices[2]]
 
 
-def narration_segments(packet: dict) -> list[dict]:
+def media_duration(path: Path) -> float:
+    result = subprocess.run(
+        [resolve_ffmpeg_binary(), "-i", str(path), "-f", "null", "-"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    output = result.stderr or ""
+    match = re.search(r"Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)", output)
+    if not match:
+        raise RuntimeError(f"Unable to determine media duration for {path}")
+    hours = int(match.group(1))
+    minutes = int(match.group(2))
+    seconds = float(match.group(3))
+    return hours * 3600 + minutes * 60 + seconds
+
+
+def edge_rate_from_multiplier(value: float | int | str | None, *, fallback: str) -> str:
+    try:
+        multiplier = float(value)
+    except (TypeError, ValueError):
+        return fallback
+    pct = int(round((multiplier - 1.0) * 100))
+    return f"{pct:+d}%"
+
+
+def voice_profile(packet: dict, lang: str) -> dict:
+    tracks = packet.get("narration", {}).get("tracks", {})
+    track = tracks.get(lang, {})
+    if lang == "ko":
+        return {
+            "voice": "ko-KR-InJoonNeural",
+            "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-12%"),
+            "pitch": "-2Hz",
+        }
+    return {
+        "voice": "en-US-JennyNeural",
+        "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-8%"),
+        "pitch": "+0Hz",
+    }
+
+
+def extract_audio_segment(video_path: Path, output_path: Path, *, start: float, duration: float) -> Path | None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        run_ffmpeg(
+            [
+                "ffmpeg",
+                "-y",
+                "-ss",
+                f"{start:.3f}",
+                "-i",
+                str(video_path),
+                "-t",
+                f"{duration:.3f}",
+                "-vn",
+                "-ac",
+                "2",
+                "-ar",
+                "24000",
+                "-c:a",
+                "aac",
+                str(output_path),
+            ]
+        )
+    except subprocess.CalledProcessError:
+        return None
+    if output_path.is_file():
+        return output_path
+    return None
+
+
+def narration_segments(packet: dict, job: dict | None = None) -> list[dict]:
+    if is_repeat_v3(packet, job or {}):
+        segments: list[dict] = []
+        for raw_scene in job.get("scenes", []):
+            audio = raw_scene.get("audio") or {}
+            sequence = audio.get("narrationSequence") or []
+            if not sequence:
+                continue
+            scene_id = raw_scene["sceneId"]
+            scene_start, _ = parse_scene_times(raw_scene.get("timeSec"))
+            for item in sequence:
+                text = clean_tts_text(item.get("text"), fallback="")
+                if not text:
+                    continue
+                segments.append(
+                    {
+                        "start": scene_start,
+                        "lang": item.get("lang", "ko"),
+                        "text": text,
+                        "pause_after": float(item.get("pauseAfterMs") or 0) / 1000.0,
+                        "start_after_sfx": float(item.get("startAfterSfxMs") or 0) / 1000.0,
+                        "scene_id": scene_id,
+                        "scene_start": scene_start,
+                    }
+                )
+        return segments
+
     lesson = packet["lesson"]
     narration_lines = packet.get("narration", {}).get("lines", [])
     scene1 = next((line for line in narration_lines if int(line.get("scene", 0)) == 1), {})
@@ -656,8 +847,43 @@ def narration_segments(packet: dict) -> list[dict]:
     return segments
 
 
-def generate_tts_segments(packet: dict, output_dir: Path) -> list[dict]:
+def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = None) -> list[dict]:
     generated: list[dict] = []
+    if is_repeat_v3(packet, job or {}):
+        raw_segments = narration_segments(packet, job=job)
+        cursor_by_scene: dict[str, float] = {}
+        for index, segment in enumerate(raw_segments):
+            profile = voice_profile(packet, segment["lang"])
+            audio_path = output_dir / f"segment-{index:02d}.mp3"
+            asyncio.run(
+                synthesize_edge_tts(
+                    segment["text"],
+                    audio_path,
+                    voice=profile["voice"],
+                    rate=profile["rate"],
+                    pitch=profile["pitch"],
+                    volume="+0%",
+                )
+            )
+            duration = media_duration(audio_path)
+            scene_id = str(segment["scene_id"])
+            scene_start = float(segment["scene_start"])
+            cursor = cursor_by_scene.get(scene_id, 0.0)
+            relative_start = max(cursor, float(segment["start_after_sfx"]))
+            start = scene_start + relative_start
+            generated.append(
+                {
+                    "path": audio_path,
+                    "start": start,
+                    "relative_start": relative_start,
+                    "scene_id": scene_id,
+                    "duration": duration,
+                    "volume": 1.0,
+                }
+            )
+            cursor_by_scene[scene_id] = relative_start + duration + float(segment["pause_after"])
+        return generated
+
     for index, segment in enumerate(narration_segments(packet)):
         audio_path = output_dir / f"segment-{index:02d}.mp3"
         asyncio.run(
@@ -670,7 +896,7 @@ def generate_tts_segments(packet: dict, output_dir: Path) -> list[dict]:
                 volume="+0%",
             )
         )
-        generated.append({"path": audio_path, "start": segment["start"]})
+        generated.append({"path": audio_path, "start": segment["start"], "volume": 1.0})
     return generated
 
 
@@ -692,12 +918,55 @@ def generate_sine_effect(output_path: Path, *, frequency: int, duration: float, 
     return output_path
 
 
-def build_audio_mix(packet: dict, build_dir: Path, duration_seconds: int) -> Path:
+def stretch_v3_scene_timeline(scenes: list[dict], tts_segments: list[dict], opening_audio_path: Path | None) -> list[dict]:
+    required: dict[str, float] = {
+        str(scene["id"]): float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1))
+        for scene in scenes
+    }
+    for segment in tts_segments:
+        scene_id = str(segment.get("scene_id") or "")
+        if not scene_id:
+            continue
+        end = float(segment.get("relative_start", 0.0)) + float(segment.get("duration", 0.0))
+        required[scene_id] = max(required.get(scene_id, 0.0), end)
+    if opening_audio_path is not None and opening_audio_path.exists():
+        required["scene-0-opening"] = max(required.get("scene-0-opening", 0.0), media_duration(opening_audio_path))
+
+    updated = []
+    cursor = 0.0
+    for scene in scenes:
+        clip_duration = float(scene.get("clip_duration") or max(scene["end"] - scene["start"], 0.1))
+        duration = max(clip_duration, required.get(str(scene["id"]), clip_duration))
+        updated.append({**scene, "start": cursor, "end": cursor + duration, "clip_duration": clip_duration})
+        cursor += duration
+    return updated
+
+
+def build_audio_mix(
+    packet: dict,
+    build_dir: Path,
+    duration_seconds: int,
+    *,
+    job: dict | None = None,
+    opening_video: Path | None = None,
+    scenes: list[dict] | None = None,
+    segments_override: list[dict] | None = None,
+    opening_audio_override: Path | None = None,
+) -> Path:
     narration_dir = build_dir / "renders" / "narration"
     sfx_dir = build_dir / "renders" / "sfx"
-    segments = generate_tts_segments(packet, narration_dir)
     tick_path = generate_sine_effect(sfx_dir / "tick.wav", frequency=1800, duration=0.05, volume=0.25)
     chime_path = generate_sine_effect(sfx_dir / "correct.wav", frequency=1046, duration=0.35, volume=0.25)
+    segments = [dict(segment) for segment in segments_override] if segments_override is not None else generate_tts_segments(packet, narration_dir, job=job)
+
+    opening_audio = opening_audio_override
+    if opening_audio is None and is_repeat_v3(packet, job or {}) and opening_video is not None:
+        opening_scene = next((scene for scene in scenes or [] if scene["id"] == "scene-0-opening"), None)
+        if opening_scene is not None:
+            opening_duration = float(opening_scene.get("clip_duration") or max(opening_scene["end"] - opening_scene["start"], 0.1))
+            opening_audio = extract_audio_segment(opening_video, narration_dir / "opening-audio.m4a", start=0.0, duration=opening_duration)
+    if opening_audio is not None:
+        segments.append({"path": opening_audio, "start": 0.0, "volume": 1.0})
 
     mix_path = narration_dir / "narration-mix.m4a"
     cmd = [
@@ -716,23 +985,51 @@ def build_audio_mix(packet: dict, build_dir: Path, duration_seconds: int) -> Pat
         cmd.extend(["-i", str(segment["path"])])
         delay_ms = max(0, int(segment["start"] * 1000))
         label = f"a{input_index}"
-        filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
+        volume = float(segment.get("volume", 1.0))
+        filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume={volume}[{label}]")
         mix_inputs.append(f"[{label}]")
         input_index += 1
 
-    for start in (6.3, 7.1, 7.9):
-        cmd.extend(["-i", str(tick_path)])
-        delay_ms = int(start * 1000)
+    if is_repeat_v3(packet, job or {}):
+        scene_start_map = {str(scene["id"]): float(scene["start"]) for scene in scenes or []}
+        for raw_scene in job.get("scenes", []):
+            audio = raw_scene.get("audio") or {}
+            sfx = audio.get("sfx")
+            if not sfx:
+                continue
+            scene_start = scene_start_map.get(raw_scene.get("sceneId"), parse_scene_times(raw_scene.get("timeSec"))[0])
+            if raw_scene.get("sceneId") == "scene-2-thinking":
+                repeat_count = int(sfx.get("repeat") or 3)
+                start_offset = float(sfx.get("startSec") or 1.0)
+                for offset_index in range(repeat_count):
+                    cmd.extend(["-i", str(tick_path)])
+                    delay_ms = int((scene_start + start_offset + offset_index * 0.85) * 1000)
+                    label = f"a{input_index}"
+                    filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
+                    mix_inputs.append(f"[{label}]")
+                    input_index += 1
+                continue
+            if raw_scene.get("sceneId") == "scene-3-answer":
+                cmd.extend(["-i", str(chime_path)])
+                delay_ms = int((scene_start + float(sfx.get("startSec") or 0.0)) * 1000)
+                label = f"a{input_index}"
+                filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
+                mix_inputs.append(f"[{label}]")
+                input_index += 1
+    else:
+        for start in (6.3, 7.1, 7.9):
+            cmd.extend(["-i", str(tick_path)])
+            delay_ms = int(start * 1000)
+            label = f"a{input_index}"
+            filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
+            mix_inputs.append(f"[{label}]")
+            input_index += 1
+
+        cmd.extend(["-i", str(chime_path)])
+        delay_ms = 11000
         label = f"a{input_index}"
         filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
         mix_inputs.append(f"[{label}]")
-        input_index += 1
-
-    cmd.extend(["-i", str(chime_path)])
-    delay_ms = 11000
-    label = f"a{input_index}"
-    filter_parts.append(f"[{input_index}:a]adelay={delay_ms}|{delay_ms},volume=1.0[{label}]")
-    mix_inputs.append(f"[{label}]")
 
     filter_parts.append(f"{''.join(mix_inputs)}amix=inputs={len(mix_inputs)}:dropout_transition=0,volume=1.2[out]")
     cmd.extend(
@@ -779,14 +1076,33 @@ def main() -> int:
     args = parse_args()
     source_packet_path = Path(args.source_packet).resolve()
     build_dir = Path(args.build_dir).resolve()
-    opening_video = Path(args.opening_video).resolve()
     packet = load_json(source_packet_path)
+    job = load_episode_job(source_packet_path)
+    scenes = build_scene_timeline(job)
+    opening_video = resolve_project_path(packet.get("opening", {}).get("sourceFile"), base_dir=source_packet_path.parent) or Path(args.opening_video).resolve()
 
     width, height = parse_resolution(packet)
     mode = render_mode(width, height)
+    opening_scene = next((scene for scene in scenes if scene["id"] == "scene-0-opening"), None)
     trim_start = float(packet.get("opening", {}).get("trimStartSec", 0.0))
-    trim_end = float(packet.get("opening", {}).get("trimEndSec", 3.0))
+    default_opening_duration = max(0.1, float(opening_scene["end"]) - float(opening_scene["start"])) if opening_scene else 3.0
+    trim_end = float(packet.get("opening", {}).get("trimEndSec", trim_start + default_opening_duration))
     trim_duration = max(0.1, trim_end - trim_start)
+
+    prebuilt_segments: list[dict] | None = None
+    opening_audio_path: Path | None = None
+    if is_repeat_v3(packet, job):
+        narration_dir = build_dir / "renders" / "narration"
+        prebuilt_segments = generate_tts_segments(packet, narration_dir, job=job)
+        if opening_scene is not None:
+            opening_audio_path = extract_audio_segment(
+                opening_video,
+                narration_dir / "opening-audio.m4a",
+                start=trim_start,
+                duration=trim_duration,
+            )
+        scenes = stretch_v3_scene_timeline(scenes, prebuilt_segments, opening_audio_path)
+        opening_scene = next((scene for scene in scenes if scene["id"] == "scene-0-opening"), None)
 
     opening_frames = extract_clip_frames(
         opening_video,
@@ -798,9 +1114,11 @@ def main() -> int:
         duration=trim_duration,
     )
     scene_frames = {}
-    for scene in SCENES[1:]:
+    for scene in scenes:
+        if scene["source"] == "opening":
+            continue
         scene_frames[scene["id"]] = extract_clip_frames(
-            build_dir / "renders" / "grok" / f"{scene['id']}.mp4",
+            build_dir / "renders" / "grok" / scene.get("output_name", f"{scene['id']}.mp4"),
             build_dir / "renders" / "scene-frames" / scene["id"],
             fps=FPS,
             width=width,
@@ -814,11 +1132,12 @@ def main() -> int:
     for old in frames_dir.glob("frame-*.png"):
         old.unlink()
 
-    total_frames = int(packet["totalDurationSeconds"] * FPS)
+    total_duration_seconds = parse_total_duration_seconds(packet, scenes)
+    total_frames = int(math.ceil(total_duration_seconds * FPS))
     for frame_index in range(total_frames):
         t = frame_index / FPS
-        scene = scene_for_time(t)
-        progress = local_progress(scene, t)
+        scene = scene_for_time(t, scenes)
+        progress = clip_progress(scene, t)
         if scene["id"] == "scene-0-opening":
             base = pick_frame(opening_frames, progress)
         else:
@@ -847,8 +1166,18 @@ def main() -> int:
         ]
     )
 
-    audio_mix = build_audio_mix(packet, build_dir, int(packet["totalDurationSeconds"]))
-    final_video = final_dir / f"{packet['episodeSlug']}.mp4"
+    audio_mix = build_audio_mix(
+        packet,
+        build_dir,
+        int(math.ceil(total_duration_seconds)),
+        job=job,
+        opening_video=opening_video,
+        scenes=scenes,
+        segments_override=prebuilt_segments,
+        opening_audio_override=opening_audio_path,
+    )
+    final_video_name = Path(job.get("postProduction", {}).get("outputFile") or f"./final/{packet['episodeSlug']}.mp4").name
+    final_video = final_dir / final_video_name
     run_ffmpeg(
         [
             "ffmpeg",
@@ -872,9 +1201,10 @@ def main() -> int:
         ]
     )
 
-    thumbnail_second = float(packet.get("postProduction", {}).get("thumbnailFromSceneSec", 13))
+    thumbnail_second = float(job.get("postProduction", {}).get("thumbnailFromSceneSec") or packet.get("postProduction", {}).get("thumbnailFromSceneSec", 13))
     thumbnail_index = min(total_frames - 1, max(0, int(thumbnail_second * FPS)))
-    thumbnail = final_dir / f"{packet['episodeSlug']}-thumb.png"
+    thumbnail_name = Path(job.get("postProduction", {}).get("thumbnailFile") or f"./final/{packet['episodeSlug']}-thumb.png").name
+    thumbnail = final_dir / thumbnail_name
     Image.open(frames_dir / f"frame-{thumbnail_index:04d}.png").save(thumbnail)
     publish_packet = build_publish_packet(packet, final_video, thumbnail)
     publish_path = build_dir / "publish-packet.json"
