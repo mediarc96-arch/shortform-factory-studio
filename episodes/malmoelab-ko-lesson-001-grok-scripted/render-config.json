@@ -1,0 +1,206 @@
+{
+  "outputSlug": "malmoelab-ko-lesson-001-grok-scripted",
+  "teacherImage": "/home/kindsr/projects/shortform-factory-studio/shared/backgrounds/images/korean/teacher.png",
+  "fps": 15,
+  "durationSeconds": 30,
+  "buttonCaption": "Learn more at malmoelab.com",
+  "ctaUrl": "https://malmoelab.com",
+  "motionPanel": {
+    "enabled": true,
+    "videoFile": "./renders/grok/malmoelab-ko-lesson-001-grok-scripted.mp4",
+    "loopMode": "pingpong",
+    "outputDir": "renders/motion-panel"
+  },
+  "narration": {
+    "enabled": true,
+    "segments": [
+      {
+        "start": 0.4,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-22%",
+        "pitch": "-1Hz",
+        "text": "저녁에는... 에서 쉽니다."
+      },
+      {
+        "start": 2.3,
+        "voice": "en-US-JennyNeural",
+        "rate": "-14%",
+        "pitch": "+0Hz",
+        "text": "I relax at... in the evening."
+      },
+      {
+        "start": 16.2,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-18%",
+        "pitch": "-1Hz",
+        "text": "따라해 보세요."
+      },
+      {
+        "start": 17.4,
+        "voice": "en-US-JennyNeural",
+        "rate": "-12%",
+        "pitch": "+0Hz",
+        "text": "Repeat after me."
+      },
+      {
+        "start": 18.5,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-18%",
+        "text": "집, Jip, House."
+      },
+      {
+        "start": 20.0,
+        "voice": "en-US-JennyNeural",
+        "rate": "-12%",
+        "text": "Jip. House."
+      },
+      {
+        "start": 21.3,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-18%",
+        "text": "집, Jip, House."
+      },
+      {
+        "start": 22.8,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-18%",
+        "text": "회사, Hoesa, Company."
+      },
+      {
+        "start": 24.3,
+        "voice": "en-US-JennyNeural",
+        "rate": "-12%",
+        "text": "Hoesa. Company."
+      },
+      {
+        "start": 25.6,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-18%",
+        "text": "회사, Hoesa, Company."
+      },
+      {
+        "start": 26.8,
+        "voice": "ko-KR-InJoonNeural",
+        "rate": "-18%",
+        "text": "화장실, Hwajangsil, Bathroom."
+      },
+      {
+        "start": 28.2,
+        "voice": "en-US-JennyNeural",
+        "rate": "-12%",
+        "text": "Hwajangsil. Bathroom."
+      }
+    ]
+  },
+  "lessonScript": {
+    "enabled": true,
+    "brandLabel": "MALMOELAB KOREAN LESSON",
+    "scenes": [
+      {
+        "kind": "prompt",
+        "start": 0,
+        "end": 6,
+        "eyebrow": "문장을 완성해 보세요",
+        "headline": "저녁에는 ___에서 쉽니다.",
+        "sublines": [
+          "I relax at __ in the Evening.",
+          "Jeonyeok E Neun __ Eseo Swip Ni Da."
+        ],
+        "optionsTitle": "하단 보기",
+        "options": [
+          "집 | Jip (House)",
+          "회사 | Hoesa (Company)",
+          "화장실 | Hwajangsil (Bathroom)"
+        ],
+        "footerTitle": "느리고 또박또박 들어 보세요",
+        "footerLines": [
+          "한국어 문장과 영어 문장을 차례로 들은 뒤 빈칸에 들어갈 단어를 생각해 보세요."
+        ]
+      },
+      {
+        "kind": "pause",
+        "start": 6,
+        "end": 11,
+        "eyebrow": "생각 시간",
+        "headline": "정답은 무엇일까요?",
+        "sublines": [
+          "또깍 또깍 또깍",
+          "Take a breath and choose the missing word."
+        ],
+        "callout": "선생님이 기다리고 있어요",
+        "footerTitle": "천천히 생각해 보세요",
+        "footerLines": [
+          "정답을 말하기 전에 보기 세 개를 다시 한 번 마음속으로 읽어 보세요."
+        ]
+      },
+      {
+        "kind": "reveal",
+        "start": 11,
+        "end": 16,
+        "eyebrow": "정답 공개",
+        "headline": "저녁에는 집에서 쉽니다.",
+        "sublines": [
+          "I relax at house in the Evening.",
+          "Jeonyeok E Neun Jip Eseo Swip Ni Da."
+        ],
+        "badge": "정답",
+        "answerWord": "집",
+        "footerTitle": "정답은 집",
+        "footerLines": [
+          "문장을 크게 보고 발음을 천천히 따라 읽을 준비를 하세요."
+        ]
+      },
+      {
+        "kind": "repeat",
+        "start": 16,
+        "end": 28,
+        "eyebrow": "따라해 보세요",
+        "headline": "Repeat after me.",
+        "sublines": [
+          "모든 단어를 두 번씩 천천히 따라 읽습니다."
+        ],
+        "repeatList": [
+          "집 | Jip (House)",
+          "집 | Jip (House)",
+          "회사 | Hoesa (Company)",
+          "회사 | Hoesa (Company)",
+          "화장실 | Hwajangsil (Bathroom)",
+          "화장실 | Hwajangsil (Bathroom)"
+        ],
+        "footerTitle": "천천히 두 번씩 반복",
+        "footerLines": [
+          "한국어 발음, 로마자, 영어 뜻을 보면서 차분하게 따라 읽어 보세요."
+        ]
+      },
+      {
+        "kind": "outro",
+        "start": 28,
+        "end": 30,
+        "eyebrow": "마무리",
+        "headline": "저녁에는 집에서 쉽니다.",
+        "sublines": [
+          "I relax at house in the Evening.",
+          "Jeonyeok E Neun Jip Eseo Swip Ni Da."
+        ],
+        "badge": "완료",
+        "footerTitle": "오늘의 문장",
+        "footerLines": [
+          "저녁에는 집에서 쉽니다.",
+          "Repeat after me and come back for the next lesson."
+        ]
+      }
+    ]
+  },
+  "theme": {
+    "accent": "#4A7BFF",
+    "accentWarm": "#FFC857",
+    "text": "#FFFDF8",
+    "mutedText": "#D8E2EC",
+    "boardText": "#FFFDF8",
+    "boardSubtext": "#DDE8DF",
+    "boardFill": "#1E5B3A",
+    "boardStroke": "#C6E5D2",
+    "cardFill": "#09111C",
+    "cardFillMuted": "#0F1725"
+  }
+}

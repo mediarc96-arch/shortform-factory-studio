@@ -1,0 +1,19 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this Korean classroom teacher character as a calm educational short. Keep the same white-and-blue hair, violet eyes, traditional Korean gat, and black gloves. Place the teacher in a classroom with a green chalkboard and soft natural lighting. Add subtle arm teaching gestures, gentle blinking, slight hair sway, and a slow camera drift. Keep the chalkboard clean with no text, no symbols, no captions, no logos, and no extra characters. Premium vertical 9:16 composition, clean classroom mood, natural motion only.",
+    "image": "/home/kindsr/projects/shortform-factory-studio/shared/backgrounds/images/korean/teacher.png",
+    "duration": 15,
+    "aspect_ratio": "9:16",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "./renders/grok/malmoelab-ko-lesson-001-grok-scripted.mp4",
+    "manifestFile": "./renders/grok/malmoelab-ko-lesson-001-grok-scripted.manifest.json",
+    "pollIntervalMs": 5000,
+    "maxWaitMs": 900000,
+    "commentBack": false
+  }
+}

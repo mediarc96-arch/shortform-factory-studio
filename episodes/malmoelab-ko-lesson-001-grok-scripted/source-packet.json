@@ -1,0 +1,37 @@
+{
+  "episodeSlug": "malmoelab-ko-lesson-001-grok-scripted",
+  "seriesSlug": "malmoelab-scripted-korean-lessons",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-16T00:00:00+00:00",
+  "source": {
+    "sourceType": "manual.script",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordText": "집",
+    "wordRomanization": "Jip",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "englishGloss": "House",
+    "exampleText": "저녁에는 집에서 쉽니다.",
+    "exampleTranslationText": "I relax at home in the evening."
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한국어 학습",
+    "titleCardSubtitle": "30-second speaking drill",
+    "questionCaption": "Complete the sentence and repeat the words.",
+    "engagementCaption": "Listen carefully and think first.",
+    "revealCaption": "Answer: 집",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "저녁에는 ___에서 쉽니다.",
+    "fullSentence": "저녁에는 집에서 쉽니다.",
+    "blankedSentenceRomanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
+    "fullSentenceRomanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+    "answerWord": "집",
+    "answerRomanization": "Jip",
+    "answerGloss": "House",
+    "answerTranslation": "I relax at house in the Evening."
+  }
+}
