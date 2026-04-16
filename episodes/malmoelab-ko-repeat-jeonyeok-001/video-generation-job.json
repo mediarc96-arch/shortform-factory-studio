@@ -1,0 +1,141 @@
+{
+  "provider": "grok",
+  "episodeSlug": "malmoelab-ko-repeat-jeonyeok-001",
+  "note": "씬별 개별 생성 후 편집툴에서 이어붙이기. 오프닝(씬0)은 1_Opening.mp4에서 트림.",
+
+  "scenes": [
+
+    {
+      "sceneId": "scene-0-opening",
+      "timeSec": "0~3",
+      "type": "trim_existing_clip",
+      "sourceFile": "D:\\Work\\2025_DevScent\\600_Marketing\\ShortformFactory\\1_Opening.mp4",
+      "trimStartSec": 0,
+      "trimEndSec": 3,
+      "overlay": {
+        "titleKo": "말모이랩 한글공부",
+        "titleEn": "Malmoelab Korean",
+        "position": "top-center"
+      }
+    },
+
+    {
+      "sceneId": "scene-1-question",
+      "timeSec": "3~6",
+      "type": "ai_video_generate",
+      "durationSec": 3,
+      "ratio": "720:1280",
+      "promptText": "Korean language learning classroom short-form video scene. A teacher character with white and blue gradient hair, purple eyes, wearing a Korean traditional gat hat and black gloves stands in front of a green chalkboard. The teacher smiles warmly and gestures gently with one arm pointing toward the chalkboard. The chalkboard shows a fill-in-the-blank sentence: '저녁에는 ___에서 쉽니다.' and below it 'I relax at ___ in the Evening.' and 'Jeonyeok E Neun __ Eseo Swip Ni Da.' Below the sentence are three answer choices displayed in a clean box: '① 집 Jip (House)  ② 회사 Hoesa (Company)  ③ 화장실 Hwajangsil (Bathroom)'. Vertical 9:16 format, bright classroom lighting, educational and friendly atmosphere. Do NOT add any extra text beyond what is described.",
+      "referenceCharacter": "1_Opening.mp4 — keep character design 100% identical",
+      "overlays": {
+        "mainSentenceKo": "저녁에는 ___에서 쉽니다.",
+        "mainSentenceEn": "I relax at ___ in the Evening.",
+        "mainSentenceRomanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
+        "choices": [
+          "① 집  Jip  (House)",
+          "② 회사  Hoesa  (Company)",
+          "③ 화장실  Hwajangsil  (Bathroom)"
+        ]
+      },
+      "audio": {
+        "narrationKo": "저녁에는… [1초 정지] …에서 쉽니다.",
+        "narrationEn": "I relax at… [1-second pause] …in the Evening."
+      }
+    },
+
+    {
+      "sceneId": "scene-2-thinking",
+      "timeSec": "6~11",
+      "type": "ai_video_generate",
+      "durationSec": 5,
+      "ratio": "720:1280",
+      "promptText": "Korean language learning classroom scene. Same teacher character (white-blue gradient hair, purple eyes, Korean traditional gat hat, black gloves) stands in front of a green chalkboard with the same fill-in-the-blank sentence visible. The teacher has an expectant, encouraging smile and sways slightly. A cute animated alarm clock appears in the bottom-right corner of the screen counting down. Warm classroom lighting, vertical 9:16 format.",
+      "referenceCharacter": "1_Opening.mp4 — keep character design 100% identical",
+      "audio": {
+        "sfx": "ticking clock sound × 3 (또깍 또깍 또깍)",
+        "narration": "none"
+      }
+    },
+
+    {
+      "sceneId": "scene-3-answer",
+      "timeSec": "11~16",
+      "type": "ai_video_generate",
+      "durationSec": 5,
+      "ratio": "720:1280",
+      "promptText": "Korean language learning classroom answer reveal scene. Same teacher character (white-blue gradient hair, purple eyes, Korean traditional gat hat, black gloves) holds a piece of chalk and slowly writes the Korean character '집' in the blank space on the green chalkboard. The full completed sentence '저녁에는 집에서 쉽니다.' is displayed prominently with the answer word '집' highlighted in purple bold text. Below it shows 'I relax at house in the Evening.' and 'Jeonyeok E Neun Jip Eseo Swip Ni Da.' Bright success moment feeling, vertical 9:16 format.",
+      "referenceCharacter": "1_Opening.mp4 — keep character design 100% identical",
+      "overlays": {
+        "mainSentenceKo": "저녁에는 집에서 쉽니다.",
+        "mainSentenceEn": "I relax at house in the Evening.",
+        "mainSentenceRomanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+        "answerHighlight": "집",
+        "answerHighlightColor": "#7C4DFF"
+      },
+      "audio": {
+        "sfx": "correct answer chime (또로롱~)",
+        "narration": "none"
+      }
+    },
+
+    {
+      "sceneId": "scene-4-repeat",
+      "timeSec": "16~28",
+      "type": "ai_video_generate",
+      "durationSec": 12,
+      "ratio": "720:1280",
+      "promptText": "Korean language learning repeat-after-me scene. Same teacher character (white-blue gradient hair, purple eyes, Korean traditional gat hat, black gloves) faces the camera directly, smiling warmly, waving one arm gently in a 'follow me' teaching gesture. The chalkboard behind shows the completed sentence. In the center of the screen, vocabulary words appear one by one in large text as the teacher recites them. Clean classroom background, vertical 9:16 format, encouraging and calm atmosphere.",
+      "referenceCharacter": "1_Opening.mp4 — keep character design 100% identical",
+      "overlaySequence": [
+        { "timeSec": 0.0, "textKo": "따라해 보세요.", "textEn": "Repeat after me." },
+        { "timeSec": 1.5, "textKo": "집", "textRomanization": "Jip", "textEn": "House" },
+        { "timeSec": 3.5, "textKo": "집", "textRomanization": "Jip", "textEn": "House", "repeatMark": "2" },
+        { "timeSec": 5.5, "textKo": "회사", "textRomanization": "Hoesa", "textEn": "Company" },
+        { "timeSec": 7.5, "textKo": "회사", "textRomanization": "Hoesa", "textEn": "Company", "repeatMark": "2" },
+        { "timeSec": 9.0, "textKo": "화장실", "textRomanization": "Hwajangsil", "textEn": "Bathroom" },
+        { "timeSec": 10.5, "textKo": "화장실", "textRomanization": "Hwajangsil", "textEn": "Bathroom", "repeatMark": "2" }
+      ],
+      "audio": {
+        "narrationKo": "따라해 보세요. / 집 / Jip / 집 / Jip / 회사 / Hoesa / 회사 / Hoesa / 화장실 / Hwajangsil / 화장실 / Hwajangsil",
+        "narrationEn": "Repeat after me. / Jip House / Jip House / Hoesa Company / Hoesa Company / Hwajangsil Bathroom / Hwajangsil Bathroom",
+        "note": "한국어 먼저, 영어 따라읽기. 각 단어 2회 반복."
+      }
+    },
+
+    {
+      "sceneId": "scene-5-outro",
+      "timeSec": "28~30",
+      "type": "ai_video_generate",
+      "durationSec": 2,
+      "ratio": "720:1280",
+      "promptText": "Korean language learning outro scene. Same teacher character (white-blue gradient hair, purple eyes, Korean traditional gat hat, black gloves) smiles brightly at the camera and waves goodbye with one hand. The green chalkboard behind shows the completed sentence '저녁에는 집에서 쉽니다.' prominently. A CTA banner at the bottom reads '말모이랩에서 더 배우기 — malmoelab.com'. Warm, positive ending energy, vertical 9:16 format.",
+      "referenceCharacter": "1_Opening.mp4 — keep character design 100% identical",
+      "overlays": {
+        "fullSentenceKo": "저녁에는 집에서 쉽니다.",
+        "fullSentenceEn": "I relax at house in the Evening.",
+        "fullSentenceRomanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+        "ctaText": "말모이랩에서 더 배우기",
+        "ctaUrl": "malmoelab.com"
+      },
+      "audio": {
+        "bgm": "fade-out",
+        "narration": "none"
+      }
+    }
+
+  ],
+
+  "postProduction": {
+    "editOrder": ["scene-0-opening", "scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat", "scene-5-outro"],
+    "totalTargetDurationSec": 30,
+    "outputFile": "./final/malmoelab-ko-repeat-jeonyeok-001.mp4",
+    "thumbnailFile": "./final/malmoelab-ko-repeat-jeonyeok-001-thumb.png",
+    "thumbnailFromSceneSec": 13,
+    "audioMix": {
+      "bgmTrack": "./audio/bgm-calm-classroom.mp3",
+      "bgmVolume": 0.15,
+      "narrationVolume": 1.0,
+      "sfxVolume": 0.8
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "episodeSlug": "malmoelab-ko-repeat-jeonyeok-001",
+  "seriesSlug": "malmoelab-hangul-repeat",
+  "formatType": "fill_blank_repeat",
+  "totalDurationSeconds": 30,
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "createdAt": "2026-04-16",
+
+  "opening": {
+    "sourceFile": "D:\\Work\\2025_DevScent\\600_Marketing\\ShortformFactory\\1_Opening.mp4",
+    "trimStartSec": 0,
+    "trimEndSec": 3,
+    "description": "선생님 등장 오프닝 클립 앞 3초 사용"
+  },
+
+  "character": {
+    "name": "선생님",
+    "hairColor": "white-blue gradient",
+    "eyeColor": "purple",
+    "outfit": ["Korean traditional gat (갓)", "black gloves"],
+    "motionStyle": "gentle arm-wave teaching gesture, calm and approachable",
+    "referenceSource": "1_Opening.mp4 character — keep 100% consistent"
+  },
+
+  "scene": {
+    "background": "classroom with green chalkboard",
+    "aspectRatio": "9:16",
+    "resolution": "720x1280",
+    "fps": 30
+  },
+
+  "lesson": {
+    "sentenceKo": "저녁에는 집에서 쉽니다.",
+    "sentenceEn": "I relax at house in the Evening.",
+    "sentenceRomanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+    "blankedSentenceKo": "저녁에는 ___에서 쉽니다.",
+    "blankedSentenceEn": "I relax at ___ in the Evening.",
+    "blankedSentenceRomanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
+    "answerWord": "집",
+    "answerRomanization": "Jip",
+    "answerGloss": "House"
+  },
+
+  "choices": [
+    {
+      "order": 1,
+      "korean": "집",
+      "romanization": "Jip",
+      "gloss": "House",
+      "isAnswer": true
+    },
+    {
+      "order": 2,
+      "korean": "회사",
+      "romanization": "Hoesa",
+      "gloss": "Company",
+      "isAnswer": false
+    },
+    {
+      "order": 3,
+      "korean": "화장실",
+      "romanization": "Hwajangsil",
+      "gloss": "Bathroom",
+      "isAnswer": false
+    }
+  ],
+
+  "narration": {
+    "tracks": {
+      "ko": {
+        "voice": "Korean male, calm, very slow and articulate (또박또박)",
+        "speed": "0.75x (much slower than normal)"
+      },
+      "en": {
+        "voice": "English-speaking female, soft and clear",
+        "speed": "0.85x"
+      }
+    },
+    "lines": [
+      {
+        "scene": 1,
+        "timeSec": "3~6",
+        "ko": "저녁에는… (1초 정지) …에서 쉽니다.",
+        "en": "I relax at… (1-second pause) …in the Evening."
+      },
+      {
+        "scene": 4,
+        "timeSec": "16~17",
+        "ko": "따라해 보세요.",
+        "en": "Repeat after me."
+      },
+      {
+        "scene": 4,
+        "timeSec": "17~28",
+        "repeatWords": [
+          { "ko": "집",     "romanization": "Jip",        "en": "House",    "repeatCount": 2 },
+          { "ko": "회사",   "romanization": "Hoesa",      "en": "Company",  "repeatCount": 2 },
+          { "ko": "화장실", "romanization": "Hwajangsil", "en": "Bathroom", "repeatCount": 2 }
+        ],
+        "note": "각 단어: 한국 남성 한국어 → 한국 남성 로마자 → 영어 여성 로마자+영어. 이 순서로 2회 반복."
+      }
+    ]
+  },
+
+  "sfx": {
+    "ticking": { "cue": "씬2 시작 (6초)", "sound": "또깍 또깍 또깍 (3회)", "durationSec": 3 },
+    "correct":  { "cue": "씬3 시작 (11초)", "sound": "또로롱~ 성공음" }
+  },
+
+  "theme": {
+    "accent": "#7C4DFF",
+    "accentWarm": "#FFBE5C",
+    "text": "#F7F3EC",
+    "boardText": "#F5F0E8",
+    "boardSubtext": "#D9D0BF"
+  },
+
+  "cta": {
+    "caption": "말모이랩에서 더 배우기",
+    "url": "https://malmoelab.com"
+  }
+}
