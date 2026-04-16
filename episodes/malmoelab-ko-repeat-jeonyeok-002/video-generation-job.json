@@ -1,0 +1,212 @@
+{
+  "provider": "xai_grok",
+  "episodeSlug": "malmoelab-ko-repeat-jeonyeok-002",
+  "formatChange": "9:16 세로 → 16:9 가로로 변경. 이유: 세로에서는 캐릭터가 프레임을 채우고 칠판 영역이 확보 불가.",
+  "referenceImageFile": "./renders/frames/opening-ref.png",
+  "characterReferenceFile": "docs/example/mBp3B.jpg",
+
+  "_compositionGuide": {
+    "layout": "teacher RIGHT 30%, chalkboard LEFT 70% — mBp3B.jpg 구도 참고",
+    "cameraDistance": "medium shot, teacher visible from waist-up",
+    "textOverlayZone": "chalkboard area (left 65% of frame) — Grok은 텍스트 생성 금지, 후편집에서 합성",
+    "style": "3D anime render, consistent with 1_Opening.mp4"
+  },
+
+  "scenes": [
+
+    {
+      "sceneId": "scene-0-opening",
+      "timeSec": [0, 3],
+      "type": "trim_existing_clip",
+      "sourceFile": "D:\\Work\\2025_DevScent\\600_Marketing\\ShortformFactory\\1_Opening.mp4",
+      "trimStartSec": 0,
+      "trimEndSec": 3,
+      "extractReferenceFrame": {
+        "enabled": true,
+        "frameTimeSec": 2.5,
+        "outputFile": "./renders/frames/opening-ref.png"
+      },
+      "note": "오프닝 영상에서 레퍼런스 프레임 추출. 이 프레임을 씬 1~5 Grok 생성 시 image 파라미터로 전달."
+    },
+
+    {
+      "sceneId": "scene-1-question",
+      "timeSec": [3, 6],
+      "type": "image_to_video",
+      "durationSec": 3,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "image": "./renders/frames/opening-ref.png",
+      "outputFile": "./renders/grok/scene-1-question.mp4",
+
+      "prompt": "Animate this character in a Korean classroom scene. 3D anime-style render. COMPOSITION: The teacher character stands on the RIGHT SIDE of the frame, taking up roughly 30-35% of the horizontal width. She is visible from the waist up. A large green chalkboard fills the LEFT 65-70% of the frame behind her, with a clean empty writing surface. The camera is at a medium distance, eye-level, like a student sitting at a desk looking at the teacher. MOTION: The teacher smiles warmly, makes a gentle introducing gesture with her right hand pointing toward the chalkboard, and sways very slightly. Natural breathing motion, subtle blinking. Keep the chalkboard surface clean and empty — no text, no writing, no marks. Warm classroom lighting from above. Horizontal 16:9 widescreen format. Do NOT add any text, letters, numbers, subtitles, logos, or watermarks anywhere in the image.",
+
+      "postOverlays": {
+        "zone": "chalkboard area (left 65% of frame)",
+        "content": {
+          "line1_ko": "저녁에는 ___에서 쉽니다.",
+          "line2_en": "I relax at ___ in the Evening.",
+          "line3_romanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
+          "choices": [
+            "① 집  Jip  (House)",
+            "② 회사  Hoesa  (Company)",
+            "③ 화장실  Hwajangsil  (Bathroom)"
+          ]
+        }
+      }
+    },
+
+    {
+      "sceneId": "scene-2-thinking",
+      "timeSec": [6, 11],
+      "type": "image_to_video",
+      "durationSec": 5,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "image": "./renders/frames/opening-ref.png",
+      "outputFile": "./renders/grok/scene-2-thinking.mp4",
+
+      "prompt": "Animate this character in a Korean classroom waiting scene. 3D anime-style render. COMPOSITION: Same as before — teacher on the RIGHT SIDE (30-35% width), large green chalkboard on the LEFT (65-70% width). Medium shot, waist-up view. MOTION: The teacher has an expectant, encouraging smile. She tilts her head slightly and sways gently, as if patiently waiting for a student's answer. Her eyes occasionally glance toward the chalkboard then back to the camera. Very calm, minimal motion. The chalkboard remains clean and empty — no text at all. Warm classroom lighting, educational atmosphere. Horizontal 16:9. Do NOT add any text, letters, countdown numbers, clocks, timer graphics, subtitles, logos, or watermarks.",
+
+      "postOverlays": {
+        "keepPreviousContent": true,
+        "addClockAnimation": {
+          "position": "bottom-right of chalkboard area",
+          "style": "cute animated alarm clock",
+          "countdownSec": 3
+        }
+      },
+
+      "audio": {
+        "sfx": "shared/sfx/ticking.mp3",
+        "sfxLabel": "또깍 또깍 또깍"
+      }
+    },
+
+    {
+      "sceneId": "scene-3-answer",
+      "timeSec": [11, 16],
+      "type": "image_to_video",
+      "durationSec": 5,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "image": "./renders/frames/opening-ref.png",
+      "outputFile": "./renders/grok/scene-3-answer.mp4",
+
+      "prompt": "Animate this character in a Korean classroom answer-reveal scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher picks up a piece of white chalk with her right hand and reaches toward the chalkboard, making a slow deliberate writing motion in the air near the chalkboard surface. After the writing gesture, she steps back slightly and gestures toward the chalkboard with a satisfied, proud expression and a small nod. Her posture shifts from focused (while writing) to open and proud (after reveal). The chalkboard itself remains clean — the actual text will be composited later. Warm classroom lighting with a subtle brightness increase to signal a success moment. Horizontal 16:9. Do NOT add any text, letters, Korean characters, chalk marks, subtitles, logos, or watermarks.",
+
+      "postOverlays": {
+        "zone": "chalkboard area",
+        "content": {
+          "line1_ko": "저녁에는 집에서 쉽니다.",
+          "line2_en": "I relax at house in the Evening.",
+          "line3_romanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+          "answerHighlight": {
+            "word": "집",
+            "color": "#7C4DFF",
+            "animation": "chalk-write-in then pop-glow"
+          }
+        }
+      },
+
+      "audio": {
+        "sfx": "shared/sfx/correct.mp3",
+        "sfxLabel": "또로롱~"
+      }
+    },
+
+    {
+      "sceneId": "scene-4-repeat",
+      "timeSec": [16, 28],
+      "type": "image_to_video",
+      "durationSec": 12,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "image": "./renders/frames/opening-ref.png",
+      "outputFile": "./renders/grok/scene-4-repeat.mp4",
+
+      "prompt": "Animate this character in a Korean classroom repeat-after-me teaching scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher faces the camera directly with a warm, encouraging smile. She makes a slow rhythmic teaching gesture — gently moving her right hand in a 'follow along' beat pattern, as if conducting a pronunciation drill. Her mouth opens and closes naturally as if speaking each word slowly and clearly. Between words she pauses and nods encouragingly. Her expression is patient and supportive throughout. Occasional gentle head tilts. The chalkboard behind remains clean. Calm classroom energy, soft lighting. Horizontal 16:9. Do NOT add any text, letters, subtitles, word cards, logos, or watermarks.",
+
+      "postOverlays": {
+        "zone": "chalkboard center area",
+        "sequence": [
+          { "offsetSec": 0.0, "textKo": "따라해 보세요", "textEn": "Repeat after me", "style": "instruction" },
+          { "offsetSec": 1.5, "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "1/2" },
+          { "offsetSec": 3.5, "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "2/2" },
+          { "offsetSec": 5.5, "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "1/2" },
+          { "offsetSec": 7.5, "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "2/2" },
+          { "offsetSec": 9.0, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "1/2" },
+          { "offsetSec": 10.5, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "2/2" }
+        ]
+      },
+
+      "audio": {
+        "narrationKo": "./audio/narration-ko.mp3",
+        "narrationEn": "./audio/narration-en.mp3"
+      }
+    },
+
+    {
+      "sceneId": "scene-5-outro",
+      "timeSec": [28, 30],
+      "type": "image_to_video",
+      "durationSec": 2,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "image": "./renders/frames/opening-ref.png",
+      "outputFile": "./renders/grok/scene-5-outro.mp4",
+
+      "prompt": "Animate this character in a Korean classroom farewell scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher smiles brightly and warmly waves goodbye with her right hand — a gentle, friendly wave toward the camera. She gives a small bow of the head as a polite Korean farewell. Her expression is cheerful and encouraging, as if saying 'see you next time.' The chalkboard behind remains clean. Positive warm ending energy, classroom lighting fading slightly to signal the end. Horizontal 16:9. Do NOT add any text, letters, subtitles, logos, CTA banners, or watermarks.",
+
+      "postOverlays": {
+        "zone": "chalkboard area",
+        "content": {
+          "line1_ko": "저녁에는 집에서 쉽니다.",
+          "line2_en": "I relax at house in the Evening.",
+          "line3_romanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da."
+        },
+        "ctaBanner": {
+          "text": "말모이랩에서 더 배우기 — malmoelab.com",
+          "position": "bottom-center",
+          "bgColor": "#7C4DFF",
+          "textColor": "#F7F3EC"
+        }
+      },
+
+      "audio": {
+        "bgmFadeOut": true
+      }
+    }
+
+  ],
+
+  "postProduction": {
+    "editOrder": ["scene-0-opening", "scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat", "scene-5-outro"],
+    "totalTargetDurationSec": 30,
+    "outputFile": "./final/malmoelab-ko-repeat-jeonyeok-002.mp4",
+    "thumbnailFile": "./final/malmoelab-ko-repeat-jeonyeok-002-thumb.png",
+    "thumbnailFromSceneSec": 13,
+    "textCompositing": {
+      "note": "Grok은 깨끗한 칠판 영상만 생성. 모든 텍스트(한국어/영어/로마자/보기)는 후편집에서 합성.",
+      "chalkboardZone": {
+        "x": "0%",
+        "y": "5%",
+        "width": "63%",
+        "height": "90%"
+      },
+      "fontStyle": {
+        "korean": { "color": "#F5F0E8", "sizePx": 48, "texture": "chalk" },
+        "english": { "color": "#D9D0BF", "sizePx": 36 },
+        "romanization": { "color": "#FFBE5C", "sizePx": 28, "italic": true },
+        "blank": { "color": "#7C4DFF", "sizePx": 48, "underline": true },
+        "answerReveal": { "color": "#7C4DFF", "sizePx": 56, "bold": true }
+      }
+    },
+    "audioMix": {
+      "bgmFile": "shared/music/bgm-calm-classroom.mp3",
+      "bgmVolume": 0.15,
+      "narrationVolume": 1.0,
+      "sfxVolume": 0.8
+    }
+  }
+}
