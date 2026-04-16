@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this character in a Korean classroom farewell scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher smiles brightly and warmly waves goodbye with her right hand — a gentle, friendly wave toward the camera. She gives a small bow of the head as a polite Korean farewell. Her expression is cheerful and encouraging, as if saying see you next time. The chalkboard behind remains clean. Positive warm ending energy, classroom lighting fading slightly to signal the end. Horizontal 16:9. Do NOT add any text, letters, subtitles, logos, CTA banners, or watermarks.",
+    "duration": 2,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "image": "../reference/opening-ref.png"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-5-outro.mp4",
+    "manifestFile": "../renders/grok/scene-5-outro.manifest.json"
+  }
+}

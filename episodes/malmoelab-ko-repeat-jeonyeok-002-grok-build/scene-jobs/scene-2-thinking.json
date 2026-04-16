@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this character in a Korean classroom waiting scene. 3D anime-style render. COMPOSITION: Same as before — teacher on the RIGHT SIDE (30-35% width), large green chalkboard on the LEFT (65-70% width). Medium shot, waist-up view. MOTION: The teacher has an expectant, encouraging smile. She tilts her head slightly and sways gently, as if patiently waiting for a student's answer. Her eyes occasionally glance toward the chalkboard then back to the camera. Very calm, minimal motion. The chalkboard remains clean and empty — no text at all. Warm classroom lighting, educational atmosphere. Horizontal 16:9. Do NOT add any text, letters, countdown numbers, clocks, timer graphics, subtitles, logos, or watermarks.",
+    "duration": 5,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "image": "../reference/opening-ref.png"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-2-thinking.mp4",
+    "manifestFile": "../renders/grok/scene-2-thinking.manifest.json"
+  }
+}

@@ -6,6 +6,7 @@ import asyncio
 import json
 import math
 import os
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -13,8 +14,8 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 
-WIDTH = 1080
-HEIGHT = 1920
+DEFAULT_WIDTH = 1080
+DEFAULT_HEIGHT = 1920
 FPS = 30
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -93,6 +94,37 @@ def rgb(value: str) -> tuple[int, int, int]:
     return tuple(int(value[index : index + 2], 16) for index in (0, 2, 4))
 
 
+def parse_resolution(packet: dict) -> tuple[int, int]:
+    scene = packet.get("scene", {})
+    resolution = str(scene.get("resolution") or "").strip()
+    match = re.match(r"^(\d+)\s*x\s*(\d+)$", resolution, flags=re.IGNORECASE)
+    if match:
+        return int(match.group(1)), int(match.group(2))
+    aspect = str(scene.get("aspectRatio") or "9:16")
+    if aspect == "16:9":
+        return 1920, 1080
+    return DEFAULT_WIDTH, DEFAULT_HEIGHT
+
+
+def render_mode(width: int, height: int) -> str:
+    return "wide" if width > height else "vertical"
+
+
+def scale_size(value: int, *, width: int, height: int, base_width: int, base_height: int, floor: int = 12) -> int:
+    scale = min(width / base_width, height / base_height)
+    return max(floor, int(round(value * scale)))
+
+
+def scale_rect(rect: tuple[int, int, int, int], *, width: int, height: int, base_width: int, base_height: int) -> tuple[int, int, int, int]:
+    left, top, right, bottom = rect
+    return (
+        int(round(left * width / base_width)),
+        int(round(top * height / base_height)),
+        int(round(right * width / base_width)),
+        int(round(bottom * height / base_height)),
+    )
+
+
 def wrap_text(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont, max_width: int) -> list[str]:
     if not str(text or "").strip():
         return []
@@ -123,17 +155,34 @@ def wrap_text(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont
     return lines
 
 
-def fit_text(draw: ImageDraw.ImageDraw, text: str, max_width: int, *, max_size: int, min_size: int) -> tuple[ImageFont.FreeTypeFont, list[str]]:
+def fit_text(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    max_width: int,
+    *,
+    max_size: int,
+    min_size: int,
+    bold: bool = True,
+) -> tuple[ImageFont.FreeTypeFont, list[str]]:
     for size in range(max_size, min_size - 1, -2):
-        font = load_font(size, bold=True)
+        font = load_font(size, bold=bold)
         lines = wrap_text(draw, text, font, max_width)
         if len(lines) <= 3:
             return font, lines
-    font = load_font(min_size, bold=True)
+    font = load_font(min_size, bold=bold)
     return font, wrap_text(draw, text, font, max_width)
 
 
-def extract_clip_frames(video_path: Path, output_dir: Path, *, fps: int, start: float | None = None, duration: float | None = None) -> list[Path]:
+def extract_clip_frames(
+    video_path: Path,
+    output_dir: Path,
+    *,
+    fps: int,
+    width: int,
+    height: int,
+    start: float | None = None,
+    duration: float | None = None,
+) -> list[Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     for old in output_dir.glob("frame-*.png"):
         old.unlink()
@@ -146,7 +195,7 @@ def extract_clip_frames(video_path: Path, output_dir: Path, *, fps: int, start: 
     cmd.extend(
         [
             "-vf",
-            f"fps={fps},scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,crop={WIDTH}:{HEIGHT}",
+            f"fps={fps},scale={width}:{height}:force_original_aspect_ratio=increase,crop={width}:{height}",
             "-start_number",
             "0",
             str(output_dir / "frame-%04d.png"),
@@ -178,161 +227,349 @@ def local_progress(scene: dict, t: float) -> float:
     return max(0.0, min((t - scene["start"]) / duration, 0.999999))
 
 
-def draw_shadowed_card(base: Image.Image, rect: tuple[int, int, int, int], *, radius: int, alpha: int = 132, blur: int = 24):
-    left, top, right, bottom = rect
-    width = right - left
-    height = bottom - top
-    shadow = Image.new("RGBA", (width + 44, height + 44), (0, 0, 0, 0))
-    ImageDraw.Draw(shadow, "RGBA").rounded_rectangle((22, 22, shadow.width - 22, shadow.height - 22), radius=radius, fill=(0, 0, 0, alpha))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(radius=blur))
-    base.alpha_composite(shadow, (left - 22, top - 10))
-
-
 def draw_card(draw: ImageDraw.ImageDraw, rect: tuple[int, int, int, int], fill: tuple[int, int, int, int], radius: int):
     draw.rounded_rectangle(rect, radius=radius, fill=fill)
 
 
-def draw_title(draw: ImageDraw.ImageDraw, packet: dict):
-    header_rect = (44, 56, WIDTH - 44, 236)
-    draw_card(draw, header_rect, fill=(7, 16, 28, 208), radius=40)
-    chip_font = load_font(28, bold=True)
-    title_font, title_lines = fit_text(draw, "Malmoelab Korean repeat practice", WIDTH - 170, max_size=58, min_size=40)
-    draw.text((76, 100), "MALMOELAB HANGUL REPEAT", font=chip_font, fill=(255, 197, 96, 255), anchor="la")
-    y = 144
-    for line in title_lines:
-        draw.text((76, y), line, font=title_font, fill=(255, 252, 245, 255), anchor="la")
-        y += title_font.size + 6
-
-
-def draw_alarm_clock(draw: ImageDraw.ImageDraw, center: tuple[int, int], progress: float):
+def draw_alarm_clock(draw: ImageDraw.ImageDraw, center: tuple[int, int], progress: float, *, scale: float = 1.0):
     cx, cy = center
     pulse = 1.0 + math.sin(progress * math.pi * 6.0) * 0.08
-    body_r = int(76 * pulse)
-    bell_r = int(22 * pulse)
-    draw.ellipse((cx - body_r, cy - body_r, cx + body_r, cy + body_r), fill=(255, 244, 209, 224), outline=(255, 199, 98, 255), width=8)
-    draw.ellipse((cx - body_r + 18, cy - body_r + 18, cx + body_r - 18, cy + body_r - 18), fill=(249, 252, 255, 232))
-    draw.ellipse((cx - body_r - 18, cy - body_r - 12, cx - body_r + 26, cy - body_r + 28), fill=(255, 204, 95, 236))
-    draw.ellipse((cx + body_r - 26, cy - body_r - 12, cx + body_r + 18, cy - body_r + 28), fill=(255, 204, 95, 236))
-    draw.line((cx, cy, cx, cy - 38), fill=(52, 77, 115, 255), width=9)
-    draw.line((cx, cy, cx + 36, cy + 16), fill=(52, 77, 115, 255), width=9)
-    draw.ellipse((cx - 8, cy - 8, cx + 8, cy + 8), fill=(52, 77, 115, 255))
+    body_r = int(76 * scale * pulse)
+    bell_r = int(22 * scale * pulse)
+    stroke = max(3, int(8 * scale))
+    draw.ellipse((cx - body_r, cy - body_r, cx + body_r, cy + body_r), fill=(255, 244, 209, 224), outline=(255, 199, 98, 255), width=stroke)
+    inner = max(10, int(18 * scale))
+    draw.ellipse((cx - body_r + inner, cy - body_r + inner, cx + body_r - inner, cy + body_r - inner), fill=(249, 252, 255, 232))
+    bell_offset = max(16, int(18 * scale))
+    draw.ellipse((cx - body_r - bell_offset, cy - body_r - bell_offset // 2, cx - body_r + bell_r * 2, cy - body_r + bell_r * 2), fill=(255, 204, 95, 236))
+    draw.ellipse((cx + body_r - bell_r * 2, cy - body_r - bell_offset // 2, cx + body_r + bell_offset, cy - body_r + bell_r * 2), fill=(255, 204, 95, 236))
+    hand_stroke = max(4, int(9 * scale))
+    draw.line((cx, cy, cx, cy - int(38 * scale)), fill=(52, 77, 115, 255), width=hand_stroke)
+    draw.line((cx, cy, cx + int(36 * scale), cy + int(16 * scale)), fill=(52, 77, 115, 255), width=hand_stroke)
+    dot = max(5, int(8 * scale))
+    draw.ellipse((cx - dot, cy - dot, cx + dot, cy + dot), fill=(52, 77, 115, 255))
 
 
-def draw_board_scene(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, t: float):
+def draw_title(draw: ImageDraw.ImageDraw, packet: dict, *, width: int, height: int, mode: str):
+    if mode == "wide":
+        base_width, base_height = 1920, 1080
+        header_rect = scale_rect((46, 34, 1210, 154), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw_card(draw, header_rect, fill=(7, 16, 28, 190), radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height))
+        chip_font = load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+        title_font, title_lines = fit_text(
+            draw,
+            "Malmoelab Korean repeat practice",
+            header_rect[2] - header_rect[0] - scale_size(120, width=width, height=height, base_width=base_width, base_height=base_height),
+            max_size=scale_size(42, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
+        left = header_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, header_rect[1] + scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height)), "MALMOELAB KOREAN REPEAT", font=chip_font, fill=(255, 197, 96, 255), anchor="la")
+        y = header_rect[1] + scale_size(58, width=width, height=height, base_width=base_width, base_height=base_height)
+        for line in title_lines:
+            draw.text((left, y), line, font=title_font, fill=(255, 252, 245, 255), anchor="la")
+            y += title_font.size + scale_size(4, width=width, height=height, base_width=base_width, base_height=base_height, floor=2)
+        return
+
+    base_width, base_height = 1080, 1920
+    header_rect = scale_rect((44, 56, 1036, 236), width=width, height=height, base_width=base_width, base_height=base_height)
+    draw_card(draw, header_rect, fill=(7, 16, 28, 208), radius=scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height))
+    chip_font = load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+    title_font, title_lines = fit_text(
+        draw,
+        "Malmoelab Korean repeat practice",
+        header_rect[2] - header_rect[0] - scale_size(170, width=width, height=height, base_width=base_width, base_height=base_height),
+        max_size=scale_size(58, width=width, height=height, base_width=base_width, base_height=base_height),
+        min_size=scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height),
+    )
+    draw.text(
+        (header_rect[0] + scale_size(32, width=width, height=height, base_width=base_width, base_height=base_height), header_rect[1] + scale_size(44, width=width, height=height, base_width=base_width, base_height=base_height)),
+        "MALMOELAB HANGUL REPEAT",
+        font=chip_font,
+        fill=(255, 197, 96, 255),
+        anchor="la",
+    )
+    y = header_rect[1] + scale_size(88, width=width, height=height, base_width=base_width, base_height=base_height)
+    for line in title_lines:
+        draw.text((header_rect[0] + scale_size(32, width=width, height=height, base_width=base_width, base_height=base_height), y), line, font=title_font, fill=(255, 252, 245, 255), anchor="la")
+        y += title_font.size + scale_size(6, width=width, height=height, base_width=base_width, base_height=base_height, floor=2)
+
+
+def draw_board_scene_vertical(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, t: float, *, width: int, height: int):
+    base_width, base_height = 1080, 1920
     theme = packet["theme"]
     accent = rgb(theme["accent"])
     accent_warm = rgb(theme["accentWarm"])
     board_text = rgb(theme["boardText"])
-    board_subtext = rgb(theme["boardSubtext"])
 
-    board_rect = (76, 272, WIDTH - 76, 1494)
-    footer_rect = (76, 1546, WIDTH - 76, 1826)
-    draw_card(draw, board_rect, fill=(31, 88, 58, 164), radius=36)
-    draw.rounded_rectangle(board_rect, radius=36, outline=(230, 240, 232, 120), width=3)
-    draw_card(draw, footer_rect, fill=(10, 18, 30, 214), radius=36)
+    board_rect = scale_rect((76, 272, 1004, 1494), width=width, height=height, base_width=base_width, base_height=base_height)
+    footer_rect = scale_rect((76, 1546, 1004, 1826), width=width, height=height, base_width=base_width, base_height=base_height)
+    draw_card(draw, board_rect, fill=(31, 88, 58, 164), radius=scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height))
+    draw.rounded_rectangle(board_rect, radius=scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height), outline=(230, 240, 232, 120), width=max(2, scale_size(3, width=width, height=height, base_width=base_width, base_height=base_height, floor=2)))
+    draw_card(draw, footer_rect, fill=(10, 18, 30, 214), radius=scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height))
 
-    left = board_rect[0] + 34
-    top = board_rect[1] + 28
-    max_width = board_rect[2] - board_rect[0] - 68
+    left = board_rect[0] + scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)
+    top = board_rect[1] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)
+    max_width = board_rect[2] - board_rect[0] - scale_size(68, width=width, height=height, base_width=base_width, base_height=base_height)
     scene_id = scene["id"]
     lesson = packet["lesson"]
     choices = packet["choices"]
 
     if scene_id == "scene-0-opening":
-        title_font = load_font(76, bold=True)
-        sub_font = load_font(38)
-        draw.text((WIDTH // 2, 1012), "말모이랩 한글공부", font=title_font, fill=(*board_text, 255), anchor="mm")
-        draw.text((WIDTH // 2, 1096), "Malmoelab Korean", font=sub_font, fill=(255, 223, 178, 242), anchor="mm")
-        draw.text((WIDTH // 2, 1700), "30-second fill-blank and repeat lesson", font=load_font(32), fill=(235, 239, 242, 220), anchor="mm")
+        title_font = load_font(scale_size(76, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+        sub_font = load_font(scale_size(38, width=width, height=height, base_width=base_width, base_height=base_height))
+        draw.text((width // 2, scale_size(1012, width=width, height=height, base_width=base_width, base_height=base_height)), "말모이랩 한글공부", font=title_font, fill=(*board_text, 255), anchor="mm")
+        draw.text((width // 2, scale_size(1096, width=width, height=height, base_width=base_width, base_height=base_height)), "Malmoelab Korean", font=sub_font, fill=(255, 223, 178, 242), anchor="mm")
+        draw.text((width // 2, scale_size(1700, width=width, height=height, base_width=base_width, base_height=base_height)), "30-second fill-blank and repeat lesson", font=load_font(scale_size(32, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(235, 239, 242, 220), anchor="mm")
         return
 
     if scene_id in {"scene-1-question", "scene-2-thinking"}:
         eyebrow = "문장을 완성해 보세요" if scene_id == "scene-1-question" else "생각할 시간"
-        draw.text((left, top), eyebrow, font=load_font(28, bold=True), fill=(*accent_warm, 250), anchor="la")
-        y = top + 54
-        ko_font, ko_lines = fit_text(draw, lesson["blankedSentenceKo"], max_width, max_size=64, min_size=48)
+        draw.text((left, top), eyebrow, font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        y = top + scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_font, ko_lines = fit_text(
+            draw,
+            lesson["blankedSentenceKo"],
+            max_width,
+            max_size=scale_size(64, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(48, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
         for line in ko_lines:
             draw.text((left, y), line, font=ko_font, fill=(*board_text, 255), anchor="la")
-            y += ko_font.size + 10
-        draw.text((left, y + 6), lesson["blankedSentenceEn"], font=load_font(34), fill=(233, 236, 236, 240), anchor="la")
-        y += 58
-        draw.text((left, y + 4), lesson["blankedSentenceRomanization"], font=load_font(30), fill=(*accent_warm, 250), anchor="la")
-        y += 90
-        box_rect = (left, y, board_rect[2] - 30, y + 262)
-        draw_card(draw, box_rect, fill=(8, 18, 30, 174), radius=28)
-        draw.text((left + 22, y + 18), "보기", font=load_font(28, bold=True), fill=(255, 221, 164, 245), anchor="la")
-        line_y = y + 72
+            y += ko_font.size + scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height, floor=4)
+        draw.text((left, y + scale_size(6, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["blankedSentenceEn"], font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(233, 236, 236, 240), anchor="la")
+        y += scale_size(58, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, y + scale_size(4, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["blankedSentenceRomanization"], font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(*accent_warm, 250), anchor="la")
+        y += scale_size(90, width=width, height=height, base_width=base_width, base_height=base_height)
+        box_rect = (left, y, board_rect[2] - scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), y + scale_size(262, width=width, height=height, base_width=base_width, base_height=base_height))
+        draw_card(draw, box_rect, fill=(8, 18, 30, 174), radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height))
+        draw.text((left + scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height), y + scale_size(18, width=width, height=height, base_width=base_width, base_height=base_height)), "보기", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 221, 164, 245), anchor="la")
+        line_y = y + scale_size(72, width=width, height=height, base_width=base_width, base_height=base_height)
         for item in choices:
             text = f"{item['order']}. {item['korean']}   {item['romanization']} ({item['gloss']})"
-            draw.text((left + 24, line_y), text, font=load_font(34, bold=True), fill=(*board_text, 252), anchor="la")
-            line_y += 58
+            draw.text((left + scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), line_y), text, font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*board_text, 252), anchor="la")
+            line_y += scale_size(58, width=width, height=height, base_width=base_width, base_height=base_height)
         if scene_id == "scene-2-thinking":
             progress = local_progress(scene, t)
-            draw_alarm_clock(draw, (board_rect[2] - 128, board_rect[3] - 144), progress)
-            draw.text((left, board_rect[3] - 80), "또깍 또깍 또깍", font=load_font(34, bold=True), fill=(255, 235, 194, 252), anchor="la")
-        draw.text((footer_rect[0] + 28, footer_rect[1] + 36), "천천히 듣고 정답을 생각해 보세요", font=load_font(40, bold=True), fill=(255, 252, 246, 255), anchor="la")
-        draw.text((footer_rect[0] + 28, footer_rect[1] + 106), "Listen first, then choose the right word.", font=load_font(30), fill=(219, 228, 232, 232), anchor="la")
+            draw_alarm_clock(draw, (board_rect[2] - scale_size(128, width=width, height=height, base_width=base_width, base_height=base_height), board_rect[3] - scale_size(144, width=width, height=height, base_width=base_width, base_height=base_height)), progress)
+            draw.text((left, board_rect[3] - scale_size(80, width=width, height=height, base_width=base_width, base_height=base_height)), "또깍 또깍 또깍", font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 235, 194, 252), anchor="la")
+        draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height)), "천천히 듣고 정답을 생각해 보세요", font=load_font(scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
+        draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(106, width=width, height=height, base_width=base_width, base_height=base_height)), "Listen first, then choose the right word.", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
         return
 
     if scene_id == "scene-3-answer":
-        draw.text((left, top), "정답 공개", font=load_font(28, bold=True), fill=(*accent_warm, 250), anchor="la")
-        y = top + 54
-        ko_font, ko_lines = fit_text(draw, lesson["sentenceKo"], max_width, max_size=64, min_size=48)
+        draw.text((left, top), "정답 공개", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        y = top + scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_font, ko_lines = fit_text(
+            draw,
+            lesson["sentenceKo"],
+            max_width,
+            max_size=scale_size(64, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(48, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
         for line in ko_lines:
             draw.text((left, y), line, font=ko_font, fill=(*board_text, 255), anchor="la")
-            y += ko_font.size + 10
-        draw.text((left, y + 10), lesson["sentenceEn"], font=load_font(34), fill=(233, 236, 236, 240), anchor="la")
-        y += 60
-        draw.text((left, y + 6), lesson["sentenceRomanization"], font=load_font(30), fill=(*accent_warm, 250), anchor="la")
-        draw.rounded_rectangle((board_rect[2] - 170, top + 10, board_rect[2] - 22, top + 78), radius=28, fill=(*accent, 226))
-        draw.text((board_rect[2] - 96, top + 44), "정답", font=load_font(34, bold=True), fill=(255, 255, 255, 255), anchor="mm")
-        draw.text((WIDTH // 2, 1006), lesson["answerWord"], font=load_font(112, bold=True), fill=(*accent_warm, 255), anchor="mm")
-        draw.rounded_rectangle((WIDTH // 2 - 82, 1068, WIDTH // 2 + 82, 1082), radius=7, fill=(*accent_warm, 240))
-        draw.text((footer_rect[0] + 28, footer_rect[1] + 36), f"정답은 {lesson['answerWord']}", font=load_font(40, bold=True), fill=(255, 252, 246, 255), anchor="la")
-        draw.text((footer_rect[0] + 28, footer_rect[1] + 106), "문장을 크게 보고 발음을 천천히 따라 읽을 준비를 하세요.", font=load_font(30), fill=(219, 228, 232, 232), anchor="la")
+            y += ko_font.size + scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height, floor=4)
+        draw.text((left, y + scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceEn"], font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(233, 236, 236, 240), anchor="la")
+        y += scale_size(60, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, y + scale_size(6, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceRomanization"], font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(*accent_warm, 250), anchor="la")
+        answer_chip = scale_rect((910, 300, 1058, 368), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(answer_chip, radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 226))
+        draw.text(((answer_chip[0] + answer_chip[2]) // 2, (answer_chip[1] + answer_chip[3]) // 2), "정답", font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+        draw.text((width // 2, scale_size(1006, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["answerWord"], font=load_font(scale_size(112, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 255), anchor="mm")
+        underline = scale_rect((458, 1068, 622, 1082), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(underline, radius=scale_size(7, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent_warm, 240))
+        draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height)), f"정답은 {lesson['answerWord']}", font=load_font(scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
+        draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(106, width=width, height=height, base_width=base_width, base_height=base_height)), "문장을 크게 보고 발음을 천천히 따라 읽을 준비를 하세요.", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
         return
 
     if scene_id == "scene-4-repeat":
-        draw.text((left, top), "따라해 보세요", font=load_font(28, bold=True), fill=(*accent_warm, 250), anchor="la")
-        draw.text((left, top + 52), "Repeat after me", font=load_font(32, bold=True), fill=(244, 246, 248, 246), anchor="la")
-        draw.text((left, top + 110), lesson["sentenceKo"], font=load_font(40, bold=True), fill=(*board_text, 255), anchor="la")
-        draw.text((left, top + 162), lesson["sentenceRomanization"], font=load_font(26), fill=(255, 220, 168, 240), anchor="la")
-
-        repeat_sequence = [
-            choices[0],
-            choices[0],
-            choices[1],
-            choices[1],
-            choices[2],
-            choices[2],
-        ]
+        draw.text((left, top), "따라해 보세요", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        draw.text((left, top + scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height)), "Repeat after me", font=load_font(scale_size(32, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(244, 246, 248, 246), anchor="la")
+        draw.text((left, top + scale_size(110, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceKo"], font=load_font(scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*board_text, 255), anchor="la")
+        draw.text((left, top + scale_size(162, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceRomanization"], font=load_font(scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(255, 220, 168, 240), anchor="la")
+        repeat_sequence = repeat_sequence_from_packet(packet)
         lp = local_progress(scene, t)
         seq_index = min(len(repeat_sequence) - 1, int(lp * len(repeat_sequence)))
         current = repeat_sequence[seq_index]
         repeat_mark = "2회" if seq_index % 2 == 1 else "1회"
-        draw.text((WIDTH // 2, 980), current["korean"], font=load_font(132, bold=True), fill=(*board_text, 255), anchor="mm")
-        draw.text((WIDTH // 2, 1098), current["romanization"], font=load_font(56, bold=True), fill=(*accent_warm, 252), anchor="mm")
-        draw.text((WIDTH // 2, 1168), current["gloss"], font=load_font(46), fill=(235, 238, 240, 236), anchor="mm")
-        draw.rounded_rectangle((WIDTH // 2 - 90, 1238, WIDTH // 2 + 90, 1302), radius=30, fill=(*accent, 220))
-        draw.text((WIDTH // 2, 1270), repeat_mark, font=load_font(34, bold=True), fill=(255, 255, 255, 255), anchor="mm")
-        draw.text((footer_rect[0] + 28, footer_rect[1] + 36), "각 단어를 두 번씩 천천히 반복합니다", font=load_font(38, bold=True), fill=(255, 252, 246, 255), anchor="la")
-        draw.text((footer_rect[0] + 28, footer_rect[1] + 100), "집, 회사, 화장실 순서로 따라 읽어 보세요.", font=load_font(30), fill=(219, 228, 232, 232), anchor="la")
+        draw.text((width // 2, scale_size(980, width=width, height=height, base_width=base_width, base_height=base_height)), current["korean"], font=load_font(scale_size(132, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*board_text, 255), anchor="mm")
+        draw.text((width // 2, scale_size(1098, width=width, height=height, base_width=base_width, base_height=base_height)), current["romanization"], font=load_font(scale_size(56, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 252), anchor="mm")
+        draw.text((width // 2, scale_size(1168, width=width, height=height, base_width=base_width, base_height=base_height)), current["gloss"], font=load_font(scale_size(46, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(235, 238, 240, 236), anchor="mm")
+        badge = scale_rect((450, 1238, 630, 1302), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(badge, radius=scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 220))
+        draw.text(((badge[0] + badge[2]) // 2, (badge[1] + badge[3]) // 2), repeat_mark, font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+        draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height)), "각 단어를 두 번씩 천천히 반복합니다", font=load_font(scale_size(38, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
+        draw.text((footer_rect[0] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(100, width=width, height=height, base_width=base_width, base_height=base_height)), "집, 회사, 화장실 순서로 따라 읽어 보세요.", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
         return
 
     if scene_id == "scene-5-outro":
-        draw.text((left, top), "오늘의 문장", font=load_font(28, bold=True), fill=(*accent_warm, 250), anchor="la")
-        y = top + 54
-        ko_font, ko_lines = fit_text(draw, lesson["sentenceKo"], max_width, max_size=64, min_size=48)
+        draw.text((left, top), "오늘의 문장", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        y = top + scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_font, ko_lines = fit_text(
+            draw,
+            lesson["sentenceKo"],
+            max_width,
+            max_size=scale_size(64, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(48, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
         for line in ko_lines:
             draw.text((left, y), line, font=ko_font, fill=(*board_text, 255), anchor="la")
-            y += ko_font.size + 10
-        draw.text((left, y + 8), lesson["sentenceEn"], font=load_font(34), fill=(233, 236, 236, 240), anchor="la")
-        y += 60
-        draw.text((left, y + 4), lesson["sentenceRomanization"], font=load_font(30), fill=(*accent_warm, 250), anchor="la")
-        cta_rect = (footer_rect[0] + 22, footer_rect[1] + 30, footer_rect[2] - 22, footer_rect[1] + 112)
-        draw.rounded_rectangle(cta_rect, radius=32, fill=(*accent, 230))
-        draw.text((WIDTH // 2, footer_rect[1] + 72), packet["cta"]["caption"], font=load_font(34, bold=True), fill=(255, 255, 255, 255), anchor="mm")
-        draw.text((WIDTH // 2, footer_rect[1] + 164), "malmoelab.com", font=load_font(30), fill=(235, 238, 240, 236), anchor="mm")
+            y += ko_font.size + scale_size(10, width=width, height=height, base_width=base_width, base_height=base_height, floor=4)
+        draw.text((left, y + scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceEn"], font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(233, 236, 236, 240), anchor="la")
+        y += scale_size(60, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, y + scale_size(4, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceRomanization"], font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(*accent_warm, 250), anchor="la")
+        cta_rect = scale_rect((98, 1576, 982, 1658), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(cta_rect, radius=scale_size(32, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 230))
+        draw.text(((cta_rect[0] + cta_rect[2]) // 2, (cta_rect[1] + cta_rect[3]) // 2), packet["cta"]["caption"], font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+        draw.text((width // 2, scale_size(1710, width=width, height=height, base_width=base_width, base_height=base_height)), "malmoelab.com", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(235, 238, 240, 236), anchor="mm")
+
+
+def draw_board_scene_wide(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, t: float, *, width: int, height: int):
+    base_width, base_height = 1920, 1080
+    theme = packet["theme"]
+    accent = rgb(theme["accent"])
+    accent_warm = rgb(theme["accentWarm"])
+    board_text = rgb(theme["boardText"])
+
+    board_rect = scale_rect((46, 170, 1298, 860), width=width, height=height, base_width=base_width, base_height=base_height)
+    footer_rect = scale_rect((46, 886, 1298, 1036), width=width, height=height, base_width=base_width, base_height=base_height)
+    draw_card(draw, board_rect, fill=(8, 22, 28, 118), radius=scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height))
+    draw.rounded_rectangle(board_rect, radius=scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), outline=(234, 240, 232, 118), width=max(2, scale_size(3, width=width, height=height, base_width=base_width, base_height=base_height, floor=2)))
+    draw_card(draw, footer_rect, fill=(10, 18, 30, 194), radius=scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height))
+
+    left = board_rect[0] + scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height)
+    top = board_rect[1] + scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height)
+    max_width = board_rect[2] - board_rect[0] - scale_size(68, width=width, height=height, base_width=base_width, base_height=base_height)
+    scene_id = scene["id"]
+    lesson = packet["lesson"]
+    choices = packet["choices"]
+
+    if scene_id == "scene-0-opening":
+        title_font = load_font(scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height), bold=True)
+        sub_font = load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height))
+        draw.text((board_rect[0] + (board_rect[2] - board_rect[0]) // 2, scale_size(470, width=width, height=height, base_width=base_width, base_height=base_height)), "말모이랩 한글공부", font=title_font, fill=(*board_text, 255), anchor="mm")
+        draw.text((board_rect[0] + (board_rect[2] - board_rect[0]) // 2, scale_size(540, width=width, height=height, base_width=base_width, base_height=base_height)), "Malmoelab Korean", font=sub_font, fill=(255, 223, 178, 242), anchor="mm")
+        draw.text((board_rect[0] + (board_rect[2] - board_rect[0]) // 2, scale_size(945, width=width, height=height, base_width=base_width, base_height=base_height)), "30-second fill-blank and repeat lesson", font=load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(235, 239, 242, 220), anchor="mm")
+        return
+
+    if scene_id in {"scene-1-question", "scene-2-thinking"}:
+        eyebrow = "문장을 완성해 보세요" if scene_id == "scene-1-question" else "생각할 시간"
+        draw.text((left, top), eyebrow, font=load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        y = top + scale_size(44, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_font, ko_lines = fit_text(
+            draw,
+            lesson["blankedSentenceKo"],
+            max_width - scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height),
+            max_size=scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
+        for line in ko_lines:
+            draw.text((left, y), line, font=ko_font, fill=(*board_text, 255), anchor="la")
+            y += ko_font.size + scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height, floor=3)
+        draw.text((left, y + scale_size(6, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["blankedSentenceEn"], font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(233, 236, 236, 240), anchor="la")
+        y += scale_size(50, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, y + scale_size(2, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["blankedSentenceRomanization"], font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(*accent_warm, 250), anchor="la")
+        y += scale_size(70, width=width, height=height, base_width=base_width, base_height=base_height)
+        box_rect = (left, y, board_rect[2] - scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), y + scale_size(250, width=width, height=height, base_width=base_width, base_height=base_height))
+        draw_card(draw, box_rect, fill=(8, 18, 30, 164), radius=scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height))
+        draw.text((box_rect[0] + scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height), box_rect[1] + scale_size(18, width=width, height=height, base_width=base_width, base_height=base_height)), "보기", font=load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 221, 164, 245), anchor="la")
+        line_y = box_rect[1] + scale_size(70, width=width, height=height, base_width=base_width, base_height=base_height)
+        for item in choices:
+            text = f"{item['order']}. {item['korean']}   {item['romanization']} ({item['gloss']})"
+            draw.text((box_rect[0] + scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), line_y), text, font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*board_text, 252), anchor="la")
+            line_y += scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height)
+        if scene_id == "scene-2-thinking":
+            progress = local_progress(scene, t)
+            draw_alarm_clock(
+                draw,
+                (
+                    board_rect[2] - scale_size(118, width=width, height=height, base_width=base_width, base_height=base_height),
+                    board_rect[3] - scale_size(118, width=width, height=height, base_width=base_width, base_height=base_height),
+                ),
+                progress,
+                scale=min(width / base_width, height / base_height) * 0.9,
+            )
+            draw.text((left, board_rect[3] - scale_size(54, width=width, height=height, base_width=base_width, base_height=base_height)), "또깍 또깍 또깍", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 235, 194, 252), anchor="la")
+        draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), "천천히 듣고 정답을 생각해 보세요", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
+        draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(82, width=width, height=height, base_width=base_width, base_height=base_height)), "Listen first, then choose the right word.", font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
+        return
+
+    if scene_id == "scene-3-answer":
+        draw.text((left, top), "정답 공개", font=load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        y = top + scale_size(44, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_font, ko_lines = fit_text(
+            draw,
+            lesson["sentenceKo"],
+            max_width - scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height),
+            max_size=scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
+        for line in ko_lines:
+            draw.text((left, y), line, font=ko_font, fill=(*board_text, 255), anchor="la")
+            y += ko_font.size + scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height, floor=3)
+        draw.text((left, y + scale_size(6, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceEn"], font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(233, 236, 236, 240), anchor="la")
+        y += scale_size(48, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, y + scale_size(2, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceRomanization"], font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(*accent_warm, 250), anchor="la")
+        answer_chip = scale_rect((1102, 190, 1260, 254), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(answer_chip, radius=scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 226))
+        draw.text(((answer_chip[0] + answer_chip[2]) // 2, (answer_chip[1] + answer_chip[3]) // 2), "정답", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+        center_x = board_rect[0] + (board_rect[2] - board_rect[0]) // 2
+        draw.text((center_x, scale_size(598, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["answerWord"], font=load_font(scale_size(96, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 255), anchor="mm")
+        underline = scale_rect((540, 656, 760, 672), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(underline, radius=scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent_warm, 240))
+        draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), f"정답은 {lesson['answerWord']}", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
+        draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(82, width=width, height=height, base_width=base_width, base_height=base_height)), "문장을 보고 발음을 천천히 따라 읽을 준비를 하세요.", font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
+        return
+
+    if scene_id == "scene-4-repeat":
+        draw.text((left, top), "따라해 보세요", font=load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        draw.text((left, top + scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height)), "Repeat after me", font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(244, 246, 248, 246), anchor="la")
+        draw.text((left, top + scale_size(88, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceKo"], font=load_font(scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*board_text, 255), anchor="la")
+        draw.text((left, top + scale_size(134, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceRomanization"], font=load_font(scale_size(20, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(255, 220, 168, 240), anchor="la")
+        repeat_sequence = repeat_sequence_from_packet(packet)
+        lp = local_progress(scene, t)
+        seq_index = min(len(repeat_sequence) - 1, int(lp * len(repeat_sequence)))
+        current = repeat_sequence[seq_index]
+        repeat_mark = "2/2" if seq_index % 2 == 1 else "1/2"
+        center_x = board_rect[0] + (board_rect[2] - board_rect[0]) // 2
+        draw.text((center_x, scale_size(570, width=width, height=height, base_width=base_width, base_height=base_height)), current["korean"], font=load_font(scale_size(112, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*board_text, 255), anchor="mm")
+        draw.text((center_x, scale_size(676, width=width, height=height, base_width=base_width, base_height=base_height)), current["romanization"], font=load_font(scale_size(48, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 252), anchor="mm")
+        draw.text((center_x, scale_size(744, width=width, height=height, base_width=base_width, base_height=base_height)), current["gloss"], font=load_font(scale_size(36, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(235, 238, 240, 236), anchor="mm")
+        badge = scale_rect((580, 792, 760, 854), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(badge, radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 220))
+        draw.text(((badge[0] + badge[2]) // 2, (badge[1] + badge[3]) // 2), repeat_mark, font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+        draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), "각 단어를 두 번씩 천천히 반복합니다", font=load_font(scale_size(30, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 252, 246, 255), anchor="la")
+        draw.text((footer_rect[0] + scale_size(26, width=width, height=height, base_width=base_width, base_height=base_height), footer_rect[1] + scale_size(82, width=width, height=height, base_width=base_width, base_height=base_height)), "집, 회사, 화장실 순서로 천천히 따라 읽어 보세요.", font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(219, 228, 232, 232), anchor="la")
+        return
+
+    if scene_id == "scene-5-outro":
+        draw.text((left, top), "오늘의 문장", font=load_font(scale_size(24, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(*accent_warm, 250), anchor="la")
+        y = top + scale_size(44, width=width, height=height, base_width=base_width, base_height=base_height)
+        ko_font, ko_lines = fit_text(
+            draw,
+            lesson["sentenceKo"],
+            max_width - scale_size(40, width=width, height=height, base_width=base_width, base_height=base_height),
+            max_size=scale_size(52, width=width, height=height, base_width=base_width, base_height=base_height),
+            min_size=scale_size(34, width=width, height=height, base_width=base_width, base_height=base_height),
+        )
+        for line in ko_lines:
+            draw.text((left, y), line, font=ko_font, fill=(*board_text, 255), anchor="la")
+            y += ko_font.size + scale_size(8, width=width, height=height, base_width=base_width, base_height=base_height, floor=3)
+        draw.text((left, y + scale_size(6, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceEn"], font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(233, 236, 236, 240), anchor="la")
+        y += scale_size(48, width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.text((left, y + scale_size(2, width=width, height=height, base_width=base_width, base_height=base_height)), lesson["sentenceRomanization"], font=load_font(scale_size(22, width=width, height=height, base_width=base_width, base_height=base_height)), fill=(*accent_warm, 250), anchor="la")
+        cta_rect = scale_rect((68, 910, 1274, 990), width=width, height=height, base_width=base_width, base_height=base_height)
+        draw.rounded_rectangle(cta_rect, radius=scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), fill=(*accent, 230))
+        cta_text = f"{packet['cta']['caption']} — malmoelab.com"
+        draw.text(((cta_rect[0] + cta_rect[2]) // 2, (cta_rect[1] + cta_rect[3]) // 2), cta_text, font=load_font(scale_size(28, width=width, height=height, base_width=base_width, base_height=base_height), bold=True), fill=(255, 255, 255, 255), anchor="mm")
+
+
+def draw_board_scene(draw: ImageDraw.ImageDraw, packet: dict, scene: dict, t: float, *, width: int, height: int, mode: str):
+    if mode == "wide":
+        draw_board_scene_wide(draw, packet, scene, t, width=width, height=height)
+        return
+    draw_board_scene_vertical(draw, packet, scene, t, width=width, height=height)
 
 
 async def synthesize_edge_tts(text: str, output_path: Path, *, voice: str, rate: str, pitch: str, volume: str):
@@ -343,18 +580,76 @@ async def synthesize_edge_tts(text: str, output_path: Path, *, voice: str, rate:
     await communicate.save(str(output_path))
 
 
-def narration_segments(packet: dict) -> list[dict]:
+def clean_tts_text(text: str, *, fallback: str) -> str:
+    value = str(text or "").strip()
+    if not value:
+        value = fallback
+    value = re.sub(r"\([^)]*\)", "", value)
+    value = value.replace("___", "...")
+    value = value.replace("__", "...")
+    value = value.replace("…", "...")
+    value = re.sub(r"\s+", " ", value).strip()
+    return value
+
+
+def repeat_sequence_from_packet(packet: dict) -> list[dict]:
+    for line in packet.get("narration", {}).get("lines", []):
+        repeat_words = line.get("repeatWords")
+        if not repeat_words:
+            continue
+        sequence: list[dict] = []
+        for item in repeat_words:
+            repeat_count = int(item.get("repeatCount") or 1)
+            normalized = {
+                "korean": item["ko"],
+                "romanization": item["romanization"],
+                "gloss": item["en"],
+            }
+            for _ in range(repeat_count):
+                sequence.append(normalized)
+        if sequence:
+            return sequence
     choices = packet["choices"]
-    sequence = [choices[0], choices[0], choices[1], choices[1], choices[2], choices[2]]
+    return [choices[0], choices[0], choices[1], choices[1], choices[2], choices[2]]
+
+
+def narration_segments(packet: dict) -> list[dict]:
+    lesson = packet["lesson"]
+    narration_lines = packet.get("narration", {}).get("lines", [])
+    scene1 = next((line for line in narration_lines if int(line.get("scene", 0)) == 1), {})
+    instruction = next((line for line in narration_lines if int(line.get("scene", 0)) == 4 and line.get("ko") and line.get("en")), {})
+    repeat_sequence = repeat_sequence_from_packet(packet)
+
     segments = [
-        {"start": 3.05, "voice": "ko-KR-InJoonNeural", "rate": "-18%", "text": "저녁에는... 에서 쉽니다."},
-        {"start": 4.65, "voice": "en-US-JennyNeural", "rate": "-10%", "text": "I relax at... in the evening."},
-        {"start": 16.05, "voice": "ko-KR-InJoonNeural", "rate": "-12%", "text": "따라해 보세요."},
-        {"start": 16.75, "voice": "en-US-JennyNeural", "rate": "-8%", "text": "Repeat after me."},
+        {
+            "start": 3.05,
+            "voice": "ko-KR-InJoonNeural",
+            "rate": "-18%",
+            "text": clean_tts_text(scene1.get("ko"), fallback=lesson["blankedSentenceKo"]),
+        },
+        {
+            "start": 4.65,
+            "voice": "en-US-JennyNeural",
+            "rate": "-10%",
+            "text": clean_tts_text(scene1.get("en"), fallback=lesson["blankedSentenceEn"]),
+        },
+        {
+            "start": 16.05,
+            "voice": "ko-KR-InJoonNeural",
+            "rate": "-12%",
+            "text": clean_tts_text(instruction.get("ko"), fallback="따라해 보세요."),
+        },
+        {
+            "start": 16.75,
+            "voice": "en-US-JennyNeural",
+            "rate": "-8%",
+            "text": clean_tts_text(instruction.get("en"), fallback="Repeat after me."),
+        },
     ]
+
     base = 17.6
     step = 1.7
-    for index, item in enumerate(sequence):
+    for index, item in enumerate(repeat_sequence):
         start = base + index * step
         segments.append({"start": start, "voice": "ko-KR-InJoonNeural", "rate": "-4%", "text": f"{item['korean']}. {item['romanization']}."})
         segments.append({"start": start + 0.82, "voice": "en-US-JennyNeural", "rate": "-2%", "text": f"{item['romanization']}. {item['gloss']}."})
@@ -487,13 +782,29 @@ def main() -> int:
     opening_video = Path(args.opening_video).resolve()
     packet = load_json(source_packet_path)
 
-    opening_frames = extract_clip_frames(opening_video, build_dir / "renders" / "opening-frames", fps=FPS, start=0.0, duration=3.0)
+    width, height = parse_resolution(packet)
+    mode = render_mode(width, height)
+    trim_start = float(packet.get("opening", {}).get("trimStartSec", 0.0))
+    trim_end = float(packet.get("opening", {}).get("trimEndSec", 3.0))
+    trim_duration = max(0.1, trim_end - trim_start)
+
+    opening_frames = extract_clip_frames(
+        opening_video,
+        build_dir / "renders" / "opening-frames",
+        fps=FPS,
+        width=width,
+        height=height,
+        start=trim_start,
+        duration=trim_duration,
+    )
     scene_frames = {}
     for scene in SCENES[1:]:
         scene_frames[scene["id"]] = extract_clip_frames(
             build_dir / "renders" / "grok" / f"{scene['id']}.mp4",
             build_dir / "renders" / "scene-frames" / scene["id"],
             fps=FPS,
+            width=width,
+            height=height,
         )
 
     frames_dir = build_dir / "renders" / "frames"
@@ -513,8 +824,8 @@ def main() -> int:
         else:
             base = pick_frame(scene_frames[scene["id"]], progress)
         draw = ImageDraw.Draw(base, "RGBA")
-        draw_title(draw, packet)
-        draw_board_scene(draw, packet, scene, t)
+        draw_title(draw, packet, width=width, height=height, mode=mode)
+        draw_board_scene(draw, packet, scene, t, width=width, height=height, mode=mode)
         base.save(frames_dir / f"frame-{frame_index:04d}.png")
 
     video_only = build_dir / "renders" / "tmp-video-only.mp4"
@@ -561,8 +872,10 @@ def main() -> int:
         ]
     )
 
+    thumbnail_second = float(packet.get("postProduction", {}).get("thumbnailFromSceneSec", 13))
+    thumbnail_index = min(total_frames - 1, max(0, int(thumbnail_second * FPS)))
     thumbnail = final_dir / f"{packet['episodeSlug']}-thumb.png"
-    Image.open(frames_dir / "frame-0390.png").save(thumbnail)
+    Image.open(frames_dir / f"frame-{thumbnail_index:04d}.png").save(thumbnail)
     publish_packet = build_publish_packet(packet, final_video, thumbnail)
     publish_path = build_dir / "publish-packet.json"
     publish_path.write_text(json.dumps(publish_packet, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this character in a Korean classroom answer-reveal scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher picks up a piece of white chalk with her right hand and reaches toward the chalkboard, making a slow deliberate writing motion in the air near the chalkboard surface. After the writing gesture, she steps back slightly and gestures toward the chalkboard with a satisfied, proud expression and a small nod. Her posture shifts from focused while writing to open and proud after the reveal. The chalkboard itself remains clean — the actual text will be composited later. Warm classroom lighting with a subtle brightness increase to signal a success moment. Horizontal 16:9. Do NOT add any text, letters, Korean characters, chalk marks, subtitles, logos, or watermarks.",
+    "duration": 5,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "image": "../reference/opening-ref.png"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-3-answer.mp4",
+    "manifestFile": "../renders/grok/scene-3-answer.manifest.json"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this character in a Korean classroom scene. 3D anime-style render. COMPOSITION: The teacher character stands on the RIGHT SIDE of the frame, taking up roughly 30-35% of the horizontal width. She is visible from the waist up. A large green chalkboard fills the LEFT 65-70% of the frame behind her, with a clean empty writing surface. The camera is at a medium distance, eye-level, like a student sitting at a desk looking at the teacher. MOTION: The teacher smiles warmly, makes a gentle introducing gesture with her right hand pointing toward the chalkboard, and sways very slightly. Natural breathing motion, subtle blinking. Keep the chalkboard surface clean and empty — no text, no writing, no marks. Warm classroom lighting from above. Horizontal 16:9 widescreen format. Do NOT add any text, letters, numbers, subtitles, logos, or watermarks anywhere in the image.",
+    "duration": 3,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "image": "../reference/opening-ref.png"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-1-question.mp4",
+    "manifestFile": "../renders/grok/scene-1-question.manifest.json"
+  }
+}

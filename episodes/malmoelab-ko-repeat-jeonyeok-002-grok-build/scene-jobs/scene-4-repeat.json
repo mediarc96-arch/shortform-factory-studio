@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this character in a Korean classroom repeat-after-me teaching scene. 3D anime-style render. COMPOSITION: Teacher on the RIGHT SIDE (30-35% width), green chalkboard on the LEFT (65-70% width). Medium shot, waist-up. MOTION: The teacher faces the camera directly with a warm, encouraging smile. She makes a slow rhythmic teaching gesture — gently moving her right hand in a follow-along beat pattern, as if conducting a pronunciation drill. Her mouth opens and closes naturally as if speaking each word slowly and clearly. Between words she pauses and nods encouragingly. Her expression is patient and supportive throughout. Occasional gentle head tilts. The chalkboard behind remains clean. Calm classroom energy, soft lighting. Horizontal 16:9. Do NOT add any text, letters, subtitles, word cards, logos, or watermarks.",
+    "duration": 12,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "image": "../reference/opening-ref.png"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-4-repeat.mp4",
+    "manifestFile": "../renders/grok/scene-4-repeat.manifest.json"
+  }
+}
