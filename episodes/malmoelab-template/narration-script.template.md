@@ -7,8 +7,8 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ## ⚠️ 핵심 규칙
 
-1. **한국어와 영어 나레이션은 절대 동시 재생 금지.** 순차 재생만 허용.
-2. **로마자는 TTS로 읽지 않음.** 화면에 텍스트로만 표시.
+1. **나레이션은 절대 동시 재생 금지.** 순차 재생만 허용.
+2. **영어, 로마자는 TTS로 읽지 않음.** 화면에 텍스트로만 표시.
 3. 각 세그먼트 사이 최소 0.3초 간격.
 
 ---
@@ -18,7 +18,6 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 | 트랙 | 조건 | 속도 | 톤 |
 |------|------|------|----|
 | 🇰🇷 KO | 차분한 한국 남성 | **0.75× — 매우 느리게** | 또박또박, 권위 있되 따뜻하게 |
-| 🇺🇸 EN | 영어권 여성 | **0.85×** | 부드럽고 명확, 교육적 |
 
 > ⚠️ 한국어 파트는 절대 서두르지 말 것. 학습자가 따라 쓸 수 있을 정도의 속도.
 
@@ -38,10 +37,6 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 🇰🇷 KO (남성, 느리게):
   "{{BLANKED_NARRATION_KO}}"
   예: "저녁에는… [1초 정지] …에서 쉽니다."
-
-🇺🇸 EN (여성, 부드럽게):
-  "{{BLANKED_NARRATION_EN}}"
-  예: "I relax at… [1-second pause] …in the Evening."
 ```
 
 > 규칙: 빈칸 위치에서 반드시 **1초 정지** 삽입.  
@@ -71,7 +66,6 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ```
 🇰🇷 KO: "따라해 보세요."
-🇺🇸 EN: "Repeat after me."
 ```
 
 ---
@@ -85,13 +79,10 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 ```
 [1회차]
 🇰🇷 KO: "{{ANSWER_WORD}}"           [0.5초]
-  → 간격 0.3~0.5초
-🇺🇸 EN: "{{ANSWER_GLOSS}}"  [0.7초]
-
+  → 간격 1.3~1.5초
 [2회차]
 🇰🇷 KO: "{{ANSWER_WORD}}"
-  → 간격 0.3~0.5초
-🇺🇸 EN: "{{ANSWER_GLOSS}}"
+  → 간격 1.3~1.5초
 ```
 
 #### ▶ 2번 단어 ({{CHOICE_DISTRACTORA_KO}})
@@ -99,13 +90,11 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 ```
 [1회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORA_KO}}"            [0.5초]
-  → 간격 0.3~0.5초
-🇺🇸 EN: "{{CHOICE_DISTRACTORA_GLOSS}}"  [0.7초]
+  → 간격 1.3~1.5초
 
 [2회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORA_KO}}"
-  → 간격 0.3~0.5초
-🇺🇸 EN: "{{CHOICE_DISTRACTORA_GLOSS}}"
+  → 간격 1.3~1.5초
 ```
 
 #### ▶ 3번 단어 ({{CHOICE_DISTRACTORB_KO}})
@@ -113,13 +102,11 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 ```
 [1회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORB_KO}}"            [0.5초]
-  → 간격 0.3~0.5초
-🇺🇸 EN: "{{CHOICE_DISTRACTORB_GLOSS}}"  [0.7초]
+  → 간격 1.3~1.5초
 
 [2회차]
 🇰🇷 KO: "{{CHOICE_DISTRACTORB_KO}}"
-  → 간격 0.3~0.5초
-🇺🇸 EN: "{{CHOICE_DISTRACTORB_GLOSS}}"
+  → 간격 1.3~1.5초
 ```
 
 > 단어 순서: choices 배열의 ① ② ③ 번호 순서가 아닌  
@@ -137,7 +124,7 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 
 ```json
 {
-  "_rule": "한국어→간격→영어 순차 재생. 로마자는 TTS 없음(화면 표시만).",
+  "_rule": "한국어 순차 재생. 영어,로마자는 TTS 없음(화면 표시만).",
   "ko_track": {
     "text_segments": [
       "{{BLANKED_NARRATION_KO_PART1}}",
@@ -147,46 +134,21 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
       "따라해 보세요.",
       "[PAUSE:400ms]",
       "{{ANSWER_WORD}}",
-      "[PAUSE:500ms]",
+      "[PAUSE:1500ms]",
       "{{ANSWER_WORD}}",
       "[PAUSE:700ms]",
       "{{CHOICE_DISTRACTORA_KO}}",
-      "[PAUSE:500ms]",
+      "[PAUSE:1500ms]",
       "{{CHOICE_DISTRACTORA_KO}}",
       "[PAUSE:700ms]",
       "{{CHOICE_DISTRACTORB_KO}}",
-      "[PAUSE:500ms]",
+      "[PAUSE:1500ms]",
       "{{CHOICE_DISTRACTORB_KO}}"
     ],
     "voice": "Korean male, calm",
     "speed": 0.75,
     "outputFile": "./audio/narration-ko.mp3",
-    "note": "로마자(Romanization)는 TTS로 읽지 않는다. 화면에만 표시."
-  },
-  "en_track": {
-    "text_segments": [
-      "{{BLANKED_NARRATION_EN_PART1}}",
-      "[PAUSE:1000ms]",
-      "{{BLANKED_NARRATION_EN_PART2}}",
-      "[PAUSE:500ms]",
-      "Repeat after me.",
-      "[PAUSE:400ms]",
-      "{{ANSWER_GLOSS}}",
-      "[PAUSE:700ms]",
-      "{{ANSWER_GLOSS}}",
-      "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORA_GLOSS}}",
-      "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORA_GLOSS}}",
-      "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORB_GLOSS}}",
-      "[PAUSE:700ms]",
-      "{{CHOICE_DISTRACTORB_GLOSS}}"
-    ],
-    "voice": "English female, soft",
-    "speed": 0.85,
-    "outputFile": "./audio/narration-en.mp3",
-    "playbackRule": "한국어 세그먼트가 완전히 끝난 뒤 0.3~0.5초 간격 후 재생"
+    "note": "영어,로마자(Romanization)는 TTS로 읽지 않는다. 화면에만 표시."
   }
 }
 ```
@@ -199,7 +161,6 @@ _모든 `{{PLACEHOLDER}}` 는 `source-packet.json` 의 값으로 치환됩니다
 |------------|------------------------|
 | `{{EPISODE_SLUG}}` | `.episodeSlug` |
 | `{{BLANKED_NARRATION_KO}}` | `.lesson.blankedSentenceKo` (빈칸 앞뒤 분리) |
-| `{{BLANKED_NARRATION_EN}}` | `.lesson.blankedSentenceEn` (빈칸 앞뒤 분리) |
 | `{{ANSWER_WORD}}` | `.lesson.answerWord` |
 | `{{ANSWER_ROMANIZATION}}` | `.lesson.answerRomanization` |
 | `{{ANSWER_GLOSS}}` | `.lesson.answerGloss` |
