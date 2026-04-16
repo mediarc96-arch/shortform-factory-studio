@@ -966,6 +966,52 @@ def media_duration(path: Path) -> float:
     return hours * 3600 + minutes * 60 + seconds
 
 
+def measure_audio_levels(audio_path: Path) -> tuple[float, float]:
+    result = subprocess.run(
+        [resolve_ffmpeg_binary(), "-i", str(audio_path), "-af", "volumedetect", "-f", "null", "-"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    output = result.stderr or ""
+    mean_match = re.search(r"mean_volume:\s*(-?\d+(?:\.\d+)?) dB", output)
+    max_match = re.search(r"max_volume:\s*(-?\d+(?:\.\d+)?) dB", output)
+    if not mean_match or not max_match:
+        raise RuntimeError(f"Unable to measure audio levels for {audio_path}")
+    return float(mean_match.group(1)), float(max_match.group(1))
+
+
+def normalize_audio_mean_volume(
+    audio_path: Path,
+    *,
+    target_mean_db: float,
+    peak_ceiling_db: float,
+) -> Path:
+    mean_db, max_db = measure_audio_levels(audio_path)
+    desired_gain = target_mean_db - mean_db
+    available_headroom = peak_ceiling_db - max_db
+    applied_gain = min(desired_gain, available_headroom)
+    if abs(applied_gain) < 0.1:
+        return audio_path
+
+    normalized_path = audio_path.with_name(f"{audio_path.stem}.norm{audio_path.suffix}")
+    run_ffmpeg(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(audio_path),
+            "-af",
+            f"volume={applied_gain:+.2f}dB",
+            str(normalized_path),
+        ]
+    )
+    if normalized_path.is_file() and normalized_path.stat().st_size > 0:
+        normalized_path.replace(audio_path)
+    return audio_path
+
+
 def trim_audio_edges(audio_path: Path) -> Path:
     trimmed_path = audio_path.with_name(f"{audio_path.stem}.trim{audio_path.suffix}")
     run_ffmpeg(
@@ -1002,12 +1048,18 @@ def voice_profile(packet: dict, lang: str) -> dict:
             "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-12%"),
             "pitch": str(track.get("pitch") or "-2Hz"),
             "gain": float(track.get("gain") or 1.0),
+            "normalize": bool(track.get("normalizePerSegment") or False),
+            "target_mean_db": float(track.get("targetMeanDb") or -19.0),
+            "peak_ceiling_db": float(track.get("peakCeilingDb") or -2.0),
         }
     return {
         "voice": track.get("edgeVoice") or "en-US-GuyNeural",
         "rate": edge_rate_from_multiplier(track.get("speedMultiplier"), fallback="-6%"),
         "pitch": str(track.get("pitch") or "-1Hz"),
         "gain": float(track.get("gain") or 1.0),
+        "normalize": bool(track.get("normalizePerSegment") or False),
+        "target_mean_db": float(track.get("targetMeanDb") or -19.0),
+        "peak_ceiling_db": float(track.get("peakCeilingDb") or -2.0),
     }
 
 
@@ -1173,6 +1225,12 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
                 )
             )
             trim_audio_edges(audio_path)
+            if profile.get("normalize"):
+                normalize_audio_mean_volume(
+                    audio_path,
+                    target_mean_db=float(profile.get("target_mean_db") or -19.0),
+                    peak_ceiling_db=float(profile.get("peak_ceiling_db") or -2.0),
+                )
             duration = media_duration(audio_path)
             scene_id = str(segment["scene_id"])
             scene_start = float(segment["scene_start"])
@@ -1207,6 +1265,7 @@ def generate_tts_segments(packet: dict, output_dir: Path, *, job: dict | None = 
             )
         )
         trim_audio_edges(audio_path)
+        normalize_audio_mean_volume(audio_path, target_mean_db=-19.0, peak_ceiling_db=-2.0)
         generated.append({"path": audio_path, "start": segment["start"], "volume": 1.0})
     return generated
 

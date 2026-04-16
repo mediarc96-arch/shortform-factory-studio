@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate this 3D anime Korean teacher revealing the answer in a classroom. COMPOSITION: The teacher stands IN FRONT OF the chalkboard on the RIGHT SIDE of the frame, with the clean green chalkboard visible on the LEFT. Medium shot, waist-up. MOTION: The teacher makes a slow chalk-writing gesture toward the board, then steps back slightly and points to the board with a proud but calm smile. Keep the movement smooth and instructional. LIGHTING: Keep the same neutral warm classroom lighting as the question scene with no sudden yellow flare, no dramatic brightness boost, and no color temperature jump. FORMAT: Horizontal 16:9. IMPORTANT: Do NOT generate any text, chalk marks, subtitles, logos, watermarks, or overlays.",
+    "image": "../reference/opening-ref.png",
+    "duration": 5,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/grok/scene-3-answer.mp4",
+    "manifestFile": "../renders/grok/scene-3-answer.manifest.json"
+  }
+}

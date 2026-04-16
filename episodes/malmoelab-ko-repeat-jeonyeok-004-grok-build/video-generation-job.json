@@ -1,0 +1,248 @@
+{
+  "provider": "template_loop",
+  "episodeSlug": "malmoelab-ko-repeat-jeonyeok-004-grok-build",
+  "version": "v3",
+  "changelog": [
+    "review fix: question, thinking, answer, repeat scenes reuse the approved Grok renders from 003-grok-build",
+    "review fix: ending scene switches from generated Grok clip to fixed Daehan 02_Ending.mp4 for continuity",
+    "review fix: repeat pacing is slowed after '따라해 보세요' so learners can follow each word comfortably",
+    "review fix: chalkboard text remains post-composited to keep it readable and stable"
+  ],
+
+  "referenceImageFile": "./reference/opening-ref.png",
+  "characterReferenceFile": "characters/daehan/Daehan_KoreanTeacher_3D.jpg",
+
+  "_compositionGuide": {
+    "layout": "teacher RIGHT 30-35% IN FRONT OF chalkboard, chalkboard visible on LEFT 65-70%",
+    "cameraDistance": "medium shot, teacher waist-up",
+    "cameraAngle": "eye-level, student desk perspective",
+    "textOverlayZone": "chalkboard area only — Grok text generation 금지, 후편집으로 칠판 위에만 합성",
+    "style": "3D anime, consistent with the approved 003 Grok scenes and Daehan opening/ending templates",
+    "CRITICAL": "선생님은 칠판 앞(IN FRONT OF)에 서 있어야 함. behind 사용 금지."
+  },
+
+  "_audioRule": {
+    "CRITICAL": "이번 버전은 남성 한국어 음성만 사용. 영어와 로마자는 화면에만 표시한다.",
+    "sequence": "따라하기 구간은 학습자가 따라 말할 수 있도록 넉넉한 간격 유지",
+    "romanization": "화면에만 표시. TTS로 읽지 않음."
+  },
+
+  "scenes": [
+    {
+      "sceneId": "scene-0-opening",
+      "timeSec": [0, 6],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/01_Opening_clean.mp4",
+      "reusable": true,
+      "subtitles": "NONE",
+      "audio": {
+        "mode": "tts",
+        "narrationSequence": [
+          { "lang": "ko", "voice": "male", "text": "안녕하세요. 여러분과 한글 공부를 같이 할 대한입니다.", "pauseAfterMs": 0 }
+        ]
+      },
+      "extractReferenceFrame": {
+        "enabled": true,
+        "frameTimeSec": 2.5,
+        "outputFile": "./reference/opening-ref.png"
+      }
+    },
+
+    {
+      "sceneId": "scene-1-question",
+      "timeSec": [6, 12],
+      "type": "fixed_clip",
+      "sourceFile": "../malmoelab-ko-repeat-jeonyeok-003-grok-build/renders/grok/scene-1-question.mp4",
+      "sourceStartSec": 0.0,
+      "sourceDurationSec": 4.0,
+      "loopSource": true,
+      "durationSec": 6.0,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "postOverlays": {
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
+        "content": {
+          "headingKo": "문장을 완성해 보세요",
+          "line1_ko": "저녁에는 ___에서 쉽니다.",
+          "line2_romanization": "Jeonyeok E Neun __ Eseo Swip Ni Da.",
+          "line3_en": "I relax at ___ in the evening.",
+          "choices": [
+            "① 집  Jip  (House)",
+            "② 회사  Hoesa  (Company)",
+            "③ 화장실  Hwajangsil  (Bathroom)"
+          ]
+        }
+      },
+      "audio": {
+        "narrationSequence": [
+          { "lang": "ko", "voice": "male", "text": "저녁에는...", "pauseAfterMs": 180 },
+          { "lang": "ko", "voice": "male", "text": "...에서 쉽니다.", "pauseAfterMs": 0 }
+        ]
+      }
+    },
+
+    {
+      "sceneId": "scene-2-thinking",
+      "timeSec": [12, 15.2],
+      "type": "fixed_clip",
+      "sourceFile": "../malmoelab-ko-repeat-jeonyeok-003-grok-build/renders/grok/scene-2-thinking.mp4",
+      "sourceStartSec": 0.0,
+      "sourceDurationSec": 3.2,
+      "loopSource": false,
+      "durationSec": 3.2,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "postOverlays": {
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
+        "keepPreviousContent": true,
+        "addClockAnimation": {
+          "position": "bottom-right of chalkboard area",
+          "style": "cute animated alarm clock",
+          "countdownSec": 3
+        }
+      },
+      "audio": {
+        "narration": "NONE",
+        "sfx": {
+          "file": "shared/sfx/ticking.mp3",
+          "label": "",
+          "repeat": 3,
+          "startSec": 0.35
+        }
+      }
+    },
+
+    {
+      "sceneId": "scene-3-answer",
+      "timeSec": [15.2, 21.2],
+      "type": "fixed_clip",
+      "sourceFile": "../malmoelab-ko-repeat-jeonyeok-003-grok-build/renders/grok/scene-3-answer.mp4",
+      "sourceStartSec": 0.0,
+      "sourceDurationSec": 4.0,
+      "loopSource": true,
+      "durationSec": 6.0,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "postOverlays": {
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
+        "content": {
+          "headingKo": "정답",
+          "line1_ko": "저녁에는 집에서 쉽니다.",
+          "line1_romanization": "Jeonyeok E Neun Jip Eseo Swip Ni Da.",
+          "line1_en": "I relax at house in the evening.",
+          "answerHighlight": {
+            "word": "집",
+            "color": "#7C4DFF",
+            "animation": "chalk-write-in"
+          }
+        }
+      },
+      "audio": {
+        "sfx": {
+          "file": "shared/sfx/correct.mp3",
+          "label": "또로롱~",
+          "startSec": 0
+        },
+        "narrationSequence": [
+          { "lang": "ko", "voice": "male", "text": "정답은 집입니다.", "startAfterSfxMs": 350, "pauseAfterMs": 140 },
+          { "lang": "ko", "voice": "male", "text": "저녁에는 집에서 쉽니다.", "pauseAfterMs": 0 }
+        ]
+      }
+    },
+
+    {
+      "sceneId": "scene-4-repeat",
+      "timeSec": [21.2, 37.6],
+      "type": "fixed_clip",
+      "sourceFile": "../malmoelab-ko-repeat-jeonyeok-003-grok-build/renders/grok/scene-4-repeat.mp4",
+      "sourceStartSec": 0.0,
+      "sourceDurationSec": 4.0,
+      "loopSource": true,
+      "durationSec": 16.4,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "postOverlays": {
+        "zone": "chalkboard area only",
+        "style": "chalkboard_only",
+        "sequence": [
+          { "offsetSec": 0.0, "textKo": "따라해 보세요", "textEn": "Repeat after me", "style": "instruction" },
+          { "offsetSec": 2.4, "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "1/2" },
+          { "offsetSec": 4.9, "textKo": "집", "textRomanization": "Jip", "textGloss": "House", "badge": "2/2" },
+          { "offsetSec": 7.6, "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "1/2" },
+          { "offsetSec": 10.1, "textKo": "회사", "textRomanization": "Hoesa", "textGloss": "Company", "badge": "2/2" },
+          { "offsetSec": 12.8, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "1/2" },
+          { "offsetSec": 15.1, "textKo": "화장실", "textRomanization": "Hwajangsil", "textGloss": "Bathroom", "badge": "2/2" }
+        ]
+      },
+      "audio": {
+        "narrationSequence": [
+          { "lang": "ko", "voice": "male", "text": "따라해 보세요.", "pauseAfterMs": 1500 },
+          { "lang": "ko", "voice": "male", "text": "집", "pauseAfterMs": 1750 },
+          { "lang": "ko", "voice": "male", "text": "집", "pauseAfterMs": 1950 },
+          { "lang": "ko", "voice": "male", "text": "회사", "pauseAfterMs": 1750 },
+          { "lang": "ko", "voice": "male", "text": "회사", "pauseAfterMs": 1950 },
+          { "lang": "ko", "voice": "male", "text": "화장실", "pauseAfterMs": 1850 },
+          { "lang": "ko", "voice": "male", "text": "화장실", "pauseAfterMs": 0 }
+        ]
+      }
+    },
+
+    {
+      "sceneId": "scene-5-ending",
+      "timeSec": [37.6, 41.8],
+      "type": "fixed_clip",
+      "sourceFile": "characters/daehan/02_Ending.mp4",
+      "durationSec": 4.2,
+      "ratio": "16:9",
+      "resolution": "1080p",
+      "reusable": true,
+      "postOverlays": {
+        "ctaBanner": {
+          "text": "말모이랩에서 더 배우기 — malmoelab.com",
+          "position": "bottom-center",
+          "bgColor": "#7C4DFF",
+          "textColor": "#F7F3EC"
+        }
+      },
+      "audio": {
+        "narrationSequence": [
+          { "lang": "ko", "voice": "male", "text": "그럼 다음시간에 또 만나요.", "pauseAfterMs": 0 }
+        ],
+        "bgmFadeOut": true,
+        "bgmFadeDurationSec": 3
+      }
+    }
+  ],
+
+  "postProduction": {
+    "editOrder": [
+      "scene-0-opening",
+      "scene-1-question",
+      "scene-2-thinking",
+      "scene-3-answer",
+      "scene-4-repeat",
+      "scene-5-ending"
+    ],
+    "structure": {
+      "opening": { "scenes": ["scene-0-opening"], "durationSec": 6, "fixed": true },
+      "main": { "scenes": ["scene-1-question", "scene-2-thinking", "scene-3-answer", "scene-4-repeat"], "durationSec": "31~32" },
+      "ending": { "scenes": ["scene-5-ending"], "durationSec": 4.2, "fixed": true }
+    },
+    "totalTargetDurationSec": "41~42",
+    "outputFile": "./final/malmoelab-ko-repeat-jeonyeok-004-grok-build.mp4",
+    "thumbnailFile": "./final/malmoelab-ko-repeat-jeonyeok-004-grok-build-thumb.png",
+    "thumbnailFromSceneSec": 24,
+    "textCompositing": {
+      "style": "chalkboard_only"
+    },
+    "audioMix": {
+      "bgmFile": "shared/music/bgm-calm-classroom.mp3",
+      "bgmVolume": 0.12,
+      "narrationVolume": 1.0,
+      "sfxVolume": 0.75
+    }
+  }
+}
