@@ -1,0 +1,31 @@
+{
+  "episode": {
+    "slug": "daehan-pilot-002",
+    "seed": 42
+  },
+  "source": {
+    "type": "manual-placeholder",
+    "note": "v3 이후 malmoelab DB에서 동일 스키마로 조회 예정"
+  },
+  "sentence": {
+    "ko": "아기의 옹알이가 하루 종일 이어졌다.",
+    "en": "The baby's babbling continued all day.",
+    "focusWord": "옹알이",
+    "focusWordEn": "babbling",
+    "blankTemplate": "아기의 ___가 하루 종일 이어졌다."
+  },
+  "choices": {
+    "candidates": ["옹알이", "웃음", "울음"],
+    "correctIndex": 0,
+    "resolved": {
+      "seed": 42,
+      "order": ["울음", "옹알이", "웃음"],
+      "correctPosition": 2
+    },
+    "_note": "seed=42로 셔플한 결과 ②번에 정답 '옹알이' 배치. 피일럿에서는 퀴즈 보기(선지)는 화면 타이포로 노출하지 않고 빈칸 문장만 띄움 — CTA로 malmoelab.com 유도."
+  },
+  "cta": {
+    "text": "malmoelab.com에서 더 알아보아요.",
+    "url": "https://malmoelab.com"
+  }
+}

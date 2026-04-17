@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:03,000
+Hello, I'm Daehan!
+
+2
+00:00:03,700 --> 00:00:07,300
+The baby's babbling continued all day.
+
+3
+00:00:08,000 --> 00:00:09,300
+Let's try together!
+
+4
+00:00:10,300 --> 00:00:13,800
+The baby's babbling continued all day.
+
+5
+00:00:20,000 --> 00:00:23,000
+Learn more at malmoelab.com.
+
+6
+00:00:26,700 --> 00:00:30,000
+See you next time!

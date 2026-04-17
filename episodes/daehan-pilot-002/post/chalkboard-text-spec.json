@@ -1,0 +1,116 @@
+{
+  "$schema": "../../_template-v2-seamless/chalkboard-text-spec.schema.json",
+  "episode": {
+    "slug": "daehan-pilot-002",
+    "_refSourcePacket": "../source-packet.json",
+    "_refScenePlan": "../scene-plan.md"
+  },
+
+  "canvas": {
+    "resolution": { "w": 1920, "h": 1080 },
+    "fps": 30
+  },
+
+  "zones": {
+    "chalkboard":      { "x": 80,  "y": 90,  "w": 1380, "h": 650 },
+    "subtitle":        { "x": 60,  "y": 940, "w": 1800, "h": 120 }
+  },
+
+  "fonts": {
+    "chalkboardKo":    { "family": "NanumGothic-Bold",    "path": "shared/fonts/NanumGothic-Bold.ttf" },
+    "chalkboardAnswer":{ "family": "NanumPenScript",      "path": "shared/fonts/NanumPenScript-Regular.ttf" },
+    "subtitleEn":      { "family": "Inter-Medium",        "path": "shared/fonts/Inter-Medium.ttf" },
+    "ctaButton":       { "family": "Inter-Medium",        "path": "shared/fonts/Inter-Medium.ttf" }
+  },
+
+  "colors": {
+    "chalkWhite":       "#F4F4F0",
+    "chalkYellow":      "#FFE066",
+    "blankBoxStroke":   "#FFE066",
+    "blankBoxFill":     "#00000000",
+    "subtitleText":     "#FFFFFF",
+    "subtitleShadow":   "#000000CC",
+    "subtitleBarBg":    "#000000B0",
+    "ctaBg":            "#FFFFFFE6",
+    "ctaText":          "#1A1A1A",
+    "ctaAccent":        "#FF6B6B"
+  },
+
+  "layers": [
+    {
+      "layerId": "intro-sentence-stroke-reveal",
+      "type": "text-stroke-reveal",
+      "absoluteStartSec": 4.6,
+      "absoluteEndSec":   17.5,
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "zone": "chalkboard",
+      "font": "chalkboardAnswer",
+      "fontSize": 104,
+      "color": "chalkWhite",
+      "align": "center",
+      "yOffset": 240,
+      "strokeRevealSecPerChar": 0.22,
+      "_note": "4.6s부터 한 글자씩 reveal (NanumPenScript 손글씨 느낌). TTS 'aeonyl-battern baby-babbling' 구간에 동기. 17.5s까지 유지."
+    },
+
+    {
+      "layerId": "quiz-sentence-blank",
+      "type": "text-static-with-blank",
+      "absoluteStartSec": 17.5,
+      "absoluteEndSec":   26.2,
+      "text": "아기의 [BLANK]가 하루 종일 이어졌다.",
+      "blankToken": "[BLANK]",
+      "blankWidth": 260,
+      "blankHeight": 110,
+      "zone": "chalkboard",
+      "font": "chalkboardAnswer",
+      "fontSize": 104,
+      "color": "chalkWhite",
+      "align": "center",
+      "yOffset": 240,
+      "_note": "퀴즈 문장. [BLANK] 위치에 실제 노란 박스 렌더."
+    },
+
+    {
+      "layerId": "blank-box-blink",
+      "type": "rect-blink",
+      "absoluteStartSec": 19.5,
+      "absoluteEndSec":   26.2,
+      "attachToLayer": "quiz-sentence-blank",
+      "attachToToken": "[BLANK]",
+      "strokeColor": "blankBoxStroke",
+      "strokeWidth": 6,
+      "fillColor": "blankBoxFill",
+      "padding": 8,
+      "blinkIntervalSec": 0.55,
+      "_note": "[BLANK] 위치에 노란 박스 렌더. 19.5s부터 깜빡임."
+    }
+  ],
+
+  "subtitlesEn": {
+    "source": "./subtitles-en.srt",
+    "zone": "subtitle",
+    "font": "subtitleEn",
+    "fontSize": 44,
+    "color": "subtitleText",
+    "shadow": {
+      "color": "subtitleShadow",
+      "offsetX": 2,
+      "offsetY": 2,
+      "blur": 4
+    },
+    "background": {
+      "color": "subtitleBarBg",
+      "paddingX": 28,
+      "paddingY": 14,
+      "cornerRadius": 12
+    },
+    "align": "center",
+    "_note": "하단 고정 영어 자막. 반투명 검정 바 깔아서 가독성 확보."
+  },
+
+  "transitionsBetweenClips": {
+    "openingToScene1":  { "type": "wipe-right", "durationSec": 0.5, "atSec": 3.0 },
+    "scene3ToEnding":   { "type": "wipe-right", "durationSec": 0.5, "atSec": 26.2 }
+  }
+}

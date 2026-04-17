@@ -1,0 +1,121 @@
+{
+  "episode": {
+    "slug": "daehan-pilot-002",
+    "_refSourcePacket": "./source-packet.json",
+    "_refScenePlan": "./scene-plan.md"
+  },
+
+  "globalSettings": {
+    "provider": "grok",
+    "model": "grok-imagine-video",
+    "aspectRatio": "16:9",
+    "resolution": "720p",
+    "fps": 30,
+    "seed": 42,
+    "style": "3D anime",
+    "characterReferenceBase": "characters/daehan/daehan.jpg",
+    "openingReferenceFrame": "reference-frames/00-right-shifted-seed.png",
+    "negativePromptCommon": "photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, Korean characters, subtitles, logos, watermarks, multiple characters, distorted face, blurry, low quality, scroll, paper scroll, hanji scroll, calligraphy scroll, paper banner, rolled paper prop, held document, centered character",
+    "compositionRule": "The character is Daehan: long silver-white hair, violet eyes, small confident smile, black durumagi hanbok, white inner collar, black gat (traditional Korean hat) with golden band and red tassels, black gloves on both hands. Medium shot, eye-level, 16:9 widescreen. STRICT FRAMING: Daehan is shifted all the way to the RIGHT EDGE of the frame, occupying ONLY the right 22%. His left shoulder sits roughly at horizontal 78% of the image. The LEFT 78% is an unobstructed EMPTY green chalkboard reserved for post-production typography — nothing (not the character, not any prop) may intrude into that area beyond its rightmost 2%. Do NOT render any text, letters, numbers, chalk marks, scroll props, or writing anywhere in the frame."
+  },
+
+  "scenes": [
+    {
+      "sceneId": "scene-1-intro",
+      "order": 1,
+      "startSec": 3.5,
+      "durationSec": 4.0,
+      "outputPath": "renders/scene-1.mp4",
+      "referenceImages": [
+        "reference-frames/00-right-shifted-seed.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame. Daehan is shifted FAR RIGHT — occupying only the right 22% of the frame, with his left shoulder near horizontal 78%. The remaining LEFT 78% is a large EMPTY green chalkboard. Do not let any prop or body part intrude onto the board area. For the first 1.5s he turns slightly toward the board (head only, body stays right) and gestures with an open right palm as if presenting today's lesson. For the remaining 2.5s he faces the camera with a warm, welcoming smile, blinking naturally. Chalkboard MUST stay absolutely empty throughout — no chalk marks, no writing, no text, no scroll props. Warm classroom lighting, medium shot.",
+      "postProduction": {
+        "transitionInFromOpening": "wipe-right",
+        "transitionInDurationSec": 0.5,
+        "typographyOverlay": "intro-sentence-stroke-reveal"
+      },
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "reference-frames/01-scene-last.png"
+      }
+    },
+
+    {
+      "sceneId": "scene-2-followme",
+      "order": 2,
+      "startSec": 7.5,
+      "durationSec": 10.0,
+      "outputPath": "renders/scene-2.mp4",
+      "referenceImages": [
+        "reference-frames/01-scene-last.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame (matching the previous scene's last frame). Keep Daehan locked to the FAR RIGHT 22% of the frame at all times — never drift toward center. The LEFT 78% chalkboard stays completely empty. From 0s-1.5s he faces the camera and delivers a short 'follow me' invitation with an encouraging tilt of the head. Brief natural pause with a small nod (1.5s-2.5s). From 2.5s to 6s he articulates carefully with clear, visible lip movements, as if reading a sentence aloud; he may gently tilt his head but does NOT move leftward or tap the board. From 6s to 10s he cups one hand near his ear and leans slightly toward camera (vertically, not laterally) with an attentive, expectant listening expression, inviting the viewer to repeat back. Same far-right composition as Scene 1. Warm classroom lighting, 16:9. No chalk marks, no text, no scroll props.",
+      "postProduction": {
+        "typographyOverlay": "followme-sentence-static"
+      },
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "reference-frames/02-scene-last.png"
+      }
+    },
+
+    {
+      "sceneId": "scene-3-quiz-cta",
+      "order": 3,
+      "startSec": 17.5,
+      "durationSec": 9.0,
+      "outputPath": "renders/scene-3.mp4",
+      "referenceImages": [
+        "reference-frames/02-scene-last.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame. Keep Daehan anchored to the FAR RIGHT 22% of the frame; only his right arm may extend leftward during pointing, and ONLY his gloved hand crosses into the board area — his body stays right. From 0s-2.5s he extends his right arm toward the LEFT-CENTRE of the empty board and points at the air where a missing word would sit (the board remains completely EMPTY, no chalk marks). From 2.5s to 5s he returns to rest position on the right, faces the camera, taps his chin once with a thoughtful smile, then gestures with an open right palm toward the BOTTOM of the frame as if inviting viewers to look at something below. From 5s to 9s he stands warmly on the right with a subtle closing gesture (hand briefly near chest), looking at the camera with a friendly smile. Same far-right composition, warm lighting, 16:9. Do not render any text, letters, numbers, URLs, scroll props, or chalk marks anywhere in the frame.",
+      "postProduction": {
+        "transitionOutToEnding": "wipe-right",
+        "transitionOutDurationSec": 0.5,
+        "trimToSec": 8.7,
+        "typographyOverlay": "quiz-blank-plus-cta"
+      },
+      "handoff": {
+        "extractLastFrame": false
+      }
+    }
+  ],
+
+  "fixedClips": {
+    "opening": {
+      "source": "characters/daehan/01_Opening.mp4",
+      "durationSec": 3.0,
+      "startSec": 0.0,
+      "trimFromStart": true,
+      "keepOriginalAudio": false,
+      "_note": "Original clip's Korean greeting gets cut mid-word at 3s; opening audio is replaced by narration-ko-opening.mp3 TTS instead.",
+      "transitionOutToScene1": "wipe-right",
+      "transitionOutDurationSec": 0.5
+    },
+    "ending": {
+      "source": "characters/daehan/02_Ending.mp4",
+      "durationSec": 3.3,
+      "startSec": 26.7,
+      "trimFromStart": true,
+      "keepOriginalAudio": false,
+      "_note": "02_Ending.mp4 has no audio stream. Ending greeting supplied by narration-ko-ending.mp3 TTS."
+    }
+  },
+
+  "transitionsBetweenClips": {
+    "openingToScene1": { "type": "wipe-right", "durationSec": 0.5, "atSec": 3.0 },
+    "scene3ToEnding":  { "type": "wipe-right", "durationSec": 0.5, "atSec": 26.2 }
+  },
+
+  "executionOrder": [
+    "extract-opening-last-frame",
+    "generate-scene-1",
+    "extract-scene-1-last-frame",
+    "generate-scene-2",
+    "extract-scene-2-last-frame",
+    "generate-scene-3",
+    "generate-tts-audio",
+    "compose-final"
+  ]
+}

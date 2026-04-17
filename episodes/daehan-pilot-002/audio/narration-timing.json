@@ -1,0 +1,40 @@
+{
+  "segments": [
+    {
+      "file": "audio/narration-ko-opening.mp3",
+      "text": "안녕하세요! 대한이에요.",
+      "speed": 1.0,
+      "startSec": 0.2
+    },
+    {
+      "file": "audio/narration-ko-intro.mp3",
+      "text": "오늘 배울 문장은, 아기의 옹알이가 하루 종일 이어졌다.",
+      "speed": 1.15,
+      "startSec": 3.7
+    },
+    {
+      "file": "audio/narration-ko-follow-prompt.mp3",
+      "text": "따라해 볼까요?",
+      "speed": 1.0,
+      "startSec": 8.0
+    },
+    {
+      "file": "audio/narration-ko-repeat.mp3",
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "speed": 0.95,
+      "startSec": 10.3
+    },
+    {
+      "file": "audio/narration-ko-cta.mp3",
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "speed": 1.0,
+      "startSec": 20.0
+    },
+    {
+      "file": "audio/narration-ko-ending.mp3",
+      "text": "그럼, 안녕~!",
+      "speed": 1.0,
+      "startSec": 27.4
+    }
+  ]
+}

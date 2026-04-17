@@ -33,15 +33,36 @@ class Segment:
     start_sec: float = 0.0
 
 
-# Mirrors episodes/daehan-pilot-001/narration-script.md §"TTS 생성용 세그먼트 요약".
+# Fallback for legacy pilot-001 when no narration-segments.json sidecar exists.
 # Opening (0.0-3.0) and Ending (26.7-30.0) reuse original clip audio, not TTS.
-SEGMENTS: list[Segment] = [
+DEFAULT_SEGMENTS: list[Segment] = [
     Segment("narration-ko-scene1.mp3", "풍선을 너무 크게 불었더니…",      speed=1.0, start_sec=3.5),
     Segment("narration-ko-scene2.mp3", "결국 빵 터져 버렸다!",            speed=0.9, start_sec=9.6),
     Segment("narration-ko-scene3.mp3", "빈칸에 들어갈 말은 무엇일까요?",  speed=1.0, start_sec=12.3),
     Segment("narration-ko-scene4-1.mp3", "정답은 빵!",                    speed=1.0, start_sec=22.0),
     Segment("narration-ko-scene4-2.mp3", "같이 따라해볼까요? 빵!",         speed=1.0, start_sec=24.0),
 ]
+
+
+def load_segments(episode_dir: Path) -> list[Segment]:
+    """Load segments from <episode_dir>/narration-segments.json if present,
+    otherwise fall back to DEFAULT_SEGMENTS."""
+    import json as _json
+
+    segments_path = episode_dir / "narration-segments.json"
+    if not segments_path.exists():
+        return list(DEFAULT_SEGMENTS)
+    raw = _json.loads(segments_path.read_text(encoding="utf-8"))
+    return [
+        Segment(
+            filename=item["filename"],
+            text=item["text"],
+            speed=float(item.get("speed", 1.0)),
+            style=item.get("style"),
+            start_sec=float(item.get("startSec", 0.0)),
+        )
+        for item in raw.get("segments", [])
+    ]
 
 
 def parse_args() -> argparse.Namespace:
@@ -69,10 +90,15 @@ def main() -> int:
     audio_dir = episode_dir / "audio"
     audio_dir.mkdir(parents=True, exist_ok=True)
 
+    segments = load_segments(episode_dir)
+    if not segments:
+        print("warn  no narration segments found; nothing to generate")
+        return 0
+
     client = SupertoneClient.from_env(voice_id=args.voice_id)
 
     generated: list[Path] = []
-    for seg in SEGMENTS:
+    for seg in segments:
         output = audio_dir / seg.filename
         if output.exists() and not args.force:
             print(f"skip  {output.name}  (exists)")
@@ -101,7 +127,7 @@ def main() -> int:
                     "speed": seg.speed,
                     "startSec": seg.start_sec,
                 }
-                for seg in SEGMENTS
+                for seg in segments
             ],
         }
         timing_path = audio_dir / "narration-timing.json"

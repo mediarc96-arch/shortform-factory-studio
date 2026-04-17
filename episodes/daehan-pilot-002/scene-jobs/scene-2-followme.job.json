@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Scene begins from the attached reference frame (matching the previous scene's last frame). Keep Daehan locked to the FAR RIGHT 22% of the frame at all times — never drift toward center. The LEFT 78% chalkboard stays completely empty. From 0s-1.5s he faces the camera and delivers a short 'follow me' invitation with an encouraging tilt of the head. Brief natural pause with a small nod (1.5s-2.5s). From 2.5s to 6s he articulates carefully with clear, visible lip movements, as if reading a sentence aloud; he may gently tilt his head but does NOT move leftward or tap the board. From 6s to 10s he cups one hand near his ear and leans slightly toward camera (vertically, not laterally) with an attentive, expectant listening expression, inviting the viewer to repeat back. Same far-right composition as Scene 1. Warm classroom lighting, 16:9. No chalk marks, no text, no scroll props.\n\nComposition: The character is Daehan: long silver-white hair, violet eyes, small confident smile, black durumagi hanbok, white inner collar, black gat (traditional Korean hat) with golden band and red tassels, black gloves on both hands. Medium shot, eye-level, 16:9 widescreen. STRICT FRAMING: Daehan is shifted all the way to the RIGHT EDGE of the frame, occupying ONLY the right 22%. His left shoulder sits roughly at horizontal 78% of the image. The LEFT 78% is an unobstructed EMPTY green chalkboard reserved for post-production typography — nothing (not the character, not any prop) may intrude into that area beyond its rightmost 2%. Do NOT render any text, letters, numbers, chalk marks, scroll props, or writing anywhere in the frame.\n\nAVOID: photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, Korean characters, subtitles, logos, watermarks, multiple characters, distorted face, blurry, low quality, scroll, paper scroll, hanji scroll, calligraphy scroll, paper banner, rolled paper prop, held document, centered character",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-002/reference-frames/01-scene-last.png",
+    "duration": 10,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "seed": 42
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-002/renders/scene-2.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-002/renders/grok/scene-2-followme.manifest.json"
+  }
+}
