@@ -49,16 +49,17 @@
 
 ## 현재 상태
 
-- 상태: `picture-preview-ready`
+- 상태: `final-export`
 - clean base: `assets/refs/daehan-2d-clean-base-wide-refined.jpg`
 - keyframes: `keyframes/*.jpg`
 - picture scenes: `renders/picture/*.mp4`
 - picture preview: `renders/final/daehan-pilot-codex-003-picture-preview.mp4`
 - review bundle: `review/review-report.md`, `review/picture-review-report.md`, `review/contact-sheets/overview.jpg`
-- 아직 하지 않은 일: TTS 더빙, 손글씨 칠판 타이포, 최종 음성 합성
+- 더빙 여부: `Supertone` 우선 guide dub 생성 완료, `dubbing/audio-overrides/`로 사람 더빙 교체 가능
+- 타이포 여부: 손글씨 굵은 칠판체와 CTA 하단 배너 합성 완료
 
 ## 다음 단계
 
-1. picture preview를 보고 scene별 motion drift가 더 줄어들어야 하는지 결정한다.
-2. 확정되면 현재 picture cut을 기준으로 `Supertone` 더빙만 얹는다.
-3. 그 다음 손글씨 칠판 타이포를 후반 합성한다.
+1. 필요하면 `dubbing/audio-overrides/`에 사람 더빙이나 voice-pack 파일을 넣고 재렌더
+2. 문장 또는 CTA 문구만 수정할 경우 `voice-slots.json`, `typography-slots.json`만 갱신 후 재export
+3. 최종 패킷을 정리해 private YouTube upload 흐름으로 연결

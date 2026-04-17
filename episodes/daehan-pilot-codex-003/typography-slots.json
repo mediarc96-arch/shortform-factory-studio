@@ -26,7 +26,9 @@
       "text": "아기의 옹알이가 하루 종일 이어졌다.",
       "stylePreset": "malmoelab-board-handwritten-bold",
       "plannedInTimeSec": 6.1,
-      "plannedOutTimeSec": 11.5
+      "plannedOutTimeSec": 11.5,
+      "inTimeSec": 6.5,
+      "outTimeSec": 11.75
     },
     {
       "slotId": "scene-3-repeat-sentence",
@@ -35,7 +37,9 @@
       "text": "아기의 옹알이가 하루 종일 이어졌다.",
       "stylePreset": "malmoelab-board-handwritten-bold",
       "plannedInTimeSec": 13.0,
-      "plannedOutTimeSec": 18.0
+      "plannedOutTimeSec": 18.0,
+      "inTimeSec": 14.26,
+      "outTimeSec": 17.69
     },
     {
       "slotId": "scene-4-quiz-blank",
@@ -44,7 +48,9 @@
       "text": "아기의 ___가 하루 종일 이어졌다.",
       "stylePreset": "malmoelab-board-handwritten-bold",
       "plannedInTimeSec": 20.0,
-      "plannedOutTimeSec": 26.0
+      "plannedOutTimeSec": 26.0,
+      "inTimeSec": 18.15,
+      "outTimeSec": 23.85
     },
     {
       "slotId": "scene-4-cta-lower-third",
@@ -53,7 +59,9 @@
       "text": "malmoelab.com에서 더 알아보아요.",
       "stylePreset": "malmoelab-subtitle-cta-soft",
       "plannedInTimeSec": 20.1,
-      "plannedOutTimeSec": 23.2
+      "plannedOutTimeSec": 23.2,
+      "inTimeSec": 19.15,
+      "outTimeSec": 22.06
     }
   ]
 }

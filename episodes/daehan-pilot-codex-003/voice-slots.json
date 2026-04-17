@@ -20,7 +20,15 @@
       "plannedDurationSec": 1.8,
       "recordingTarget": "dubbing/audio-overrides/scene-1-opening-greeting-ko.wav",
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN"
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-1-opening-greeting-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
+      "startSec": 0.6,
+      "endSec": 2.09,
+      "durationSec": 1.49,
+      "renderText": "안녕하세요. 대한이에요!"
     },
     {
       "voiceSlotId": "scene-2-intro-ko",
@@ -39,7 +47,15 @@
       "plannedDurationSec": 3.4,
       "recordingTarget": "dubbing/audio-overrides/scene-2-intro-ko.wav",
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN"
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-2-intro-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
+      "startSec": 6.55,
+      "endSec": 9.82,
+      "durationSec": 3.27,
+      "renderText": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다."
     },
     {
       "voiceSlotId": "scene-3-repeat-cue-ko",
@@ -59,7 +75,15 @@
       "pauseAfterSec": 1.0,
       "recordingTarget": "dubbing/audio-overrides/scene-3-repeat-cue-ko.wav",
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN"
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-3-repeat-cue-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
+      "startSec": 12.55,
+      "endSec": 13.31,
+      "durationSec": 0.76,
+      "renderText": "따라해 볼까요?"
     },
     {
       "voiceSlotId": "scene-3-sentence-ko",
@@ -79,7 +103,15 @@
       "pauseAfterSec": 1.0,
       "recordingTarget": "dubbing/audio-overrides/scene-3-sentence-ko.wav",
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN"
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-3-sentence-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
+      "startSec": 14.31,
+      "endSec": 16.69,
+      "durationSec": 2.38,
+      "renderText": "아기의 옹알이가 하루 종일 이어졌다."
     },
     {
       "voiceSlotId": "scene-4-cta-ko",
@@ -98,7 +130,15 @@
       "plannedDurationSec": 2.1,
       "recordingTarget": "dubbing/audio-overrides/scene-4-cta-ko.wav",
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN"
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-4-cta-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
+      "startSec": 19.2,
+      "endSec": 21.16,
+      "durationSec": 1.96,
+      "renderText": "malmoelab.com에서 더 알아보아요."
     },
     {
       "voiceSlotId": "scene-5-ending-ko",
@@ -117,7 +157,15 @@
       "plannedDurationSec": 2.4,
       "recordingTarget": "dubbing/audio-overrides/scene-5-ending-ko.wav",
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN"
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-5-ending-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
+      "startSec": 24.75,
+      "endSec": 26.79,
+      "durationSec": 2.04,
+      "renderText": "그럼 다음 시간에 또 만나요. 안녕~!"
     }
   ]
 }

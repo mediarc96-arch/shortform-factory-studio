@@ -18,7 +18,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import requests
+try:
+    import requests
+except Exception:  # pragma: no cover
+    requests = None
+import urllib.error
+import urllib.request
 
 
 API_BASE = "https://supertoneapi.com/v1"
@@ -51,7 +56,7 @@ class SupertoneClient:
     language: str = "ko"
     default_style: str | None = None
     timeout_sec: int = 120
-    session: requests.Session = field(default_factory=requests.Session)
+    session: object | None = field(default=None)
 
     @classmethod
     def from_env(cls, *, voice_id: str | None = None) -> "SupertoneClient":
@@ -98,14 +103,32 @@ class SupertoneClient:
         }
 
         url = f"{API_BASE}/text-to-speech/{self.voice_id}"
-        response = self.session.post(url, headers=headers, json=body, timeout=self.timeout_sec)
-        if response.status_code >= 400:
-            raise RuntimeError(
-                f"Supertone TTS failed {response.status_code}: {response.text[:500]}"
+        if requests is not None:
+            session = self.session if self.session is not None else requests.Session()
+            response = session.post(url, headers=headers, json=body, timeout=self.timeout_sec)
+            if response.status_code >= 400:
+                raise RuntimeError(
+                    f"Supertone TTS failed {response.status_code}: {response.text[:500]}"
+                )
+            payload = response.content
+        else:
+            request = urllib.request.Request(
+                url=url,
+                method="POST",
+                headers=headers,
+                data=json.dumps(body).encode("utf-8"),
             )
+            try:
+                with urllib.request.urlopen(request, timeout=self.timeout_sec) as response:
+                    payload = response.read()
+            except urllib.error.HTTPError as exc:
+                body_text = exc.read().decode("utf-8", errors="replace")
+                raise RuntimeError(
+                    f"Supertone TTS failed {exc.code}: {body_text[:500]}"
+                ) from exc
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_bytes(response.content)
+        output_path.write_bytes(payload)
         return output_path
 
 
