@@ -1,0 +1,54 @@
+{
+  "id": "wipe-cta-v2",
+  "label": "Daehan Wipe CTA V2",
+  "description": "오프닝과 컨텐츠, 컨텐츠와 엔딩의 경계를 wipe로 분리하고, 문장 소개 -> 따라하기 -> 퀴즈 CTA로 이어지는 가벼운 학습 티저 포맷.",
+  "runnerHints": {
+    "previewBuilder": "profile-aware builder pending",
+    "finalRenderer": "profile-aware renderer pending"
+  },
+  "transitionPolicy": {
+    "openingToContent": {
+      "effect": "wipe-left",
+      "durationSec": 0.35
+    },
+    "contentToContent": {
+      "effect": "cut-or-short-dissolve",
+      "durationSec": 0.0
+    },
+    "contentToEnding": {
+      "effect": "wipe-left",
+      "durationSec": 0.35
+    }
+  },
+  "contentFlow": [
+    "lesson-intro",
+    "guided-repeat",
+    "quiz-cta"
+  ],
+  "audioPolicy": {
+    "openingVoiceSource": "reuse-original-clip-audio",
+    "endingVoiceSource": "reuse-original-clip-audio-or-guide-fallback",
+    "contentTtsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "contentVoicePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "timingRules": {
+      "repeatCuePauseSec": 1.0,
+      "postSentencePauseSec": 1.0
+    }
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "sentence-board-plus-cta-lower-third",
+    "englishSubtitles": false
+  },
+  "ctaPolicy": {
+    "enabled": true,
+    "message": "malmoelab.com에서 더 알아보아요."
+  }
+}

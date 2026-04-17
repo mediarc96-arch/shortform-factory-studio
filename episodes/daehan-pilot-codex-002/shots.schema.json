@@ -1,0 +1,168 @@
+{
+  "formatVersion": "malmoelab-vnext-shots@0.1",
+  "episodeSlug": "daehan-pilot-codex-002",
+  "shots": [
+    {
+      "shotId": "shot-0-opening-fixed",
+      "sceneId": "scene-0-opening",
+      "role": "opening-fixed-clip",
+      "sourceMode": "reusable-clip",
+      "durationTargetSec": 3.0,
+      "previousShotId": null,
+      "entryFrameSource": "clip-start",
+      "exitFrameExport": "assets/refs/shot-0-opening-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "transitionIn": "none",
+      "transitionOut": "wipe-left-0.35s",
+      "voiceSlotIds": [
+        "opening-embedded"
+      ]
+    },
+    {
+      "shotId": "shot-1-lesson-intro",
+      "sceneId": "scene-1-lesson-intro",
+      "role": "lesson-intro-board",
+      "sourceMode": "generated",
+      "durationTargetSec": 5.0,
+      "previousShotId": "shot-0-opening-fixed",
+      "entryFrameSource": "assets/refs/shot-0-opening-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-1-lesson-intro-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium-wide",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "left-two-thirds",
+        "motion": "static"
+      },
+      "performance": {
+        "poseIntent": "introduce-todays-sentence",
+        "handAction": "open-palm-toward-board",
+        "eyeLine": "board-then-camera",
+        "emotion": "bright-encouraging",
+        "tempo": "steady"
+      },
+      "board": {
+        "state": "clean",
+        "interactionType": "gesture-only",
+        "reservedTypographyArea": "left-center-large"
+      },
+      "transitionIn": "wipe-left-0.35s",
+      "transitionOut": "cut-or-short-dissolve",
+      "voiceSlotIds": [
+        "scene-1-intro-ko"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "lesson-intro-board",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Animate Daehan with the opening-clean reference as the primary character guide. He stands on the right third in a classroom, with the left two-thirds left as a clean green chalkboard for later typography. He introduces today's sentence with an open palm toward the board, then gives a bright teacher smile. Absolutely no text, no chalk marks, no Korean characters, and no decorative writing on clothing or props."
+      }
+    },
+    {
+      "shotId": "shot-2-guided-repeat",
+      "sceneId": "scene-2-guided-repeat",
+      "role": "guided-repeat-board",
+      "sourceMode": "generated",
+      "durationTargetSec": 8.0,
+      "previousShotId": "shot-1-lesson-intro",
+      "entryFrameSource": "assets/refs/shot-1-lesson-intro-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-2-guided-repeat-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium-wide",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "left-two-thirds",
+        "motion": "static"
+      },
+      "performance": {
+        "poseIntent": "repeat-coach",
+        "handAction": "count-in-then-repeat-cue",
+        "eyeLine": "camera",
+        "emotion": "patient-coaching",
+        "tempo": "spacious"
+      },
+      "board": {
+        "state": "clean",
+        "interactionType": "repeat-coach",
+        "reservedTypographyArea": "left-center-large"
+      },
+      "transitionIn": "cut-or-short-dissolve",
+      "transitionOut": "cut-or-short-dissolve",
+      "voiceSlotIds": [
+        "scene-2-repeat-cue-ko",
+        "scene-2-sentence-ko"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "guided-repeat-board",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Use the opening-clean reference as the primary identity guide. Daehan remains on the right third in the same classroom board composition. He first gives a gentle repeat-after-me cue, then leaves generous breathing space and says the sentence like a patient teacher. His gestures should clearly feel like coaching pronunciation, not like the intro scene. No text, no chalk writing, and no symbols anywhere."
+      }
+    },
+    {
+      "shotId": "shot-3-quiz-cta",
+      "sceneId": "scene-3-quiz-cta",
+      "role": "blank-quiz-cta-board",
+      "sourceMode": "generated",
+      "durationTargetSec": 8.0,
+      "previousShotId": "shot-2-guided-repeat",
+      "entryFrameSource": "assets/refs/shot-2-guided-repeat-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-3-quiz-cta-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium-wide",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "left-two-thirds",
+        "motion": "static"
+      },
+      "performance": {
+        "poseIntent": "quiz-and-service-invite",
+        "handAction": "point-to-blank-board-then-invite",
+        "eyeLine": "board-then-camera",
+        "emotion": "curious-inviting",
+        "tempo": "clear"
+      },
+      "board": {
+        "state": "clean",
+        "interactionType": "blank-quiz-pose",
+        "reservedTypographyArea": "left-center-large"
+      },
+      "transitionIn": "cut-or-short-dissolve",
+      "transitionOut": "wipe-left-0.35s",
+      "voiceSlotIds": [
+        "scene-3-cta-ko"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "quiz-cta-board",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Use the opening-clean reference as the primary guide and keep the same classroom board composition. Daehan points toward the blank chalkboard as if asking a fill-in-the-blank question, then shifts to an inviting gesture toward the viewer. Keep the left board totally clean for later blank-sentence typography. No text, no chalk marks, no logos, and no decorative writing."
+      }
+    },
+    {
+      "shotId": "shot-4-ending-fixed",
+      "sceneId": "scene-4-ending",
+      "role": "ending-fixed-clip",
+      "sourceMode": "reusable-clip",
+      "durationTargetSec": 4.0,
+      "previousShotId": "shot-3-quiz-cta",
+      "entryFrameSource": "from-wipe",
+      "exitFrameExport": null,
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "transitionIn": "wipe-left-0.35s",
+      "transitionOut": "none",
+      "voiceSlotIds": [
+        "ending-embedded"
+      ]
+    }
+  ]
+}

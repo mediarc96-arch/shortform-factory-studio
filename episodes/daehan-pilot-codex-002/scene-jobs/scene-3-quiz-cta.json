@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate Daehan using the attached opening-clean reference image as the primary character reference. Keep his exact identity: silver-white long hair, violet eyes, black gat with a gold band and red tassels, plain black durumagi hanbok, white inner collar, and black gloves. COMPOSITION: Horizontal 16:9 widescreen. Daehan stays on the RIGHT THIRD of the frame, medium-wide, eye level. The LEFT TWO-THIRDS must remain a clean empty green chalkboard reserved for a later blank-sentence quiz overlay. MOTION: This is the quiz-and-CTA scene. Daehan points toward the blank board as if asking a fill-in-the-blank question, then shifts into an inviting gesture toward the viewer. IMPORTANT: absolutely no text, no Korean characters, no chalk writing, no calligraphy, no embroidery, no labels, no subtitles, no caption bars, no logos, and no watermarks.",
+    "image": "../assets/refs/daehan-opening-clean-ref.jpg",
+    "duration": 8,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-3-quiz-cta.mp4",
+    "manifestFile": "../renders/picture/scene-3-quiz-cta.manifest.json"
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "formatVersion": "malmoelab-vnext-shots@0.1",
+  "episodeSlug": "daehan-pilot-codex-001",
+  "shots": [
+    {
+      "shotId": "shot-0-opening-fixed",
+      "sceneId": "scene-0-opening",
+      "role": "opening-fixed-clip",
+      "sourceMode": "reusable-clip",
+      "durationTargetSec": 3.0,
+      "previousShotId": null,
+      "entryFrameSource": "clip-start",
+      "exitFrameExport": "assets/refs/shot-0-opening-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "source-clip",
+        "angle": "source-clip",
+        "teacherPlacement": "source-clip",
+        "boardPlacement": "n/a",
+        "motion": "source-clip"
+      },
+      "performance": {
+        "poseIntent": "greeting",
+        "handAction": "wave",
+        "eyeLine": "camera",
+        "emotion": "bright-welcome",
+        "tempo": "calm"
+      },
+      "board": {
+        "state": "n/a",
+        "interactionType": "none",
+        "reservedTypographyArea": "none"
+      },
+      "transitionIn": "none",
+      "transitionOut": "dip-to-black-4f-to-8f",
+      "voiceSlotIds": [
+        "opening-embedded"
+      ],
+      "textOverlayMode": "source-clip-only",
+      "generation": {
+        "provider": "none",
+        "promptPreset": "reusable-opening",
+        "negativePromptPreset": "none"
+      },
+      "qa": {
+        "mustPreserve": [
+          "original-opening-audio"
+        ],
+        "watchFor": [
+          "bad-opening-trim"
+        ]
+      }
+    },
+    {
+      "shotId": "shot-1-situation",
+      "sceneId": "scene-1-situation",
+      "role": "situation-act",
+      "sourceMode": "generated",
+      "durationTargetSec": 5.0,
+      "previousShotId": "shot-0-opening-fixed",
+      "entryFrameSource": "assets/refs/shot-0-opening-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-1-situation-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "none",
+        "motion": "static-or-micro-push"
+      },
+      "performance": {
+        "poseIntent": "inflate-balloon",
+        "handAction": "hold-balloon-and-blow",
+        "eyeLine": "balloon",
+        "emotion": "playful-focus",
+        "tempo": "building"
+      },
+      "board": {
+        "state": "none",
+        "interactionType": "none",
+        "reservedTypographyArea": "none"
+      },
+      "transitionIn": "dip-to-black-4f-to-8f",
+      "transitionOut": "cut-or-short-dissolve",
+      "voiceSlotIds": [
+        "scene-1-narration-ko",
+        "scene-1-subtitle-en"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "situation-entry",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Use the opening exit frame as a loose continuity reference when helpful. Daehan stands on the right third of the frame and gradually blows up a red balloon. Keep the classroom background soft and simple. No text, no letters, no subtitles."
+      },
+      "qa": {
+        "mustPreserve": [
+          "silver-white-long-hair",
+          "violet-eyes",
+          "black-gat",
+          "black-durumagi",
+          "black-gloves"
+        ],
+        "watchFor": [
+          "teacher-centered-frame",
+          "balloon-obscuring-face",
+          "text-artifacts"
+        ]
+      }
+    },
+    {
+      "shotId": "shot-2-climax",
+      "sceneId": "scene-2-climax",
+      "role": "burst-reaction",
+      "sourceMode": "generated",
+      "durationTargetSec": 4.0,
+      "previousShotId": "shot-1-situation",
+      "entryFrameSource": "assets/refs/shot-1-situation-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-2-climax-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "none",
+        "motion": "locked"
+      },
+      "performance": {
+        "poseIntent": "surprised-reaction",
+        "handAction": "recoil-after-pop",
+        "eyeLine": "burst-point",
+        "emotion": "surprised",
+        "tempo": "sharp-then-hold"
+      },
+      "board": {
+        "state": "none",
+        "interactionType": "none",
+        "reservedTypographyArea": "none"
+      },
+      "transitionIn": "cut-or-short-dissolve",
+      "transitionOut": "cut-or-short-dissolve",
+      "voiceSlotIds": [
+        "scene-2-narration-ko",
+        "scene-2-subtitle-en"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "burst-reaction",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Use the prior shot exit frame as a loose visual reference so the clip feels like the same lesson. The balloon gets slightly larger and then suddenly bursts. Daehan reacts with a genuine surprised expression and slight recoil. Keep composition and lighting broadly consistent. No text."
+      },
+      "qa": {
+        "mustPreserve": [
+          "same-lesson-feel-as-shot-1",
+          "same-outfit"
+        ],
+        "watchFor": [
+          "hard-cut-pose-jump",
+          "confetti-covering-face",
+          "text-artifacts"
+        ]
+      }
+    },
+    {
+      "shotId": "shot-3-question-board",
+      "sceneId": "scene-3-question",
+      "role": "question-board-setup",
+      "sourceMode": "generated",
+      "durationTargetSec": 7.0,
+      "previousShotId": "shot-2-climax",
+      "entryFrameSource": "assets/refs/shot-2-climax-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-3-question-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium-wide",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "left-two-thirds",
+        "motion": "static"
+      },
+      "performance": {
+        "poseIntent": "introduce-question",
+        "handAction": "open-palm-toward-board",
+        "eyeLine": "chalkboard-then-camera",
+        "emotion": "calm-encouraging",
+        "tempo": "steady"
+      },
+      "board": {
+        "state": "clean",
+        "interactionType": "gesture-only",
+        "reservedTypographyArea": "left-center-large"
+      },
+      "transitionIn": "cut-or-short-dissolve",
+      "transitionOut": "cut-or-short-dissolve",
+      "voiceSlotIds": [
+        "scene-3-question-ko",
+        "scene-3-subtitle-en"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "question-board",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Use the prior scene only as a continuity reference. Daehan moves into a classroom chalkboard composition, standing on the right third while the left two-thirds remains a clean green chalkboard reserved for post typography. He gestures toward the blank board and invites attention. No text or chalk marks."
+      },
+      "qa": {
+        "mustPreserve": [
+          "clean-green-board",
+          "teacher-on-right-third"
+        ],
+        "watchFor": [
+          "board-reflections",
+          "board-text-artifacts",
+          "teacher-too-centered"
+        ]
+      }
+    },
+    {
+      "shotId": "shot-4-reveal-repeat",
+      "sceneId": "scene-4-reveal-repeat",
+      "role": "answer-reveal-and-repeat",
+      "sourceMode": "generated",
+      "durationTargetSec": 7.0,
+      "previousShotId": "shot-3-question-board",
+      "entryFrameSource": "assets/refs/shot-3-question-exit.png",
+      "entryFrameMode": "optional-visual-reference",
+      "exitFrameExport": "assets/refs/shot-4-reveal-repeat-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "medium-wide",
+        "angle": "eye-level",
+        "teacherPlacement": "right-third",
+        "boardPlacement": "left-two-thirds",
+        "motion": "static"
+      },
+      "performance": {
+        "poseIntent": "reveal-then-repeat",
+        "handAction": "writing-mime-then-repeat-cue",
+        "eyeLine": "board-then-camera",
+        "emotion": "bright-rewarding",
+        "tempo": "calm-rhythmic"
+      },
+      "board": {
+        "state": "clean",
+        "interactionType": "writing-mime",
+        "reservedTypographyArea": "left-center-large"
+      },
+      "transitionIn": "cut-or-short-dissolve",
+      "transitionOut": "dip-to-black-4f-to-8f",
+      "voiceSlotIds": [
+        "scene-4-answer-ko",
+        "scene-4-repeat-ko",
+        "scene-4-subtitle-en"
+      ],
+      "textOverlayMode": "post-only",
+      "generation": {
+        "provider": "grok-or-runway",
+        "promptPreset": "reveal-repeat",
+        "negativePromptPreset": "daehan-default-negative",
+        "prompt": "Use the previous board scene as a loose continuity guide. Daehan performs a writing motion on the empty board without leaving text, then turns to camera, smiles brightly, and gives a clear repeat-after-me gesture with one hand near his ear. Keep the board clean for post overlay."
+      },
+      "qa": {
+        "mustPreserve": [
+          "board-cleanliness",
+          "clear-mouth-shape",
+          "distinct-action-from-scene-3"
+        ],
+        "watchFor": [
+          "same-pose-as-question-scene",
+          "rushed-repeat-gesture",
+          "text-artifacts"
+        ]
+      }
+    },
+    {
+      "shotId": "shot-5-ending-fixed",
+      "sceneId": "scene-5-ending",
+      "role": "ending-fixed-clip",
+      "sourceMode": "reusable-clip",
+      "durationTargetSec": 4.0,
+      "previousShotId": "shot-4-reveal-repeat",
+      "entryFrameSource": "dip-to-black-4f",
+      "exitFrameExport": "assets/refs/shot-5-ending-exit.png",
+      "characterRef": "assets/refs/daehan-opening-clean-ref.jpg",
+      "camera": {
+        "framing": "source-clip",
+        "angle": "source-clip",
+        "teacherPlacement": "source-clip",
+        "boardPlacement": "n/a",
+        "motion": "source-clip"
+      },
+      "performance": {
+        "poseIntent": "farewell",
+        "handAction": "wave",
+        "eyeLine": "camera",
+        "emotion": "warm-goodbye",
+        "tempo": "gentle"
+      },
+      "board": {
+        "state": "n/a",
+        "interactionType": "none",
+        "reservedTypographyArea": "none"
+      },
+      "transitionIn": "dip-to-black-4f-to-8f",
+      "transitionOut": "none",
+      "voiceSlotIds": [
+        "ending-embedded"
+      ],
+      "textOverlayMode": "source-clip-only",
+      "generation": {
+        "provider": "none",
+        "promptPreset": "reusable-ending",
+        "negativePromptPreset": "none"
+      },
+      "qa": {
+        "mustPreserve": [
+          "original-ending-audio"
+        ],
+        "watchFor": [
+          "bad-ending-trim"
+        ]
+      }
+    }
+  ]
+}

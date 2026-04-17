@@ -1,0 +1,148 @@
+{
+  "formatVersion": "malmoelab-vnext-voice-slots@0.1",
+  "episodeSlug": "daehan-pilot-codex-002",
+  "slots": [
+    {
+      "voiceSlotId": "opening-embedded",
+      "kind": "embedded-clip-audio",
+      "speaker": "daehan",
+      "text": "안녕하세요. 대한이에요!",
+      "preferredSources": [
+        "original-clip-audio"
+      ],
+      "selectedAsset": "characters/daehan/01_Opening.mp4#audio",
+      "selectedSource": "original-clip-audio",
+      "startSec": 0.0,
+      "durationSec": 3.0
+    },
+    {
+      "voiceSlotId": "scene-1-intro-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-1-intro-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "sceneId": "scene-1-lesson-intro",
+      "startSec": 3.65,
+      "durationSec": 3.4,
+      "recordingTarget": "dubbing/audio-overrides/scene-1-intro-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "speed": 1.0,
+      "guideAsset": "dubbing/guide-audio/scene-1-intro-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-1-intro-ko.mp3",
+      "endSec": 7.05,
+      "renderText": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다."
+    },
+    {
+      "voiceSlotId": "scene-2-repeat-cue-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "따라해 볼까요?",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-2-repeat-cue-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "sceneId": "scene-2-guided-repeat",
+      "startSec": 8.45,
+      "durationSec": 0.81,
+      "pauseAfterSec": 1.0,
+      "recordingTarget": "dubbing/audio-overrides/scene-2-repeat-cue-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "speed": 0.98,
+      "guideAsset": "dubbing/guide-audio/scene-2-repeat-cue-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-repeat-cue-ko.mp3",
+      "endSec": 9.26,
+      "renderText": "따라해 볼까요?"
+    },
+    {
+      "voiceSlotId": "scene-2-sentence-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-2-sentence-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "sceneId": "scene-2-guided-repeat",
+      "startSec": 10.26,
+      "durationSec": 2.59,
+      "pauseAfterSec": 1.0,
+      "recordingTarget": "dubbing/audio-overrides/scene-2-sentence-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "speed": 0.94,
+      "guideAsset": "dubbing/guide-audio/scene-2-sentence-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-sentence-ko.mp3",
+      "endSec": 12.85,
+      "renderText": "아기의 옹알이가 하루 종일 이어졌다."
+    },
+    {
+      "voiceSlotId": "scene-3-cta-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-cta-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "sceneId": "scene-3-quiz-cta",
+      "startSec": 16.65,
+      "durationSec": 1.99,
+      "recordingTarget": "dubbing/audio-overrides/scene-3-cta-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "speed": 0.96,
+      "guideAsset": "dubbing/guide-audio/scene-3-cta-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-cta-ko.mp3",
+      "endSec": 18.64,
+      "renderText": "malmoelab.com에서 더 알아보아요."
+    },
+    {
+      "voiceSlotId": "ending-embedded",
+      "kind": "embedded-clip-audio",
+      "speaker": "daehan",
+      "text": "그럼 다음 시간에 또 만나요. 안녕~!",
+      "preferredSources": [
+        "original-clip-audio",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/ending-embedded.mp3",
+      "selectedSource": "supertone-guide",
+      "startSec": 23.3,
+      "durationSec": 2.09,
+      "recordingTarget": "dubbing/audio-overrides/ending-embedded.wav",
+      "fallbackTtsProvider": "supertone",
+      "guideAsset": "dubbing/guide-audio/ending-embedded.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/ending-embedded.mp3",
+      "sceneId": "scene-4-ending",
+      "endSec": 25.39,
+      "renderText": "그럼 다음 시간에 또 만나요. 안녕~!"
+    }
+  ]
+}

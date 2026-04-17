@@ -1,0 +1,68 @@
+{
+  "_template": "daehan-vnext-pilot@0.2",
+  "episode": {
+    "slug": "daehan-pilot-codex-002",
+    "series": "daehan-pilot-codex",
+    "character": "daehan",
+    "formatProfile": "wipe-cta-v2",
+    "formatProfilePath": "formats/wipe-cta-v2/profile.json",
+    "format": "sentence-teaser-quiz",
+    "durationSec": 30,
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "createdAt": "2026-04-17T00:00:00Z",
+    "seed": 42002
+  },
+  "opening": {
+    "sourceFile": "characters/daehan/01_Opening.mp4",
+    "trimStartSec": 0,
+    "trimEndSec": 3.0,
+    "keepOriginalAudio": true,
+    "reusable": true,
+    "transitionOut": {
+      "effect": "wipe-left",
+      "durationSec": 0.35
+    }
+  },
+  "ending": {
+    "sourceFile": "characters/daehan/02_Ending.mp4",
+    "trimStartSec": 0,
+    "trimEndSec": 4.0,
+    "keepOriginalAudio": true,
+    "reusable": true,
+    "transitionIn": {
+      "effect": "wipe-left",
+      "durationSec": 0.35
+    }
+  },
+  "source": {
+    "type": "manual-pilot",
+    "sentenceText": "아기의 옹알이가 하루 종일 이어졌다.",
+    "sentenceDisplayBlank": "아기의 ___가 하루 종일 이어졌다.",
+    "blankToken": "___",
+    "focusWord": {
+      "text": "옹알이",
+      "partOfSpeech": "명사",
+      "englishGloss": "babbling"
+    },
+    "serviceCta": {
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "surface": "subtitle-lower-third"
+    }
+  },
+  "postProductionPolicy": {
+    "pictureFirst": true,
+    "chalkboardTypography": "post-only",
+    "englishSubtitles": false,
+    "narrationLanguage": "ko",
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "contentTtsProvider": "supertone"
+  }
+}

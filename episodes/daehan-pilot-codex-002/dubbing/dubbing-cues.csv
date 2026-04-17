@@ -1,0 +1,6 @@
+voice_slot_id,scene_id,scene_start_sec,slot_start_sec,slot_end_sec,duration_sec,text,selected_source,recording_target,reference_video
+scene-1-intro-ko,scene-1-lesson-intro,2.650,3.650,7.050,3.400,오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다.,supertone-guide,dubbing/audio-overrides/scene-1-intro-ko.wav,dubbing/reference-video/scene-1-lesson-intro.mp4
+scene-2-repeat-cue-ko,scene-2-guided-repeat,7.650,8.450,9.260,0.810,따라해 볼까요?,supertone-guide,dubbing/audio-overrides/scene-2-repeat-cue-ko.wav,dubbing/reference-video/scene-2-guided-repeat.mp4
+scene-2-sentence-ko,scene-2-guided-repeat,7.650,10.260,12.850,2.590,아기의 옹알이가 하루 종일 이어졌다.,supertone-guide,dubbing/audio-overrides/scene-2-sentence-ko.wav,dubbing/reference-video/scene-2-guided-repeat.mp4
+scene-3-cta-ko,scene-3-quiz-cta,15.650,16.650,18.640,1.990,malmoelab.com에서 더 알아보아요.,supertone-guide,dubbing/audio-overrides/scene-3-cta-ko.wav,dubbing/reference-video/scene-3-quiz-cta.mp4
+ending-embedded,scene-4-ending,23.300,23.300,25.390,2.090,그럼 다음 시간에 또 만나요. 안녕~!,supertone-guide,dubbing/audio-overrides/ending-embedded.wav,dubbing/reference-video/scene-4-ending.mp4

@@ -1,0 +1,6 @@
+scene_id,start_sec,end_sec,start_frame,end_frame
+scene-0-opening,0.000,3.000,0,89
+scene-1-lesson-intro,2.650,7.650,80,229
+scene-2-guided-repeat,7.650,15.650,230,469
+scene-3-quiz-cta,15.650,23.650,470,709
+scene-4-ending,23.300,27.300,699,818

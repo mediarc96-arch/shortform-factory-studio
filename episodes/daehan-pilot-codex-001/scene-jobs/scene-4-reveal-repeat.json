@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate Daehan using the attached opening-clean reference image as the primary character reference. Keep his exact identity: silver-white long hair, violet eyes, black gat with a gold band and red tassels, plain black durumagi hanbok, white inner collar, and black gloves. COMPOSITION: Horizontal 16:9 widescreen. Daehan stays on the RIGHT THIRD of the frame, medium-wide at eye level. The LEFT TWO-THIRDS must remain a clean empty green chalkboard reserved for later typography. MOTION: This is the answer reveal and repeat-after-me scene. Daehan lightly taps or traces the blank chalkboard once without leaving any marks, then turns back toward the viewer, gives a bright rewarding smile, a small single clap or satisfied nod, and ends with one open-palm repeat-after-me teaching cue. His hands must stay separated or naturally relaxed. Do NOT use praying hands, clasped hands, or a worship pose. WARDROBE AND SET: keep the robe, sleeves, collar, gloves, hat, tassels, chalkboard, and background completely plain with no writing or symbols. IMPORTANT: absolutely no text, no Korean characters, no chalk writing, no calligraphy, no embroidery, no labels, no paper scroll, no subtitles, no caption bars, no logos, and no watermarks.",
+    "image": "../assets/refs/daehan-opening-clean-ref.jpg",
+    "duration": 7,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-4-reveal-repeat.mp4",
+    "manifestFile": "../renders/picture/scene-4-reveal-repeat.manifest.json"
+  }
+}

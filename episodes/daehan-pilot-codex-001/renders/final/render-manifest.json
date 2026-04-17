@@ -1,0 +1,14 @@
+{
+  "episodeSlug": "daehan-pilot-codex-001",
+  "pictureLockPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-001/renders/picture-lock/daehan-pilot-codex-001-picture-lock.mp4",
+  "audioMixPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-001/renders/dub-lock/daehan-pilot-codex-001-guide-dub.m4a",
+  "finalVideoPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-001/renders/final/daehan-pilot-codex-001-final.mp4",
+  "thumbnailPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-001/renders/final/daehan-pilot-codex-001-final-thumb.jpg",
+  "voiceSource": "elevenlabs-guide",
+  "voiceId": "JBFqnCBsd6RMkjVDRZzb",
+  "modelId": "eleven_multilingual_v2",
+  "sceneRangesPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-001/review/scene-ranges.csv",
+  "reviewOverviewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-001/review/final-contact-sheets/overview.jpg",
+  "audioMeanDb": -19.9,
+  "audioMaxDb": -0.4
+}

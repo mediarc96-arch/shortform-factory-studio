@@ -1,0 +1,128 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "daehan-pilot-codex-001",
+  "seriesSlug": "daehan-pilot-codex",
+  "characterSlug": "daehan",
+  "characterRoot": "characters/daehan",
+  "formatProfile": "legacy-v1",
+  "formatProfilePath": "formats/legacy-v1/profile.json",
+  "status": "final-export",
+  "createdAt": "2026-04-17T00:00:00Z",
+  "seed": 42001,
+  "reusableAssets": {
+    "openingClip": "characters/daehan/01_Opening.mp4",
+    "endingClip": "characters/daehan/02_Ending.mp4",
+    "characterImage": "characters/daehan/daehan.jpg",
+    "generationPrimaryReference": "assets/refs/daehan-opening-clean-ref.jpg",
+    "bible": "characters/daehan/bible.md",
+    "promptSet": "characters/daehan/prompts.md"
+  },
+  "lesson": {
+    "topicType": "action-quiz",
+    "sourceRef": "manual-pilot",
+    "sentenceKo": "풍선을 너무 크게 불었더니 결국 빵 터져 버렸다.",
+    "sentenceBlankKo": "풍선을 너무 크게 불었더니 결국 ___ 터져 버렸다.",
+    "sentenceEn": "I blew the balloon too big, and it ended up popping.",
+    "focusWord": "빵",
+    "focusWordRomanization": "ppang"
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "durationSec": 30
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "segment-continuity",
+      "openingBoundary": "dip-to-black-4f-to-8f",
+      "contentSceneLink": "cut-or-short-dissolve",
+      "endingBoundary": "dip-to-black-4f-to-8f",
+      "entryFrameRule": "previous-shot-exit-frame-optional-reference",
+      "contentContinuityFocus": [
+        "same-character-identity",
+        "same-classroom-tone",
+        "similar-camera-height-and-layout",
+        "teacher-on-right-third-in-board-scenes",
+        "distinct-action-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "openingVoiceSource": "reuse-original-clip-audio",
+      "endingVoiceSource": "reuse-original-clip-audio",
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "cloned-dub",
+        "tts-guide"
+      ]
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-picture-lock"
+    }
+  },
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "shotsSchemaFile": "./shots.schema.json",
+  "scenes": [
+    {
+      "sceneId": "scene-0-opening",
+      "role": "opening",
+      "sourceMode": "reusable-clip",
+      "durationSec": 3.0
+    },
+    {
+      "sceneId": "scene-1-situation",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 5.0
+    },
+    {
+      "sceneId": "scene-2-climax",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 4.0
+    },
+    {
+      "sceneId": "scene-3-question",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 7.0
+    },
+    {
+      "sceneId": "scene-4-reveal-repeat",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 7.0
+    },
+    {
+      "sceneId": "scene-5-ending",
+      "role": "ending",
+      "sourceMode": "reusable-clip",
+      "durationSec": 4.0
+    }
+  ],
+  "notes": {
+    "prototypeGoal": "validate segment-continuity episode structure with reusable daehan assets",
+    "formatProfileLabel": "Daehan Legacy V1",
+    "currentExecutionMode": "guide-dub-plus-typography-final",
+    "generatedScenes": [
+      "scene-1-situation",
+      "scene-2-climax",
+      "scene-3-question",
+      "scene-4-reveal-repeat"
+    ],
+    "latestReviewReport": "./review/final-review-report.md",
+    "latestReviewSeverity": "pass",
+    "managedBy": "codex",
+    "pictureLockPath": "./renders/picture-lock/daehan-pilot-codex-001-picture-lock.mp4",
+    "dubMixPath": "./renders/dub-lock/daehan-pilot-codex-001-guide-dub.m4a",
+    "openingAudioSource": "original-clip-audio",
+    "endingAudioSource": "elevenlabs-guide-fallback",
+    "finalExportPath": "./renders/final/daehan-pilot-codex-001-final.mp4",
+    "thumbnailPath": "./renders/final/daehan-pilot-codex-001-final-thumb.jpg",
+    "dubbingPackagePath": "./dubbing/README.md",
+    "dubbingCuesPath": "./dubbing/dubbing-cues.csv"
+  }
+}

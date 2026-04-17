@@ -1,0 +1,42 @@
+{
+  "formatVersion": "malmoelab-vnext-typography-slots@0.1",
+  "episodeSlug": "daehan-pilot-codex-002",
+  "slots": [
+    {
+      "slotId": "scene-1-sentence-main",
+      "sceneId": "scene-1-lesson-intro",
+      "surface": "chalkboard",
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "stylePreset": "malmoelab-board-main",
+      "inTimeSec": 3.45,
+      "outTimeSec": 7.45
+    },
+    {
+      "slotId": "scene-2-repeat-sentence",
+      "sceneId": "scene-2-guided-repeat",
+      "surface": "chalkboard",
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "stylePreset": "malmoelab-board-main",
+      "inTimeSec": 10.21,
+      "outTimeSec": 13.85
+    },
+    {
+      "slotId": "scene-3-quiz-blank",
+      "sceneId": "scene-3-quiz-cta",
+      "surface": "chalkboard",
+      "text": "아기의 ___가 하루 종일 이어졌다.",
+      "stylePreset": "malmoelab-board-main",
+      "inTimeSec": 15.95,
+      "outTimeSec": 23.45
+    },
+    {
+      "slotId": "scene-3-cta-lower-third",
+      "sceneId": "scene-3-quiz-cta",
+      "surface": "subtitle-lower-third",
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "stylePreset": "malmoelab-subtitle-cta",
+      "inTimeSec": 16.6,
+      "outTimeSec": 19.64
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "formatVersion": "malmoelab-vnext-voice-slots@0.1",
+  "episodeSlug": "daehan-pilot-codex-001",
+  "slots": [
+    {
+      "voiceSlotId": "opening-embedded",
+      "kind": "embedded-clip-audio",
+      "speaker": "daehan",
+      "text": "안녕하세요. 대한이에요!",
+      "preferredSources": [
+        "original-clip-audio"
+      ],
+      "selectedAsset": "characters/daehan/01_Opening.mp4#audio",
+      "selectedSource": "original-clip-audio",
+      "startSec": 0.0,
+      "durationSec": 3.0
+    },
+    {
+      "voiceSlotId": "scene-1-narration-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "풍선을 너무 크게 불었더니…",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "cloned-dub",
+        "tts-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-1-narration-ko.mp3",
+      "selectedSource": "elevenlabs-guide",
+      "startSec": 3.55,
+      "durationSec": 1.59,
+      "renderText": "풍선을 너무 크게 불었더니...",
+      "recordingTarget": "dubbing/audio-overrides/scene-1-narration-ko.wav",
+      "guideAsset": "dubbing/guide-audio/scene-1-narration-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-1-narration-ko.mp3",
+      "sceneId": "scene-1-situation",
+      "endSec": 5.14
+    },
+    {
+      "voiceSlotId": "scene-2-narration-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "결국 빵 터져 버렸다!",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "cloned-dub",
+        "tts-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-2-narration-ko.mp3",
+      "selectedSource": "elevenlabs-guide",
+      "startSec": 8.6,
+      "durationSec": 1.67,
+      "renderText": "결국, 빵 터져 버렸다!",
+      "recordingTarget": "dubbing/audio-overrides/scene-2-narration-ko.wav",
+      "guideAsset": "dubbing/guide-audio/scene-2-narration-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-narration-ko.mp3",
+      "sceneId": "scene-2-climax",
+      "endSec": 10.27
+    },
+    {
+      "voiceSlotId": "scene-3-question-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "빈칸에 들어갈 말은 무엇일까요?",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "cloned-dub",
+        "tts-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-question-ko.mp3",
+      "selectedSource": "elevenlabs-guide",
+      "startSec": 13.1,
+      "durationSec": 1.99,
+      "renderText": "빈칸에 들어갈 말은 무엇일까요?",
+      "recordingTarget": "dubbing/audio-overrides/scene-3-question-ko.wav",
+      "guideAsset": "dubbing/guide-audio/scene-3-question-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-question-ko.mp3",
+      "sceneId": "scene-3-question",
+      "endSec": 15.09
+    },
+    {
+      "voiceSlotId": "scene-4-answer-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "정답은 빵!",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "cloned-dub",
+        "tts-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-4-answer-ko.mp3",
+      "selectedSource": "elevenlabs-guide",
+      "startSec": 20.15,
+      "durationSec": 1.12,
+      "renderText": "정답은, 빵!",
+      "recordingTarget": "dubbing/audio-overrides/scene-4-answer-ko.wav",
+      "guideAsset": "dubbing/guide-audio/scene-4-answer-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-4-answer-ko.mp3",
+      "sceneId": "scene-4-reveal-repeat",
+      "endSec": 21.27
+    },
+    {
+      "voiceSlotId": "scene-4-repeat-ko",
+      "kind": "episode-line",
+      "speaker": "daehan",
+      "text": "같이 따라해볼까요? 빵!",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "cloned-dub",
+        "tts-guide"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-4-repeat-ko.mp3",
+      "selectedSource": "elevenlabs-guide",
+      "startSec": 23.0,
+      "durationSec": 2.22,
+      "renderText": "같이 따라해 볼까요? ... 빵!",
+      "recordingTarget": "dubbing/audio-overrides/scene-4-repeat-ko.wav",
+      "guideAsset": "dubbing/guide-audio/scene-4-repeat-ko.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-4-repeat-ko.mp3",
+      "sceneId": "scene-4-reveal-repeat",
+      "endSec": 25.22
+    },
+    {
+      "voiceSlotId": "ending-embedded",
+      "kind": "embedded-clip-audio",
+      "speaker": "daehan",
+      "text": "그럼 다음 시간에 또 만나요. 안녕~!",
+      "preferredSources": [
+        "original-clip-audio",
+        "voice-pack"
+      ],
+      "selectedAsset": "renders/dub-lock/narration-guide/ending-embedded.mp3",
+      "selectedSource": "elevenlabs-guide",
+      "startSec": 26.6,
+      "durationSec": 2.17,
+      "renderText": "그럼 다음 시간에 또 만나요. 안녕~!",
+      "recordingTarget": "dubbing/audio-overrides/ending-embedded.wav",
+      "guideAsset": "dubbing/guide-audio/ending-embedded.mp3",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/ending-embedded.mp3",
+      "sceneId": "scene-5-ending",
+      "endSec": 28.77
+    },
+    {
+      "voiceSlotId": "scene-1-subtitle-en",
+      "kind": "subtitle-text",
+      "speaker": "system",
+      "text": "I blew the balloon too big...",
+      "preferredSources": [
+        "subtitle-overlay"
+      ],
+      "selectedAsset": null
+    },
+    {
+      "voiceSlotId": "scene-2-subtitle-en",
+      "kind": "subtitle-text",
+      "speaker": "system",
+      "text": "...and it ended up popping!",
+      "preferredSources": [
+        "subtitle-overlay"
+      ],
+      "selectedAsset": null
+    },
+    {
+      "voiceSlotId": "scene-3-subtitle-en",
+      "kind": "subtitle-text",
+      "speaker": "system",
+      "text": "What word goes in the blank?",
+      "preferredSources": [
+        "subtitle-overlay"
+      ],
+      "selectedAsset": null
+    },
+    {
+      "voiceSlotId": "scene-4-subtitle-en",
+      "kind": "subtitle-text",
+      "speaker": "system",
+      "text": "The answer is ppang. Say it with me: ppang!",
+      "preferredSources": [
+        "subtitle-overlay"
+      ],
+      "selectedAsset": null
+    }
+  ]
+}

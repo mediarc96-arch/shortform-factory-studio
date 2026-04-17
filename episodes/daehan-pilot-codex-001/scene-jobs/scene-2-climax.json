@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate Daehan using the attached opening-clean reference image as the primary character reference. Keep his exact identity: silver-white long hair, violet eyes, black gat with a gold band and red tassels, plain black durumagi hanbok, white inner collar, and black gloves. COMPOSITION: Horizontal 16:9 widescreen. Daehan stays on the RIGHT THIRD of the frame for the entire clip, medium shot, eye level, not centered. Keep the background and lighting broadly matched to scene 1. MOTION: This directly follows the balloon inflation. A large red balloon is already beside Daehan and suddenly pops. He gives a short surprised recoil, then settles into a small relieved smile so the clip still feels like the same playful lesson beat. Do not add confetti or debris covering his face. WARDROBE AND SET: keep the robe, sleeves, collar, gloves, hat, tassels, balloon, and background completely plain with no writing or symbols. IMPORTANT: absolutely no text, no Korean characters, no calligraphy, no embroidery, no labels, no paper scroll, no subtitles, no caption bars, no logos, and no watermarks.",
+    "image": "../assets/refs/daehan-opening-clean-ref.jpg",
+    "duration": 4,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-2-climax.mp4",
+    "manifestFile": "../renders/picture/scene-2-climax.manifest.json"
+  }
+}

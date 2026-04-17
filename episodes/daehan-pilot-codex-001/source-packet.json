@@ -1,0 +1,92 @@
+{
+  "_template": "daehan-vnext-pilot@0.1",
+  "episode": {
+    "slug": "daehan-pilot-codex-001",
+    "series": "daehan-pilot-codex",
+    "character": "daehan",
+    "formatProfile": "legacy-v1",
+    "formatProfilePath": "formats/legacy-v1/profile.json",
+    "format": "action-quiz",
+    "durationSec": 30,
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "createdAt": "2026-04-17T00:00:00Z",
+    "seed": 42001
+  },
+  "opening": {
+    "sourceFile": "characters/daehan/01_Opening.mp4",
+    "trimStartSec": 0,
+    "trimEndSec": 3.0,
+    "keepOriginalAudio": true,
+    "reusable": true
+  },
+  "ending": {
+    "sourceFile": "characters/daehan/02_Ending.mp4",
+    "trimStartSec": 0,
+    "trimEndSec": 3.3,
+    "keepOriginalAudio": true,
+    "reusable": true
+  },
+  "source": {
+    "type": "manual-pilot",
+    "sentenceText": "풍선을 너무 크게 불었더니 결국 빵 터져 버렸다.",
+    "sentenceDisplayBlank": "풍선을 너무 크게 불었더니 결국 ___ 터져 버렸다.",
+    "blankToken": "___",
+    "focusWord": {
+      "text": "빵",
+      "partOfSpeech": "부사",
+      "romanization": "ppang",
+      "englishGloss": "pop (bursting sound)"
+    },
+    "englishTranslation": "I blew the balloon too big, and it ended up popping."
+  },
+  "distractors": [
+    {
+      "wordText": "꽝",
+      "romanization": "kkwang",
+      "englishGloss": "bang, crash"
+    },
+    {
+      "wordText": "쿵",
+      "romanization": "kung",
+      "englishGloss": "thud, thump"
+    }
+  ],
+  "choices": {
+    "resolved": [
+      {
+        "position": 1,
+        "label": "①",
+        "wordText": "꽝",
+        "isCorrect": false
+      },
+      {
+        "position": 2,
+        "label": "②",
+        "wordText": "빵",
+        "isCorrect": true
+      },
+      {
+        "position": 3,
+        "label": "③",
+        "wordText": "쿵",
+        "isCorrect": false
+      }
+    ],
+    "correctPosition": 2,
+    "correctLabel": "②"
+  },
+  "postProductionPolicy": {
+    "pictureFirst": true,
+    "chalkboardTypography": "post-only",
+    "englishSubtitles": true,
+    "narrationLanguage": "ko",
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "cloned-dub",
+      "tts-guide"
+    ]
+  }
+}

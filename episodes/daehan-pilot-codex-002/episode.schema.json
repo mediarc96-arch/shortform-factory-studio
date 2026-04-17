@@ -1,0 +1,123 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "daehan-pilot-codex-002",
+  "seriesSlug": "daehan-pilot-codex",
+  "characterSlug": "daehan",
+  "characterRoot": "characters/daehan",
+  "formatProfile": "wipe-cta-v2",
+  "formatProfilePath": "formats/wipe-cta-v2/profile.json",
+  "status": "final-export",
+  "createdAt": "2026-04-17T00:00:00Z",
+  "seed": 42002,
+  "reusableAssets": {
+    "openingClip": "characters/daehan/01_Opening.mp4",
+    "endingClip": "characters/daehan/02_Ending.mp4",
+    "characterImage": "characters/daehan/daehan.jpg",
+    "generationPrimaryReference": "assets/refs/daehan-opening-clean-ref.jpg",
+    "bible": "characters/daehan/bible.md",
+    "promptSet": "characters/daehan/prompts.md"
+  },
+  "lesson": {
+    "topicType": "sentence-teaser-quiz",
+    "sourceRef": "manual-pilot",
+    "sentenceKo": "아기의 옹알이가 하루 종일 이어졌다.",
+    "sentenceBlankKo": "아기의 ___가 하루 종일 이어졌다.",
+    "focusWord": "옹알이",
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요."
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "durationSec": 30
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "segment-continuity",
+      "openingBoundary": "wipe-left-0.35s",
+      "contentSceneLink": "cut-or-short-dissolve",
+      "endingBoundary": "wipe-left-0.35s",
+      "entryFrameRule": "previous-shot-exit-frame-optional-reference",
+      "contentContinuityFocus": [
+        "same-character-identity",
+        "same-classroom-tone",
+        "teacher-on-right-third-in-board-scenes",
+        "clean-board-for-post-typography",
+        "distinct-action-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "openingVoiceSource": "reuse-original-clip-audio",
+      "endingVoiceSource": "reuse-original-clip-audio-or-guide-fallback",
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "repeatCuePauseSec": 1.0,
+      "postSentencePauseSec": 1.0
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-picture-lock"
+    }
+  },
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "shotsSchemaFile": "./shots.schema.json",
+  "scenes": [
+    {
+      "sceneId": "scene-0-opening",
+      "role": "opening",
+      "sourceMode": "reusable-clip",
+      "durationSec": 3.0
+    },
+    {
+      "sceneId": "scene-1-lesson-intro",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 5.0
+    },
+    {
+      "sceneId": "scene-2-guided-repeat",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 8.0
+    },
+    {
+      "sceneId": "scene-3-quiz-cta",
+      "role": "content",
+      "sourceMode": "generated-shot-sequence",
+      "durationSec": 8.0
+    },
+    {
+      "sceneId": "scene-4-ending",
+      "role": "ending",
+      "sourceMode": "reusable-clip",
+      "durationSec": 4.0
+    }
+  ],
+  "notes": {
+    "prototypeGoal": "preserve legacy-v1 while testing wipe-cta-v2 as a separate episode profile",
+    "formatProfileLabel": "Daehan Wipe CTA V2",
+    "managedBy": "codex",
+    "ttsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "nextStep": "optional-human-dub-or-scene-tuning",
+    "currentExecutionMode": "wipe-cta-v2-final",
+    "latestReviewReport": "./review/final-review-report.md",
+    "latestReviewSeverity": "pass",
+    "pictureLockPath": "./renders/picture-lock/daehan-pilot-codex-002-picture-lock.mp4",
+    "previewCutPath": "./renders/final/daehan-pilot-codex-002-preview-cut.mp4",
+    "dubMixPath": "./renders/dub-lock/daehan-pilot-codex-002-guide-dub.m4a",
+    "finalExportPath": "./renders/final/daehan-pilot-codex-002-final.mp4",
+    "thumbnailPath": "./renders/final/daehan-pilot-codex-002-final-thumb.jpg",
+    "dubbingPackagePath": "./dubbing/README.md",
+    "dubbingCuesPath": "./dubbing/dubbing-cues.csv",
+    "actualDurationSec": 27.3
+  }
+}

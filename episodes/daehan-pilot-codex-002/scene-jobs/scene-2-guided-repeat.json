@@ -1,0 +1,16 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate Daehan using the attached opening-clean reference image as the primary character reference. Keep his exact identity: silver-white long hair, violet eyes, black gat with a gold band and red tassels, plain black durumagi hanbok, white inner collar, and black gloves. COMPOSITION: Horizontal 16:9 widescreen. Daehan stays on the RIGHT THIRD of the frame for the entire clip, medium-wide, eye level, with the LEFT TWO-THIRDS remaining a clean green chalkboard reserved for later typography. MOTION: This is the guided-repeat scene. Daehan gives a gentle repeat-after-me cue, pauses with a patient coaching expression, then speaks the sentence calmly as if giving the learner time to follow. The motion should feel more spacious than the intro scene. IMPORTANT: absolutely no text, no Korean characters, no chalk writing, no calligraphy, no embroidery, no labels, no subtitles, no caption bars, no logos, and no watermarks.",
+    "image": "../assets/refs/daehan-opening-clean-ref.jpg",
+    "duration": 8,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-2-guided-repeat.mp4",
+    "manifestFile": "../renders/picture/scene-2-guided-repeat.manifest.json"
+  }
+}

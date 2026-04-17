@@ -1,0 +1,107 @@
+{
+  "episode": {
+    "slug": "daehan-pilot-codex-002",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refShotsSchema": "./shots.schema.json"
+  },
+  "globalSettings": {
+    "formatProfile": "wipe-cta-v2",
+    "provider": "pending",
+    "preferredProvider": "grok",
+    "fallbackProvider": "runway",
+    "continuityTarget": "segment-continuity",
+    "contentTransitionPolicy": "cut-or-short-dissolve",
+    "openingEndingTransitionPolicy": "wipe-left-0.35s",
+    "exactFrameMatchRequired": false,
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "seed": 42002,
+    "style": "3D anime",
+    "characterReferenceBase": "assets/refs/daehan-opening-clean-ref.jpg",
+    "negativePromptCommon": "photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, subtitles, logos, watermarks, text artifacts, Korean characters, calligraphy, embroidery, labels, scroll props, multiple characters, distorted face, blurry, low quality",
+    "compositionRule": "Daehan must remain a silver-white-haired Korean teacher with violet eyes, black gat, black durumagi hanbok, white inner collar, and black gloves. In content scenes, place him on the right third and keep the left board clean for post typography."
+  },
+  "fixedClips": {
+    "opening": {
+      "source": "characters/daehan/01_Opening.mp4",
+      "durationSec": 3.0,
+      "keepOriginalAudio": true,
+      "exitFramePath": "assets/refs/daehan-opening-clean-ref.jpg",
+      "transitionOut": {
+        "effect": "wipe-left",
+        "durationSec": 0.35
+      }
+    },
+    "ending": {
+      "source": "characters/daehan/02_Ending.mp4",
+      "durationSec": 4.0,
+      "keepOriginalAudio": true,
+      "transitionIn": {
+        "effect": "wipe-left",
+        "durationSec": 0.35
+      }
+    }
+  },
+  "scenes": [
+    {
+      "sceneId": "scene-1-lesson-intro",
+      "shotId": "shot-1-lesson-intro",
+      "durationSec": 5.0,
+      "outputPath": "renders/picture/scene-1-lesson-intro.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg"
+      ],
+      "prompt": "Use the opening-clean reference as the primary character guide. Daehan stands on the right third of a classroom frame with a clean green chalkboard on the left two-thirds reserved for post typography. He introduces today's lesson with an inviting open palm and a bright teacher smile. No text, no chalk marks, no Korean characters, and no decorative writing anywhere.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-1-lesson-intro-exit.png",
+        "referenceUsage": "single-character-reference"
+      }
+    },
+    {
+      "sceneId": "scene-2-guided-repeat",
+      "shotId": "shot-2-guided-repeat",
+      "durationSec": 8.0,
+      "outputPath": "renders/picture/scene-2-guided-repeat.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg",
+        "assets/refs/shot-1-lesson-intro-exit.png"
+      ],
+      "prompt": "Use the opening-clean reference as the primary identity guide and scene 1's exit frame as a loose continuity reference. Keep the same classroom board composition. Daehan gives a gentle repeat-after-me cue, leaves space for the learner, then calmly speaks the full sentence. The action must feel patient and spacious. No text, no Korean characters, no chalk writing, and no symbols anywhere.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-2-guided-repeat-exit.png",
+        "referenceUsage": "optional"
+      }
+    },
+    {
+      "sceneId": "scene-3-quiz-cta",
+      "shotId": "shot-3-quiz-cta",
+      "durationSec": 8.0,
+      "outputPath": "renders/picture/scene-3-quiz-cta.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg",
+        "assets/refs/shot-2-guided-repeat-exit.png"
+      ],
+      "prompt": "Use the opening-clean reference as the primary identity guide and the previous scene only as a loose continuity reference. Keep Daehan on the right third and the left board clean for a later blank-sentence quiz overlay. He points toward the board as if asking a fill-in-the-blank question, then gives an inviting gesture toward the viewer for a service CTA. No text, no chalk marks, no logos, and no decorative writing.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-3-quiz-cta-exit.png",
+        "referenceUsage": "optional"
+      }
+    }
+  ],
+  "executionOrder": [
+    "extract-opening-exit-frame",
+    "generate-scene-1-lesson-intro",
+    "extract-scene-1-exit-frame",
+    "generate-scene-2-guided-repeat",
+    "extract-scene-2-exit-frame",
+    "generate-scene-3-quiz-cta",
+    "generate-supertone-guide-dub",
+    "render-typography-slots",
+    "compose-final"
+  ]
+}

@@ -1,0 +1,7 @@
+scene_id,start_sec,end_sec,start_frame,end_frame
+scene-0-opening,0.000,3.200,0,95
+scene-1-situation,3.200,8.200,96,245
+scene-2-climax,8.200,12.200,246,365
+scene-3-question,12.200,19.200,366,575
+scene-4-reveal-repeat,19.200,26.400,576,791
+scene-5-ending,26.400,30.400,792,911

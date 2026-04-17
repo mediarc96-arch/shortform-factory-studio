@@ -1,0 +1,48 @@
+{
+  "id": "legacy-v1",
+  "label": "Daehan Legacy V1",
+  "description": "기존 daehan-pilot-codex-001에서 사용한 action-quiz 흐름. opening -> situation -> climax -> question -> reveal/repeat -> ending",
+  "runnerHints": {
+    "previewBuilder": "scripts/pilot/build_preview_bundle.py",
+    "finalRenderer": "scripts/pilot/render_daehan_pilot_final.py"
+  },
+  "transitionPolicy": {
+    "openingToContent": {
+      "effect": "dip-to-black",
+      "durationSec": 0.2
+    },
+    "contentToContent": {
+      "effect": "cut-or-short-dissolve",
+      "durationSec": 0.0
+    },
+    "contentToEnding": {
+      "effect": "dip-to-black",
+      "durationSec": 0.2
+    }
+  },
+  "contentFlow": [
+    "situation",
+    "climax",
+    "question",
+    "answer-repeat"
+  ],
+  "audioPolicy": {
+    "openingVoiceSource": "reuse-original-clip-audio",
+    "endingVoiceSource": "reuse-original-clip-audio-or-guide-fallback",
+    "contentTtsProvider": "elevenlabs",
+    "contentVoicePriority": [
+      "human-dub",
+      "actor-dub",
+      "cloned-dub",
+      "tts-guide"
+    ]
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "chalkboard-plus-lower-third",
+    "englishSubtitles": true
+  },
+  "ctaPolicy": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "formatVersion": "malmoelab-vnext-typography-slots@0.1",
+  "episodeSlug": "daehan-pilot-codex-001",
+  "slots": [
+    {
+      "slotId": "scene-3-question-sentence",
+      "sceneId": "scene-3-question",
+      "surface": "chalkboard",
+      "text": "풍선을 너무 크게 불었더니 결국 ___ 터져 버렸다.",
+      "stylePreset": "malmoelab-board-main",
+      "inTimeSec": 12.5,
+      "outTimeSec": 19.0
+    },
+    {
+      "slotId": "scene-3-choice-1",
+      "sceneId": "scene-3-question",
+      "surface": "chalkboard",
+      "text": "① 꽝",
+      "stylePreset": "malmoelab-board-choice",
+      "inTimeSec": 15.5,
+      "outTimeSec": 19.0
+    },
+    {
+      "slotId": "scene-3-choice-2",
+      "sceneId": "scene-3-question",
+      "surface": "chalkboard",
+      "text": "② 빵",
+      "stylePreset": "malmoelab-board-choice",
+      "inTimeSec": 15.8,
+      "outTimeSec": 19.0
+    },
+    {
+      "slotId": "scene-3-choice-3",
+      "sceneId": "scene-3-question",
+      "surface": "chalkboard",
+      "text": "③ 쿵",
+      "stylePreset": "malmoelab-board-choice",
+      "inTimeSec": 16.1,
+      "outTimeSec": 19.0
+    },
+    {
+      "slotId": "scene-4-answer-reveal",
+      "sceneId": "scene-4-reveal-repeat",
+      "surface": "chalkboard",
+      "text": "빵",
+      "stylePreset": "malmoelab-board-answer",
+      "inTimeSec": 21.5,
+      "outTimeSec": 26.0
+    },
+    {
+      "slotId": "scene-4-choice-highlight",
+      "sceneId": "scene-4-reveal-repeat",
+      "surface": "chalkboard",
+      "text": "②",
+      "stylePreset": "malmoelab-board-choice-highlight",
+      "inTimeSec": 22.0,
+      "outTimeSec": 26.0
+    },
+    {
+      "slotId": "scene-1-subtitle-en",
+      "sceneId": "scene-1-situation",
+      "surface": "subtitle-lower-third",
+      "text": "I blew the balloon too big...",
+      "stylePreset": "malmoelab-subtitle-en",
+      "inTimeSec": 3.4,
+      "outTimeSec": 7.6
+    },
+    {
+      "slotId": "scene-2-subtitle-en",
+      "sceneId": "scene-2-climax",
+      "surface": "subtitle-lower-third",
+      "text": "...and it ended up popping!",
+      "stylePreset": "malmoelab-subtitle-en",
+      "inTimeSec": 8.4,
+      "outTimeSec": 11.6
+    },
+    {
+      "slotId": "scene-3-subtitle-en",
+      "sceneId": "scene-3-question",
+      "surface": "subtitle-lower-third",
+      "text": "What word goes in the blank?",
+      "stylePreset": "malmoelab-subtitle-en",
+      "inTimeSec": 12.8,
+      "outTimeSec": 18.4
+    },
+    {
+      "slotId": "scene-4-subtitle-en",
+      "sceneId": "scene-4-reveal-repeat",
+      "surface": "subtitle-lower-third",
+      "text": "The answer is ppang. Say it with me: ppang!",
+      "stylePreset": "malmoelab-subtitle-en",
+      "inTimeSec": 20.8,
+      "outTimeSec": 25.8
+    }
+  ]
+}

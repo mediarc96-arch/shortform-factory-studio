@@ -1,0 +1,120 @@
+{
+  "episode": {
+    "slug": "daehan-pilot-codex-001",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refShotsSchema": "./shots.schema.json"
+  },
+  "globalSettings": {
+    "formatProfile": "legacy-v1",
+    "provider": "pending",
+    "preferredProvider": "grok",
+    "fallbackProvider": "runway",
+    "continuityTarget": "segment-continuity",
+    "contentTransitionPolicy": "cut-or-short-dissolve",
+    "openingEndingTransitionPolicy": "dip-to-black-4f-to-8f",
+    "exactFrameMatchRequired": false,
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "seed": 42001,
+    "style": "3D anime",
+    "characterReferenceBase": "assets/refs/daehan-opening-clean-ref.jpg",
+    "negativePromptCommon": "photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, subtitles, logos, watermarks, text artifacts, Korean characters, calligraphy, embroidery, labels, scroll props, multiple characters, distorted face, blurry, low quality",
+    "compositionRule": "Daehan must remain a silver-white-haired Korean teacher with violet eyes, black gat, black durumagi hanbok, white inner collar, and black gloves. For chalkboard scenes, place him on the right third and keep the left two-thirds clean for typography."
+  },
+  "fixedClips": {
+    "opening": {
+      "source": "characters/daehan/01_Opening.mp4",
+      "durationSec": 3.0,
+      "keepOriginalAudio": true,
+      "exitFramePath": "assets/refs/daehan-opening-clean-ref.jpg",
+      "fadeOutToBlackSec": 0.2
+    },
+    "ending": {
+      "source": "characters/daehan/02_Ending.mp4",
+      "durationSec": 4.0,
+      "keepOriginalAudio": true,
+      "entryMode": "from-black",
+      "fadeInFromBlackSec": 0.2
+    }
+  },
+  "scenes": [
+    {
+      "sceneId": "scene-1-situation",
+      "shotId": "shot-1-situation",
+      "durationSec": 5.0,
+      "outputPath": "renders/picture/scene-1-situation.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg"
+      ],
+      "prompt": "Use the opening-clean reference as the primary character reference. Daehan stays on the right third and playfully inflates a red balloon over five seconds. Keep the background soft and uncluttered and keep every surface plain. No chalkboard text, no subtitles, no lettering, no Korean characters, and no decorative text on clothing or props.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-1-situation-exit.png",
+        "referenceUsage": "single-character-reference"
+      }
+    },
+    {
+      "sceneId": "scene-2-climax",
+      "shotId": "shot-2-climax",
+      "durationSec": 4.0,
+      "outputPath": "renders/picture/scene-2-climax.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg",
+        "assets/refs/shot-1-situation-exit.png"
+      ],
+      "prompt": "Use the opening-clean reference as the primary identity guide and scene 1's exit frame as a loose continuity reference. The balloon is already large and suddenly bursts. Daehan recoils briefly, then settles into a small relieved smile. Keep camera and lighting broadly matched to scene 1. No text, no Korean characters, and no decorative writing on clothing or props.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-2-climax-exit.png",
+        "referenceUsage": "optional"
+      }
+    },
+    {
+      "sceneId": "scene-3-question",
+      "shotId": "shot-3-question-board",
+      "durationSec": 7.0,
+      "outputPath": "renders/picture/scene-3-question.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg",
+        "assets/refs/shot-2-climax-exit.png"
+      ],
+      "prompt": "Use the opening-clean reference as the primary identity guide and the previous scene only as a loose continuity reference. Daehan transitions into a classroom chalkboard composition. He stands on the right third, the left two-thirds is an empty green chalkboard, and he presents the board with one open palm to introduce a question. Keep the board completely clean for post typography and keep clothing and props free of text.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-3-question-exit.png",
+        "referenceUsage": "optional"
+      }
+    },
+    {
+      "sceneId": "scene-4-reveal-repeat",
+      "shotId": "shot-4-reveal-repeat",
+      "durationSec": 7.0,
+      "outputPath": "renders/picture/scene-4-reveal-repeat.mp4",
+      "referenceImages": [
+        "assets/refs/daehan-opening-clean-ref.jpg",
+        "assets/refs/shot-3-question-exit.png"
+      ],
+      "prompt": "Use the opening-clean reference as the primary identity guide and the previous chalkboard shot as a loose continuity guide. Daehan taps the blank board once without leaving visible marks, then turns back to camera and gives a clear open-palm repeat-after-me cue. Keep his action distinct from the question scene. No text, no Korean characters, no decorative writing, and no praying-hands pose.",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/shot-4-reveal-repeat-exit.png",
+        "referenceUsage": "optional"
+      }
+    }
+  ],
+  "executionOrder": [
+    "extract-opening-exit-frame",
+    "generate-scene-1-situation",
+    "extract-scene-1-exit-frame",
+    "generate-scene-2-climax",
+    "extract-scene-2-exit-frame",
+    "generate-scene-3-question",
+    "extract-scene-3-exit-frame",
+    "generate-scene-4-reveal-repeat",
+    "record-or-assign-voice-slots",
+    "render-typography-slots",
+    "compose-final"
+  ]
+}
