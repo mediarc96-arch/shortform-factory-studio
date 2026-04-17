@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · daehan-pilot-codex-003 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Use the input image as a very strict composition lock. Keep the exact same 2D anime Daehan teacher, same empty classroom, same right-quarter placement, and exactly the same camera distance as the input image. The top of the hat, shoulders, waist sash, scroll position, and lower robe crop should stay in nearly the same places as the input image. Do NOT zoom in, do NOT crop tighter, do NOT enlarge the character, and do NOT move him closer to camera. Change only the expression and the right arm gesture: Daehan is introducing today's lesson, mouth slightly open mid-speech, and his right hand lifts only modestly to chest height with a small teaching gesture toward the board. Keep the right hand gesture compact, not a big wave and not a large open-palm hello. Both hands must still wear the same black gloves from the original design. The raised right hand must clearly be covered by a black glove, with no bare skin on the hand or fingers. The left hand still holds the blank scroll in nearly the same position as the input image. The chalkboard must remain completely empty and clean with no text.",
+    "image": {
+      "url": "../keyframes/kf-01-opening-handoff.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-02-lesson-intro.jpg",
+    "manifestFile": "../keyframes/kf-02-lesson-intro.manifest.json"
+  }
+}

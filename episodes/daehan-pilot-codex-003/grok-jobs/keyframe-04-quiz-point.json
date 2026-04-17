@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · daehan-pilot-codex-003 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Use the input image as a very strict composition and prop lock. Keep the exact same 2D anime Daehan teacher, same empty classroom, same right-quarter placement, and the same camera distance as the input image. Change only the expression and the right arm gesture: playful curious teacher look, front-facing, right arm extended to point toward the empty chalkboard, inviting quiz energy. The left hand must keep holding the same blank paper scroll in the same orientation as the input image. Do NOT rotate the scroll, do NOT turn it sideways, do NOT swing it outward, and do NOT change which end points up or down. The scroll should stay close to the body in the same hand position and angle as the input reference. Both hands must still wear black gloves. Keep the body on the right quarter of frame and keep the chalkboard completely empty and clean with no text.",
+    "image": {
+      "url": "../keyframes/kf-01-opening-handoff.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-04-quiz-point.jpg",
+    "manifestFile": "../keyframes/kf-04-quiz-point.manifest.json"
+  }
+}

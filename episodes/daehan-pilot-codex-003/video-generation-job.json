@@ -1,0 +1,60 @@
+{
+  "episode": {
+    "slug": "daehan-pilot-codex-003",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refKeyframePlan": "./keyframe-plan.json"
+  },
+  "globalSettings": {
+    "formatProfile": "keyframe-review-v1",
+    "provider": "pending",
+    "preferredProvider": "grok",
+    "continuityTarget": "previous-scene-last-frame",
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "seed": 42003,
+    "style": "2D anime",
+    "characterReferenceBase": "assets/refs/daehan-2d-clean-base-wide-refined.jpg",
+    "negativePromptCommon": "text, letters, Korean characters, subtitles, numbers, logos, watermarks, chalk writing, calligraphy, labels, extra characters, 3D render, photorealistic, distorted hands, deformed face, blurry, low quality",
+    "compositionRule": "Keep Daehan as the same 2D silver-white-haired Korean teacher from the approved keyframe set. Keep him on the right quarter and keep the board empty for later typography."
+  },
+  "_note": "이 파일은 keyframe 승인 후 사용할 future scene plan이다. 아직 scene video를 생성하지 않는다.",
+  "futureScenes": [
+    {
+      "sceneId": "scene-1-opening-handoff",
+      "durationSec": 6.0,
+      "startSeed": "keyframes/kf-01-opening-handoff.jpg",
+      "targetPoseCard": "keyframes/kf-01-opening-handoff.jpg",
+      "handoffLastFramePath": "assets/refs/scene-1-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-2-lesson-intro",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-1-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-02-lesson-intro.jpg",
+      "handoffLastFramePath": "assets/refs/scene-2-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-3-repeat-listen",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-2-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-03-repeat-listen.jpg",
+      "handoffLastFramePath": "assets/refs/scene-3-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-4-quiz-point",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-3-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-04-quiz-point.jpg",
+      "handoffLastFramePath": "assets/refs/scene-4-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-5-ending-wave",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-4-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-05-ending-wave.jpg",
+      "handoffLastFramePath": "assets/refs/scene-5-last-frame.jpg"
+    }
+  ]
+}

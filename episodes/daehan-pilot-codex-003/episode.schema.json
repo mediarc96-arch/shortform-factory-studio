@@ -1,0 +1,80 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "daehan-pilot-codex-003",
+  "seriesSlug": "daehan-pilot-codex",
+  "characterSlug": "daehan",
+  "characterRoot": "characters/daehan",
+  "formatProfile": "keyframe-review-v1",
+  "formatProfilePath": "formats/keyframe-review-v1/profile.json",
+  "status": "picture-preview-ready",
+  "createdAt": "2026-04-17T00:00:00Z",
+  "seed": 42003,
+  "reusableAssets": {
+    "characterImage2D": "docs/example/Daehan_2D.jpg",
+    "bible": "characters/daehan/bible.md",
+    "promptSet": "characters/daehan/prompts.md",
+    "preferredHandwritingFont": "shared/fonts/NanumPenScript-Regular.ttf",
+    "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "lesson": {
+    "topicType": "sentence-teaser-quiz",
+    "sourceRef": "daehan-pilot-codex-002",
+    "sentenceKo": "아기의 옹알이가 하루 종일 이어졌다.",
+    "sentenceBlankKo": "아기의 ___가 하루 종일 이어졌다.",
+    "focusWord": "옹알이",
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요."
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "durationSec": 30
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "sceneDurationSec": 6.0,
+      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "poseTargetRule": "approved keyframes are the target pose cards for each 6-second clip",
+      "contentContinuityFocus": [
+        "same-2d-character-identity",
+        "same-empty-classroom-board",
+        "teacher-on-right-quarter",
+        "no-text-in-generated-video",
+        "readable-pose-change-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "generationStage": "mute",
+      "dubStage": "post-picture-lock"
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-picture-lock",
+      "chalkStyle": "bold-handwritten-chalk"
+    }
+  },
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "videoGenerationJobFile": "./video-generation-job.json",
+  "notes": {
+    "prototypeGoal": "improve visual quality by locking 2D character identity before any video generation",
+    "managedBy": "codex",
+    "workflowMode": "keyframe-review-first",
+    "cleanBasePath": "./assets/refs/daehan-2d-clean-base-wide-refined.jpg",
+    "reviewOverviewPath": "./review/contact-sheets/overview.jpg",
+    "reviewReportPath": "./review/review-report.md",
+    "pictureReviewReportPath": "./review/picture-review-report.md",
+    "picturePreviewPath": "./renders/final/daehan-pilot-codex-003-picture-preview.mp4"
+  }
+}

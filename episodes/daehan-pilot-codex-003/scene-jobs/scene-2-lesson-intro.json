@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 2D Daehan teacher, same empty classroom, same camera distance, and the same right-quarter composition. Over 6 seconds, Daehan smoothly transitions into a compact lesson-intro teaching pose: mouth moving as if speaking, right gloved hand lifts only modestly to chest height with a small teaching gesture, left hand keeps the blank scroll in the same orientation. No zoom-in, no tighter crop, no large waving gesture. No text, no chalk writing, no subtitles, no extra props, no extra characters.",
+    "image": "../assets/refs/scene-1-last-frame.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-2-lesson-intro.mp4",
+    "manifestFile": "../renders/grok/scene-2-lesson-intro.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-2-last-frame.jpg"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · daehan-pilot-codex-003 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Daehan teacher and empty classroom from the input image. Front-facing, calm warm smile, gentle welcoming expression, right hand relaxed at his side, left hand holding the blank paper scroll. Keep the teacher on the right quarter of frame and keep the entire chalkboard empty with no text or chalk marks.",
+    "image": {
+      "url": "../assets/refs/daehan-2d-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-01-opening-handoff.jpg",
+    "manifestFile": "../keyframes/kf-01-opening-handoff.manifest.json"
+  }
+}

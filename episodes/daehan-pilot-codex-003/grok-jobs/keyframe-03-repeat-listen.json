@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · daehan-pilot-codex-003 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Use the input image as a very strict composition lock. Keep the exact same 2D anime Daehan teacher, same empty classroom, same right-quarter placement, and exactly the same camera distance as the input image. The top of the hat, shoulders, waist sash, scroll position, and lower robe crop should stay in nearly the same places as the input image. Do NOT zoom in, do NOT crop tighter, do NOT enlarge the character, and do NOT move him closer to camera. Change only the expression and the right arm gesture: front-facing, patient friendly smile, head slightly tilted, right elbow low, right gloved fingertips lightly near the ear in a compact listening pose. The hand should be small and close to the head, not high above the shoulder. This must read as 'I am listening to you repeat it'. It must NOT look like a wave, greeting, salute, raised-hand hello, or military pose. Both hands must still wear the same black gloves from the original design. The right hand near the ear must clearly be a black gloved hand with no bare skin visible. The left hand still holds the blank scroll in nearly the same position as the input image. The chalkboard must remain completely empty and clean with no text.",
+    "image": {
+      "url": "../keyframes/kf-01-opening-handoff.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-03-repeat-listen.jpg",
+    "manifestFile": "../keyframes/kf-03-repeat-listen.manifest.json"
+  }
+}

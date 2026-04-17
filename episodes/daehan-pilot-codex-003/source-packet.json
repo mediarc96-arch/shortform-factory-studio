@@ -1,0 +1,63 @@
+{
+  "_template": "daehan-vnext-pilot@0.3",
+  "episode": {
+    "slug": "daehan-pilot-codex-003",
+    "series": "daehan-pilot-codex",
+    "character": "daehan",
+    "formatProfile": "keyframe-review-v1",
+    "formatProfilePath": "formats/keyframe-review-v1/profile.json",
+    "format": "2d-keyframe-review-first",
+    "durationSec": 30,
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "createdAt": "2026-04-17T00:00:00Z",
+    "seed": 42003
+  },
+  "character": {
+    "sourceImage": "docs/example/Daehan_2D.jpg",
+    "identityLock": [
+      "silver-white long hair",
+      "violet eyes",
+      "black gat with gold band and red tassels",
+      "plain black durumagi hanbok",
+      "white inner collar",
+      "black gloves",
+      "small blank paper scroll held in left hand"
+    ],
+    "scenePlacement": "right-quarter",
+    "boardPolicy": "empty-green-chalkboard-for-post-typography"
+  },
+  "source": {
+    "type": "manual-pilot",
+    "sentenceText": "아기의 옹알이가 하루 종일 이어졌다.",
+    "sentenceDisplayBlank": "아기의 ___가 하루 종일 이어졌다.",
+    "blankToken": "___",
+    "focusWord": {
+      "text": "옹알이",
+      "partOfSpeech": "명사",
+      "englishGloss": "babbling"
+    },
+    "serviceCta": {
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "surface": "subtitle-lower-third"
+    }
+  },
+  "postProductionPolicy": {
+    "pictureFirst": true,
+    "keyframeReviewFirst": true,
+    "chalkboardTypography": "post-only",
+    "handwritingLook": "bold-chalk-handwriting",
+    "preferredFont": "shared/fonts/NanumPenScript-Regular.ttf",
+    "strokeAssistFont": "shared/fonts/NanumGothic-Bold.ttf",
+    "narrationLanguage": "ko",
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "contentTtsProvider": "supertone"
+  }
+}

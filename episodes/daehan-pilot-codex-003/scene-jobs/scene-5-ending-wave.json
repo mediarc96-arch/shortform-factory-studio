@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 2D Daehan teacher, same empty classroom, same camera distance, and the same right-quarter composition. Over 6 seconds, Daehan transitions into a cheerful farewell: bright smile, small right-hand wave, subtle blink, and tiny body sway, while the left hand keeps the blank scroll in the same orientation. No text, no chalk writing, no subtitles, no extra props, no extra characters.",
+    "image": "../assets/refs/scene-4-last-frame.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-5-ending-wave.mp4",
+    "manifestFile": "../renders/grok/scene-5-ending-wave.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-5-last-frame.jpg"
+  }
+}

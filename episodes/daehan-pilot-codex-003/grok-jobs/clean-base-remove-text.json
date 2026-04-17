@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · daehan-pilot-codex-003",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Korean teacher, same outfit, same classroom, same lighting, and same overall composition as the input image. Remove all text from the chalkboard and from the paper scroll. The chalkboard must be completely empty and clean with no writing, no symbols, and no chalk marks. The paper scroll must be blank. Do not change the character identity.",
+    "image": {
+      "url": "../../../docs/example/Daehan_2D.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../assets/refs/daehan-2d-clean-base.jpg",
+    "manifestFile": "../assets/refs/daehan-2d-clean-base.manifest.json"
+  }
+}

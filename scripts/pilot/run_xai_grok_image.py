@@ -17,8 +17,6 @@ from urllib.request import Request, urlopen
 
 
 API_BASE = "https://api.x.ai/v1"
-POLL_INTERVAL_SEC = 5
-POLL_TIMEOUT_SEC = 60 * 20
 
 
 def load_env_file(env_path: Path) -> None:
@@ -48,53 +46,41 @@ def resolve_local_media(value: str, base_dir: Path) -> str:
 def normalize_request(job_request: dict[str, Any], job_dir: Path) -> dict[str, Any]:
     request_payload = json.loads(json.dumps(job_request))
 
-    if isinstance(request_payload.get("image"), str):
-        request_payload["image"] = {"url": resolve_local_media(request_payload["image"], job_dir)}
-    elif isinstance(request_payload.get("image"), dict) and "url" in request_payload["image"]:
-        request_payload["image"]["url"] = resolve_local_media(request_payload["image"]["url"], job_dir)
+    image_value = request_payload.get("image")
+    if isinstance(image_value, str):
+        request_payload["image"] = {"url": resolve_local_media(image_value, job_dir)}
+    elif isinstance(image_value, dict) and "url" in image_value:
+        request_payload["image"] = dict(image_value)
+        request_payload["image"]["url"] = resolve_local_media(str(image_value["url"]), job_dir)
 
-    if isinstance(request_payload.get("reference_images"), list):
-        normalized_images: list[dict[str, Any]] = []
-        for image in request_payload["reference_images"]:
+    reference_images = request_payload.get("reference_images")
+    if isinstance(reference_images, list):
+        normalized: list[dict[str, Any]] = []
+        for image in reference_images:
             if isinstance(image, str):
-                normalized_images.append({"url": resolve_local_media(image, job_dir)})
+                normalized.append({"url": resolve_local_media(image, job_dir)})
             elif isinstance(image, dict) and "url" in image:
-                normalized = dict(image)
-                normalized["url"] = resolve_local_media(str(image["url"]), job_dir)
-                normalized_images.append(normalized)
+                current = dict(image)
+                current["url"] = resolve_local_media(str(image["url"]), job_dir)
+                normalized.append(current)
             else:
                 raise ValueError("reference_images entries must be strings or objects with a url field")
-        request_payload["reference_images"] = normalized_images
+        request_payload["reference_images"] = normalized
 
     return request_payload
 
 
-def poll_until_done(request_id: str, headers: dict[str, str]) -> dict[str, Any]:
-    deadline = time.time() + POLL_TIMEOUT_SEC
-    last_payload: dict[str, Any] | None = None
-
-    while time.time() < deadline:
-        req = Request(f"{API_BASE}/videos/{request_id}", headers=headers, method="GET")
-        try:
-            with urlopen(req, timeout=60) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-        except HTTPError as exc:
-            error_body = exc.read().decode("utf-8", errors="replace")
-            raise RuntimeError(f"xAI video poll failed: {exc.code} {error_body}") from exc
-        except URLError as exc:
-            raise RuntimeError(f"xAI video poll failed: {exc}") from exc
-        last_payload = payload
-        status = payload.get("status")
-        if status == "done":
-            return payload
-        if status in {"failed", "expired"}:
-            raise RuntimeError(f"Video generation failed with status={status}: {json.dumps(payload, ensure_ascii=False)}")
-        time.sleep(POLL_INTERVAL_SEC)
-
-    raise TimeoutError(f"Timed out waiting for video generation request_id={request_id}. Last payload={json.dumps(last_payload or {}, ensure_ascii=False)}")
+def choose_endpoint(job: dict[str, Any]) -> str:
+    explicit = str(job.get("_endpoint") or "").strip()
+    if explicit:
+        return explicit.split()[-1]
+    task_type = str(job.get("taskType") or "").strip()
+    if task_type == "image_edit":
+        return f"{API_BASE}/images/edits"
+    return f"{API_BASE}/images/generations"
 
 
-def download_video(url: str, output_path: Path) -> None:
+def download_image(url: str, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     req = Request(url, headers={"User-Agent": "Mozilla/5.0"}, method="GET")
     try:
@@ -119,8 +105,8 @@ def download_video(url: str, output_path: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run a single xAI Grok image-to-video scene job.")
-    parser.add_argument("--job", required=True, help="Path to the scene job JSON file")
+    parser = argparse.ArgumentParser(description="Run a single xAI Grok image generation or edit job.")
+    parser.add_argument("--job", required=True, help="Path to the image job JSON file")
     parser.add_argument("--env-file", default=".env", help="Optional env file to load before reading keys")
     args = parser.parse_args()
 
@@ -136,6 +122,7 @@ def main() -> int:
     job = json.loads(job_path.read_text(encoding="utf-8"))
     job_dir = job_path.parent
     request_payload = normalize_request(job["request"], job_dir)
+    endpoint = choose_endpoint(job)
 
     headers = {
         "Content-Type": "application/json",
@@ -143,42 +130,43 @@ def main() -> int:
     }
 
     body = json.dumps(request_payload).encode("utf-8")
-    req = Request(f"{API_BASE}/videos/generations", data=body, headers=headers, method="POST")
+    req = Request(endpoint, data=body, headers=headers, method="POST")
     try:
-        with urlopen(req, timeout=120) as response:
-            start_payload = json.loads(response.read().decode("utf-8"))
+        with urlopen(req, timeout=300) as response:
+            payload = json.loads(response.read().decode("utf-8"))
     except HTTPError as exc:
         error_body = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"xAI video start failed: {exc.code} {error_body}") from exc
+        raise RuntimeError(f"xAI image request failed: {exc.code} {error_body}") from exc
     except URLError as exc:
-        raise RuntimeError(f"xAI video start failed: {exc}") from exc
-    request_id = start_payload["request_id"]
-
-    result_payload = poll_until_done(request_id, headers)
-    video_url = result_payload["video"]["url"]
+        raise RuntimeError(f"xAI image request failed: {exc}") from exc
+    image_data = payload.get("data") or []
+    if not image_data or not isinstance(image_data, list):
+        raise RuntimeError(f"Image response missing data array: {json.dumps(payload, ensure_ascii=False)}")
+    first = image_data[0]
+    image_url = first.get("url")
+    if not image_url:
+        raise RuntimeError(f"Image response missing url: {json.dumps(payload, ensure_ascii=False)}")
 
     runner = job["runner"]
     output_file = (job_dir / runner["outputFile"]).resolve()
     manifest_file = (job_dir / runner["manifestFile"]).resolve()
-
-    download_video(video_url, output_file)
+    download_image(image_url, output_file)
 
     manifest = {
         "provider": job.get("provider", "xai_grok"),
         "status": "succeeded",
-        "taskType": job.get("taskType", "image_to_video"),
-        "taskId": request_id,
-        "taskStatus": result_payload.get("status", "").upper(),
+        "taskType": job.get("taskType", "image_generation"),
         "jobPath": str(job_path),
         "manifestFile": str(manifest_file),
         "outputFile": str(output_file),
-        "outputUrls": [video_url],
+        "outputUrls": [image_url],
         "errorMessage": None,
         "request": request_payload,
+        "response": payload,
         "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "task": result_payload,
+        "revisedPrompt": first.get("revised_prompt") or "",
+        "mimeType": first.get("mime_type") or None
     }
-
     manifest_file.parent.mkdir(parents=True, exist_ok=True)
     manifest_file.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

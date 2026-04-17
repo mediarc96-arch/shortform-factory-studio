@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · daehan-pilot-codex-003 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Daehan teacher and empty classroom from the input image. Change only the pose and expression: bright cheerful smile, right hand raised near shoulder in a small wave, warm goodbye feeling, left hand still holding the blank scroll. Both hands must still wear the same black gloves from the original design. The waving right hand must clearly be covered by a black glove, with no bare skin on the hand or fingers. Keep the teacher on the right quarter of frame. The chalkboard must remain completely empty and clean with no text.",
+    "image": {
+      "url": "../assets/refs/daehan-2d-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-05-ending-wave.jpg",
+    "manifestFile": "../keyframes/kf-05-ending-wave.manifest.json"
+  }
+}

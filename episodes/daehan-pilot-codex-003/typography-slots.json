@@ -1,0 +1,59 @@
+{
+  "formatVersion": "malmoelab-vnext-typography-slots@0.1",
+  "episodeSlug": "daehan-pilot-codex-003",
+  "_note": "실제 합성은 keyframe 승인과 scene video 생성 뒤에 진행한다. 스타일은 기존보다 더 손글씨 같고 굵은 칠판체를 목표로 한다.",
+  "stylePresets": {
+    "malmoelab-board-handwritten-bold": {
+      "fontPath": "shared/fonts/NanumPenScript-Regular.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "bold-handwritten-chalk",
+      "surface": "chalkboard",
+      "fill": "#F4F5F0",
+      "strokeFill": "#DDE1D8",
+      "strokeWidth": 3
+    },
+    "malmoelab-subtitle-cta-soft": {
+      "fontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "clean-subtitle-cta",
+      "surface": "subtitle-lower-third"
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-2-sentence-main",
+      "sceneId": "scene-2-lesson-intro",
+      "surface": "chalkboard",
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 6.1,
+      "plannedOutTimeSec": 11.5
+    },
+    {
+      "slotId": "scene-3-repeat-sentence",
+      "sceneId": "scene-3-repeat-listen",
+      "surface": "chalkboard",
+      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 13.0,
+      "plannedOutTimeSec": 18.0
+    },
+    {
+      "slotId": "scene-4-quiz-blank",
+      "sceneId": "scene-4-quiz-point",
+      "surface": "chalkboard",
+      "text": "아기의 ___가 하루 종일 이어졌다.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 20.0,
+      "plannedOutTimeSec": 26.0
+    },
+    {
+      "slotId": "scene-4-cta-lower-third",
+      "sceneId": "scene-4-quiz-point",
+      "surface": "subtitle-lower-third",
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "stylePreset": "malmoelab-subtitle-cta-soft",
+      "plannedInTimeSec": 20.1,
+      "plannedOutTimeSec": 23.2
+    }
+  ]
+}

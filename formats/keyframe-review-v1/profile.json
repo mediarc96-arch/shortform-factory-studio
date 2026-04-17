@@ -1,0 +1,34 @@
+{
+  "id": "keyframe-review-v1",
+  "label": "Daehan 2D Keyframe Review V1",
+  "description": "2D 대한 캐릭터 기반으로 clean base와 keyframe을 먼저 승인받은 뒤, 승인된 키프레임과 이전 씬 마지막 프레임을 이용해 6초 영상 클립을 순차 생성하는 실험 포맷.",
+  "runnerHints": {
+    "basePrep": "scripts/pilot/prepare_daehan_2d_base.py",
+    "keyframeGenerator": "scripts/pilot/generate_daehan_keyframes.py",
+    "imageRunner": "scripts/pilot/run_xai_grok_image.py",
+    "reviewBuilder": "scripts/pilot/build_keyframe_review_bundle.py"
+  },
+  "reviewPolicy": {
+    "gate": "keyframe-approval-required-before-video",
+    "minimumApprovedKeyframes": 5,
+    "outputBundle": "review/contact-sheets/overview.jpg + review/review-report.md"
+  },
+  "sceneGenerationPolicy": {
+    "clipDurationSec": 6.0,
+    "continuityMode": "previous-scene-last-frame-seeds-next-scene",
+    "sceneStartRule": "scene-1 starts from approved keyframe-01; later scenes start from prior clip's extracted final frame",
+    "scenePoseTargetRule": "approved keyframes define the target pose and expression for each scene block"
+  },
+  "audioPolicy": {
+    "contentTtsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "generationStage": "mute-video-only",
+    "dubStage": "post-picture-lock"
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "bold-handwritten-chalk",
+    "preferredFont": "shared/fonts/NanumPenScript-Regular.ttf",
+    "strokeSupportFont": "shared/fonts/NanumGothic-Bold.ttf"
+  }
+}

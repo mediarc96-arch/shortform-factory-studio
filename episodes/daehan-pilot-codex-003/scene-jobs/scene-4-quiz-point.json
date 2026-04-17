@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 2D Daehan teacher, same empty classroom, same camera distance, and the same right-quarter composition. Over 6 seconds, Daehan transitions into a quiz-point pose: a mildly curious, engaged expression, right gloved hand extending to point toward the left chalkboard, and left hand still holding the blank scroll vertically in the same orientation as before. No text, no chalk writing, no subtitles, no extra props, no extra characters.",
+    "image": "../assets/refs/scene-3-last-frame.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-4-quiz-point.mp4",
+    "manifestFile": "../renders/grok/scene-4-quiz-point.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-4-last-frame.jpg"
+  }
+}
