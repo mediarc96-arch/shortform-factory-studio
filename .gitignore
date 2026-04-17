@@ -6,3 +6,9 @@ episodes/*/renders/grok/*.orig.mp4
 episodes/*/renders/tmp-*.mp4
 .venv-render/
 scripts/__pycache__/
+
+# secrets (local pilot only — Paperclip seal is used in agent runtime)
+.env
+.env.local
+episodes/*/.env
+episodes/*/.env.local

@@ -1,0 +1,143 @@
+{
+  "$schema": "../_template-v2-seamless/video-generation-job.schema.json",
+  "episode": {
+    "slug": "daehan-pilot-001",
+    "_refSourcePacket": "./source-packet.json",
+    "_refScenePlan": "./scene-plan.md"
+  },
+
+  "globalSettings": {
+    "provider": "grok",
+    "model": "grok-video-latest",
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "seed": 42,
+    "style": "3D anime",
+    "characterReferenceBase": "characters/daehan/daehan.jpg",
+    "openingReferenceFrame": "reference-frames/00-opening-last.png",
+    "negativePromptCommon": "photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, subtitles, logos, watermarks, text artifacts, multiple characters, distorted face, blurry, low quality",
+    "compositionRule": "The character is Daehan: long silver-white hair, violet eyes, small confident smile, black durumagi hanbok, white inner collar, black gat (traditional Korean hat) with golden band and red tassels, black gloves on both hands. Medium shot, eye-level, 16:9 widescreen. Do NOT render any text or writing anywhere in the frame."
+  },
+
+  "scenes": [
+    {
+      "sceneId": "scene-1-situation",
+      "order": 1,
+      "startSec": 3.0,
+      "durationSec": 5.0,
+      "outputPath": "renders/scene-1.mp4",
+      "referenceImages": [
+        "characters/daehan/daehan.jpg",
+        "reference-frames/00-opening-last.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame. Daehan stands on the RIGHT SIDE of the frame (30% width), classroom background softly blurred (no chalkboard visible yet). He holds a red balloon in his hands near his mouth and blows into it with cheeks playfully puffed, eyes slightly closed with a focused expression. Over 5 seconds, the balloon gradually inflates from small to very large. Character maintains the same outfit and appearance as the reference. Keep the background uncluttered — only the character and the balloon are the focus.",
+      "postProduction": {
+        "fadeInFromBlack": true,
+        "fadeInDurationSec": 0.3,
+        "fadeOutToBlack": false
+      },
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "reference-frames/01-scene-last.png"
+      }
+    },
+
+    {
+      "sceneId": "scene-2-climax",
+      "order": 2,
+      "startSec": 8.0,
+      "durationSec": 4.0,
+      "outputPath": "renders/scene-2.mp4",
+      "referenceImages": [
+        "characters/daehan/daehan.jpg",
+        "reference-frames/01-scene-last.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame (matching the previous scene's last frame). Daehan continues blowing the balloon for 2 seconds as it grows even larger. At the 2-second mark, the balloon suddenly BURSTS with paper confetti pieces scattering outward. Daehan reacts with genuine surprise: eyes wide open, mouth agape, slight backward recoil. Hold the surprised expression for the remaining 1.7 seconds. Same composition on the right side of the frame, blurred classroom background. No text anywhere.",
+      "postProduction": {
+        "fadeInFromBlack": false,
+        "fadeOutToBlack": false
+      },
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "reference-frames/02-scene-last.png"
+      }
+    },
+
+    {
+      "sceneId": "scene-3-question",
+      "order": 3,
+      "startSec": 12.0,
+      "durationSec": 7.0,
+      "outputPath": "renders/scene-3.mp4",
+      "referenceImages": [
+        "characters/daehan/daehan.jpg",
+        "reference-frames/02-scene-last.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame. Daehan walks towards a green chalkboard and positions himself on the RIGHT SIDE of the frame (30% width). The chalkboard occupies the LEFT 70% of the frame and is COMPLETELY EMPTY — no text, no chalk marks, no drawings. In the first 2 seconds, he transitions from the surprised pose to a calm teacher pose. He gestures with an open hand towards the empty chalkboard, then stands calmly looking at the board with a slight smile. Wooden chalk tray visible at the bottom of the chalkboard with white, yellow, and pink chalk pieces. Warm classroom lighting. Critical: the chalkboard surface must remain ABSOLUTELY CLEAN AND EMPTY for post-production text overlay.",
+      "postProduction": {
+        "fadeInFromBlack": false,
+        "fadeOutToBlack": false,
+        "typographyOverlay": "chalkboard-question"
+      },
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "reference-frames/03-scene-last.png"
+      }
+    },
+
+    {
+      "sceneId": "scene-4-reveal",
+      "order": 4,
+      "startSec": 19.0,
+      "durationSec": 7.7,
+      "outputPath": "renders/scene-4.mp4",
+      "referenceImages": [
+        "characters/daehan/daehan.jpg",
+        "reference-frames/03-scene-last.png"
+      ],
+      "prompt": "Scene begins from the attached reference frame. Daehan picks up a piece of white chalk and performs the motion of writing on the blank area of the chalkboard for the first 3 seconds (arm movement only — do NOT actually render any text or chalk marks on the board). After 3 seconds, he turns towards the camera with a bright, cheerful smile, claps his hands once or twice with visible excitement, then performs a 'repeat after me' gesture by cupping one hand near his ear and leaning slightly forward for the remaining 4 seconds. Same composition, 16:9, 3D anime style. The chalkboard must stay visually empty throughout — any chalkboard text will be added in post-production.",
+      "postProduction": {
+        "fadeInFromBlack": false,
+        "fadeOutToBlack": true,
+        "fadeOutDurationSec": 0.3,
+        "typographyOverlay": "chalkboard-reveal"
+      },
+      "handoff": {
+        "extractLastFrame": false
+      }
+    }
+  ],
+
+  "fixedClips": {
+    "opening": {
+      "source": "characters/daehan/01_Opening.mp4",
+      "durationSec": 3.0,
+      "startSec": 0.0,
+      "trimFromStart": true,
+      "keepOriginalAudio": true,
+      "fadeOutToBlackSec": 0.3
+    },
+    "ending": {
+      "source": "characters/daehan/02_Ending.mp4",
+      "durationSec": 3.3,
+      "startSec": 26.7,
+      "trimFromStart": true,
+      "keepOriginalAudio": true,
+      "fadeInFromBlackSec": 0.3
+    }
+  },
+
+  "executionOrder": [
+    "extract-opening-last-frame",
+    "generate-scene-1",
+    "extract-scene-1-last-frame",
+    "generate-scene-2",
+    "extract-scene-2-last-frame",
+    "generate-scene-3",
+    "extract-scene-3-last-frame",
+    "generate-scene-4",
+    "generate-tts-audio",
+    "compose-final"
+  ]
+}

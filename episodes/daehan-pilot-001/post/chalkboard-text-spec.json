@@ -1,0 +1,184 @@
+{
+  "$schema": "../../_template-v2-seamless/chalkboard-text-spec.schema.json",
+  "episode": {
+    "slug": "daehan-pilot-001",
+    "_refSourcePacket": "../source-packet.json",
+    "_refScenePlan": "../scene-plan.md"
+  },
+
+  "canvas": {
+    "resolution": { "w": 1920, "h": 1080 },
+    "fps": 30
+  },
+
+  "zones": {
+    "chalkboard": { "x": 120, "y": 90,  "w": 1210, "h": 650 },
+    "subtitle":   { "x": 60,  "y": 950, "w": 1800, "h": 110 }
+  },
+
+  "fonts": {
+    "chalkboardKo":   { "family": "NanumGothic-Bold",     "path": "shared/fonts/NanumGothic-Bold.ttf" },
+    "chalkboardAnswer": { "family": "NanumPenScript",     "path": "shared/fonts/NanumPenScript.ttf" },
+    "subtitleEn":     { "family": "Inter-Medium",         "path": "shared/fonts/Inter-Medium.ttf" }
+  },
+
+  "colors": {
+    "chalkWhite":   "#F4F4F0",
+    "chalkYellow":  "#FFE066",
+    "chalkPink":    "#FFB3C6",
+    "blankBoxStroke": "#FFE066",
+    "correctHighlight": "#FFE066",
+    "subtitleText": "#FFFFFF",
+    "subtitleShadow": "#00000099"
+  },
+
+  "layers": [
+    {
+      "layerId": "question-sentence",
+      "type": "text-stroke-reveal",
+      "absoluteStartSec": 12.5,
+      "absoluteEndSec":   18.8,
+      "text": "풍선을 너무 크게 불었더니 결국 ___ 터져 버렸다",
+      "blankToken": "___",
+      "zone": "chalkboard",
+      "font": "chalkboardKo",
+      "fontSize": 64,
+      "color": "chalkWhite",
+      "align": "center",
+      "yOffset": 120,
+      "strokeRevealSecPerChar": 0.12,
+      "_note": "한 자씩 써지는 효과. ___ 전까지 공백 포함 모두 리빌."
+    },
+
+    {
+      "layerId": "blank-box-highlight",
+      "type": "rect-blink",
+      "absoluteStartSec": 15.0,
+      "absoluteEndSec":   19.0,
+      "attachToLayer": "question-sentence",
+      "attachToToken": "___",
+      "strokeColor": "blankBoxStroke",
+      "strokeWidth": 4,
+      "padding": 12,
+      "blinkIntervalSec": 0.5,
+      "_note": "___ 위치에 노란 네모 박스, 0.5초 간격 깜빡임"
+    },
+
+    {
+      "layerId": "choice-1",
+      "type": "text-fade-in",
+      "absoluteStartSec": 15.5,
+      "absoluteEndSec":   19.0,
+      "text": "① 꽝",
+      "zone": "chalkboard",
+      "font": "chalkboardKo",
+      "fontSize": 52,
+      "color": "chalkWhite",
+      "xOffset": 200,
+      "yOffset": 480,
+      "fadeInSec": 0.3
+    },
+    {
+      "layerId": "choice-2",
+      "type": "text-fade-in",
+      "absoluteStartSec": 15.8,
+      "absoluteEndSec":   19.0,
+      "text": "② 빵",
+      "zone": "chalkboard",
+      "font": "chalkboardKo",
+      "fontSize": 52,
+      "color": "chalkWhite",
+      "xOffset": 500,
+      "yOffset": 480,
+      "fadeInSec": 0.3
+    },
+    {
+      "layerId": "choice-3",
+      "type": "text-fade-in",
+      "absoluteStartSec": 16.1,
+      "absoluteEndSec":   19.0,
+      "text": "③ 쿵",
+      "zone": "chalkboard",
+      "font": "chalkboardKo",
+      "fontSize": 52,
+      "color": "chalkWhite",
+      "xOffset": 800,
+      "yOffset": 480,
+      "fadeInSec": 0.3
+    },
+
+    {
+      "layerId": "question-sentence-holdover",
+      "type": "text-static",
+      "absoluteStartSec": 19.0,
+      "absoluteEndSec":   26.7,
+      "text": "풍선을 너무 크게 불었더니 결국 ___ 터져 버렸다",
+      "blankToken": "___",
+      "zone": "chalkboard",
+      "font": "chalkboardKo",
+      "fontSize": 64,
+      "color": "chalkWhite",
+      "align": "center",
+      "yOffset": 120,
+      "_note": "씬4 동안 문제 문장은 계속 표시"
+    },
+
+    {
+      "layerId": "answer-fill-blank",
+      "type": "text-stroke-reveal",
+      "absoluteStartSec": 21.5,
+      "absoluteEndSec":   26.7,
+      "text": "빵",
+      "attachToLayer": "question-sentence-holdover",
+      "attachToToken": "___",
+      "font": "chalkboardAnswer",
+      "fontSize": 72,
+      "color": "chalkYellow",
+      "strokeRevealSecPerChar": 0.5,
+      "_note": "빈칸 위치에 '빵' 스트로크 리빌 (씬4의 분필 쓰는 동작과 동기화)"
+    },
+
+    {
+      "layerId": "correct-choice-circle",
+      "type": "shape-circle-highlight",
+      "absoluteStartSec": 22.0,
+      "absoluteEndSec":   26.7,
+      "attachToLayer": "choice-2",
+      "strokeColor": "correctHighlight",
+      "strokeWidth": 6,
+      "padding": 16,
+      "drawInSec": 0.4,
+      "_note": "정답 보기에 원 그려지는 애니메이션"
+    },
+
+    {
+      "layerId": "choices-holdover",
+      "type": "text-static",
+      "absoluteStartSec": 19.0,
+      "absoluteEndSec":   26.7,
+      "_note": "choice-1, 2, 3 씬4 동안 계속 표시되도록 연장. 실제로는 choice-{1,2,3} layer의 endSec을 늘려 처리",
+      "_implementation": "choice-1~3 layer의 absoluteEndSec을 26.7로 확장. 본 layer는 주석 용도."
+    }
+  ],
+
+  "subtitlesEn": {
+    "source": "./subtitles-en.srt",
+    "zone": "subtitle",
+    "font": "subtitleEn",
+    "fontSize": 36,
+    "color": "subtitleText",
+    "shadow": {
+      "color": "subtitleShadow",
+      "offsetX": 2,
+      "offsetY": 2,
+      "blur": 4
+    },
+    "align": "center",
+    "_note": "TTS 아님. 하단 고정 자막."
+  },
+
+  "fadeBetweenClips": {
+    "openingToScene1":  { "type": "fadeblack", "durationSec": 0.3, "atSec": 3.0 },
+    "scene4ToEnding":   { "type": "fadeblack", "durationSec": 0.3, "atSec": 26.7 }
+  }
+}
