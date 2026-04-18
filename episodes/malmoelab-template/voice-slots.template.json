@@ -1,0 +1,82 @@
+{
+  "formatVersion": "malmoelab-vnext-voice-slots@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "slots": [
+    {
+      "voiceSlotId": "scene-0-opening-ko",
+      "kind": "reusable-line",
+      "speaker": "{{CHARACTER_SLUG}}",
+      "text": "{{OPENING_DIALOGUE_KO}}",
+      "preferredSources": [
+        "voice-pack",
+        "human-dub",
+        "actor-dub",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-0-opening",
+      "ttsProvider": "supertone",
+      "recordingTarget": "dubbing/audio-overrides/scene-0-opening-ko.wav"
+    },
+    {
+      "voiceSlotId": "scene-1-intro-ko",
+      "kind": "episode-line",
+      "speaker": "{{CHARACTER_SLUG}}",
+      "text": "{{INTRO_DIALOGUE_KO}}",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-1-intro",
+      "ttsProvider": "supertone",
+      "recordingTarget": "dubbing/audio-overrides/scene-1-intro-ko.wav"
+    },
+    {
+      "voiceSlotId": "scene-2-repeat-cue-ko",
+      "kind": "episode-line",
+      "speaker": "{{CHARACTER_SLUG}}",
+      "text": "{{REPEAT_CUE_KO}}",
+      "sceneId": "scene-2-repeat",
+      "pauseAfterSec": "{{REPEAT_CUE_PAUSE_SEC}}",
+      "ttsProvider": "supertone",
+      "recordingTarget": "dubbing/audio-overrides/scene-2-repeat-cue-ko.wav"
+    },
+    {
+      "voiceSlotId": "scene-2-sentence-ko",
+      "kind": "episode-line",
+      "speaker": "{{CHARACTER_SLUG}}",
+      "text": "{{SENTENCE_KO}}",
+      "sceneId": "scene-2-repeat",
+      "ttsProvider": "supertone",
+      "recordingTarget": "dubbing/audio-overrides/scene-2-sentence-ko.wav"
+    },
+    {
+      "voiceSlotId": "scene-3-quiz-ko",
+      "kind": "episode-line",
+      "speaker": "{{CHARACTER_SLUG}}",
+      "text": "{{QUIZ_DIALOGUE_KO}}",
+      "sceneId": "scene-3-quiz",
+      "ttsProvider": "supertone",
+      "recordingTarget": "dubbing/audio-overrides/scene-3-quiz-ko.wav"
+    },
+    {
+      "voiceSlotId": "scene-4-ending-ko",
+      "kind": "reusable-line",
+      "speaker": "{{CHARACTER_SLUG}}",
+      "text": "{{ENDING_DIALOGUE_KO}}",
+      "preferredSources": [
+        "voice-pack",
+        "human-dub",
+        "actor-dub",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-4-ending",
+      "ttsProvider": "supertone",
+      "recordingTarget": "dubbing/audio-overrides/scene-4-ending-ko.wav"
+    }
+  ]
+}

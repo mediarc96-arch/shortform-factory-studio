@@ -1,263 +1,98 @@
-# Malmoelab Hangul Repeat — Agent Workflow
-
-이 문서는 `malmoelab-hangul-repeat` 포맷의 영상을 반복 생산할 때  
-Paperclip agent가 따라야 할 **전체 실행 순서**를 정의한다.
-
-관련 도큐멘트:
-- [MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md](../docs/MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md)
-- [REFERENCE_SHORTFORM_WORKFLOW.md](../docs/REFERENCE_SHORTFORM_WORKFLOW.md)
-
----
-
-## 포맷 개요
-
-| 항목 | 값 |
-|------|-----|
-| 시리즈 슬러그 | `malmoelab-hangul-repeat` |
-| 포맷 유형 | `fill_blank_repeat` |
-| 총 길이 | 30초 |
-| 비율 | **16:9 (1920×1080)** |
-| 오프닝 소스 | `D:\Work\2025_DevScent\600_Marketing\ShortformFactory\1_Opening.mp4` |
-| 영상 생성 도구 | **Grok** (씬별 생성 후 합성) |
-| 나레이션 | 한국 남성 TTS (느림) + 영어 여성 TTS |
-| 오프닝 | 고정 클립 (`characters/daehan/01_Opening.mp4`), 자막 없음 |
-| 엔딩 | 고정 클립 (마무리 인사 "그럼 다음시간에 또 만나요.") |
-| 총 길이 | 40~45초 (오프닝 5~7 + 본편 25~27 + 엔딩 3~5) |
+# Malmoelab Korean Education — Agent Workflow
 
-기존 15초 퀴즈 포맷(`malmoelab-hangul-quiz`)과 별개의 시리즈다.  
-문장은 중복 사용 금지. 단어(choices)는 재사용 허용.
+이 문서는 `malmoelab` 관련 한글 교육 콘텐츠를 Paperclip agent가 반복 생산할 때 따라야 할 기본 실행 순서를 정의한다.
 
----
+핵심 원칙:
 
-## 전체 실행 단계
+- `source first`
+- `script second`
+- `picture lock before dubbing`
+- `typography last`
+- `voice id per character`
 
-```
-STEP 1  → 에피소드 슬러그 생성
-STEP 2  → 말모이랩 DB에서 예문 선택
-STEP 3  → 보기 단어(choices) 선택
-STEP 4  → source-packet.json 작성
-STEP 5  → narration-script.md 작성
-STEP 6  → video-generation-job.json 작성
-STEP 7  → packet.md 작성
-STEP 8  → used_sentences.jsonl 업데이트
-STEP 9  → Grok 씬 생성 실행
-STEP 10 → 씬 합성 + 오디오 믹싱
-STEP 11 → QA 검수
-STEP 12 → publish-packet.json 작성
-```
-
----
-
-## STEP 1 — 에피소드 슬러그 생성
-
-형식: `malmoelab-ko-repeat-{단어영문}-{3자리시퀀스}`
-
-예시:
-- `malmoelab-ko-repeat-jip-001`
-- `malmoelab-ko-repeat-hakgyo-002`
-
-시퀀스 번호는 `episodes/` 폴더 안에 있는 `malmoelab-ko-repeat-*` 에피소드 수를 세어 결정한다.
-
----
-
-## STEP 2 — 말모이랩 DB 예문 선택
+## 이 템플릿이 담당하는 범위
 
-### 2-1. DB 접속
+- 말모이랩 예문 기반 한국어 교육 Shorts
+- 오프닝/엔딩 재사용형 에피소드
+- character-driven classroom format
+- Korean line + romanization helper + CTA 후반 합성
 
-secret key: `MALMOELAB_DATABASE_URL`
+## 표준 실행 단계
 
-read-only 계정으로 접속한다. DB 비밀번호는 Paperclip secret에만 있으며 스크립트나 파일에 적지 않는다.
+1. 에피소드 아이디어와 구성 확정
+2. 말모이랩 source sentence 선택
+3. `source-packet.json` 작성
+4. `packet.md` 작성
+5. `episode.schema.json` 작성
+6. `voice-slots.json`에 대사 슬롯 작성
+7. content line TTS 예상 길이 prepass
+8. `video-generation-job.json` 작성
+9. picture-only scene generation
+10. picture lock 조립
+11. guide dub 또는 uploaded dub 반영
+12. dub lock 생성
+13. `typography-slots.json` 작성
+14. final typography 합성
+15. review bundle 생성
+16. publish packet 준비
 
-### 2-2. 후보 조회 SQL
+## 양산을 위한 고정 규칙
 
-```sql
-SELECT
-    w.id              AS word_id,
-    w.word_text,
-    w.romanization,
-    w.topik_level,
-    w.difficulty_score,
-    ws.id             AS sense_id,
-    wt.translation    AS english_gloss,
-    we.id             AS example_id,
-    we.example_text,
-    we.translation    AS example_translation
-FROM words w
-JOIN word_senses ws       ON ws.word_id = w.id
-JOIN word_translations wt ON wt.sense_id = ws.id AND wt.language_code = 'en'
-JOIN word_examples we     ON we.sense_id = ws.id
-LEFT JOIN word_example_translations wet
-    ON wet.example_id = we.id AND wet.language_code = 'en'
-WHERE
-    w.is_published = true
-    AND wet.translation IS NOT NULL
-    AND w.topik_level <= 2            -- 초급 위주
-    AND LENGTH(we.example_text) <= 30 -- 너무 긴 문장 제외
-ORDER BY RANDOM()
-LIMIT 20;
-```
+### 1. source
 
-### 2-3. 중복 확인
+- source-of-truth는 말모이랩 DB sentence다.
+- focus word, sentence, translation, romanization, source id를 packet에 항상 남긴다.
+- 같은 문장 중복 사용 정책은 series ledger에서 관리한다.
 
-조회 결과 각 `example_id`를  
-`data/used_sentences.jsonl` 의 `exampleId` 필드와 대조한다.
+### 2. script
 
-- `status` 가 `rendered` 또는 `reserved` 인 example_id → **제외**
-- 아직 없는 example_id → **사용 가능**
+- spoken line과 screen text를 같은 단계에서 섞지 않는다.
+- 대본은 `voice-slots.json` 기준으로 관리한다.
+- 한글 예문과 로마자는 타이포 단계에서 넣는다.
 
-### 2-4. 최종 선택 기준
+### 3. picture
 
-우선순위:
-1. `used_sentences.jsonl`에 없는 example
-2. `topik_level` 낮은 것 우선
-3. 예문 길이 20자 이하 우선
-4. `difficulty_score` 낮은 것 우선
+- generated video에는 글자를 넣지 않는다.
+- scene durations는 가능하면 content TTS 길이 기준으로 결정한다.
+- 캐릭터 일관성과 칠판 clean surface를 우선한다.
 
----
+### 4. dub
 
-## STEP 3 — 보기 단어(choices) 선택
+- 오프닝/엔딩 승인 음성이 있으면 재사용 우선
+- content line은 guide TTS 또는 사람 더빙 사용
+- 캐릭터 기본 voice id는 `characters/<slug>/voice.json`에서 읽는다
 
-정답 단어 1개 + 오답 단어 2개 = 총 3개.
+### 5. typography
 
-### 3-1. 정답 단어
+- 칠판 예문
+- 로마자 발음 도움말
+- 빈칸 문장
+- CTA
 
-STEP 2에서 선택한 예문의 focus word (`word_text`).
+이 네 가지는 모두 후반 합성에서 넣는다.
 
-### 3-2. 오답 단어 2개 선택 기준
+## 캐릭터 음성 정책
 
-```sql
-SELECT
-    w.id, w.word_text, w.romanization,
-    wt.translation AS english_gloss
-FROM words w
-JOIN word_senses ws       ON ws.word_id = w.id
-JOIN word_translations wt ON wt.sense_id = ws.id AND wt.language_code = 'en'
-WHERE
-    w.is_published = true
-    AND w.part_of_speech = '{정답_단어의_part_of_speech}'  -- 같은 품사
-    AND w.topik_level <= 2
-    AND w.id != '{정답_word_id}'
-ORDER BY RANDOM()
-LIMIT 10;
-```
+- 각 캐릭터는 `characters/<slug>/voice.json`을 가진다.
+- 회차 `voice-slots.json`은 기본적으로 그 설정을 상속한다.
+- 특정 회차에서만 다른 voice를 써야 할 때만 `ttsVoiceEnv` override를 허용한다.
 
-선택 기준:
-- **같은 품사** (명사면 명사, 동사면 동사)
-- 일상생활 장소/행동 맥락에서 자연스럽게 헷갈릴 수 있는 단어 우선
-- 단어 자체는 이전 에피소드에서 사용됐어도 무방
-- 문장 속 빈칸에 넣어도 문법적으로 말이 되는 것 우선
+## Paperclip agent 지시용 해석
 
-### 3-3. 보기 배열 순서
+Paperclip agent는 `malmoelab` 교육 에피소드를 만들 때 이 폴더를 source of process로 본다.
 
-정답 위치는 매번 랜덤으로 배치 (① ② ③ 중 어디든).
+즉, 다음을 의미한다.
 
----
+- episode tree를 만들 때 여기 있는 템플릿을 복사해서 시작
+- `구성 -> 대본 -> 영상 -> TTS -> 한글 타이포그래피` 순서를 유지
+- 그림 생성 단계에서 한글을 직접 생성하지 않음
+- voice id를 캐릭터별로 해석
 
-## STEP 4 — source-packet.json 작성
+## 다른 콘텐츠에도 참고할 때
 
-`episodes/malmoelab-template/source-packet.template.json` 을 복사한 뒤  
-모든 `{{PLACEHOLDER}}` 값을 실제 데이터로 치환한다.
+범용 흐름만 필요하면 `PROCESS_REFERENCE.md`를 본다.
 
-저장 경로: `episodes/{EPISODE_SLUG}/source-packet.json`
-
----
-
-## STEP 5 — narration-script.md 작성
-
-`episodes/malmoelab-template/narration-script.template.md` 를 복사한 뒤  
-모든 `{{PLACEHOLDER}}` 값을 치환한다.
-
-저장 경로: `episodes/{EPISODE_SLUG}/narration-script.md`
-
-TTS 생성이 이 단계에서 가능하면 실행한다.
-- `audio/narration-ko.mp3` (한국 남성, speed 0.75×)
-- `audio/narration-en.mp3` (영어 여성, speed 0.85×)
-
----
-
-## STEP 6 — video-generation-job.json 작성
-
-`episodes/malmoelab-template/video-generation-job.template.json` 을 복사한 뒤  
-모든 `{{PLACEHOLDER}}` 값을 치환한다.
-
-저장 경로: `episodes/{EPISODE_SLUG}/video-generation-job.json`
-
-Grok 씬 생성은 STEP 9에서 실행한다.
-
-### ⚠️ Grok 프롬프트 작성 필수 규칙
-
-이전 버전(v1)에서 9:16 세로 형식 + 구도 미지정으로 인해  
-캐릭터가 프레임을 가득 채우고 칠판이 보이지 않는 문제가 발생했다.
-
-**v2부터 모든 Grok 프롬프트에 반드시 포함해야 할 6가지 요소:**
-
-1. **구도 + 위치 명시** (필수):
-   ```
-   COMPOSITION: The teacher character stands IN FRONT OF the chalkboard,
-   on the RIGHT SIDE of the frame (30-35% width). The chalkboard is visible
-   on the LEFT (65-70% width). The teacher is BETWEEN the camera and the chalkboard.
-   ```
-   ⚠️ "behind" 사용 금지. 반드시 "IN FRONT OF" 사용.
-
-2. **카메라 거리 명시** (필수):
-   ```
-   Medium shot, waist-up view. The camera is at eye-level,
-   like a student sitting at a desk.
-   ```
-
-3. **비율 명시** (필수):
-   ```
-   Horizontal 16:9 widescreen format.
-   ```
-
-4. **3D 스타일 명시** (필수):
-   ```
-   3D anime-style render.
-   ```
-
-5. **텍스트 생성 금지** (필수):
-   ```
-   Do NOT add any text, letters, numbers, subtitles, logos, or watermarks
-   anywhere in the image.
-   ```
-
-6. **칠판 깨끗하게** (필수):
-   ```
-   Keep the chalkboard surface clean and empty.
-   ```
-
-**금지 사항:**
-- `"vertical 9:16"` 을 프롬프트에 넣지 않는다.
-- 캐릭터의 얼굴 클로즈업을 요청하지 않는다.
-- Grok에게 텍스트/글자 생성을 요청하지 않는다.
-- 구도 레퍼런스: `docs/example/mBp3B.jpg` 를 참고 이미지로 활용한다.
-
----
-
-## STEP 7 — packet.md 작성
-
-`episodes/malmoelab-template/packet.template.md` 를 복사한 뒤  
-모든 `{{PLACEHOLDER}}` 값을 치환한다.
-
-저장 경로: `episodes/{EPISODE_SLUG}/packet.md`
-
----
-
-## STEP 8 — used_sentences.jsonl 업데이트
-
-선택한 예문을 즉시 ledger에 `reserved` 상태로 추가한다.  
-렌더 완료 후 `rendered` 로 변경한다.
-
-```jsonc
-// 추가할 레코드 형식
-{
-  "episodeSlug": "{EPISODE_SLUG}",
-  "wordId": "{WORD_ID}",
-  "senseId": "{SENSE_ID}",
-  "exampleId": "{EXAMPLE_ID}",
-  "sentenceText": "{SENTENCE_KO}",
-  "status": "reserved",
-  "selectedAt": "{ISO8601_TIMESTAMP}"
+`malmoelab` 전용 정보가 필요하면 이 문서와 아래 템플릿 JSON을 본다.
 }
 ```
 

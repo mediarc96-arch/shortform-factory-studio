@@ -1,0 +1,22 @@
+{
+  "characterSlug": "{{CHARACTER_SLUG}}",
+  "label": "{{CHARACTER_LABEL}} Voice Config",
+  "tts": {
+    "supertone": {
+      "voiceEnv": "SUPERTONE_VOICE_ID_{{CHARACTER_ENV_SUFFIX}}",
+      "language": "{{LANGUAGE_CODE}}"
+    },
+    "elevenlabs": {
+      "voiceEnv": "ELEVENLABS_VOICE_ID_{{CHARACTER_ENV_SUFFIX}}",
+      "language": "{{LANGUAGE_CODE}}"
+    }
+  },
+  "reusableDialogue": {
+    "opening": {
+      "policy": "reuse-approved-voice-pack-first"
+    },
+    "ending": {
+      "policy": "reuse-approved-voice-pack-first"
+    }
+  }
+}
