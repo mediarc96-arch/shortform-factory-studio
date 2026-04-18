@@ -1,10 +1,10 @@
 {
-  "_template": "malmoelab-education-dub-after-picture-v1",
+  "_template": "malmoelab-keyframe-dub-after-picture-v1",
   "_instructions": "모든 {{PLACEHOLDER}} 값을 실제 데이터로 치환한다. 이 템플릿은 source-of-truth lesson packet이다.",
   "episodeSlug": "{{EPISODE_SLUG}}",
   "seriesSlug": "{{SERIES_SLUG}}",
   "characterSlug": "{{CHARACTER_SLUG}}",
-  "formatProfile": "education-dub-after-picture-v1",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
   "createdAt": "{{ISO8601_TIMESTAMP}}",
   "source": {
     "sourceType": "malmoelab.word_example",
@@ -29,11 +29,11 @@
     "serviceCtaKo": "{{SERVICE_CTA_KO}}"
   },
   "reusableAssets": {
-    "openingVideo": "characters/{{CHARACTER_SLUG}}/01_Opening.mp4",
-    "endingVideo": "characters/{{CHARACTER_SLUG}}/02_Ending.mp4",
+    "characterImage2D": "characters/{{CHARACTER_SLUG}}/{{CHARACTER_IMAGE_FILE}}",
     "voiceConfig": "characters/{{CHARACTER_SLUG}}/voice.json"
   },
   "productionPolicy": {
+    "keyframeStage": "review-before-video",
     "pictureStage": "mute-video-only",
     "dubStage": "post-picture-lock",
     "typographyStage": "post-dub-lock",

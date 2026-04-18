@@ -1,6 +1,6 @@
 {
   "episode": {
-    "slug": "{{EPISODE_SLUG}}",
+    "slug": "malmoelab-ko-quiz-seolmin-001",
     "_refSourcePacket": "./source-packet.json",
     "_refEpisodeSchema": "./episode.schema.json",
     "_refKeyframePlan": "./keyframe-plan.json"
@@ -8,16 +8,16 @@
   "globalSettings": {
     "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
     "provider": "pending",
-    "preferredProvider": "{{VIDEO_PROVIDER}}",
+    "preferredProvider": "grok",
     "continuityTarget": "previous-scene-last-frame",
     "aspectRatio": "16:9",
     "resolution": "1920x1080",
     "fps": 30,
-    "seed": "{{SEED}}",
+    "seed": 531001,
     "style": "2D anime",
-    "characterReferenceBase": "assets/refs/{{CHARACTER_SLUG}}-2d-clean-base-wide-refined.png",
+    "characterReferenceBase": "assets/refs/seolmin-2d-clean-base-wide-refined.jpg",
     "negativePromptCommon": "text, letters, Korean characters, subtitles, numbers, logos, watermarks, chalk writing, calligraphy, labels, extra characters, 3D render, photorealistic, distorted hands, deformed face, blurry, low quality",
-    "compositionRule": "Keep {{CHARACTER_DISPLAY_NAME}} as the same 2D Korean teacher from the approved keyframe set. Keep the teacher on the right quarter and keep the board empty for later typography."
+    "compositionRule": "Keep Seolmin as the same 2D Korean teacher from the approved keyframe set. Keep the teacher on the right quarter and keep the board empty for later typography."
   },
   "_note": "003 구조 기준. keyframe 승인 후에만 5개 scene video를 생성한다.",
   "futureScenes": [

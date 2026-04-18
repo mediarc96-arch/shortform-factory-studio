@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-quiz-seolmin-001 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Seolmin teacher and empty classroom from the input image. Front-facing, mouth slightly open as if introducing today's sentence, one hand making a small teaching gesture toward the empty board, lively but stable classroom-host energy. Keep Seolmin on the right quarter of frame and keep the entire chalkboard empty with no text or chalk marks.",
+    "image": {
+      "url": "../assets/refs/seolmin-2d-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-02-lesson-intro.jpg",
+    "manifestFile": "../keyframes/kf-02-lesson-intro.manifest.json"
+  }
+}

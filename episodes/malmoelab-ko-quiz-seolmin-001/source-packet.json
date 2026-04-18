@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-001",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-18T02:41:10+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "46eeb36e-515d-4ac4-9e66-d2a70a2a79a7",
+    "senseId": "72fa2f54-555c-43a1-8ade-ad63b52449b3",
+    "exampleId": "38c19d5e-fd41-49be-b289-caa80f578d76",
+    "wordText": "학생",
+    "wordRomanization": "haksaeng",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "학교에 다니면서 공부하는 사람.",
+    "definitionTranslated": "A person who studies in a school.",
+    "englishGloss": "student",
+    "exampleText": "학생이 학교에 갑니다.",
+    "exampleTranslationText": "The student goes to school.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 학생",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "___이 학교에 갑니다.",
+    "fullSentence": "학생이 학교에 갑니다.",
+    "blankedSentenceRomanization": "___i hakgyoe gapnida.",
+    "fullSentenceRomanization": "haksaengi hakgyoe gapnida.",
+    "answerWord": "학생",
+    "answerRomanization": "haksaeng",
+    "answerGloss": "student",
+    "answerTranslation": "The student goes to school."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}

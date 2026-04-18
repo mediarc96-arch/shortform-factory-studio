@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 2D Seolmin teacher, same empty classroom, same camera distance, and the same right-quarter composition. Over 6 seconds, Seolmin makes only subtle natural motion: a gentle blink, tiny breathing movement, and a soft welcoming nod. No zoom-in, no large wave, no tighter crop, and no text anywhere.",
+    "image": "../keyframes/kf-01-opening-handoff.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-1-opening-handoff.mp4",
+    "manifestFile": "../renders/grok/scene-1-opening-handoff.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-1-last-frame.jpg"
+  }
+}

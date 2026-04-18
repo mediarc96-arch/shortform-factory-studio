@@ -1,6 +1,7 @@
 {
   "formatVersion": "malmoelab-vnext-typography-slots@0.1",
-  "episodeSlug": "{{EPISODE_SLUG}}",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-001",
+  "_note": "003 기준 typography 구조. 실제 합성은 picture lock 뒤에 진행한다.",
   "stylePresets": {
     "malmoelab-board-handwritten-bold": {
       "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
@@ -11,7 +12,7 @@
       "strokeFill": "#DDE1D8",
       "strokeWidth": 3
     },
-    "malmoelab-cta-soft": {
+    "malmoelab-subtitle-cta-soft": {
       "fontPath": "shared/fonts/NanumGothic-Bold.ttf",
       "look": "clean-subtitle-cta",
       "surface": "subtitle-lower-third"
@@ -23,34 +24,45 @@
       "sceneId": "scene-2-lesson-intro",
       "surface": "chalkboard",
       "layout": "ko-plus-romanized",
-      "textKo": "{{SENTENCE_KO}}",
-      "textRomanized": "{{SENTENCE_ROMANIZED}}",
-      "stylePreset": "malmoelab-board-handwritten-bold"
+      "text": "학생이 학교에 갑니다.",
+      "textKo": "학생이 학교에 갑니다.",
+      "textRomanized": "haksaengi hakgyoe gapnida.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 6.1,
+      "plannedOutTimeSec": 11.5
     },
     {
       "slotId": "scene-3-repeat-sentence",
       "sceneId": "scene-3-repeat-listen",
       "surface": "chalkboard",
       "layout": "ko-plus-romanized",
-      "textKo": "{{SENTENCE_KO}}",
-      "textRomanized": "{{SENTENCE_ROMANIZED}}",
-      "stylePreset": "malmoelab-board-handwritten-bold"
+      "text": "학생이 학교에 갑니다.",
+      "textKo": "학생이 학교에 갑니다.",
+      "textRomanized": "haksaengi hakgyoe gapnida.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 13.0,
+      "plannedOutTimeSec": 18.0
     },
     {
       "slotId": "scene-4-quiz-blank",
       "sceneId": "scene-4-quiz-point",
       "surface": "chalkboard",
       "layout": "ko-plus-romanized",
-      "textKo": "{{SENTENCE_BLANK_KO}}",
-      "textRomanized": "{{SENTENCE_BLANK_ROMANIZED}}",
-      "stylePreset": "malmoelab-board-handwritten-bold"
+      "text": "___이 학교에 갑니다.",
+      "textKo": "___이 학교에 갑니다.",
+      "textRomanized": "___i hakgyoe gapnida.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 20.0,
+      "plannedOutTimeSec": 26.0
     },
     {
       "slotId": "scene-4-cta-lower-third",
       "sceneId": "scene-5-ending-wave",
       "surface": "subtitle-lower-third",
-      "text": "{{SERVICE_CTA_KO}}",
-      "stylePreset": "malmoelab-cta-soft"
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "stylePreset": "malmoelab-subtitle-cta-soft",
+      "plannedInTimeSec": 24.15,
+      "plannedOutTimeSec": 27.1
     }
   ]
 }

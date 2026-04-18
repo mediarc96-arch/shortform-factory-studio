@@ -1,0 +1,68 @@
+{
+  "id": "malmoelab-keyframe-dub-after-picture-v1",
+  "label": "Malmoelab Keyframe Dub After Picture V1",
+  "description": "daehan-pilot-codex-003을 기준으로 한 말모이랩 교육 포맷. 2D 캐릭터 기준 이미지와 5개 keyframe을 먼저 잠그고, 5개 6초 씬을 순차 생성해 picture lock을 만든 뒤, 더빙과 칠판 타이포를 후반에서 합성한다.",
+  "runnerHints": {
+    "basePrep": "Prepare or select a clean 16:9 character base plate with the teacher on the right quarter and an empty board on the left.",
+    "keyframeGate": "Generate and review five keyframes before any video generation.",
+    "pictureStage": "Generate five mute 6-second clips sequentially using the previous scene's last frame as the next scene seed.",
+    "dubStage": "Lock picture first, then add the six standard voice slots.",
+    "typeStage": "Apply board typography only after dub lock."
+  },
+  "reviewPolicy": {
+    "gate": "keyframe-approval-required-before-video",
+    "minimumApprovedKeyframes": 5,
+    "outputBundle": "review/contact-sheets/overview.jpg + review/review-report.md"
+  },
+  "sceneGenerationPolicy": {
+    "defaultSceneCount": 5,
+    "defaultClipDurationSec": 6.0,
+    "defaultTotalDurationSec": 30.0,
+    "continuityMode": "previous-scene-last-frame-seeds-next-scene",
+    "sceneStartRule": "scene-1 starts from approved keyframe-01; later scenes start from prior clip final frame",
+    "scenePoseTargetRule": "approved keyframes define the target pose and expression for each scene block",
+    "textInGeneration": "forbidden",
+    "defaultAspectRatio": "16:9",
+    "defaultResolution": "1920x1080",
+    "defaultCompositionRule": "teacher on right quarter, clean chalkboard on left three-quarters"
+  },
+  "scriptPolicy": {
+    "defaultVoiceSlotPattern": [
+      "scene-1-opening-greeting-ko",
+      "scene-2-intro-ko",
+      "scene-3-repeat-cue-ko",
+      "scene-3-sentence-ko",
+      "scene-4-cta-ko",
+      "scene-5-ending-ko"
+    ],
+    "defaultOpeningLineRule": "reuse the daehan-pilot-codex-003 opening line structure and only swap the character name",
+    "defaultEndingLineRule": "reuse the daehan-pilot-codex-003 ending line unless the brief explicitly overrides it"
+  },
+  "voiceConfigPolicy": {
+    "voiceIdScope": "per-character",
+    "characterVoiceFile": "characters/<slug>/voice.json",
+    "slotOverrideAllowed": true,
+    "rule": "voice-slots may override ttsVoiceEnv, otherwise the renderer resolves the default voice env from the character voice config"
+  },
+  "audioPolicy": {
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "contentTtsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "generationStage": "mute-video-only",
+    "dubStage": "post-picture-lock"
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "post-dub-lock",
+    "surface": "chalkboard",
+    "style": "bold-handwritten-chalk",
+    "preferredFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "strokeSupportFont": "shared/fonts/NanumGothic-Bold.ttf"
+  }
+}

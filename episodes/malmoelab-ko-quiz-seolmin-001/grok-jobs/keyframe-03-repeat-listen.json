@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-quiz-seolmin-001 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Seolmin teacher and empty classroom from the input image. Front-facing, patient smile, one hand cupped near ear in a repeat-after-me listening pose, the other hand relaxed with the chalk, attentive and encouraging expression. Keep Seolmin on the right quarter of frame and keep the entire chalkboard empty with no text or chalk marks.",
+    "image": {
+      "url": "../assets/refs/seolmin-2d-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-03-repeat-listen.jpg",
+    "manifestFile": "../keyframes/kf-03-repeat-listen.manifest.json"
+  }
+}

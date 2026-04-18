@@ -1,0 +1,101 @@
+{
+  "_schema": "malmoelab keyframe plan",
+  "_note": "003 기준. keyframe 5장을 먼저 잠그고 난 뒤에만 scene video로 넘어간다.",
+  "episode": {
+    "slug": "malmoelab-ko-quiz-seolmin-001",
+    "basis": "Seolmin 2D reference -> cleaned base -> approved keyframes -> sequential video generation"
+  },
+  "baseImage": {
+    "source": "characters/seolmin/Seolmin.png",
+    "cleanedPath": "assets/refs/seolmin-2d-clean-base.jpg",
+    "widePrepPath": "assets/refs/seolmin-2d-clean-base-wide-rough.jpg",
+    "refinedWidePath": "assets/refs/seolmin-2d-clean-base-wide-refined.jpg"
+  },
+  "framingRule": {
+    "aspectRatio": "16:9",
+    "canvas": [
+      1920,
+      1080
+    ],
+    "characterZone": {
+      "xPctRange": [
+        73,
+        100
+      ],
+      "yPctRange": [
+        0,
+        100
+      ]
+    },
+    "chalkboardZone": {
+      "xPctRange": [
+        0,
+        73
+      ],
+      "yPctRange": [
+        5,
+        90
+      ]
+    }
+  },
+  "styleLock": {
+    "renderStyle": "2D anime illustration matching characters/seolmin/Seolmin.png",
+    "avoid": "3D render, photorealistic, text, chalk writing, labels, subtitle artifacts, extra characters, dark horror tone"
+  },
+  "reviewFlow": {
+    "gate": "user-review-before-video",
+    "reviewBundle": {
+      "report": "review/review-report.md",
+      "overview": "review/contact-sheets/overview.jpg"
+    }
+  },
+  "keyframes": [
+    {
+      "id": "kf-01-opening-handoff",
+      "anchorSec": 0.0,
+      "futureSceneId": "scene-1-opening-handoff",
+      "purpose": "opening greeting close",
+      "pose": "front-facing, bright welcoming smile, calm introduction energy, chalk still visible, board remains empty",
+      "outputPath": "keyframes/kf-01-opening-handoff.jpg"
+    },
+    {
+      "id": "kf-02-lesson-intro",
+      "anchorSec": 6.0,
+      "futureSceneId": "scene-2-lesson-intro",
+      "purpose": "introducing today's sentence",
+      "pose": "front-facing, mouth slightly open mid-speech, small teaching gesture toward board, lively teacher energy",
+      "outputPath": "keyframes/kf-02-lesson-intro.jpg"
+    },
+    {
+      "id": "kf-03-repeat-listen",
+      "anchorSec": 12.0,
+      "futureSceneId": "scene-3-repeat-listen",
+      "purpose": "repeat after me pause",
+      "pose": "front-facing, patient smile, one hand cupped near ear, attentive listening pose",
+      "outputPath": "keyframes/kf-03-repeat-listen.jpg"
+    },
+    {
+      "id": "kf-04-quiz-point",
+      "anchorSec": 18.0,
+      "futureSceneId": "scene-4-quiz-point",
+      "purpose": "blank quiz pointing",
+      "pose": "front-facing, playful curious teacher, one hand pointing toward empty board, body remains on right side",
+      "outputPath": "keyframes/kf-04-quiz-point.jpg"
+    },
+    {
+      "id": "kf-05-ending-wave",
+      "anchorSec": 24.0,
+      "futureSceneId": "scene-5-ending-wave",
+      "purpose": "farewell wave",
+      "pose": "front-facing, bright smile, small wave near shoulder, gentle goodbye energy",
+      "outputPath": "keyframes/kf-05-ending-wave.jpg"
+    }
+  ],
+  "reviewChecklist": [
+    "2D 설민 스타일이 Seolmin.png와 계속 같아 보이는가",
+    "왼쪽 칠판이 비어 있고 글자가 전혀 없는가",
+    "설민이 오른쪽 쿼터 근처에 일관되게 서 있는가",
+    "모자와 복장에 글자 아티팩트가 없는가",
+    "다섯 장의 포즈 차이가 한눈에 읽히는가"
+  ]
+}

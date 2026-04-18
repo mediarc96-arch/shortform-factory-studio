@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -40,11 +41,13 @@ def main() -> int:
     env_file = Path(args.env_file).resolve()
     python_bin = args.python_bin
 
+    keyframe_plan = json.loads((episode_dir / "keyframe-plan.json").read_text(encoding="utf-8"))
+
     clean_job = episode_dir / "grok-jobs" / "clean-base-remove-text.json"
-    clean_out = episode_dir / "assets" / "refs" / "daehan-2d-clean-base.jpg"
+    clean_out = (clean_job.parent / json.loads(clean_job.read_text(encoding="utf-8"))["runner"]["outputFile"]).resolve()
     maybe_run(clean_job, clean_out, python_bin=python_bin, env_file=env_file, force=args.force)
 
-    rough_out = episode_dir / "assets" / "refs" / "daehan-2d-clean-base-wide-rough.jpg"
+    rough_out = (episode_dir / keyframe_plan["baseImage"]["widePrepPath"]).resolve()
     if args.force or not rough_out.exists():
         run(
             [
@@ -60,7 +63,7 @@ def main() -> int:
         print(f"skip  {rough_out}")
 
     refine_job = episode_dir / "grok-jobs" / "clean-base-refine-wide.json"
-    refine_out = episode_dir / "assets" / "refs" / "daehan-2d-clean-base-wide-refined.jpg"
+    refine_out = (refine_job.parent / json.loads(refine_job.read_text(encoding="utf-8"))["runner"]["outputFile"]).resolve()
     maybe_run(refine_job, refine_out, python_bin=python_bin, env_file=env_file, force=args.force)
 
     keyframe_ids = [

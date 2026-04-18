@@ -49,6 +49,7 @@
 
 여기서 정하는 것:
 
+- keyframe plan
 - shot prompt
 - scene duration
 - continuity
@@ -57,7 +58,11 @@
 중요:
 
 - 이 단계에서는 글자와 음성을 넣지 않는다.
+- 캐릭터형 교육 콘텐츠라면 keyframe review를 먼저 한다.
 - 목표는 `picture lock`이다.
+- 큰 파이프라인에서는 이 단계를 다시 둘로 나눈다:
+  - `EDIT`: render packet 작성
+  - `RENDER`: 실제 scene generation 실행
 
 산출물:
 
@@ -126,7 +131,9 @@
 
 - source 수정이 영상 전체를 다시 깨지 않는다.
 - 대사 수정이 영상 생성 단계까지 되돌아가지 않는다.
+- keyframe에서 먼저 맛을 잡아 scene generation 실패를 줄인다.
 - typography 수정이 TTS를 다시 만들지 않아도 된다.
 - character voice id를 캐릭터별로 재사용할 수 있다.
+- render 실패와 postproduction 실패를 다른 issue로 분리할 수 있다.
 
 즉, 양산하려면 `단계 분리`가 가장 중요하다.

@@ -37,7 +37,7 @@ def make_contact_sheet(title: str, frames: list[tuple[str, Path]], output_path: 
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build a keyframe review bundle for daehan-pilot-codex-003.")
+    parser = argparse.ArgumentParser(description="Build a keyframe review bundle for a keyframe-review-first episode.")
     parser.add_argument("--episode-dir", required=True)
     return parser.parse_args()
 
@@ -45,6 +45,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     episode_dir = Path(args.episode_dir).resolve()
+    episode_schema = json.loads((episode_dir / "episode.schema.json").read_text(encoding="utf-8"))
     plan = json.loads((episode_dir / "keyframe-plan.json").read_text(encoding="utf-8"))
     keyframes = plan.get("keyframes") or []
     review_dir = episode_dir / "review"
@@ -59,15 +60,15 @@ def main() -> int:
     if not frames:
         raise FileNotFoundError(f"No generated keyframes found under {episode_dir / 'keyframes'}")
 
-    make_contact_sheet("daehan-pilot-codex-003 keyframes", frames, contact_dir / "overview.jpg")
+    make_contact_sheet(f"{episode_schema['episodeSlug']} keyframes", frames, contact_dir / "overview.jpg")
 
     review_lines = [
         "# Keyframe Review Report",
         "",
-        "- episode: `daehan-pilot-codex-003`",
+        f"- episode: `{episode_schema['episodeSlug']}`",
         "- status: `review-ready`",
-        "- basis image: `docs/example/Daehan_2D.jpg`",
-        "- clean base: `assets/refs/daehan-2d-clean-base-wide-refined.jpg`",
+        f"- basis image: `{plan['baseImage']['source']}`",
+        f"- clean base: `{plan['baseImage']['refinedWidePath']}`",
         "",
         "## Generated Keyframes",
         ""

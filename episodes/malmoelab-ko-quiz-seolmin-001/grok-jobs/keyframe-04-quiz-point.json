@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-quiz-seolmin-001 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Seolmin teacher and empty classroom from the input image. Front-facing, playful curious expression, one hand clearly pointing toward the empty board as if asking a quiz question, body stays on the right side of the frame. Keep the entire chalkboard empty with no text or chalk marks.",
+    "image": {
+      "url": "../assets/refs/seolmin-2d-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-04-quiz-point.jpg",
+    "manifestFile": "../keyframes/kf-04-quiz-point.manifest.json"
+  }
+}

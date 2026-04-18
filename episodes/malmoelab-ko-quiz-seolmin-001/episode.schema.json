@@ -1,30 +1,31 @@
 {
   "formatVersion": "malmoelab-vnext-episode@0.1",
-  "episodeSlug": "{{EPISODE_SLUG}}",
-  "seriesSlug": "{{SERIES_SLUG}}",
-  "characterSlug": "{{CHARACTER_SLUG}}",
-  "characterRoot": "characters/{{CHARACTER_SLUG}}",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-001",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "characterSlug": "seolmin",
+  "characterRoot": "characters/seolmin",
   "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
   "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
-  "status": "planning",
-  "createdAt": "{{ISO8601_TIMESTAMP}}",
+  "status": "picture-preview-ready",
+  "createdAt": "2026-04-18T02:41:10Z",
+  "seed": 531001,
   "reusableAssets": {
-    "characterImage2D": "characters/{{CHARACTER_SLUG}}/{{CHARACTER_IMAGE_FILE}}",
-    "bible": "characters/{{CHARACTER_SLUG}}/bible.md",
-    "promptSet": "characters/{{CHARACTER_SLUG}}/prompts.md",
-    "voiceConfig": "characters/{{CHARACTER_SLUG}}/voice.json",
+    "characterImage2D": "characters/seolmin/Seolmin.png",
+    "bible": "characters/seolmin/bible.md",
+    "promptSet": "characters/seolmin/prompts.md",
+    "voiceConfig": "characters/seolmin/voice.json",
     "preferredHandwritingFont": "shared/fonts/NanumSquareRoundB.ttf",
     "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
   },
   "lesson": {
-    "topicType": "{{TOPIC_TYPE}}",
-    "sourceRef": "{{SOURCE_REF}}",
-    "sentenceKo": "{{SENTENCE_KO}}",
-    "sentenceEn": "{{SENTENCE_EN}}",
-    "sentenceRomanized": "{{SENTENCE_ROMANIZED}}",
-    "sentenceBlankKo": "{{SENTENCE_BLANK_KO}}",
-    "focusWord": "{{FOCUS_WORD}}",
-    "serviceCtaKo": "{{SERVICE_CTA_KO}}"
+    "topicType": "sentence-teaser-quiz",
+    "sourceRef": "malmoelab.word_example:38c19d5e-fd41-49be-b289-caa80f578d76",
+    "sentenceKo": "학생이 학교에 갑니다.",
+    "sentenceEn": "The student goes to school.",
+    "sentenceRomanized": "haksaengi hakgyoe gapnida.",
+    "sentenceBlankKo": "___이 학교에 갑니다.",
+    "focusWord": "학생",
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요."
   },
   "renderTargets": {
     "aspectRatio": "16:9",
@@ -69,5 +70,16 @@
   "voiceSlotsFile": "./voice-slots.json",
   "typographySlotsFile": "./typography-slots.json",
   "keyframePlanFile": "./keyframe-plan.json",
-  "videoGenerationJobFile": "./video-generation-job.json"
+  "videoGenerationJobFile": "./video-generation-job.json",
+  "notes": {
+    "workflowMode": "keyframe-review-first",
+    "prototypeGoal": "Rebuild the Seolmin Malmoelab lesson using the daehan-pilot-codex-003 structure instead of the 15-second micro-quiz.",
+    "managedBy": "codex",
+    "cleanBasePath": "./assets/refs/seolmin-2d-clean-base-wide-refined.jpg",
+    "reviewOverviewPath": "./review/contact-sheets/overview.jpg",
+    "reviewReportPath": "./review/review-report.md",
+    "pictureReviewReportPath": "./review/picture-review-report.md",
+    "picturePreviewPath": "./renders/final/malmoelab-ko-quiz-seolmin-001-picture-preview.mp4",
+    "pictureLockPath": "./renders/picture-lock/malmoelab-ko-quiz-seolmin-001-picture-lock.mp4"
+  }
 }

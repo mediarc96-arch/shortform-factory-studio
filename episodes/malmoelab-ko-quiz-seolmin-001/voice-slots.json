@@ -1,12 +1,13 @@
 {
   "formatVersion": "malmoelab-vnext-voice-slots@0.1",
-  "episodeSlug": "{{EPISODE_SLUG}}",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-001",
+  "_note": "003 기준 voice slot 구조. 실제 오디오는 picture lock 뒤에 생성한다.",
   "slots": [
     {
       "voiceSlotId": "scene-1-opening-greeting-ko",
       "kind": "episode-line",
-      "speaker": "{{CHARACTER_SLUG}}",
-      "text": "안녕하세요. 여러분과 한글을 함께 공부할 {{CHARACTER_DISPLAY_NAME}}입니다!",
+      "speaker": "seolmin",
+      "text": "안녕하세요. 여러분과 한글을 함께 공부할 설민입니다!",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -18,14 +19,14 @@
       "plannedStartSec": 0.0,
       "plannedDurationSec": 1.8,
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "{{CHARACTER_VOICE_ENV}}",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
       "recordingTarget": "dubbing/audio-overrides/scene-1-opening-greeting-ko.wav"
     },
     {
       "voiceSlotId": "scene-2-intro-ko",
       "kind": "episode-line",
-      "speaker": "{{CHARACTER_SLUG}}",
-      "text": "오늘 배울 문장은 {{SENTENCE_KO}}, 입니다.",
+      "speaker": "seolmin",
+      "text": "오늘 배울 문장은 학생이 학교에 갑니다, 입니다.",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -37,51 +38,51 @@
       "plannedStartSec": 6.0,
       "plannedDurationSec": 3.4,
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "{{CHARACTER_VOICE_ENV}}",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
       "recordingTarget": "dubbing/audio-overrides/scene-2-intro-ko.wav"
     },
     {
       "voiceSlotId": "scene-3-repeat-cue-ko",
       "kind": "episode-line",
-      "speaker": "{{CHARACTER_SLUG}}",
+      "speaker": "seolmin",
       "text": "따라해 볼까요?",
       "sceneId": "scene-3-repeat-listen",
       "plannedStartSec": 12.0,
       "plannedDurationSec": 0.9,
       "pauseAfterSec": 1.0,
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "{{CHARACTER_VOICE_ENV}}",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
       "recordingTarget": "dubbing/audio-overrides/scene-3-repeat-cue-ko.wav"
     },
     {
       "voiceSlotId": "scene-3-sentence-ko",
       "kind": "episode-line",
-      "speaker": "{{CHARACTER_SLUG}}",
-      "text": "{{SENTENCE_KO}}",
+      "speaker": "seolmin",
+      "text": "학생이 학교에 갑니다.",
       "sceneId": "scene-3-repeat-listen",
       "plannedStartSec": 13.0,
       "plannedDurationSec": 2.7,
       "pauseAfterSec": 1.0,
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "{{CHARACTER_VOICE_ENV}}",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
       "recordingTarget": "dubbing/audio-overrides/scene-3-sentence-ko.wav"
     },
     {
       "voiceSlotId": "scene-4-cta-ko",
       "kind": "episode-line",
-      "speaker": "{{CHARACTER_SLUG}}",
+      "speaker": "seolmin",
       "text": "빈칸에 들어갈 말은 무엇일까요?",
       "sceneId": "scene-4-quiz-point",
       "plannedStartSec": 20.0,
       "plannedDurationSec": 2.1,
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "{{CHARACTER_VOICE_ENV}}",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
       "recordingTarget": "dubbing/audio-overrides/scene-4-cta-ko.wav"
     },
     {
       "voiceSlotId": "scene-5-ending-ko",
       "kind": "episode-line",
-      "speaker": "{{CHARACTER_SLUG}}",
+      "speaker": "seolmin",
       "text": "말모이랩닷컴에서 더 알아보아요. 안녕!",
       "preferredSources": [
         "human-dub",
@@ -94,7 +95,7 @@
       "plannedStartSec": 26.4,
       "plannedDurationSec": 2.4,
       "ttsProvider": "supertone",
-      "ttsVoiceEnv": "{{CHARACTER_VOICE_ENV}}",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
       "recordingTarget": "dubbing/audio-overrides/scene-5-ending-ko.wav"
     }
   ]
