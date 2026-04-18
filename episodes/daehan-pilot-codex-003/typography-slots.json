@@ -38,8 +38,8 @@
       "stylePreset": "malmoelab-board-handwritten-bold",
       "plannedInTimeSec": 13.0,
       "plannedOutTimeSec": 18.0,
-      "inTimeSec": 14.26,
-      "outTimeSec": 17.69
+      "inTimeSec": 14.44,
+      "outTimeSec": 17.66
     },
     {
       "slotId": "scene-4-quiz-blank",
@@ -54,14 +54,14 @@
     },
     {
       "slotId": "scene-4-cta-lower-third",
-      "sceneId": "scene-4-quiz-point",
+      "sceneId": "scene-5-ending-wave",
       "surface": "subtitle-lower-third",
       "text": "malmoelab.com에서 더 알아보아요.",
       "stylePreset": "malmoelab-subtitle-cta-soft",
-      "plannedInTimeSec": 20.1,
-      "plannedOutTimeSec": 23.2,
-      "inTimeSec": 19.15,
-      "outTimeSec": 22.06
+      "plannedInTimeSec": 24.15,
+      "plannedOutTimeSec": 27.1,
+      "inTimeSec": 26.5,
+      "outTimeSec": 29.75
     }
   ]
 }

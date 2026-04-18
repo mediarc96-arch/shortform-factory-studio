@@ -1,0 +1,22 @@
+{
+  "characterSlug": "daehan",
+  "label": "Daehan Voice Config",
+  "tts": {
+    "supertone": {
+      "voiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
+      "language": "ko"
+    },
+    "elevenlabs": {
+      "voiceEnv": "ELEVENLABS_VOICE_ID_DAEHAN",
+      "language": "ko"
+    }
+  },
+  "reusableDialogue": {
+    "opening": {
+      "policy": "reuse-approved-voice-pack-first"
+    },
+    "ending": {
+      "policy": "reuse-approved-voice-pack-first"
+    }
+  }
+}

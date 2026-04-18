@@ -4,9 +4,11 @@
 Endpoint: POST https://supertoneapi.com/v1/text-to-speech/{voice_id}
 Auth header: x-sup-api-key
 
-Reads SUPERTONE_API_KEY and SUPERTONE_VOICE_ID_DAEHAN from env. `.env` at the
-repo root is loaded by callers (e.g. generate_narration.py) — this module does
-not load it so it stays reusable from scripts that already handle env.
+Reads SUPERTONE_API_KEY and an optional provider-specific voice id from env.
+Callers can pass `voice_id=` directly, which is preferred for character-scoped
+voice configs. `.env` at the repo root is loaded by callers (e.g.
+generate_narration.py) — this module does not load it so it stays reusable from
+scripts that already handle env.
 """
 
 from __future__ import annotations
@@ -65,7 +67,7 @@ class SupertoneClient:
             raise RuntimeError("SUPERTONE_API_KEY not set")
         resolved_voice_id = voice_id or os.environ.get("SUPERTONE_VOICE_ID_DAEHAN")
         if not resolved_voice_id:
-            raise RuntimeError("SUPERTONE_VOICE_ID_DAEHAN not set (pass voice_id= to override)")
+            raise RuntimeError("Supertone voice id not set (pass voice_id= to override)")
         return cls(api_key=api_key, voice_id=resolved_voice_id)
 
     def synthesize(

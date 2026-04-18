@@ -318,11 +318,22 @@ def draw_left_lines(draw: ImageDraw.ImageDraw, lines: list[str], *, x: int, y: i
         cursor_y += font.size + line_gap
 
 
-def tts_payload(text: str, *, speed: float, previous_text: str | None = None, next_text: str | None = None) -> bytes:
+def tts_payload(
+    text: str,
+    *,
+    speed: float,
+    previous_text: str | None = None,
+    next_text: str | None = None,
+    voice_id_env: str | None = None,
+) -> bytes:
     api_key = os.environ.get("ELEVENLABS_API_KEY")
     if not api_key:
         raise RuntimeError("Missing ELEVENLABS_API_KEY")
-    voice_id = os.environ.get("ELEVENLABS_VOICE_ID_DAEHAN") or DEFAULT_ELEVENLABS_VOICE_ID
+    voice_id = (
+        (os.environ.get(voice_id_env) if voice_id_env else None)
+        or os.environ.get("ELEVENLABS_VOICE_ID_DAEHAN")
+        or DEFAULT_ELEVENLABS_VOICE_ID
+    )
     payload = {
         "text": text,
         "model_id": DEFAULT_ELEVENLABS_MODEL_ID,
@@ -359,9 +370,25 @@ def tts_payload(text: str, *, speed: float, previous_text: str | None = None, ne
         raise RuntimeError(f"ElevenLabs TTS failed ({exc.code}): {body}") from exc
 
 
-def synthesize_guide_tts(output_path: Path, *, text: str, speed: float, previous_text: str | None = None, next_text: str | None = None) -> Path:
+def synthesize_guide_tts(
+    output_path: Path,
+    *,
+    text: str,
+    speed: float,
+    previous_text: str | None = None,
+    next_text: str | None = None,
+    voice_id_env: str | None = None,
+) -> Path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_bytes(tts_payload(text, speed=speed, previous_text=previous_text, next_text=next_text))
+    output_path.write_bytes(
+        tts_payload(
+            text,
+            speed=speed,
+            previous_text=previous_text,
+            next_text=next_text,
+            voice_id_env=voice_id_env,
+        )
+    )
     trim_audio_edges(output_path)
     normalize_audio_mean_volume(output_path, target_mean_db=-19.0, peak_ceiling_db=-2.0)
     return output_path

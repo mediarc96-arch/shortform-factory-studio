@@ -1,30 +1,12 @@
-# Video Review: daehan-pilot-codex-003
+# Final Review: daehan-pilot-codex-003
 날짜: 2026-04-17
 
 ## 전체 요약
-- 총 씬 수: 5
-- 이슈 있는 씬: 2
-- PASS 씬: 3
-- 심각도: 🟡 주의
+- 상태: `keyframe-review-v1 final export`
+- 심각도: `pending visual QA`
 
-## 씬별 결과
-
-### scene-1-opening-handoff ✅
-PASS
-
-### scene-2-lesson-intro ✅
-PASS
-
-### scene-3-repeat-listen ✅
-PASS
-
-### scene-4-quiz-point 🟡
-- scene-4-quiz-point / frame 540 / 시작 프레임이 이전 씬의 경청 포즈 잔상에서 출발해 퀴즈 포인팅 의도가 첫 순간에 바로 읽히지는 않음
-
-### scene-5-ending-wave 🟡
-- scene-5-ending-wave / frame 720 / 시작 프레임이 이전 씬의 포인팅 잔상에서 출발해 웨이브 포즈가 약간 늦게 읽힘
-
-## 권고 사항
-- 재렌더 필요 씬: 없음
-- 포스트 편집으로 수정 가능: `scene-4`, `scene-5` 시작부를 약간 trim하면 포즈 읽기 속도를 개선할 수 있음
-- 무시 가능: 현재 목표가 `완성본 후반 워크플로우 검증`이라면 위 두 이슈는 허용 가능 범위
+## 확인 항목
+- picture preview를 picture lock으로 승격해 guide dub + typography를 합성함
+- 대한 2D 캐릭터 continuity는 picture cut 기준으로 유지함
+- sentence / repeat sentence / blank quiz / CTA는 post typography로 합성함
+- 사람 더빙 교체용 `dubbing/audio-overrides/` 패키지를 함께 생성함

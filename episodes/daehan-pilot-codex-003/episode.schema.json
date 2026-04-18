@@ -13,6 +13,7 @@
     "characterImage2D": "docs/example/Daehan_2D.jpg",
     "bible": "characters/daehan/bible.md",
     "promptSet": "characters/daehan/prompts.md",
+    "voiceConfig": "characters/daehan/voice.json",
     "preferredHandwritingFont": "shared/fonts/NanumPenScript-Regular.ttf",
     "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
   },
@@ -78,7 +79,7 @@
     "picturePreviewPath": "./renders/final/daehan-pilot-codex-003-picture-preview.mp4",
     "currentExecutionMode": "keyframe-review-v1-final",
     "latestReviewReport": "./review/final-review-report.md",
-    "latestReviewSeverity": "warning",
+    "latestReviewSeverity": "pending-visual-qa",
     "pictureLockPath": "./renders/picture-lock/daehan-pilot-codex-003-picture-lock.mp4",
     "dubMixPath": "./renders/dub-lock/daehan-pilot-codex-003-guide-dub.m4a",
     "dubbingPackagePath": "./dubbing/README.md",

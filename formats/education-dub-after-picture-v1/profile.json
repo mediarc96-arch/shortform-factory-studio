@@ -1,0 +1,57 @@
+{
+  "id": "education-dub-after-picture-v1",
+  "label": "Education Content Dub After Picture V1",
+  "description": "교육 콘텐츠 전용 포맷. 오프닝/엔딩의 승인된 대사는 재사용하고, Malmoelab 예문 길이 기준으로 TTS 예상 시간을 먼저 계산해 씬 길이를 잡은 뒤, 무음 picture lock을 완성하고, 더빙과 칠판 타이포를 후반에서 합성한다.",
+  "runnerHints": {
+    "durationPrepass": "estimate TTS duration from the Malmoelab example sentence before scene generation",
+    "pictureStage": "generate mute scenes first and assemble picture lock before any dubbing",
+    "dubStage": "reuse approved opening/ending dialogue assets, synthesize content-only lines, then build dub lock",
+    "typeStage": "apply chalkboard typography only after dub lock"
+  },
+  "assetPolicy": {
+    "openingVideo": "reusable-asset-first",
+    "endingVideo": "reusable-asset-first",
+    "openingEndingDialogue": "reuse-approved-voice-pack",
+    "contentSentenceSource": "malmoelab-db-example",
+    "characterVoiceConfig": "characters/<slug>/voice.json"
+  },
+  "voiceConfigPolicy": {
+    "voiceIdScope": "per-character",
+    "characterVoiceFile": "characters/<slug>/voice.json",
+    "slotOverrideAllowed": true,
+    "rule": "voice-slots may override ttsVoiceEnv, otherwise the renderer resolves the default voice env from the character voice config"
+  },
+  "sceneGenerationPolicy": {
+    "clipDurationMode": "tts-estimated-per-scene",
+    "timingRule": "scene lengths are set after measuring content-line TTS duration plus presentation margin",
+    "pictureLockRequirement": "all scenes must be assembled as mute video before dubbing",
+    "continuityMode": "scene-last-frame-handoff-when-helpful",
+    "textInGeneration": "forbidden"
+  },
+  "audioPolicy": {
+    "openingEndingVoiceSourcePriority": [
+      "approved-voice-pack",
+      "human-dub",
+      "actor-dub"
+    ],
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "contentTtsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "generationStage": "mute-video-only",
+    "dubStage": "post-picture-lock"
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "post-dub-lock",
+    "surface": "chalkboard",
+    "style": "bold-handwritten-chalk",
+    "preferredFont": "shared/fonts/NanumPenScript-Regular.ttf",
+    "strokeSupportFont": "shared/fonts/NanumGothic-Bold.ttf"
+  }
+}

@@ -41,6 +41,7 @@ from render_daehan_pilot_final import (  # noqa: E402
     write_json,
 )
 from tts.supertone_client import SupertoneClient, VoiceSettings  # noqa: E402
+from tts.voice_config import resolve_tts_voice_env  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -50,9 +51,22 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def synthesize_supertone_guide_tts(output_path: Path, *, text: str, speed: float) -> Path:
-    client = SupertoneClient.from_env()
-    settings = VoiceSettings(speed=speed) if abs(speed - 1.0) > 1e-6 else None
+def synthesize_supertone_guide_tts(
+    output_path: Path,
+    *,
+    text: str,
+    speed: float,
+    pitch_shift: float | None = None,
+    voice_id_env: str | None = None,
+) -> Path:
+    resolved_voice_id = os.environ.get(voice_id_env) if voice_id_env else None
+    client = SupertoneClient.from_env(voice_id=resolved_voice_id)
+    settings = VoiceSettings(
+        speed=speed if abs(speed - 1.0) > 1e-6 else None,
+        pitch_shift=pitch_shift,
+    )
+    if not settings.to_payload():
+        settings = None
     client.synthesize(
         text,
         output_path=output_path,
@@ -64,14 +78,31 @@ def synthesize_supertone_guide_tts(output_path: Path, *, text: str, speed: float
     return output_path
 
 
-def synthesize_slot(output_path: Path, *, text: str, speed: float, provider: str) -> tuple[Path, str]:
+def synthesize_slot(
+    output_path: Path,
+    *,
+    text: str,
+    speed: float,
+    pitch_shift: float | None,
+    provider: str,
+    voice_id_env: str | None = None,
+) -> tuple[Path, str]:
     provider_key = str(provider or "").strip().lower()
     if provider_key == "supertone":
         try:
-            return synthesize_supertone_guide_tts(output_path, text=text, speed=speed), "supertone-guide"
+            return (
+                synthesize_supertone_guide_tts(
+                    output_path,
+                    text=text,
+                    speed=speed,
+                    pitch_shift=pitch_shift,
+                    voice_id_env=voice_id_env,
+                ),
+                "supertone-guide",
+            )
         except Exception:
-            return synthesize_guide_tts(output_path, text=text, speed=speed), "elevenlabs-guide-fallback"
-    return synthesize_guide_tts(output_path, text=text, speed=speed), "elevenlabs-guide"
+            return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide-fallback"
+    return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide"
 
 
 def load_font_from_path(font_path: Path, size: int) -> ImageFont.FreeTypeFont:
@@ -187,14 +218,16 @@ def render_typography_frame(output_path: Path, t: float, slots: list[dict], *, h
 
     if subtitle_slots:
         subtitle = subtitle_slots[0]["text"]
-        font, lines = fit_text(draw, subtitle, 960, max_size=38, min_size=28, bold=True)
-        text_height = len(lines) * font.size + max(0, len(lines) - 1) * 8
-        box_width = 1060
-        box_height = text_height + 42
+        box_width = 1020
+        box_height = 72
         left = (WIDTH - box_width) // 2
-        top = HEIGHT - box_height - 36
+        top = HEIGHT - box_height - 34
         rect = (left, top, left + box_width, top + box_height)
-
+        badge = (left + 20, top + 16, left + 176, top + 54)
+        text_left = badge[2] + 22
+        text_width = rect[2] - text_left - 26
+        font, lines = fit_text_with_font(draw, subtitle, text_width, font_path=subtitle_font, max_size=34, min_size=24)
+        text_height = len(lines) * font.size + max(0, len(lines) - 1) * 6
         shadow = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
         shadow_draw = ImageDraw.Draw(shadow)
         shadow_draw.rounded_rectangle((rect[0] + 4, rect[1] + 6, rect[2] + 4, rect[3] + 6), radius=30, fill=(0, 0, 0, 74))
@@ -202,14 +235,13 @@ def render_typography_frame(output_path: Path, t: float, slots: list[dict], *, h
         overlay.alpha_composite(shadow)
         draw = ImageDraw.Draw(overlay)
         draw.rounded_rectangle(rect, radius=30, fill=subtitle_box, outline=(255, 255, 255, 42), width=2)
-        badge = (left + 24, top + 14, left + 178, top + 52)
         draw.rounded_rectangle(badge, radius=18, fill=cta_accent)
         badge_font, badge_lines = fit_text_with_font(draw, "더 알아보기", 140, font_path=subtitle_font, max_size=24, min_size=20)
         draw_lines(
             draw,
             badge_lines,
             x=(badge[0] + badge[2]) // 2,
-            y=badge[1] + 8,
+            y=int((badge[1] + badge[3]) / 2 - (len(badge_lines) * badge_font.size + max(0, len(badge_lines) - 1) * 2) / 2),
             font=badge_font,
             fill=(34, 36, 30, 255),
             anchor="ma",
@@ -218,14 +250,14 @@ def render_typography_frame(output_path: Path, t: float, slots: list[dict], *, h
         draw_lines(
             draw,
             lines,
-            x=WIDTH // 2,
-            y=top + 66,
+            x=text_left,
+            y=int((rect[1] + rect[3]) / 2 - text_height / 2),
             font=font,
             fill=subtitle_text,
-            anchor="ma",
+            anchor="la",
             stroke_fill=subtitle_stroke,
             stroke_width=2,
-            line_gap=8,
+            line_gap=6,
         )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -324,31 +356,36 @@ def main() -> int:
             "voiceSlotId": "scene-1-opening-greeting-ko",
             "sceneId": "scene-1-opening-handoff",
             "startSec": 0.60,
-            "speed": 0.98,
+            "defaultSpeed": 1.05,
+            "defaultPitchShift": 3.0,
         },
         {
             "voiceSlotId": "scene-2-intro-ko",
             "sceneId": "scene-2-lesson-intro",
             "startSec": 6.55,
-            "speed": 0.96,
+            "defaultSpeed": 1.06,
+            "defaultPitchShift": 3.2,
         },
         {
             "voiceSlotId": "scene-3-repeat-cue-ko",
             "sceneId": "scene-3-repeat-listen",
             "startSec": 12.55,
-            "speed": 0.98,
+            "defaultSpeed": 1.08,
+            "defaultPitchShift": 3.4,
         },
         {
             "voiceSlotId": "scene-4-cta-ko",
             "sceneId": "scene-4-quiz-point",
             "startSec": 19.20,
-            "speed": 0.98,
+            "defaultSpeed": 1.07,
+            "defaultPitchShift": 3.3,
         },
         {
             "voiceSlotId": "scene-5-ending-ko",
             "sceneId": "scene-5-ending-wave",
-            "startSec": 24.75,
-            "speed": 0.96,
+            "startSec": 26.55,
+            "defaultSpeed": 1.04,
+            "defaultPitchShift": 3.0,
         },
     ]
 
@@ -373,11 +410,17 @@ def main() -> int:
             active_path = copy_processed_audio(selected_asset_path, processed_path)
             active_source = str(slot.get("selectedSource") or "voice-pack")
         else:
+            slot_speed = float(slot.get("speed") or plan["defaultSpeed"])
+            slot_pitch = float(slot.get("pitchShift") or plan["defaultPitchShift"])
+            slot_provider = str(slot.get("ttsProvider") or provider_default)
+            slot_voice_env = resolve_tts_voice_env(slot, provider=slot_provider, root=ROOT, episode_schema=episode_schema)
             active_path, active_source = synthesize_slot(
                 output_path,
                 text=slot["text"],
-                speed=float(plan["speed"]),
-                provider=str(slot.get("ttsProvider") or provider_default),
+                speed=slot_speed,
+                pitch_shift=slot_pitch,
+                provider=slot_provider,
+                voice_id_env=slot_voice_env,
             )
             slot["selectedAsset"] = str(active_path.relative_to(episode_dir))
 
@@ -419,11 +462,22 @@ def main() -> int:
         sentence_active = copy_processed_audio(sentence_selected, processed_path)
         sentence_source = str(sentence_slot.get("selectedSource") or "voice-pack")
     else:
+        sentence_speed = float(sentence_slot.get("speed") or 1.05)
+        sentence_pitch = float(sentence_slot.get("pitchShift") or 2.8)
+        sentence_provider = str(sentence_slot.get("ttsProvider") or provider_default)
+        sentence_voice_env = resolve_tts_voice_env(
+            sentence_slot,
+            provider=sentence_provider,
+            root=ROOT,
+            episode_schema=episode_schema,
+        )
         sentence_active, sentence_source = synthesize_slot(
             sentence_output,
             text=sentence_slot["text"],
-            speed=0.94,
-            provider=str(sentence_slot.get("ttsProvider") or provider_default),
+            speed=sentence_speed,
+            pitch_shift=sentence_pitch,
+            provider=sentence_provider,
+            voice_id_env=sentence_voice_env,
         )
         sentence_slot["selectedAsset"] = str(sentence_active.relative_to(episode_dir))
         shutil.copyfile(sentence_output, dubbing_guide_audio_dir / sentence_output.name)
@@ -552,14 +606,16 @@ def main() -> int:
     scene2 = scene_map["scene-2-lesson-intro"]
     scene3 = scene_map["scene-3-repeat-listen"]
     scene4 = scene_map["scene-4-quiz-point"]
+    scene5 = scene_map["scene-5-ending-wave"]
     typography_slot_index["scene-2-sentence-main"]["inTimeSec"] = round(float(slot_index["scene-2-intro-ko"]["startSec"]) - 0.05, 3)
     typography_slot_index["scene-2-sentence-main"]["outTimeSec"] = round(scene2.end_sec - 0.25, 3)
     typography_slot_index["scene-3-repeat-sentence"]["inTimeSec"] = round(sentence_start - 0.05, 3)
     typography_slot_index["scene-3-repeat-sentence"]["outTimeSec"] = round(min(scene3.end_sec - 0.2, float(sentence_slot["endSec"]) + float(sentence_slot.get("pauseAfterSec") or 1.0)), 3)
     typography_slot_index["scene-4-quiz-blank"]["inTimeSec"] = round(scene4.start_sec + 0.15, 3)
     typography_slot_index["scene-4-quiz-blank"]["outTimeSec"] = round(scene4.end_sec - 0.15, 3)
-    typography_slot_index["scene-4-cta-lower-third"]["inTimeSec"] = round(float(slot_index["scene-4-cta-ko"]["startSec"]) - 0.05, 3)
-    typography_slot_index["scene-4-cta-lower-third"]["outTimeSec"] = round(min(scene4.end_sec - 0.1, float(slot_index["scene-4-cta-ko"]["endSec"]) + 0.9), 3)
+    typography_slot_index["scene-4-cta-lower-third"]["sceneId"] = "scene-5-ending-wave"
+    typography_slot_index["scene-4-cta-lower-third"]["inTimeSec"] = round(max(scene5.start_sec + 0.1, float(slot_index["scene-5-ending-ko"]["startSec"]) - 0.05), 3)
+    typography_slot_index["scene-4-cta-lower-third"]["outTimeSec"] = round(min(scene5.end_sec - 0.25, float(slot_index["scene-5-ending-ko"]["endSec"]) + 0.45), 3)
     typography_slots_path.write_text(json.dumps(typography_slots, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     total_duration = scene_ranges[-1].end_sec

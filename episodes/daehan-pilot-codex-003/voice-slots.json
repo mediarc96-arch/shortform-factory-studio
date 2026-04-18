@@ -7,7 +7,7 @@
       "voiceSlotId": "scene-1-opening-greeting-ko",
       "kind": "episode-line",
       "speaker": "daehan",
-      "text": "안녕하세요. 대한이에요!",
+      "text": "안녕하세요. 여러분과 한글을 함께 공부할 대한입니다!...",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -26,15 +26,15 @@
       "selectedSource": "supertone-guide",
       "activeRenderAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
       "startSec": 0.6,
-      "endSec": 2.09,
-      "durationSec": 1.49,
-      "renderText": "안녕하세요. 대한이에요!"
+      "endSec": 3.92,
+      "durationSec": 3.32,
+      "renderText": "안녕하세요. 여러분과 한글을 함께 공부할 대한입니다."
     },
     {
       "voiceSlotId": "scene-2-intro-ko",
       "kind": "episode-line",
       "speaker": "daehan",
-      "text": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다.",
+      "text": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다, 입니다...",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -53,15 +53,15 @@
       "selectedSource": "supertone-guide",
       "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
       "startSec": 6.55,
-      "endSec": 9.82,
-      "durationSec": 3.27,
-      "renderText": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다."
+      "endSec": 9.97,
+      "durationSec": 3.42,
+      "renderText": "오늘 배울 문장은 아기의 옹알이가 하루 종일 이어졌다, 입니다..."
     },
     {
       "voiceSlotId": "scene-3-repeat-cue-ko",
       "kind": "episode-line",
       "speaker": "daehan",
-      "text": "따라해 볼까요?",
+      "text": "따라해 볼까요?..",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -81,15 +81,15 @@
       "selectedSource": "supertone-guide",
       "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
       "startSec": 12.55,
-      "endSec": 13.31,
-      "durationSec": 0.76,
-      "renderText": "따라해 볼까요?"
+      "endSec": 13.39,
+      "durationSec": 0.84,
+      "renderText": "따라해 볼까요?.."
     },
     {
       "voiceSlotId": "scene-3-sentence-ko",
       "kind": "episode-line",
       "speaker": "daehan",
-      "text": "아기의 옹알이가 하루 종일 이어졌다.",
+      "text": "아기의 옹알이가 하루 종일 이어졌다...",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -108,16 +108,16 @@
       "guideAsset": "dubbing/guide-audio/scene-3-sentence-ko.mp3",
       "selectedSource": "supertone-guide",
       "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
-      "startSec": 14.31,
+      "startSec": 14.39,
       "endSec": 16.69,
-      "durationSec": 2.38,
-      "renderText": "아기의 옹알이가 하루 종일 이어졌다."
+      "durationSec": 2.3,
+      "renderText": "아기의 옹알이가 하루 종일 이어졌다..."
     },
     {
       "voiceSlotId": "scene-4-cta-ko",
       "kind": "episode-line",
       "speaker": "daehan",
-      "text": "malmoelab.com에서 더 알아보아요.",
+      "text": "빈칸에 들어갈 말은 무엇일까요?...",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -136,15 +136,15 @@
       "selectedSource": "supertone-guide",
       "activeRenderAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
       "startSec": 19.2,
-      "endSec": 21.16,
-      "durationSec": 1.96,
-      "renderText": "malmoelab.com에서 더 알아보아요."
+      "endSec": 20.9,
+      "durationSec": 1.7,
+      "renderText": "빈칸에 들어갈 말은 무엇일까요?..."
     },
     {
       "voiceSlotId": "scene-5-ending-ko",
       "kind": "episode-line",
       "speaker": "daehan",
-      "text": "그럼 다음 시간에 또 만나요. 안녕~!",
+      "text": "말모이랩닷컴에서 더 알아보아요. 안녕!",
       "preferredSources": [
         "human-dub",
         "actor-dub",
@@ -162,10 +162,10 @@
       "guideAsset": "dubbing/guide-audio/scene-5-ending-ko.mp3",
       "selectedSource": "supertone-guide",
       "activeRenderAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
-      "startSec": 24.75,
-      "endSec": 26.79,
-      "durationSec": 2.04,
-      "renderText": "그럼 다음 시간에 또 만나요. 안녕~!"
+      "startSec": 26.55,
+      "endSec": 28.93,
+      "durationSec": 2.38,
+      "renderText": "malmoelab.com에서 더 알아보아요. 안녕!"
     }
   ]
 }
