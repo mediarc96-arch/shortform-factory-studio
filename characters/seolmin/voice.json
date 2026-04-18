@@ -1,0 +1,27 @@
+{
+  "characterSlug": "seolmin",
+  "label": "Seolmin Voice Config",
+  "tts": {
+    "supertone": {
+      "voiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "language": "ko"
+    },
+    "elevenlabs": {
+      "voiceEnv": "ELEVENLABS_VOICE_ID_SEOLMIN",
+      "language": "ko"
+    }
+  },
+  "reusableDialogue": {
+    "opening": {
+      "policy": "reuse-approved-voice-pack-first"
+    },
+    "ending": {
+      "policy": "generate-or-human-dub-until-ending-asset-exists"
+    }
+  },
+  "assetNotes": {
+    "openingVideo": "characters/seolmin/1_Opening_Seolmin.mp4",
+    "helloClip": "characters/seolmin/1_Hello_Seolmin.mp4",
+    "endingVideo": null
+  }
+}
