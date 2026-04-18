@@ -101,7 +101,7 @@ def synthesize_slot(
                 "supertone-guide",
             )
         except Exception:
-            return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide-fallback"
+            return synthesize_guide_tts(output_path, text=text, speed=speed), "elevenlabs-guide-fallback"
     return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide"
 
 
@@ -177,12 +177,12 @@ def draw_lines(
 def render_typography_frame(output_path: Path, t: float, slots: list[dict], *, handwriting_font: Path, subtitle_font: Path) -> None:
     board_text = (245, 245, 236, 255)
     board_stroke = (24, 52, 39, 235)
-    board_outline = (222, 232, 224, 72)
-    board_box_fill = (11, 35, 25, 28)
     subtitle_box = (7, 10, 18, 210)
     subtitle_text = (255, 255, 255, 255)
     subtitle_stroke = (7, 10, 18, 255)
     cta_accent = (255, 213, 120, 255)
+    roman_text = (230, 235, 227, 245)
+    scroll_text = (34, 34, 30, 255)
 
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
@@ -190,31 +190,47 @@ def render_typography_frame(output_path: Path, t: float, slots: list[dict], *, h
     active_slots = [slot for slot in slots if float(slot["inTimeSec"]) <= t < float(slot["outTimeSec"])]
     board_slots = [slot for slot in active_slots if slot["surface"] == "chalkboard"]
     subtitle_slots = [slot for slot in active_slots if slot["surface"] == "subtitle-lower-third"]
+    scroll_slots = [slot for slot in active_slots if slot["surface"] == "scroll"]
 
     if board_slots:
         board_slot = board_slots[0]
-        font, lines = fit_text_with_font(draw, board_slot["text"], 660, font_path=handwriting_font, max_size=68, min_size=42)
-        panel = (72, 104, 720, 314)
-        draw.rounded_rectangle(panel, radius=28, fill=board_box_fill, outline=board_outline, width=2)
-        shadow = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
-        shadow_draw = ImageDraw.Draw(shadow)
-        shadow_draw.rounded_rectangle((panel[0] + 3, panel[1] + 8, panel[2] + 3, panel[3] + 8), radius=28, fill=(0, 0, 0, 42))
-        shadow = shadow.filter(ImageFilter.GaussianBlur(radius=12))
-        overlay.alpha_composite(shadow)
-        draw = ImageDraw.Draw(overlay)
-        draw.rounded_rectangle(panel, radius=28, fill=board_box_fill, outline=board_outline, width=2)
+        board_text_ko = str(board_slot.get("textKo") or board_slot.get("text") or "")
+        board_text_romanized = str(board_slot.get("textRomanized") or "").strip()
+        font, lines = fit_text_with_font(draw, board_text_ko, 730, font_path=handwriting_font, max_size=68, min_size=40)
         draw_lines(
             draw,
             lines,
             x=96,
-            y=136,
+            y=124,
             font=font,
             fill=board_text,
             anchor="la",
             stroke_fill=board_stroke,
             stroke_width=3,
-            line_gap=12,
+            line_gap=14,
         )
+        if board_text_romanized:
+            roman_font, roman_lines = fit_text_with_font(
+                draw,
+                board_text_romanized,
+                760,
+                font_path=subtitle_font,
+                max_size=40,
+                min_size=26,
+            )
+            roman_y = 124 + len(lines) * font.size + max(0, len(lines) - 1) * 14 + 26
+            draw_lines(
+                draw,
+                roman_lines,
+                x=96,
+                y=roman_y,
+                font=roman_font,
+                fill=roman_text,
+                anchor="la",
+                stroke_fill=board_stroke,
+                stroke_width=2,
+                line_gap=8,
+            )
 
     if subtitle_slots:
         subtitle = subtitle_slots[0]["text"]
@@ -259,6 +275,41 @@ def render_typography_frame(output_path: Path, t: float, slots: list[dict], *, h
             stroke_width=2,
             line_gap=6,
         )
+
+    if scroll_slots:
+        scroll_slot = scroll_slots[0]
+        scroll_x = int(scroll_slot.get("x", 1166))
+        scroll_y = int(scroll_slot.get("y", 222))
+        scroll_w = int(scroll_slot.get("width", 142))
+        scroll_h = int(scroll_slot.get("height", 248))
+        scroll_rotation = float(scroll_slot.get("rotationDeg", -2.5))
+        scroll_line_gap = int(scroll_slot.get("lineGap", 18))
+        scroll_image = Image.new("RGBA", (scroll_w, scroll_h), (0, 0, 0, 0))
+        scroll_draw = ImageDraw.Draw(scroll_image)
+        raw_scroll_lines = [line.strip() for line in str(scroll_slot.get("text") or "").splitlines() if line.strip()]
+        if not raw_scroll_lines:
+            raw_scroll_lines = [""]
+        max_scroll_width = max(32, scroll_w - 28)
+        scroll_font = load_font_from_path(subtitle_font, size=30)
+        scroll_lines = raw_scroll_lines
+        for size in range(54, 29, -2):
+            candidate_font = load_font_from_path(subtitle_font, size=size)
+            if all(scroll_draw.textlength(line, font=candidate_font) <= max_scroll_width for line in raw_scroll_lines):
+                scroll_font = candidate_font
+                break
+        total_height = len(scroll_lines) * scroll_font.size + max(0, len(scroll_lines) - 1) * scroll_line_gap
+        draw_lines(
+            scroll_draw,
+            scroll_lines,
+            x=scroll_w // 2,
+            y=int((scroll_h - total_height) / 2),
+            font=scroll_font,
+            fill=scroll_text,
+            anchor="ma",
+            line_gap=scroll_line_gap,
+        )
+        rotated_scroll = scroll_image.rotate(scroll_rotation, resample=Image.Resampling.BICUBIC, expand=True)
+        overlay.alpha_composite(rotated_scroll, (scroll_x, scroll_y))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     overlay.save(output_path)
@@ -350,6 +401,7 @@ def main() -> int:
 
     generated_segments: list[dict] = []
     provider_default = str(episode_schema["policies"]["audioPolicy"]["contentTtsProvider"])
+    reusable_guide_sources = {"supertone-guide", "elevenlabs-guide", "elevenlabs-guide-fallback"}
 
     fixed_plan = [
         {
@@ -409,6 +461,14 @@ def main() -> int:
             processed_path = selected_audio_dir / f"{slot_id}{selected_asset_path.suffix.lower() or '.wav'}"
             active_path = copy_processed_audio(selected_asset_path, processed_path)
             active_source = str(slot.get("selectedSource") or "voice-pack")
+        elif (
+            selected_asset_path is not None
+            and selected_asset_path.exists()
+            and str(slot.get("selectedSource") or "").strip().lower() in reusable_guide_sources
+            and str(slot.get("renderText") or "") == str(slot.get("text") or "")
+        ):
+            active_path = selected_asset_path
+            active_source = str(slot.get("selectedSource") or "elevenlabs-guide-fallback")
         else:
             slot_speed = float(slot.get("speed") or plan["defaultSpeed"])
             slot_pitch = float(slot.get("pitchShift") or plan["defaultPitchShift"])
@@ -425,8 +485,9 @@ def main() -> int:
             slot["selectedAsset"] = str(active_path.relative_to(episode_dir))
 
         guide_package_path = dubbing_guide_audio_dir / output_path.name
-        if active_path == output_path and output_path.exists():
-            shutil.copyfile(output_path, guide_package_path)
+        if active_source in reusable_guide_sources and active_path.exists():
+            if guide_package_path.resolve() != active_path.resolve():
+                shutil.copyfile(active_path, guide_package_path)
             slot["guideAsset"] = str(guide_package_path.relative_to(episode_dir))
 
         duration = media_duration(active_path)
@@ -461,6 +522,14 @@ def main() -> int:
         processed_path = selected_audio_dir / f"scene-3-sentence-ko{sentence_selected.suffix.lower() or '.wav'}"
         sentence_active = copy_processed_audio(sentence_selected, processed_path)
         sentence_source = str(sentence_slot.get("selectedSource") or "voice-pack")
+    elif (
+        sentence_selected is not None
+        and sentence_selected.exists()
+        and str(sentence_slot.get("selectedSource") or "").strip().lower() in reusable_guide_sources
+        and str(sentence_slot.get("renderText") or "") == str(sentence_slot.get("text") or "")
+    ):
+        sentence_active = sentence_selected
+        sentence_source = str(sentence_slot.get("selectedSource") or "elevenlabs-guide-fallback")
     else:
         sentence_speed = float(sentence_slot.get("speed") or 1.05)
         sentence_pitch = float(sentence_slot.get("pitchShift") or 2.8)
@@ -480,8 +549,11 @@ def main() -> int:
             voice_id_env=sentence_voice_env,
         )
         sentence_slot["selectedAsset"] = str(sentence_active.relative_to(episode_dir))
-        shutil.copyfile(sentence_output, dubbing_guide_audio_dir / sentence_output.name)
-        sentence_slot["guideAsset"] = str((dubbing_guide_audio_dir / sentence_output.name).relative_to(episode_dir))
+    sentence_guide_path = dubbing_guide_audio_dir / sentence_output.name
+    if sentence_source in reusable_guide_sources and sentence_active.exists():
+        if sentence_guide_path.resolve() != sentence_active.resolve():
+            shutil.copyfile(sentence_active, sentence_guide_path)
+        sentence_slot["guideAsset"] = str(sentence_guide_path.relative_to(episode_dir))
 
     sentence_duration = media_duration(sentence_active)
     update_slot(

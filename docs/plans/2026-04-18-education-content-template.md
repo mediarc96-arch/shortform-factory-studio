@@ -4,6 +4,7 @@
 대상 프로젝트: `shortform-factory-studio`
 기준 포맷: `formats/education-dub-after-picture-v1/profile.json`
 참조 실험: `episodes/daehan-pilot-codex-003`
+후작업 절차: `docs/plans/2026-04-18-education-postproduction-template.md`
 
 ## 1. 결론
 

@@ -36,5 +36,5 @@
 - scene: `scene-5-ending-wave`
 - timing: `26.55s -> 29.84s`
 - target file: `dubbing/audio-overrides/scene-5-ending-ko.wav`
-- line: `말모이랩닷컴, 에서 더 알아보아요... 안녕!`
+- line: `말모이랩닷컴에서 더 알아보아요. 안녕!`
 

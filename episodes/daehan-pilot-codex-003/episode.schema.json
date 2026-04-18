@@ -14,7 +14,7 @@
     "bible": "characters/daehan/bible.md",
     "promptSet": "characters/daehan/prompts.md",
     "voiceConfig": "characters/daehan/voice.json",
-    "preferredHandwritingFont": "shared/fonts/NanumPenScript-Regular.ttf",
+    "preferredHandwritingFont": "shared/fonts/NanumSquareRoundB.ttf",
     "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
   },
   "lesson": {
