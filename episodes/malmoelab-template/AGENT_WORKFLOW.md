@@ -105,6 +105,14 @@
 - 기본 lesson형 포맷에서는 blank sentence가 `scene-4`에서 시작해 `scene-5` 엔딩까지 칠판에 유지된다.
 - 사람이 직접 Paperclip에서 진행할 때도 final review bundle 기준으로 `scene-2/3 = full sentence`, `scene-4 = blank sentence`, `scene-5 = ending CTA`를 다시 확인한다.
 
+### `[PUBLISH]`
+
+- `publish-packet.json`은 `videoFile`을 필수로 포함해야 한다.
+- `thumbnailFile`은 선택값이다.
+- 기본 `malmoelab` lesson형 업로드는 커스텀 썸네일을 사용하지 않는다.
+- 채널 권한과 운영 필요가 명시적으로 승인된 경우에만 `thumbnailFile`을 채운다.
+- 승인되지 않은 회차에서 `thumbnailFile`을 임의로 채워 업로드를 시도하지 않는다.
+
 ## 양산을 위한 고정 규칙
 
 ### 1. source
