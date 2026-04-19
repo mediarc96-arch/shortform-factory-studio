@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-002",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-19T01:59:29+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "0ab3671b-7684-4454-806b-74f04b08953e",
+    "senseId": "9f109613-9da8-4133-b262-bb0b038836b5",
+    "exampleId": "160873f9-ad0c-4102-901f-ab470a69cd8a",
+    "wordText": "커피",
+    "wordRomanization": "keopi",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization/reading was unavailable; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "볶은 후 갈아서 물에 끓여 차로 마시는 커피나무의 열매. 또는 그 가루.",
+    "definitionTranslated": "The fruit of a coffee tree drunk as a brew, after being roasted, ground, and boiled, or its powder.",
+    "englishGloss": "coffee",
+    "exampleText": "아침마다 커피를 마십니다.",
+    "exampleTranslationText": "I drink coffee every morning.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "30-second fill-in-the-blank Korean quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 커피",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "아침마다 ___를 마십니다.",
+    "fullSentence": "아침마다 커피를 마십니다.",
+    "blankedSentenceRomanization": "achimmada ___reul masipnida.",
+    "fullSentenceRomanization": "achimmada keopireul masipnida.",
+    "answerWord": "커피",
+    "answerRomanization": "keopi",
+    "answerGloss": "coffee",
+    "answerTranslation": "I drink coffee every morning."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}

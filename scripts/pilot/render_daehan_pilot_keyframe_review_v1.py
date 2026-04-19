@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import sys
+from datetime import date
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -346,6 +347,84 @@ def update_slot(
     slot["renderText"] = render_text
 
 
+def _normalize_text(text: str | None) -> str:
+    raw = str(text or "")
+    for token in ["...", "..", "!", "?", ",", "."]:
+        raw = raw.replace(token, "")
+    return "".join(raw.split()).strip().lower()
+
+
+def validate_malmoelab_003_structure(episode_schema: dict, voice_slots: dict, typography_slots: dict) -> None:
+    if episode_schema.get("formatProfile") != "malmoelab-keyframe-dub-after-picture-v1":
+        return
+
+    lesson = episode_schema.get("lesson") or {}
+    sentence_ko = str(lesson.get("sentenceKo") or "").strip()
+    blank_ko = str(lesson.get("sentenceBlankKo") or "").strip()
+    service_cta = str(lesson.get("serviceCtaKo") or "").strip()
+    voice_index = {slot["voiceSlotId"]: slot for slot in voice_slots.get("slots", [])}
+    typo_index = {slot["slotId"]: slot for slot in typography_slots.get("slots", [])}
+
+    required_voice_ids = [
+        "scene-1-opening-greeting-ko",
+        "scene-2-intro-ko",
+        "scene-3-repeat-cue-ko",
+        "scene-3-sentence-ko",
+        "scene-4-cta-ko",
+        "scene-5-ending-ko",
+    ]
+    missing_voice = [slot_id for slot_id in required_voice_ids if slot_id not in voice_index]
+    if missing_voice:
+        raise ValueError(f"Missing required 003 voice slots: {', '.join(missing_voice)}")
+
+    required_typo_ids = [
+        "scene-2-sentence-main",
+        "scene-3-repeat-sentence",
+        "scene-4-quiz-blank",
+        "scene-4-cta-lower-third",
+    ]
+    missing_typo = [slot_id for slot_id in required_typo_ids if slot_id not in typo_index]
+    if missing_typo:
+        raise ValueError(f"Missing required 003 typography slots: {', '.join(missing_typo)}")
+
+    opening_text = _normalize_text(voice_index["scene-1-opening-greeting-ko"].get("text"))
+    if "안녕하세요" not in opening_text or "한글을함께공부할" not in opening_text:
+        raise ValueError("Malmoelab 003 validation failed: scene-1 must keep the standard greeting structure.")
+
+    intro_text = _normalize_text(voice_index["scene-2-intro-ko"].get("text"))
+    if "오늘배울문장은" not in intro_text or _normalize_text(sentence_ko) not in intro_text:
+        raise ValueError("Malmoelab 003 validation failed: scene-2 must introduce the full lesson sentence.")
+
+    repeat_cue_text = _normalize_text(voice_index["scene-3-repeat-cue-ko"].get("text"))
+    if "따라해볼까요" not in repeat_cue_text:
+        raise ValueError("Malmoelab 003 validation failed: scene-3 cue must be the repeat invitation.")
+
+    sentence_text = _normalize_text(voice_index["scene-3-sentence-ko"].get("text"))
+    if _normalize_text(sentence_ko) != sentence_text:
+        raise ValueError("Malmoelab 003 validation failed: scene-3 sentence slot must read the full lesson sentence.")
+
+    quiz_text = _normalize_text(voice_index["scene-4-cta-ko"].get("text"))
+    if "빈칸에들어갈말은" not in quiz_text:
+        raise ValueError("Malmoelab 003 validation failed: scene-4 must ask the blank-quiz question.")
+
+    ending_text = _normalize_text(voice_index["scene-5-ending-ko"].get("text"))
+    if "말모이랩닷컴" not in ending_text or "안녕" not in ending_text:
+        raise ValueError("Malmoelab 003 validation failed: scene-5 must keep the standard ending CTA/goodbye structure.")
+
+    if _normalize_text(typo_index["scene-2-sentence-main"].get("textKo")) != _normalize_text(sentence_ko):
+        raise ValueError("Malmoelab 003 validation failed: scene-2 board text must show the full sentence.")
+    if _normalize_text(typo_index["scene-3-repeat-sentence"].get("textKo")) != _normalize_text(sentence_ko):
+        raise ValueError("Malmoelab 003 validation failed: scene-3 board text must keep the full sentence.")
+    if _normalize_text(typo_index["scene-4-quiz-blank"].get("textKo")) != _normalize_text(blank_ko):
+        raise ValueError("Malmoelab 003 validation failed: scene-4 board text must switch to the blank sentence.")
+
+    cta_slot = typo_index["scene-4-cta-lower-third"]
+    if str(cta_slot.get("sceneId")) != "scene-5-ending-wave":
+        raise ValueError("Malmoelab 003 validation failed: CTA lower third must live on scene-5-ending-wave.")
+    if _normalize_text(cta_slot.get("text")) != _normalize_text(service_cta):
+        raise ValueError("Malmoelab 003 validation failed: CTA lower third must match lesson.serviceCtaKo.")
+
+
 def main() -> int:
     args = parse_args()
     episode_dir = Path(args.episode_dir).resolve()
@@ -358,6 +437,7 @@ def main() -> int:
     episode_schema = load_json(episode_schema_path)
     voice_slots = load_json(voice_slots_path)
     typography_slots = load_json(typography_slots_path)
+    validate_malmoelab_003_structure(episode_schema, voice_slots, typography_slots)
     profile_id, _profile_path, profile = load_profile_for_episode_schema(episode_schema)
     supported_profiles = {"keyframe-review-v1", "malmoelab-keyframe-dub-after-picture-v1"}
     if profile_id not in supported_profiles:
@@ -710,7 +790,7 @@ def main() -> int:
         "2. 대응 파일명을 유지한 채 `audio-overrides/`에 wav/mp3를 넣는다.\n"
         "3. 같은 명령으로 다시 렌더한다.\n\n"
         "```bash\n"
-        f".venv-video-tools/bin/python scripts/pilot/render_daehan_pilot_keyframe_review_v1.py --episode-dir {episode_dir.relative_to(ROOT)} --env-file .env\n"
+        f"{sys.executable} scripts/pilot/render_daehan_pilot_keyframe_review_v1.py --episode-dir {episode_dir.relative_to(ROOT)} --env-file .env\n"
         "```\n",
         encoding="utf-8",
     )
@@ -725,7 +805,7 @@ def main() -> int:
     typography_slot_index["scene-3-repeat-sentence"]["inTimeSec"] = round(sentence_start - 0.05, 3)
     typography_slot_index["scene-3-repeat-sentence"]["outTimeSec"] = round(min(scene3.end_sec - 0.2, float(sentence_slot["endSec"]) + float(sentence_slot.get("pauseAfterSec") or 1.0)), 3)
     typography_slot_index["scene-4-quiz-blank"]["inTimeSec"] = round(scene4.start_sec + 0.15, 3)
-    typography_slot_index["scene-4-quiz-blank"]["outTimeSec"] = round(scene4.end_sec - 0.15, 3)
+    typography_slot_index["scene-4-quiz-blank"]["outTimeSec"] = round(scene5.end_sec - 0.15, 3)
     typography_slot_index["scene-4-cta-lower-third"]["sceneId"] = "scene-5-ending-wave"
     typography_slot_index["scene-4-cta-lower-third"]["inTimeSec"] = round(max(scene5.start_sec + 0.1, float(slot_index["scene-5-ending-ko"]["startSec"]) - 0.05), 3)
     typography_slot_index["scene-4-cta-lower-third"]["outTimeSec"] = round(min(scene5.end_sec - 0.25, float(slot_index["scene-5-ending-ko"]["endSec"]) + 0.45), 3)
@@ -820,7 +900,7 @@ def main() -> int:
     final_review_report = review_dir / "final-review-report.md"
     final_review_report.write_text(
         f"# Final Review: {episode_dir.name}\n"
-        "날짜: 2026-04-17\n\n"
+        f"날짜: {date.today().isoformat()}\n\n"
         "## 전체 요약\n"
         f"- 상태: `{profile_id} final export`\n"
         "- 심각도: `pending visual QA`\n\n"

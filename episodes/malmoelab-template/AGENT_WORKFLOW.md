@@ -85,6 +85,7 @@
 - scene duration, continuity, render provider가 명시된다.
 - `scene-1-opening-handoff`부터 `scene-5-ending-wave`까지 모두 정의된다.
 - 다음 `[RENDER]` issue가 이어질 수 있도록 handoff comment를 남긴다.
+- 사람이 직접 점검할 때도 `scene-1 greeting -> scene-2 full sentence intro -> scene-3 repeat -> scene-4 blank quiz -> scene-5 ending` 순서를 벗어나면 완료로 넘기지 않는다.
 
 ### `[RENDER]`
 
@@ -101,6 +102,8 @@
 - `typography-slots.json` 기준 한글/로마자/빈칸/CTA가 합성된다.
 - final export와 review bundle이 생성된다.
 - typography 수정만으로 TTS가 바뀌지 않도록 기존 오디오 재사용 정책을 지킨다.
+- 기본 lesson형 포맷에서는 blank sentence가 `scene-4`에서 시작해 `scene-5` 엔딩까지 칠판에 유지된다.
+- 사람이 직접 Paperclip에서 진행할 때도 final review bundle 기준으로 `scene-2/3 = full sentence`, `scene-4 = blank sentence`, `scene-5 = ending CTA`를 다시 확인한다.
 
 ## 양산을 위한 고정 규칙
 

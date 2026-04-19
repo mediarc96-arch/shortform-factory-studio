@@ -1,0 +1,164 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-002",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "characterSlug": "seolmin",
+  "characterRoot": "characters/seolmin",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
+  "status": "final-export",
+  "createdAt": "2026-04-19T02:32:11Z",
+  "reusableAssets": {
+    "characterImage2D": "characters/seolmin/Seolmin.png",
+    "bible": "characters/seolmin/bible.md",
+    "promptSet": "characters/seolmin/prompts.md",
+    "voiceConfig": "characters/seolmin/voice.json",
+    "rightsNote": "characters/seolmin/rights.md",
+    "preferredHandwritingFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "lesson": {
+    "topicType": "sentence-lesson-with-blank-quiz",
+    "sourceRef": "malmoelab.word_example:160873f9-ad0c-4102-901f-ab470a69cd8a",
+    "wordId": "0ab3671b-7684-4454-806b-74f04b08953e",
+    "senseId": "9f109613-9da8-4133-b262-bb0b038836b5",
+    "sentenceKo": "아침마다 커피를 마십니다.",
+    "sentenceEn": "I drink coffee every morning.",
+    "sentenceRomanized": "achimmada keopireul masipnida.",
+    "sentenceBlankKo": "아침마다 ___를 마십니다.",
+    "sentenceBlankRomanized": "achimmada ___reul masipnida.",
+    "focusWord": "커피",
+    "focusWordRomanized": "keopi",
+    "focusWordGloss": "coffee",
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요."
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "durationSec": 30
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "sceneDurationSec": 6.0,
+      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "poseTargetRule": "approved keyframes are the target pose cards for each 6-second clip",
+      "contentContinuityFocus": [
+        "same-2d-character-identity",
+        "same-empty-classroom-board",
+        "teacher-on-right-quarter",
+        "no-text-in-generated-video",
+        "readable-pose-change-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "generationStage": "mute-video-only",
+      "dubStage": "post-picture-lock",
+      "voiceInheritance": "characters/seolmin/voice.json"
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-dub-lock",
+      "chalkStyle": "bold-handwritten-chalk",
+      "answerRevealStage": "scene-4-quiz-point"
+    },
+    "disclosurePolicy": {
+      "placement": "metadata-only",
+      "visibleFrameDisclosure": false,
+      "attributionRequired": true
+    },
+    "productionMode": {
+      "characterMode": "reference-only",
+      "characterTraining": "not-approved"
+    }
+  },
+  "brief": {
+    "targetViewer": "English-speaking beginner Korean learner who can solve a simple everyday fill-in-the-blank challenge",
+    "whyClickNow": "Solve one Korean blank in under 30 seconds and immediately confirm the answer, pronunciation, and meaning.",
+    "viewerPromise": "The viewer learns coffee vocabulary through a real everyday sentence instead of an isolated flashcard.",
+    "angle": "Use a morning-routine sentence to make the answer feel guessable before the reveal.",
+    "hookOptions": [
+      "Which word fits this Korean blank?",
+      "Can you guess the missing Korean word before the reveal?",
+      "Fill in this Korean blank in 30 seconds"
+    ],
+    "proofPlan": [
+      "Show the blank sentence first.",
+      "Hold the answer through the think/listen beat.",
+      "Reveal the focus word, romanization, gloss, and full sentence together."
+    ],
+    "packagingRule": "Title, thumbnail, and opening frame must all promise the same fill-in-the-blank challenge without exposing the answer word.",
+    "engagementCopy": "Double tap if you know it."
+  },
+  "structure": {
+    "basis": "daehan-pilot-codex-003 spoken and scene structure",
+    "scenes": [
+      {
+        "id": "scene-1-opening-handoff",
+        "durationSec": 6.0,
+        "goal": "Open with the standard 003 greeting and establish Seolmin as the host."
+      },
+      {
+        "id": "scene-2-lesson-intro",
+        "durationSec": 6.0,
+        "goal": "Introduce the full lesson sentence."
+      },
+      {
+        "id": "scene-3-repeat-listen",
+        "durationSec": 6.0,
+        "goal": "Use the repeat cue and then read the full lesson sentence once."
+      },
+      {
+        "id": "scene-4-quiz-point",
+        "durationSec": 6.0,
+        "goal": "Switch to the blank sentence and ask the recall quiz."
+      },
+      {
+        "id": "scene-5-ending-wave",
+        "durationSec": 6.0,
+        "goal": "Deliver CTA plus short farewell."
+      }
+    ]
+  },
+  "productionNotes": {
+    "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+    "openingReusePolicy": "Reuse the proven Seolmin opening beat and voice-pack-first policy, but do not reuse answer-revealing copy or board states.",
+    "endingTreatment": "No fixed ending asset exists yet; keep scene-5 as a generated farewell shot plus downstream dub and typography.",
+    "canonicalOrder": [
+      "source",
+      "brief",
+      "script",
+      "keyframe-review",
+      "picture",
+      "dub",
+      "typography"
+    ],
+    "romanizationSourceNote": "Use the fallback romanization locked in source-packet.json because source reading data was unavailable."
+  },
+  "sourcePacketFile": "./source-packet.json",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "videoGenerationJobFile": "./video-generation-job.json",
+  "notes": {
+    "currentExecutionMode": "malmoelab-keyframe-dub-after-picture-v1-final",
+    "latestReviewReport": "./review/final-review-report.md",
+    "latestReviewSeverity": "pending-visual-qa",
+    "pictureLockPath": "./renders/picture-lock/malmoelab-ko-quiz-seolmin-002-picture-lock.mp4",
+    "dubMixPath": "./renders/dub-lock/malmoelab-ko-quiz-seolmin-002-guide-dub.m4a",
+    "dubbingPackagePath": "./dubbing/README.md",
+    "dubbingCuesPath": "./dubbing/dubbing-cues.csv",
+    "finalExportPath": "./renders/final/malmoelab-ko-quiz-seolmin-002-final.mp4",
+    "thumbnailPath": "./renders/final/malmoelab-ko-quiz-seolmin-002-final-thumb.jpg"
+  }
+}

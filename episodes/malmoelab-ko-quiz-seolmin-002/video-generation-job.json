@@ -1,0 +1,93 @@
+{
+  "episode": {
+    "slug": "malmoelab-ko-quiz-seolmin-002",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refKeyframePlan": "./keyframe-plan.json"
+  },
+  "globalSettings": {
+    "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+    "provider": "pending",
+    "preferredProvider": "grok",
+    "fallbackProvider": "runway",
+    "continuityTarget": "previous-scene-last-frame",
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "seed": 531002,
+    "style": "2D anime",
+    "characterReferenceBase": "assets/refs/seolmin-2d-clean-base-wide-refined.jpg",
+    "negativePromptCommon": "text, letters, Korean characters, subtitles, numbers, logos, watermarks, chalk writing, calligraphy, labels, extra characters, 3D render, photorealistic, distorted hands, deformed face, blurry, low quality",
+    "compositionRule": "Keep Seolmin as the same 2D Korean teacher from the approved keyframe set. Keep the teacher on the right quarter and keep the board empty for later typography.",
+    "providerExpectations": {
+      "keyframeGate": "Approve all five keyframes before any scene video generation begins.",
+      "pictureStage": "Generate mute picture-only clips first, then hand off for picture lock, dub, and typography.",
+      "continuityRule": "Scene 1 starts from approved keyframe 01; scenes 2-5 start from the previous scene final frame and aim toward the approved next keyframe pose card.",
+      "textRule": "Do not bake Korean, romanization, English, CTA, or answer text into generated frames.",
+      "sceneDelivery": "Each completed scene should yield a picture clip plus an extracted last-frame asset for the next handoff."
+    }
+  },
+  "_note": "003 구조 기준. keyframe review를 통과한 뒤에만 5개 scene video를 생성한다. scene-4 reveal 전까지 정답 커피를 영상 프레임에 노출하지 않는다.",
+  "futureScenes": [
+    {
+      "sceneId": "scene-1-opening-handoff",
+      "durationSec": 6.0,
+      "startSeed": "keyframes/kf-01-opening-handoff.jpg",
+      "targetPoseCard": "keyframes/kf-01-opening-handoff.jpg",
+      "handoffLastFramePath": "assets/refs/scene-1-last-frame.jpg",
+      "providerExpectation": "Reuse the warm seolmin-001 opening energy, but generate a fresh host shot with an empty board and no answer leakage.",
+      "continuityNotes": [
+        "Friendly host energy, bright greeting pose, same right-quarter framing.",
+        "Promise a fast blank-fill quiz in performance only; all readable text stays for typography."
+      ]
+    },
+    {
+      "sceneId": "scene-2-lesson-intro",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-1-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-02-lesson-intro.jpg",
+      "handoffLastFramePath": "assets/refs/scene-2-last-frame.jpg",
+      "providerExpectation": "Carry forward the same classroom framing and character identity while shifting into the main blank-sentence teaching beat.",
+      "continuityNotes": [
+        "Board remains clean for post typography.",
+        "No coffee cup prop, answer word, or board artifact that reveals the answer early."
+      ]
+    },
+    {
+      "sceneId": "scene-3-repeat-listen",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-2-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-03-repeat-listen.jpg",
+      "handoffLastFramePath": "assets/refs/scene-3-last-frame.jpg",
+      "providerExpectation": "Preserve continuity and create a patient thinking/listening hold that buys time before the reveal.",
+      "continuityNotes": [
+        "Seolmin stays on the right quarter with a listening pose.",
+        "Maintain reveal hold: no baked-in answer cue before scene 4."
+      ]
+    },
+    {
+      "sceneId": "scene-4-quiz-point",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-3-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-04-quiz-point.jpg",
+      "handoffLastFramePath": "assets/refs/scene-4-last-frame.jpg",
+      "providerExpectation": "Land the reveal pose cleanly and keep enough board space for answer, romanization, gloss, and full-sentence overlays.",
+      "continuityNotes": [
+        "Reveal energy is allowed here, but generated frames still stay text-free.",
+        "Keep the same classroom/background continuity so the payoff feels like the answer to the prior setup."
+      ]
+    },
+    {
+      "sceneId": "scene-5-ending-wave",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-4-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-05-ending-wave.jpg",
+      "handoffLastFramePath": "assets/refs/scene-5-last-frame.jpg",
+      "providerExpectation": "End on the generated farewell-wave shot; there is no fixed ending asset for Seolmin yet.",
+      "continuityNotes": [
+        "Carry the reveal-state classroom forward without adding CTA text into the render.",
+        "Hold a gentle goodbye pose that leaves room for the final CTA overlay."
+      ]
+    }
+  ]
+}

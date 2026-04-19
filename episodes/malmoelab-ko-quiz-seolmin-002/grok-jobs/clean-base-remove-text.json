@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-quiz-seolmin-002",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime Seolmin teacher, same outfit, same classroom, same lighting, and same overall composition as the input image. Remove all text from the chalkboard if any exists and keep the board completely empty and clean. Keep the chalk and do not change the character identity.",
+    "image": {
+      "url": "../../../characters/seolmin/Seolmin.png"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../assets/refs/seolmin-2d-clean-base.jpg",
+    "manifestFile": "../assets/refs/seolmin-2d-clean-base.manifest.json"
+  }
+}

@@ -8,6 +8,7 @@
 4. English prompt, reveal copy, and CTA stay as typography overlays. They are not separate TTS lines by default.
 5. Romanization is support text only. Do not read it out loud.
 6. Spoken Korean should stay bright, clear, and learner-friendly.
+7. Do not turn `scene-1` or `scene-2` into a blank-quiz challenge unless the issue explicitly overrides the default format.
 
 ## Timeline
 

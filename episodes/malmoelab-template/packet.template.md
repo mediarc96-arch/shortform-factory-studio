@@ -46,5 +46,6 @@ _이 파일은 `episodes/malmoelab-template/packet.template.md` 기반으로 시
 - [ ] keyframe 5장 승인 전에는 scene video 생성 금지
 - [ ] picture generation에는 텍스트 요청 없음
 - [ ] `003`와 같은 5-scene 구조 유지
+- [ ] spoken flow도 `003` 기준 유지: greeting -> lesson intro -> repeat -> blank quiz -> ending
 - [ ] dub lock 이후에만 칠판 타이포 합성
 - [ ] final review bundle 재생성 완료

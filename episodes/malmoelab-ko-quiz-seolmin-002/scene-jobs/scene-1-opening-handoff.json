@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 2D Seolmin teacher, the same empty classroom, the same camera distance, and the same right-quarter composition. Reuse the warm seolmin-001 opening energy, but generate a fresh host shot with an empty board and no answer leakage. Friendly host energy, bright greeting pose, same right-quarter framing. Promise a fast blank-fill quiz in performance only; all readable text stays for typography. Transition naturally toward the approved target pose and expression. No camera reset, no tighter crop, and no text anywhere.",
+    "image": "../keyframes/kf-01-opening-handoff.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-1-opening-handoff.mp4",
+    "manifestFile": "../renders/grok/scene-1-opening-handoff.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-1-last-frame.jpg"
+  }
+}
