@@ -1,10 +1,13 @@
-# 말모이랩 한글 빈칸 퀴즈 쇼츠 운영 모델
+# 말모이랩 한글 교육 에피소드 운영 모델
 
 이 문서는 `Shortform Factory`가 말모이랩 데이터를 이용해 영어권 학습자 대상 한글 교육 쇼츠를 반복 생산할 때 따라야 할 제작 기준을 정리한다.
 
+현재 정식 기본값은 `episodes/malmoelab-template`, `formats/malmoelab-keyframe-dub-after-picture-v1/profile.json`, `episodes/daehan-pilot-codex-003` 조합이다.
+과거 `15초 / 9:16` 마이크로 퀴즈 실험은 레거시 참고용으로만 간주하고, 새 회차의 기본값으로 사용하지 않는다.
+
 ## 목표
 
-- 영어권 학습자가 한국어 예문 속 핵심 단어를 맞히는 15초 쇼츠를 만든다.
+- 영어권 학습자가 한국어 예문을 듣고 읽고 따라할 수 있는 `30초 / 16:9` lesson형 교육 쇼츠를 만든다.
 - 예문은 말모이랩의 실제 학습 데이터에서 가져온다.
 - 형식은 반복 가능해야 하고, 에피소드 간 품질 편차를 낮춰야 한다.
 - 이미 사용한 예문은 가능하면 재사용을 피한다.
@@ -13,28 +16,31 @@
 
 - 영어를 모국어 또는 주 사용 언어로 쓰는 한국어 학습자
 - 초급에서 중급 초반까지의 학습자
-- 15초 안에 문제를 이해하고 정답을 확인할 수 있는 쇼츠 선호 시청자
+- 약 `30초` 안에 문장 소개, 따라하기, 퀴즈, 엔딩 CTA를 자연스럽게 소비할 수 있는 학습자
 
 ## 영상 포맷
 
-기본 길이는 15초다.
+기본 길이는 `30초`다.
+기본 비율은 `16:9` 가로다.
+기본 구도는 `teacher on right quarter + clean board on left three-quarters`다.
 
 ### 권장 타임라인
 
-- `0.0s - 2.0s`
-  - 타이틀 카드
-  - 예: `말모이랩 한글공부`
-- `2.0s - 9.0s`
-  - 칠판 영역에 빈칸 문장 표시
-  - 하단 또는 보조 캡션에 영어 질문 표시
-  - 예: `Which word fits the blank?`
-- `9.0s - 11.0s`
-  - 참여 유도 문구 표시
-  - 예: `Double tap if you know it.`
-- `11.0s - 15.0s`
-  - 정답 공개
-  - 완성 문장 + 정답 단어 강조
-  - `Learn more at malmoelab.com` CTA 오버레이
+- `0.0s - 6.0s`
+  - `scene-1-opening-handoff`
+  - 오프닝 인사와 lesson handoff
+- `6.0s - 12.0s`
+  - `scene-2-lesson-intro`
+  - 오늘의 문장 소개
+- `12.0s - 18.0s`
+  - `scene-3-repeat-listen`
+  - 따라하기 cue와 예문 읽기
+- `18.0s - 24.0s`
+  - `scene-4-quiz-point`
+  - 빈칸 질문과 학습 포인트
+- `24.0s - 30.0s`
+  - `scene-5-ending-wave`
+  - CTA와 엔딩 멘트
 
 ## 영상 레이아웃 규칙
 
@@ -301,9 +307,9 @@ DB 접속정보는 repo에 적지 않는다.
 - `Sentence Source Operator`
   - 예문 source packet 생성
 - `Content Strategist`
-  - 15초 퀴즈 브리프 설계
+  - `003` 기준 `30초 / 16:9` lesson 브리프 설계
 - `Script Writer`
-  - 영어 질문 문구, reveal 문구, CTA 문구 작성
+  - 오프닝, 문장 소개, 따라하기, 예문 읽기, 퀴즈, 엔딩 대사 작성
 - `Video Editor`
   - 칠판 레이아웃, 팔 모션, Gemini 패널 자산 생성, 음악, 최종 합성
 - `Quality & Fact Checker`

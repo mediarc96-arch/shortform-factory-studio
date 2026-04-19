@@ -5,7 +5,8 @@
 - `legacy-v1`: 기존 `daehan-pilot-codex-001`과 같은 흐름
 - `wipe-cta-v2`: 오프닝/엔딩 경계를 `wipe`로 바꾸고, 컨텐츠를 문장 소개 + 따라하기 + 퀴즈 CTA로 단순화한 새 흐름
 - `keyframe-review-v1`: 2D 키프레임 승인 후 6초 무음 클립을 만들고 나중에 더빙/타이포를 얹는 실험 흐름
-- `education-dub-after-picture-v1`: 교육 콘텐츠용 표준 흐름. 오프닝/엔딩 대사는 재사용하고, 예문 길이를 TTS로 먼저 재서 picture lock 이후 더빙과 칠판 타이포를 합성
+- `malmoelab-keyframe-dub-after-picture-v1`: 현재 말모이랩 한글 교육의 정식 기본 포맷. `daehan-pilot-codex-003`을 기준으로 5개 6초 씬, 30초, 16:9, keyframe review -> picture lock -> dub -> typography 순서를 고정한다.
+- `education-dub-after-picture-v1`: `003` 기준이 정식화되기 전의 범용 교육 포맷 초안. 레거시 참고용으로만 유지하고, 현재 말모이랩 기본 포맷으로는 사용하지 않는다.
 
 음성 운영 원칙:
 

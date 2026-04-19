@@ -2,9 +2,13 @@
 
 날짜: 2026-04-18
 대상 프로젝트: `shortform-factory-studio`
-기준 포맷: `formats/education-dub-after-picture-v1/profile.json`
+기준 포맷: `formats/malmoelab-keyframe-dub-after-picture-v1/profile.json`
 참조 실험: `episodes/daehan-pilot-codex-003`
 후작업 절차: `docs/plans/2026-04-18-education-postproduction-template.md`
+
+> 상태 메모
+> 이 문서는 `003` 이전에 일반 교육 포맷을 정리하던 초안에서 출발했다.
+> 현재 말모이랩 한글 교육의 정식 기본값은 `malmoelab-keyframe-dub-after-picture-v1`이며, 이 문서는 그 표준을 설명하는 보조 계획 문서로만 본다.
 
 ## 1. 결론
 
@@ -171,9 +175,10 @@
 
 ## 6. 앞으로의 기본 선택
 
-교육 콘텐츠는 앞으로 `education-dub-after-picture-v1`을 기준으로 본다.
+말모이랩 한글 교육 콘텐츠는 앞으로 `malmoelab-keyframe-dub-after-picture-v1`을 기준으로 본다.
 
 실험용 포맷은 계속 따로 둘 수 있다.
 
 - `keyframe-review-v1`: 실험 / 검수용
-- `education-dub-after-picture-v1`: 운영용 표준
+- `education-dub-after-picture-v1`: `003` 이전의 범용 교육 포맷 초안. 레거시 참고용
+- `malmoelab-keyframe-dub-after-picture-v1`: 현재 운영용 표준
