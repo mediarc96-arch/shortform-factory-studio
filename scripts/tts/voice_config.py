@@ -24,9 +24,16 @@ def load_character_voice_config(root: Path, episode_schema: dict) -> dict:
     return {}
 
 
-def resolve_tts_voice_env(slot: dict, *, provider: str, root: Path, episode_schema: dict) -> str | None:
+def resolve_tts_voice_env(
+    slot: dict,
+    *,
+    provider: str,
+    root: Path,
+    episode_schema: dict,
+    prefer_explicit: bool = True,
+) -> str | None:
     explicit_env = slot.get("ttsVoiceEnv")
-    if isinstance(explicit_env, str) and explicit_env.strip():
+    if prefer_explicit and isinstance(explicit_env, str) and explicit_env.strip():
         return explicit_env.strip()
 
     config = load_character_voice_config(root, episode_schema)

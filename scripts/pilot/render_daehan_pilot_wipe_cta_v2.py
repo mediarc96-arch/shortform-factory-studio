@@ -84,13 +84,22 @@ def synthesize_slot(
     speed: float,
     provider: str,
     voice_id_env: str | None = None,
+    fallback_voice_id_env: str | None = None,
 ) -> tuple[Path, str]:
     provider_key = str(provider or "").strip().lower()
     if provider_key == "supertone":
         try:
             return synthesize_supertone_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "supertone-guide"
         except Exception:
-            return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide-fallback"
+            return (
+                synthesize_guide_tts(
+                    output_path,
+                    text=text,
+                    speed=speed,
+                    voice_id_env=fallback_voice_id_env,
+                ),
+                "elevenlabs-guide-fallback",
+            )
     return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide"
 
 
@@ -294,12 +303,25 @@ def main() -> int:
         else:
             slot_provider = str(slot.get("ttsProvider") or episode_schema["policies"]["audioPolicy"]["contentTtsProvider"])
             slot_voice_env = resolve_tts_voice_env(slot, provider=slot_provider, root=ROOT, episode_schema=episode_schema)
+            slot_fallback_provider = str(
+                slot.get("fallbackTtsProvider")
+                or episode_schema["policies"]["audioPolicy"].get("fallbackTtsProvider")
+                or "elevenlabs"
+            )
+            slot_fallback_voice_env = resolve_tts_voice_env(
+                slot,
+                provider=slot_fallback_provider,
+                root=ROOT,
+                episode_schema=episode_schema,
+                prefer_explicit=False,
+            )
             active_path, active_source = synthesize_slot(
                 output_path,
                 text=slot["text"],
                 speed=float(plan["speed"]),
                 provider=slot_provider,
                 voice_id_env=slot_voice_env,
+                fallback_voice_id_env=slot_fallback_voice_env,
             )
             slot["selectedAsset"] = str(active_path.relative_to(episode_dir))
 
@@ -330,12 +352,25 @@ def main() -> int:
     sentence_output = narration_dir / "scene-2-sentence-ko.mp3"
     sentence_provider = str(sentence_slot.get("ttsProvider") or episode_schema["policies"]["audioPolicy"]["contentTtsProvider"])
     sentence_voice_env = resolve_tts_voice_env(sentence_slot, provider=sentence_provider, root=ROOT, episode_schema=episode_schema)
+    sentence_fallback_provider = str(
+        sentence_slot.get("fallbackTtsProvider")
+        or episode_schema["policies"]["audioPolicy"].get("fallbackTtsProvider")
+        or "elevenlabs"
+    )
+    sentence_fallback_voice_env = resolve_tts_voice_env(
+        sentence_slot,
+        provider=sentence_fallback_provider,
+        root=ROOT,
+        episode_schema=episode_schema,
+        prefer_explicit=False,
+    )
     sentence_active, sentence_source = synthesize_slot(
         sentence_output,
         text=sentence_slot["text"],
         speed=float(sentence_slot.get("speed") or 1.0),
         provider=sentence_provider,
         voice_id_env=sentence_voice_env,
+        fallback_voice_id_env=sentence_fallback_voice_env,
     )
     sentence_duration = media_duration(sentence_active)
     shutil.copyfile(sentence_output, dubbing_guide_audio_dir / sentence_output.name)
@@ -358,12 +393,25 @@ def main() -> int:
     cta_start = round(max(scene3.start_sec + 1.0, sentence_start + sentence_duration + post_sentence_pause), 3)
     cta_provider = str(cta_slot.get("ttsProvider") or episode_schema["policies"]["audioPolicy"]["contentTtsProvider"])
     cta_voice_env = resolve_tts_voice_env(cta_slot, provider=cta_provider, root=ROOT, episode_schema=episode_schema)
+    cta_fallback_provider = str(
+        cta_slot.get("fallbackTtsProvider")
+        or episode_schema["policies"]["audioPolicy"].get("fallbackTtsProvider")
+        or "elevenlabs"
+    )
+    cta_fallback_voice_env = resolve_tts_voice_env(
+        cta_slot,
+        provider=cta_fallback_provider,
+        root=ROOT,
+        episode_schema=episode_schema,
+        prefer_explicit=False,
+    )
     cta_active, cta_source = synthesize_slot(
         cta_output,
         text=cta_slot["text"],
         speed=float(cta_slot.get("speed") or 1.0),
         provider=cta_provider,
         voice_id_env=cta_voice_env,
+        fallback_voice_id_env=cta_fallback_voice_env,
     )
     cta_duration = media_duration(cta_active)
     shutil.copyfile(cta_output, dubbing_guide_audio_dir / cta_output.name)
@@ -400,12 +448,25 @@ def main() -> int:
         ending_output = narration_dir / "ending-embedded.mp3"
         ending_provider = str(ending_slot.get("fallbackTtsProvider") or "supertone")
         ending_voice_env = resolve_tts_voice_env(ending_slot, provider=ending_provider, root=ROOT, episode_schema=episode_schema)
+        ending_fallback_provider = str(
+            ending_slot.get("fallbackTtsProvider")
+            or episode_schema["policies"]["audioPolicy"].get("fallbackTtsProvider")
+            or "elevenlabs"
+        )
+        ending_fallback_voice_env = resolve_tts_voice_env(
+            ending_slot,
+            provider=ending_fallback_provider,
+            root=ROOT,
+            episode_schema=episode_schema,
+            prefer_explicit=False,
+        )
         ending_active, ending_source = synthesize_slot(
             ending_output,
             text=ending_slot["text"],
             speed=0.94,
             provider=ending_provider,
             voice_id_env=ending_voice_env,
+            fallback_voice_id_env=ending_fallback_voice_env,
         )
         shutil.copyfile(ending_output, dubbing_guide_audio_dir / ending_output.name)
         ending_slot["guideAsset"] = str((dubbing_guide_audio_dir / ending_output.name).relative_to(episode_dir))

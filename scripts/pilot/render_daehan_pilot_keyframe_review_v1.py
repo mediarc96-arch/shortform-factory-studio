@@ -45,7 +45,9 @@ from tts.voice_config import resolve_tts_voice_env  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Render guide dub + typography final export for keyframe-review-v1 daehan pilot.")
+    parser = argparse.ArgumentParser(
+        description="Render guide dub + typography final export for keyframe-style picture-first lesson episodes."
+    )
     parser.add_argument("--episode-dir", required=True)
     parser.add_argument("--env-file", default=".env")
     return parser.parse_args()
@@ -86,6 +88,7 @@ def synthesize_slot(
     pitch_shift: float | None,
     provider: str,
     voice_id_env: str | None = None,
+    fallback_voice_id_env: str | None = None,
 ) -> tuple[Path, str]:
     provider_key = str(provider or "").strip().lower()
     if provider_key == "supertone":
@@ -101,7 +104,15 @@ def synthesize_slot(
                 "supertone-guide",
             )
         except Exception:
-            return synthesize_guide_tts(output_path, text=text, speed=speed), "elevenlabs-guide-fallback"
+            return (
+                synthesize_guide_tts(
+                    output_path,
+                    text=text,
+                    speed=speed,
+                    voice_id_env=fallback_voice_id_env,
+                ),
+                "elevenlabs-guide-fallback",
+            )
     return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide"
 
 
@@ -348,8 +359,12 @@ def main() -> int:
     voice_slots = load_json(voice_slots_path)
     typography_slots = load_json(typography_slots_path)
     profile_id, _profile_path, profile = load_profile_for_episode_schema(episode_schema)
-    if profile_id != "keyframe-review-v1":
-        raise ValueError(f"render_daehan_pilot_keyframe_review_v1.py only supports keyframe-review-v1, got {profile_id}")
+    supported_profiles = {"keyframe-review-v1", "malmoelab-keyframe-dub-after-picture-v1"}
+    if profile_id not in supported_profiles:
+        raise ValueError(
+            "render_daehan_pilot_keyframe_review_v1.py only supports "
+            f"{', '.join(sorted(supported_profiles))}, got {profile_id}"
+        )
 
     ffmpeg = resolve_ffmpeg_binary()
     preview_path = episode_dir / "renders" / "final" / f"{episode_dir.name}-picture-preview.mp4"
@@ -474,6 +489,18 @@ def main() -> int:
             slot_pitch = float(slot.get("pitchShift") or plan["defaultPitchShift"])
             slot_provider = str(slot.get("ttsProvider") or provider_default)
             slot_voice_env = resolve_tts_voice_env(slot, provider=slot_provider, root=ROOT, episode_schema=episode_schema)
+            slot_fallback_provider = str(
+                slot.get("fallbackTtsProvider")
+                or episode_schema["policies"]["audioPolicy"].get("fallbackTtsProvider")
+                or "elevenlabs"
+            )
+            slot_fallback_voice_env = resolve_tts_voice_env(
+                slot,
+                provider=slot_fallback_provider,
+                root=ROOT,
+                episode_schema=episode_schema,
+                prefer_explicit=False,
+            )
             active_path, active_source = synthesize_slot(
                 output_path,
                 text=slot["text"],
@@ -481,6 +508,7 @@ def main() -> int:
                 pitch_shift=slot_pitch,
                 provider=slot_provider,
                 voice_id_env=slot_voice_env,
+                fallback_voice_id_env=slot_fallback_voice_env,
             )
             slot["selectedAsset"] = str(active_path.relative_to(episode_dir))
 
@@ -540,6 +568,18 @@ def main() -> int:
             root=ROOT,
             episode_schema=episode_schema,
         )
+        sentence_fallback_provider = str(
+            sentence_slot.get("fallbackTtsProvider")
+            or episode_schema["policies"]["audioPolicy"].get("fallbackTtsProvider")
+            or "elevenlabs"
+        )
+        sentence_fallback_voice_env = resolve_tts_voice_env(
+            sentence_slot,
+            provider=sentence_fallback_provider,
+            root=ROOT,
+            episode_schema=episode_schema,
+            prefer_explicit=False,
+        )
         sentence_active, sentence_source = synthesize_slot(
             sentence_output,
             text=sentence_slot["text"],
@@ -547,6 +587,7 @@ def main() -> int:
             pitch_shift=sentence_pitch,
             provider=sentence_provider,
             voice_id_env=sentence_voice_env,
+            fallback_voice_id_env=sentence_fallback_voice_env,
         )
         sentence_slot["selectedAsset"] = str(sentence_active.relative_to(episode_dir))
     sentence_guide_path = dubbing_guide_audio_dir / sentence_output.name
@@ -669,7 +710,7 @@ def main() -> int:
         "2. 대응 파일명을 유지한 채 `audio-overrides/`에 wav/mp3를 넣는다.\n"
         "3. 같은 명령으로 다시 렌더한다.\n\n"
         "```bash\n"
-        ".venv-video-tools/bin/python scripts/pilot/render_daehan_pilot_keyframe_review_v1.py --episode-dir episodes/daehan-pilot-codex-003 --env-file .env\n"
+        f".venv-video-tools/bin/python scripts/pilot/render_daehan_pilot_keyframe_review_v1.py --episode-dir {episode_dir.relative_to(ROOT)} --env-file .env\n"
         "```\n",
         encoding="utf-8",
     )
@@ -781,11 +822,11 @@ def main() -> int:
         f"# Final Review: {episode_dir.name}\n"
         "날짜: 2026-04-17\n\n"
         "## 전체 요약\n"
-        "- 상태: `keyframe-review-v1 final export`\n"
+        f"- 상태: `{profile_id} final export`\n"
         "- 심각도: `pending visual QA`\n\n"
         "## 확인 항목\n"
         "- picture preview를 picture lock으로 승격해 guide dub + typography를 합성함\n"
-        "- 대한 2D 캐릭터 continuity는 picture cut 기준으로 유지함\n"
+        f"- `{episode_schema.get('characterSlug', 'character')}` 캐릭터 continuity는 picture cut 기준으로 유지함\n"
         "- sentence / repeat sentence / blank quiz / CTA는 post typography로 합성함\n"
         "- 사람 더빙 교체용 `dubbing/audio-overrides/` 패키지를 함께 생성함\n",
         encoding="utf-8",
@@ -793,7 +834,7 @@ def main() -> int:
 
     episode_schema["status"] = "final-export"
     episode_schema.setdefault("notes", {})
-    episode_schema["notes"]["currentExecutionMode"] = "keyframe-review-v1-final"
+    episode_schema["notes"]["currentExecutionMode"] = f"{profile_id}-final"
     episode_schema["notes"]["latestReviewReport"] = "./review/final-review-report.md"
     episode_schema["notes"]["latestReviewSeverity"] = "pending-visual-qa"
     episode_schema["notes"]["pictureLockPath"] = f"./renders/picture-lock/{episode_dir.name}-picture-lock.mp4"

@@ -20,7 +20,15 @@
       "plannedDurationSec": 1.8,
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
-      "recordingTarget": "dubbing/audio-overrides/scene-1-opening-greeting-ko.wav"
+      "recordingTarget": "dubbing/audio-overrides/scene-1-opening-greeting-ko.wav",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-1-opening-greeting-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
+      "startSec": 0.6,
+      "endSec": 4.15,
+      "durationSec": 3.55,
+      "renderText": "안녕하세요. 여러분과 한글을 함께 공부할 설민입니다!"
     },
     {
       "voiceSlotId": "scene-2-intro-ko",
@@ -39,7 +47,15 @@
       "plannedDurationSec": 3.4,
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
-      "recordingTarget": "dubbing/audio-overrides/scene-2-intro-ko.wav"
+      "recordingTarget": "dubbing/audio-overrides/scene-2-intro-ko.wav",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-2-intro-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
+      "startSec": 6.55,
+      "endSec": 10.05,
+      "durationSec": 3.5,
+      "renderText": "오늘 배울 문장은 학생이 학교에 갑니다, 입니다."
     },
     {
       "voiceSlotId": "scene-3-repeat-cue-ko",
@@ -52,7 +68,15 @@
       "pauseAfterSec": 1.0,
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
-      "recordingTarget": "dubbing/audio-overrides/scene-3-repeat-cue-ko.wav"
+      "recordingTarget": "dubbing/audio-overrides/scene-3-repeat-cue-ko.wav",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-3-repeat-cue-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
+      "startSec": 12.55,
+      "endSec": 13.62,
+      "durationSec": 1.07,
+      "renderText": "따라해 볼까요?"
     },
     {
       "voiceSlotId": "scene-3-sentence-ko",
@@ -65,7 +89,15 @@
       "pauseAfterSec": 1.0,
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
-      "recordingTarget": "dubbing/audio-overrides/scene-3-sentence-ko.wav"
+      "recordingTarget": "dubbing/audio-overrides/scene-3-sentence-ko.wav",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-3-sentence-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
+      "startSec": 14.62,
+      "endSec": 16.19,
+      "durationSec": 1.57,
+      "renderText": "학생이 학교에 갑니다."
     },
     {
       "voiceSlotId": "scene-4-cta-ko",
@@ -77,7 +109,15 @@
       "plannedDurationSec": 2.1,
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
-      "recordingTarget": "dubbing/audio-overrides/scene-4-cta-ko.wav"
+      "recordingTarget": "dubbing/audio-overrides/scene-4-cta-ko.wav",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-4-cta-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
+      "startSec": 19.2,
+      "endSec": 21.24,
+      "durationSec": 2.04,
+      "renderText": "빈칸에 들어갈 말은 무엇일까요?"
     },
     {
       "voiceSlotId": "scene-5-ending-ko",
@@ -96,7 +136,15 @@
       "plannedDurationSec": 2.4,
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
-      "recordingTarget": "dubbing/audio-overrides/scene-5-ending-ko.wav"
+      "recordingTarget": "dubbing/audio-overrides/scene-5-ending-ko.wav",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-5-ending-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
+      "startSec": 26.55,
+      "endSec": 29.21,
+      "durationSec": 2.66,
+      "renderText": "말모이랩닷컴에서 더 알아보아요. 안녕!"
     }
   ]
 }

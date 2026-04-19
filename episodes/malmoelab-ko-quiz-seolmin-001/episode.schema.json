@@ -6,7 +6,7 @@
   "characterRoot": "characters/seolmin",
   "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
   "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
-  "status": "picture-preview-ready",
+  "status": "final-export",
   "createdAt": "2026-04-18T02:41:10Z",
   "seed": 531001,
   "reusableAssets": {
@@ -80,6 +80,14 @@
     "reviewReportPath": "./review/review-report.md",
     "pictureReviewReportPath": "./review/picture-review-report.md",
     "picturePreviewPath": "./renders/final/malmoelab-ko-quiz-seolmin-001-picture-preview.mp4",
-    "pictureLockPath": "./renders/picture-lock/malmoelab-ko-quiz-seolmin-001-picture-lock.mp4"
+    "pictureLockPath": "./renders/picture-lock/malmoelab-ko-quiz-seolmin-001-picture-lock.mp4",
+    "currentExecutionMode": "malmoelab-keyframe-dub-after-picture-v1-final",
+    "latestReviewReport": "./review/final-review-report.md",
+    "latestReviewSeverity": "pending-visual-qa",
+    "dubMixPath": "./renders/dub-lock/malmoelab-ko-quiz-seolmin-001-guide-dub.m4a",
+    "dubbingPackagePath": "./dubbing/README.md",
+    "dubbingCuesPath": "./dubbing/dubbing-cues.csv",
+    "finalExportPath": "./renders/final/malmoelab-ko-quiz-seolmin-001-final.mp4",
+    "thumbnailPath": "./renders/final/malmoelab-ko-quiz-seolmin-001-final-thumb.jpg"
   }
 }
