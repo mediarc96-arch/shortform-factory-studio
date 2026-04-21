@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import math
+import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -23,10 +25,16 @@ class SceneSpec:
     scene_id: str
     input_path: Path
     duration_sec: float
+    trim_start_sec: float = 0.0
+    trim_end_sec: float | None = None
 
 
 def run(cmd: list[str]) -> None:
     subprocess.run(cmd, check=True)
+
+
+def load_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def timecode(sec: float) -> str:
@@ -87,16 +95,94 @@ def make_contact_sheet(title: str, frames: list[tuple[str, Path]], output_path: 
     canvas.save(output_path, quality=90)
 
 
-def build_preview(ffmpeg: str, episode_dir: Path, preview_path: Path) -> list[tuple[str, float, float]]:
-    scene_specs = [
-        SceneSpec("scene-1-opening-handoff", episode_dir / "renders" / "picture" / "scene-1-opening-handoff.mp4", 6.0),
-        SceneSpec("scene-2-lesson-intro", episode_dir / "renders" / "picture" / "scene-2-lesson-intro.mp4", 6.0),
-        SceneSpec("scene-3-repeat-listen", episode_dir / "renders" / "picture" / "scene-3-repeat-listen.mp4", 6.0),
-        SceneSpec("scene-4-quiz-point", episode_dir / "renders" / "picture" / "scene-4-quiz-point.mp4", 6.0),
-        SceneSpec("scene-5-ending-wave", episode_dir / "renders" / "picture" / "scene-5-ending-wave.mp4", 6.0),
-    ]
+def sample_times(duration_sec: float, count: int = 6) -> list[float]:
+    if duration_sec <= 0:
+        return [0.0]
+    return [duration_sec * (idx + 0.5) / count for idx in range(count)]
 
-    for spec in scene_specs:
+
+def resolve_media_path(episode_dir: Path, raw_path: str) -> Path:
+    candidate = (episode_dir / raw_path).resolve()
+    if candidate.exists():
+        return candidate
+
+    repo_candidate = (episode_dir.parent.parent / raw_path).resolve()
+    if repo_candidate.exists():
+        return repo_candidate
+
+    return candidate
+
+
+def scene_time_range(scene: dict) -> tuple[float, float | None]:
+    if "timeSec" in scene and isinstance(scene["timeSec"], list) and len(scene["timeSec"]) >= 2:
+        start = float(scene["timeSec"][0] or 0.0)
+        end = float(scene["timeSec"][1] or start)
+        return start, end
+
+    start = float(scene.get("startSec") or 0.0)
+    duration = scene.get("durationSec")
+    if duration is None:
+        return start, None
+    end = start + float(duration)
+    return start, end
+
+
+def build_scene_specs(episode_dir: Path) -> list[SceneSpec]:
+    job = load_json(episode_dir / "video-generation-job.json")
+    specs: list[SceneSpec] = []
+
+    opening = (job.get("fixedClips") or {}).get("opening")
+    if opening:
+        opening_source_raw = str(opening.get("source") or opening.get("sourceFile") or "")
+        if not opening_source_raw:
+            raise ValueError("fixedClips.opening is missing source/sourceFile")
+        trim_start_sec, trim_end_sec = scene_time_range(opening)
+        duration_sec = (
+            max(trim_end_sec - trim_start_sec, 0.0)
+            if trim_end_sec is not None
+            else float(opening.get("durationSec") or 0.0)
+        )
+        specs.append(
+            SceneSpec(
+                scene_id="scene-0-opening",
+                input_path=resolve_media_path(episode_dir, opening_source_raw),
+                duration_sec=duration_sec,
+                trim_start_sec=trim_start_sec,
+                trim_end_sec=trim_end_sec,
+            )
+        )
+
+    scene_entries = list(job.get("scenes") or [])
+    if not scene_entries:
+        scene_entries = list(job.get("futureScenes") or [])
+
+    for scene in scene_entries:
+        output_raw = scene.get("outputPath") or scene.get("sourceFile")
+        if not output_raw:
+            raise ValueError(f"Scene {scene.get('sceneId') or '<unknown>'} is missing outputPath/sourceFile")
+        trim_start_sec, trim_end_sec = scene_time_range(scene)
+        duration_sec = (
+            max(trim_end_sec - trim_start_sec, 0.0)
+            if trim_end_sec is not None
+            else float(scene.get("durationSec") or 0.0)
+        )
+        specs.append(
+            SceneSpec(
+                scene_id=str(scene["sceneId"]),
+                input_path=resolve_media_path(episode_dir, str(output_raw)),
+                duration_sec=duration_sec,
+                trim_start_sec=trim_start_sec,
+                trim_end_sec=trim_end_sec,
+            )
+        )
+
+    return specs
+
+
+def build_preview(ffmpeg: str, specs: list[SceneSpec], preview_path: Path) -> list[tuple[str, float, float]]:
+    if not specs:
+        raise ValueError("No preview clips found in video-generation-job.json; expected scenes or futureScenes entries.")
+    for spec in specs:
         if not spec.input_path.exists():
             raise FileNotFoundError(f"Missing input clip: {spec.input_path}")
 
@@ -105,11 +191,12 @@ def build_preview(ffmpeg: str, episode_dir: Path, preview_path: Path) -> list[tu
     ranges: list[tuple[str, float, float]] = []
     cursor = 0.0
 
-    for idx, spec in enumerate(scene_specs):
+    for idx, spec in enumerate(specs):
         input_args.extend(["-i", str(spec.input_path)])
         label = f"v{idx}"
+        trim_end = spec.trim_end_sec if spec.trim_end_sec is not None else spec.duration_sec
         filter_parts.append(
-            f"[{idx}:v]trim=start=0:end={spec.duration_sec},"
+            f"[{idx}:v]trim=start={spec.trim_start_sec}:end={trim_end},"
             f"scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=decrease,"
             f"pad={WIDTH}:{HEIGHT}:(ow-iw)/2:(oh-ih)/2,setsar=1,setpts=PTS-STARTPTS[{label}]"
         )
@@ -118,8 +205,8 @@ def build_preview(ffmpeg: str, episode_dir: Path, preview_path: Path) -> list[tu
         ranges.append((spec.scene_id, start, end))
         cursor = end
 
-    concat_labels = [f"[v{idx}]" for idx in range(len(scene_specs))]
-    filter_parts.append("".join(concat_labels) + f"concat=n={len(concat_labels)}:v=1:a=0[outv]")
+    concat_labels = [f"[v{idx}]" for idx in range(len(specs))]
+    filter_parts.append("".join(concat_labels) + f"concat=n={len(specs)}:v=1:a=0[outv]")
 
     preview_path.parent.mkdir(parents=True, exist_ok=True)
     run(
@@ -171,42 +258,27 @@ def write_review_metadata(review_dir: Path, ranges: list[tuple[str, float, float
             writer.writerow([frame_index, f"{sec:.3f}", timecode(sec), scene_id])
 
 
-def sample_times(duration_sec: float, count: int = 6) -> list[float]:
-    return [duration_sec * (idx + 0.5) / count for idx in range(count)]
-
-
-def build_contact_sheets(ffmpeg: str, episode_dir: Path) -> None:
-    review_dir = episode_dir / "review"
+def build_contact_sheets(ffmpeg: str, review_dir: Path, specs: list[SceneSpec]) -> None:
     contact_dir = review_dir / "contact-sheets"
     frame_dir = review_dir / "frames"
     contact_dir.mkdir(parents=True, exist_ok=True)
     frame_dir.mkdir(parents=True, exist_ok=True)
 
-    scene_sources = [
-        ("scene-1-opening-handoff", episode_dir / "renders" / "picture" / "scene-1-opening-handoff.mp4", 6.0),
-        ("scene-2-lesson-intro", episode_dir / "renders" / "picture" / "scene-2-lesson-intro.mp4", 6.0),
-        ("scene-3-repeat-listen", episode_dir / "renders" / "picture" / "scene-3-repeat-listen.mp4", 6.0),
-        ("scene-4-quiz-point", episode_dir / "renders" / "picture" / "scene-4-quiz-point.mp4", 6.0),
-        ("scene-5-ending-wave", episode_dir / "renders" / "picture" / "scene-5-ending-wave.mp4", 6.0),
-    ]
-
     overview_frames: list[tuple[str, Path]] = []
-
-    for scene_id, input_path, duration_sec in scene_sources:
+    for spec in specs:
         frames: list[tuple[str, Path]] = []
-        for idx, sec in enumerate(sample_times(duration_sec)):
-            frame_path = frame_dir / f"{scene_id}-{idx + 1}.jpg"
-            extract_frame(ffmpeg, input_path, sec, frame_path)
-            frames.append((f"{scene_id} / {sec:.2f}s", frame_path))
-        make_contact_sheet(scene_id, frames, contact_dir / f"{scene_id}.jpg")
-        overview_frames.append((scene_id, frames[len(frames) // 2][1]))
+        for idx, sec in enumerate(sample_times(spec.duration_sec)):
+            frame_path = frame_dir / f"{spec.scene_id}-{idx + 1}.jpg"
+            actual_time = min(sec, max(spec.duration_sec - 0.05, 0.0))
+            extract_frame(ffmpeg, spec.input_path, spec.trim_start_sec + actual_time, frame_path)
+            frames.append((f"{spec.scene_id} / {actual_time:.2f}s", frame_path))
+        make_contact_sheet(spec.scene_id, frames, contact_dir / f"{spec.scene_id}.jpg")
+        overview_frames.append((spec.scene_id, frames[len(frames) // 2][1]))
 
     make_contact_sheet("overview", overview_frames, contact_dir / "overview.jpg")
-
-    readme = review_dir / "README.md"
-    readme.write_text(
-        "# Picture Review Bundle\n\n"
-        "- `scene-ranges.csv`: picture-only preview 기준 씬 구간\n"
+    (review_dir / "README.md").write_text(
+        "# Picture Preview Review Bundle\n\n"
+        "- `scene-ranges.csv`: picture preview 기준 씬 구간\n"
         "- `frame-map.csv`: 30fps 기준 프레임 매핑\n"
         "- `contact-sheets/*.jpg`: 씬별 contact sheet와 overview\n",
         encoding="utf-8",
@@ -214,18 +286,28 @@ def build_contact_sheets(ffmpeg: str, episode_dir: Path) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build a picture-only preview cut and review bundle for daehan-pilot-codex-003.")
+    parser = argparse.ArgumentParser(description="Build a horizontal picture-only preview for a Malmoelab quiz episode.")
     parser.add_argument("--episode-dir", required=True)
     args = parser.parse_args()
 
     episode_dir = Path(args.episode_dir).resolve()
+    slug = episode_dir.name
     ffmpeg = resolve_ffmpeg_binary()
-    preview_path = episode_dir / "renders" / "final" / f"{episode_dir.name}-picture-preview.mp4"
-    ranges = build_preview(ffmpeg, episode_dir, preview_path)
-    write_review_metadata(episode_dir / "review", ranges)
-    build_contact_sheets(ffmpeg, episode_dir)
+    specs = build_scene_specs(episode_dir)
+
+    preview_path = episode_dir / "renders" / "final" / f"{slug}-picture-preview.mp4"
+    picture_lock_path = episode_dir / "renders" / "picture-lock" / f"{slug}-picture-lock.mp4"
+    review_dir = episode_dir / "review" / "picture-preview"
+
+    ranges = build_preview(ffmpeg, specs, preview_path)
+    picture_lock_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(preview_path, picture_lock_path)
+    write_review_metadata(review_dir, ranges)
+    build_contact_sheets(ffmpeg, review_dir, specs)
+
     print(preview_path)
-    print(episode_dir / "review")
+    print(picture_lock_path)
+    print(review_dir)
     return 0
 
 

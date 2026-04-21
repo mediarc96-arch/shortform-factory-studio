@@ -9,8 +9,8 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-import imageio_ffmpeg
 from PIL import Image, ImageDraw, ImageFont
+from ffmpeg_runtime import resolve_ffmpeg_binary
 
 
 FPS = 30
@@ -246,7 +246,7 @@ def main() -> int:
     args = parser.parse_args()
 
     episode_dir = Path(args.episode_dir).resolve()
-    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    ffmpeg = resolve_ffmpeg_binary()
 
     preview_path = episode_dir / "renders" / "final" / f"{episode_dir.name}-preview-cut.mp4"
     ranges = build_preview(ffmpeg, episode_dir, preview_path)

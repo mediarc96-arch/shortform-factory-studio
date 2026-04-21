@@ -7,11 +7,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-import imageio_ffmpeg
+from ffmpeg_runtime import resolve_ffmpeg_binary
 
 
 def ffmpeg_bin() -> str:
-    return imageio_ffmpeg.get_ffmpeg_exe()
+    return resolve_ffmpeg_binary()
 
 
 def extract_last_frame(video: Path, output: Path, *, tail_sec: float = 1.0) -> None:
