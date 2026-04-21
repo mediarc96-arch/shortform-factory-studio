@@ -1,0 +1,80 @@
+{
+  "outputSlug": "malmoelab-ko-quiz-seolmin-001",
+  "_note": "Release-aligned render snapshot for the approved Seolmin export. This episode ships as a 30-second lesson with a late quiz beat, not as the older 15-second pure quiz stub.",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-001",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "protagonist": "seolmin",
+  "productionMode": "reference-only",
+  "teacherImage": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/Seolmin.png",
+  "fps": 30,
+  "durationSeconds": 30,
+  "aspectRatio": "16:9",
+  "resolution": "1280x720",
+  "ctaUrl": "https://malmoelab.com",
+  "buttonCaption": "malmoelab.com에서 더 알아보아요.",
+  "viewerPromise": {
+    "primary": "Seolmin teaches one beginner Korean sentence in a classroom-style short.",
+    "secondary": "The lesson ends with a blank-fill quiz beat instead of using a pure quiz structure from the first second."
+  },
+  "lesson": {
+    "focusWord": "학생",
+    "focusWordRomanization": "haksaeng",
+    "sentenceKo": "학생이 학교에 갑니다.",
+    "sentenceRomanized": "haksaengi hakgyoe gapnida.",
+    "sentenceEn": "The student goes to school.",
+    "blankSentenceKo": "___이 학교에 갑니다.",
+    "blankSentenceRomanized": "___i hakgyoe gapnida."
+  },
+  "scenePlan": [
+    {
+      "sceneId": "scene-1-opening-handoff",
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "role": "host intro"
+    },
+    {
+      "sceneId": "scene-2-lesson-intro",
+      "startSec": 6.0,
+      "endSec": 12.0,
+      "role": "full sentence teaching beat"
+    },
+    {
+      "sceneId": "scene-3-repeat-listen",
+      "startSec": 12.0,
+      "endSec": 18.0,
+      "role": "repeat-after-me reinforcement"
+    },
+    {
+      "sceneId": "scene-4-quiz-point",
+      "startSec": 18.0,
+      "endSec": 24.0,
+      "role": "blank-fill quiz prompt"
+    },
+    {
+      "sceneId": "scene-5-ending-wave",
+      "startSec": 24.0,
+      "endSec": 30.0,
+      "role": "cta and signoff"
+    }
+  ],
+  "assetSourcePaths": {
+    "characterRoot": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+    "rightsMemo": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/rights.md",
+    "sourcePacket": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/source-packet.json",
+    "episodePacket": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/packet.md",
+    "episodeSchema": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/episode.schema.json",
+    "voiceSlots": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/voice-slots.json",
+    "typographySlots": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/typography-slots.json"
+  },
+  "finalOutputs": {
+    "previewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-picture-preview.mp4",
+    "pictureLockPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/picture-lock/malmoelab-ko-quiz-seolmin-001-picture-lock.mp4",
+    "audioMixPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/dub-lock/malmoelab-ko-quiz-seolmin-001-guide-dub.m4a",
+    "finalVideoPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-final.mp4",
+    "thumbnailPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-final-thumb.jpg",
+    "renderManifestPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/render-manifest.json",
+    "reviewOverviewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/review/final-contact-sheets/overview.jpg"
+  },
+  "publishPacketFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/publish-packet.json"
+}

@@ -1,0 +1,26 @@
+{
+  "_schema": "xAI image generation job · pilot-003 keyframe",
+  "_endpoint": "POST https://api.x.ai/v1/images/generations",
+  "_note": "Keyframe #1 at anchor t=3.0s. Generates the opening-handoff still. Intended provider is xAI Grok image model; swap model name if a different provider is used (e.g., Flux.1, Midjourney via proxy). The existing grok video caller (scripts/pilot/run_xai_grok_scene.py) does NOT run this — keyframe generation needs a separate image caller.",
+  "provider": "xai_grok",
+  "taskType": "text_to_image",
+  "request": {
+    "model": "grok-2-image-1212",
+    "prompt": "2D anime illustration in the exact same style as the reference. A bishōnen male Korean language teacher named Daehan stands on the right side of a 16:9 classroom scene, occupying only the right 22% of the frame. He has long silver-white hair, violet eyes, wears a black gat (traditional Korean hat) with a gold ornamental band and red tassels, a plain black durumagi hanbok, white inner collar, and black gloves. His left hand holds a small tied paper scroll at his hip (the scroll stays close to his body, not over the board). Front-facing, warm gentle closed-mouth smile, right hand resting at his side — a welcoming farewell to the opening greeting. The LEFT 78% of the frame is a completely empty dark-green chalkboard with a thin wooden frame and a chalk tray at the bottom holding erasers and a few chalk sticks. The chalkboard surface must have ZERO text, ZERO Korean characters, ZERO chalk writing, ZERO numbers, ZERO marks, ZERO symbols. Flat 2D anime shading, crisp outlines, matching the provided style reference. 16:9 widescreen, 1920×1080.",
+    "n": 1,
+    "size": "1920x1080",
+    "response_format": "url",
+    "_styleReferenceImage": "../../docs/example/Daehan_2D.jpg"
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-01-opening-handoff.png",
+    "manifestFile": "../keyframes/kf-01-opening-handoff.manifest.json"
+  },
+  "reviewCriteria": [
+    "Character in right ~22%",
+    "Chalkboard completely empty",
+    "Scroll prop small at hip",
+    "2D anime style matches Daehan_2D.jpg reference",
+    "Warm closed-mouth smile, no weird anatomy"
+  ]
+}

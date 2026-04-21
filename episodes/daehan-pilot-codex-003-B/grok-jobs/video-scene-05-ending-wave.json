@@ -1,0 +1,21 @@
+{
+  "_schema": "xAI Grok img2vid job · pilot-003 scene clip",
+  "_endpoint": "POST https://api.x.ai/v1/videos/generations",
+  "_note": "Scene-05 of pilot-003-B. Ending wave around t=26.7→30. Grok returns integer-second clip; we use first 3.3s.",
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "dependsOnKeyframe": "kf-05-ending-wave",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate the attached still. Daehan stays locked to the right 22% of the 16:9 frame. His right hand rises into a small cheerful wave near his shoulder, bright smile with mouth open briefly as if saying '안녕'. Natural subtle motion — one or two small waves, gentle blink, warm closing energy. The LEFT 78% of the frame is a completely empty green chalkboard throughout — no chalk marks, no text. Flat 2D anime style, no 3D drift.",
+    "image": "../keyframes/kf-05-ending-wave.png",
+    "duration": 4,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/scene-05-ending-wave.mp4",
+    "manifestFile": "../renders/scene-05-ending-wave.manifest.json",
+    "useInCompose": { "trimFromStart": true, "trimToSec": 3.3 }
+  }
+}

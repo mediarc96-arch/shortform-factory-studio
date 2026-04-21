@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Scene begins from the attached reference frame. Daehan walks towards a green chalkboard and positions himself on the RIGHT SIDE of the frame (30% width). The chalkboard occupies the LEFT 70% of the frame and is COMPLETELY EMPTY — no text, no chalk marks, no drawings. In the first 2 seconds, he transitions from the surprised pose to a calm teacher pose. He gestures with an open hand towards the empty chalkboard, then stands calmly looking at the board with a slight smile. Wooden chalk tray visible at the bottom of the chalkboard with white, yellow, and pink chalk pieces. Warm classroom lighting. Critical: the chalkboard surface must remain ABSOLUTELY CLEAN AND EMPTY for post-production text overlay.\n\nComposition: The character is Daehan: long silver-white hair, violet eyes, small confident smile, black durumagi hanbok, white inner collar, black gat (traditional Korean hat) with golden band and red tassels, black gloves on both hands. Medium shot, eye-level, 16:9 widescreen. Do NOT render any text or writing anywhere in the frame.\n\nAVOID: photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, subtitles, logos, watermarks, text artifacts, multiple characters, distorted face, blurry, low quality",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-001/reference-frames/02-scene-last.png",
+    "duration": 7,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "seed": 42
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-001/renders/scene-3.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-001/renders/grok/scene-3-question.manifest.json"
+  }
+}

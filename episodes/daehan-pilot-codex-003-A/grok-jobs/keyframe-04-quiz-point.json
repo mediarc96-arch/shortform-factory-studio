@@ -1,0 +1,24 @@
+{
+  "_schema": "xAI image generation job · pilot-003 keyframe",
+  "_endpoint": "POST https://api.x.ai/v1/images/generations",
+  "_note": "Keyframe #4 at anchor t=21.0s. Quiz-blank pointing beat. Only the gloved hand may cross into the left chalkboard zone — body stays in right 22%.",
+  "provider": "xai_grok",
+  "taskType": "text_to_image",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Flat 2D anime illustration of a bishōnen male Korean language teacher named Daehan. Long silver-white hair, violet eyes, wearing a black gat (traditional Korean hat) with a gold ornamental band and red tassels, a plain black durumagi hanbok, white inner collar, and black gloves. 16:9 widescreen classroom scene. Daehan's BODY stays on the RIGHT side of the frame — torso occupying only the right ~22%, his left shoulder near horizontal 78%. His right ARM extends leftward at shoulder height with the gloved index finger pointing toward the left-center of the empty chalkboard — only the outstretched arm crosses into the board zone; the rest of his body stays right. Playful curious teacher expression, small smile, looking toward the camera. His left hand holds a small tied paper scroll at his hip. LEFT 78% of the frame is a dark green empty chalkboard with a thin wooden frame and a narrow wooden chalk tray at the bottom. The chalkboard surface is ABSOLUTELY EMPTY — no text, no Korean characters, no chalk marks, no numbers, no writing. Flat anime shading, crisp line-art.",
+    "n": 1,
+    "response_format": "url"
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-04-quiz-point.png",
+    "manifestFile": "../keyframes/kf-04-quiz-point.manifest.json"
+  },
+  "reviewCriteria": [
+    "Right arm clearly extended leftward",
+    "Finger points to left-center of the board (where the blank will be in post)",
+    "Body still in right 22%",
+    "Board has NO text (we add the blank box in post)",
+    "No distorted extra fingers"
+  ]
+}

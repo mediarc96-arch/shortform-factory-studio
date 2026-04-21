@@ -12,7 +12,7 @@
     "fallbackProvider": "runway",
     "continuityTarget": "previous-scene-last-frame",
     "aspectRatio": "16:9",
-    "resolution": "1920x1080",
+    "resolution": "1280x720",
     "fps": 30,
     "seed": 531002,
     "style": "2D anime",

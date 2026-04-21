@@ -26,7 +26,10 @@
     "timingRule": "scene lengths are set after measuring content-line TTS duration plus presentation margin",
     "pictureLockRequirement": "all scenes must be assembled as mute video before dubbing",
     "continuityMode": "scene-last-frame-handoff-when-helpful",
-    "textInGeneration": "forbidden"
+    "textInGeneration": "forbidden",
+    "defaultAspectRatio": "16:9",
+    "defaultResolution": "1920x1080",
+    "defaultCompositionRule": "teacher on right quarter, clean chalkboard on left three-quarters"
   },
   "audioPolicy": {
     "openingEndingVoiceSourcePriority": [

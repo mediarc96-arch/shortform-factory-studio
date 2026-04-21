@@ -10,7 +10,7 @@
   "fps": 30,
   "durationSeconds": 30,
   "aspectRatio": "16:9",
-  "resolution": "1920x1080",
+  "resolution": "1280x720",
   "ctaUrl": "https://malmoelab.com",
   "buttonCaption": "Learn more at malmoelab.com",
   "viewerPromise": {

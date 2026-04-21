@@ -1,0 +1,92 @@
+{
+  "formatVersion": "malmoelab-vnext-typography-slots@0.1",
+  "episodeSlug": "malmoelab-ko-lesson-daehan-001",
+  "_note": "003 typography lock. Board text appears on scenes 2 to 4, English prompt support appears as a lower third on scene 4, and the service CTA lower third appears on scene 5.",
+  "repurposeCopy": {
+    "englishPrompt": "Which word fits the blank?",
+    "englishReveal": "Answer: 수업 (sueop) means class.",
+    "englishCta": "Learn more at malmoelab.com"
+  },
+  "stylePresets": {
+    "malmoelab-board-handwritten-bold": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "bold-handwritten-chalk",
+      "surface": "chalkboard",
+      "fill": "#F4F5F0",
+      "strokeFill": "#DDE1D8",
+      "strokeWidth": 3
+    },
+    "malmoelab-subtitle-cta-soft": {
+      "fontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "clean-subtitle-cta",
+      "surface": "subtitle-lower-third"
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-2-sentence-main",
+      "sceneId": "scene-2-lesson-intro",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "text": "수업이 두 시에 끝납니다.",
+      "textKo": "수업이 두 시에 끝납니다.",
+      "textRomanized": "sueopi du sie kkeutnapnida.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 6.1,
+      "plannedOutTimeSec": 11.5,
+      "inTimeSec": 6.5,
+      "outTimeSec": 11.75
+    },
+    {
+      "slotId": "scene-3-repeat-sentence",
+      "sceneId": "scene-3-repeat-listen",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "text": "수업이 두 시에 끝납니다.",
+      "textKo": "수업이 두 시에 끝납니다.",
+      "textRomanized": "sueopi du sie kkeutnapnida.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 13.0,
+      "plannedOutTimeSec": 18.0,
+      "inTimeSec": 14.44,
+      "outTimeSec": 17.21
+    },
+    {
+      "slotId": "scene-4-quiz-blank",
+      "sceneId": "scene-4-quiz-point",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "text": "___이 두 시에 끝납니다.",
+      "textKo": "___이 두 시에 끝납니다.",
+      "textRomanized": "___i du sie kkeutnapnida.",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 18.2,
+      "plannedOutTimeSec": 24.0,
+      "inTimeSec": 18.15,
+      "outTimeSec": 23.85
+    },
+    {
+      "slotId": "scene-4-prompt-lower-third",
+      "sceneId": "scene-4-quiz-point",
+      "surface": "subtitle-lower-third",
+      "text": "Which word fits the blank?",
+      "stylePreset": "malmoelab-subtitle-cta-soft",
+      "plannedInTimeSec": 19.0,
+      "plannedOutTimeSec": 23.6,
+      "inTimeSec": 19.2,
+      "outTimeSec": 23.6
+    },
+    {
+      "slotId": "scene-4-cta-lower-third",
+      "sceneId": "scene-5-ending-wave",
+      "surface": "subtitle-lower-third",
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "stylePreset": "malmoelab-subtitle-cta-soft",
+      "plannedInTimeSec": 24.15,
+      "plannedOutTimeSec": 27.1,
+      "inTimeSec": 26.5,
+      "outTimeSec": 29.75
+    }
+  ]
+}

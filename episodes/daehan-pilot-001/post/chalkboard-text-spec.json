@@ -18,7 +18,7 @@
 
   "fonts": {
     "chalkboardKo":   { "family": "NanumGothic-Bold",     "path": "shared/fonts/NanumGothic-Bold.ttf" },
-    "chalkboardAnswer": { "family": "NanumPenScript",     "path": "shared/fonts/NanumPenScript.ttf" },
+    "chalkboardAnswer": { "family": "NanumPenScript",     "path": "shared/fonts/NanumPenScript-Regular.ttf" },
     "subtitleEn":     { "family": "Inter-Medium",         "path": "shared/fonts/Inter-Medium.ttf" }
   },
 

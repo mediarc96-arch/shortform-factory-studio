@@ -257,7 +257,7 @@ YOUTUBE_OAUTH_CLIENT_SECRET=
 YOUTUBE_OAUTH_REFRESH_TOKEN=
 YOUTUBE_DEFAULT_PRIVACY_STATUS=private
 YOUTUBE_DEFAULT_CATEGORY_ID=22
-YOUTUBE_DISCLOSURE_TEXT=AI로 만들어진 영상입니다.
+YOUTUBE_DISCLOSURE_TEXT=          # optional default metadata disclosure; leave blank unless policy requires a standard sentence
 YOUTUBE_NOTIFY_SUBSCRIBERS=false
 
 # Paperclip (v6)

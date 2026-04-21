@@ -1,0 +1,65 @@
+{
+  "outputSlug": "malmoelab-ko-quiz-seolmin-001",
+  "teacherImage": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/Seolmin.png",
+  "fps": 15,
+  "durationSeconds": 15,
+  "titleCardDuration": 2.0,
+  "questionDuration": 7.0,
+  "engagementDuration": 2.0,
+  "answerDuration": 4.0,
+  "ctaUrl": "https://malmoelab.com",
+  "buttonCaption": "Learn more at malmoelab.com",
+  "aiAssetGeneration": {
+    "enabled": false
+  },
+  "narration": {
+    "enabled": true,
+    "mode": "manual",
+    "contentLanguageCode": "ko",
+    "learnerLanguageCode": "en",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-4%",
+    "pitch": "-2Hz",
+    "volume": "+0%",
+    "segments": [
+      {
+        "start": 2.2,
+        "text": "빈칸에 들어갈 말은 뭘까요?"
+      },
+      {
+        "start": 11.05,
+        "text": "정답은 학생."
+      },
+      {
+        "start": 12.45,
+        "text": "학생이 학교에 갑니다."
+      }
+    ]
+  },
+  "teacherForeground": {
+    "enabled": false
+  },
+  "motionPanel": {
+    "enabled": true,
+    "videoFile": "./renders/picture-lock/malmoelab-ko-quiz-seolmin-001-picture-lock.mp4",
+    "loopMode": "loop",
+    "outputDir": "renders/motion-panel",
+    "cropInsetPx": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "theme": {
+    "accent": "#4263EB",
+    "accentWarm": "#FFC857",
+    "text": "#FFFDF8",
+    "boardText": "#FFFDF8",
+    "boardSubtext": "#D9ECD7",
+    "boardFill": "#1F5A3D",
+    "boardStroke": "#BDE2C8",
+    "cardFill": "#08111D",
+    "cardFillMuted": "#0E1726"
+  }
+}

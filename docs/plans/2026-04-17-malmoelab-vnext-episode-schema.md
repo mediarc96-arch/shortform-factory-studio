@@ -25,11 +25,12 @@
 
 ### 2.2 Continuity First
 
-컨텐츠 씬은 독립 장면이 아니라 연속 숏으로 취급한다.
+컨텐츠 씬은 독립 장면이 아니라 같은 수업 안의 연속 숏으로 취급한다.
 
-- `scene-1` 마지막 프레임은 `scene-2` 시작 프레임의 기준이 된다.
-- `scene-2` 마지막 자세는 `scene-3`의 시작 포즈 기준이 된다.
-- 같은 에피소드 안에서는 캐릭터 배치, 광원, 카메라 높이, 칠판 위치를 가능한 한 고정한다.
+- 목표는 `frame-perfect continuity`가 아니라 `segment continuity`다.
+- 오프닝과 엔딩은 짧은 전환효과를 써도 된다.
+- 컨텐츠 씬끼리는 같은 캐릭터, 같은 교실 톤, 비슷한 카메라 높이와 레이아웃을 유지하면 충분하다.
+- 이전 씬 마지막 프레임은 다음 씬의 강제 시작점이 아니라 선택적 참고 이미지로 본다.
 
 ### 2.3 Human-in-the-loop Voice
 
@@ -158,7 +159,8 @@ vNext에서는 `source-packet.json` 외에 후반 제작 중심 메타데이터�
   },
   "policies": {
     "continuityPolicy": {
-      "contentSceneLink": "match-cut",
+      "target": "segment-continuity",
+      "contentSceneLink": "cut-or-short-dissolve",
       "openingBoundary": "dip-to-black-4f",
       "endingBoundary": "dip-to-black-4f"
     },
@@ -241,6 +243,9 @@ vNext에서는 `source-packet.json` 외에 후반 제작 중심 메타데이터�
 - `continuityPolicy`: 씬 연결 규칙
 - `audioPolicy`: 어떤 음원을 우선 사용할지
 - `textPolicy`: 텍스트를 언제 넣는지
+
+여기서 중요한 점은 `continuityPolicy`가 "첫 프레임 복제"를 의미하지 않는다는 것이다.
+핵심은 "같은 수업처럼 보이는가"다.
 
 ### 7.4 `voiceSlots`
 

@@ -1,0 +1,21 @@
+{
+  "_schema": "xAI Grok img2vid job · pilot-003 scene clip",
+  "_endpoint": "POST https://api.x.ai/v1/videos/generations",
+  "_note": "Scene-03 of pilot-003-B. Listen/repeat beat around t=12→18.",
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "dependsOnKeyframe": "kf-03-listen",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate the attached still. Daehan stays locked to the right 22% of the 16:9 frame. His right hand stays cupped near his right ear in an attentive 'I'm listening, repeat after me' pose for most of the clip. Subtle natural motion — gentle blink, slow patient head tilt, closed gentle smile. Near the end of the clip he may glance briefly toward the camera with an encouraging expression. The LEFT 78% of the frame is a completely empty green chalkboard throughout — no chalk marks, no text. Flat 2D anime style, no 3D drift.",
+    "image": "../keyframes/kf-03-listen.png",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/scene-03-listen.mp4",
+    "manifestFile": "../renders/scene-03-listen.manifest.json",
+    "useInCompose": { "trimFromStart": true, "trimToSec": 6.0 }
+  }
+}

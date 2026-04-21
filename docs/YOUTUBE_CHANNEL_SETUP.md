@@ -17,7 +17,7 @@ YouTube 자격증명은 `Channel Publisher & Analyst`만 가져야 합니다.
 
 - `YOUTUBE_DEFAULT_PRIVACY_STATUS=private`
 - `YOUTUBE_DEFAULT_CATEGORY_ID=22`
-- `YOUTUBE_DISCLOSURE_TEXT=AI로 만들어진 영상입니다.`
+- `YOUTUBE_DISCLOSURE_TEXT=` (선택값. 채널 정책상 기본 설명란 고지 문구가 필요할 때만 사용)
 - `YOUTUBE_NOTIFY_SUBSCRIBERS=false`
 
 ## 1. Google Cloud 준비
@@ -132,9 +132,7 @@ YOUTUBE_OAUTH_CLIENT_SECRET="<client-secret>" \
 YOUTUBE_OAUTH_REFRESH_TOKEN="<refresh-token>" \
 node scripts/youtube-upload.mjs \
   --title "Shortform Factory private test" \
-  --description "Private test upload
-
-AI로 만들어진 영상입니다." \
+  --description "Private test upload" \
   --video-file "/absolute/path/to/test.mp4"
 ```
 
@@ -152,9 +150,7 @@ YOUTUBE_OAUTH_CLIENT_SECRET="<client-secret>" \
 YOUTUBE_OAUTH_REFRESH_TOKEN="<refresh-token>" \
 node scripts/youtube-upload.mjs \
   --title "Shortform Factory private test" \
-  --description "Private test upload
-
-AI로 만들어진 영상입니다." \
+  --description "Private test upload" \
   --video-file "/absolute/path/to/test.mp4" \
   --publish
 ```
@@ -190,5 +186,6 @@ AI로 만들어진 영상입니다." \
 
 - YouTube secret을 `CEO`, `Head of Content`, `Script Writer`나 다른 제작 agent에게 주지 않습니다.
 - 첫 테스트 업로드는 `private`로 유지합니다.
-- YouTube 설명란에는 `AI로 만들어진 영상입니다.`를 포함합니다.
+- YouTube 설명란/메타데이터에는 승인된 packet의 disclosure placement, rights posture, required credits를 반영합니다.
+- `AI로 만들어진 영상입니다.` 같은 보일러플레이트 문구는 packet 또는 채널 정책이 명시적으로 요구할 때만 넣습니다.
 - OAuth 앱이 아직 testing 상태라면 tester 제한과 토큰 불안정성이 있을 수 있습니다.

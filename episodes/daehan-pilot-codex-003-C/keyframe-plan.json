@@ -1,0 +1,87 @@
+{
+  "_schema": "pilot-003 keyframe plan",
+  "_note": "Five keyframes at 6s anchors (t=3,9,15,21,27) locking in composition before any video or final render. User reviews each keyframe; on approval each becomes either (A) the static plate for its 6s block or (B/C) the seed image for a Grok img2vid call.",
+  "episode": {
+    "slug": "daehan-pilot-codex-003-C",
+    "option": "C",
+    "basis": "KF1/KF5 stay static (ken-burns); KF2/KF3/KF4 seed 6s Grok img2vid clips"
+  },
+  "baseImage": {
+    "source": "docs/example/Daehan_2D.jpg",
+    "cleanedPath": "assets/clean-board-base.png",
+    "_note": "Run PIL inpaint on the chalkboard text zone (approx x=80..840, y=260..420 in 1248×832 source) to get a clean empty-chalkboard plate. Upscale to 1920×1080 while preserving the right-side character crop."
+  },
+  "framingRule": {
+    "aspectRatio": "16:9",
+    "canvas": [1920, 1080],
+    "characterZone": { "xPctRange": [78, 100], "yPctRange": [0, 100] },
+    "chalkboardZone": { "xPctRange": [0, 78], "yPctRange": [5, 90] },
+    "_note": "Character occupies right 22%. Left 78% must stay empty chalkboard texture for post typography."
+  },
+  "styleLock": {
+    "renderStyle": "2D anime illustration, flat shading, crisp line-art, matching docs/example/Daehan_2D.jpg",
+    "avoid": "3D render, photorealistic, volumetric lighting, depth blur, realistic skin texture"
+  },
+  "characterLock": {
+    "hair": "long silver-white, loose",
+    "eyes": "violet",
+    "hat": "black gat with gold ornamental band and red tassels",
+    "outfit": "plain black durumagi hanbok with white inner collar, black gloves on both hands",
+    "props": "small tied paper scroll held near left hip (matches Daehan_2D baseline; do not enlarge, do not move to board area)"
+  },
+  "keyframes": [
+    {
+      "id": "kf-01-opening-handoff",
+      "anchorSec": 3.0,
+      "purpose": "opening greeting close, welcoming look",
+      "pose": "front-facing, warm gentle smile, mouth closed or nearly closed, right hand resting at side, left hand holding scroll at hip",
+      "expression": "friendly, inviting",
+      "chalkboard": "completely empty",
+      "outputPath": "keyframes/kf-01-opening-handoff.png"
+    },
+    {
+      "id": "kf-02-intro-speak",
+      "anchorSec": 9.0,
+      "purpose": "introducing today's sentence, already into follow-me block",
+      "pose": "front-facing, slight right-tilt of head, mouth open mid-syllable, right hand raised chest-height with open palm toward the board (but arm stays within right 22%)",
+      "expression": "articulate teacher energy",
+      "chalkboard": "completely empty (sentence typography is added in post, not drawn here)",
+      "outputPath": "keyframes/kf-02-intro-speak.png"
+    },
+    {
+      "id": "kf-03-listen",
+      "anchorSec": 15.0,
+      "purpose": "follow-me listening beat, inviting learner to repeat",
+      "pose": "front-facing, head slightly tilted, right hand cupped near right ear, closed gentle smile",
+      "expression": "attentive, patient",
+      "chalkboard": "empty",
+      "outputPath": "keyframes/kf-03-listen.png"
+    },
+    {
+      "id": "kf-04-quiz-point",
+      "anchorSec": 21.0,
+      "purpose": "quiz blank pointing, CTA setup",
+      "pose": "front-facing, right arm extended slightly leftward at shoulder height with index finger pointing — only the gloved hand may cross into left chalkboard zone, body stays in right 22%",
+      "expression": "playful curious teacher",
+      "chalkboard": "empty (blank-box typography added in post)",
+      "outputPath": "keyframes/kf-04-quiz-point.png"
+    },
+    {
+      "id": "kf-05-ending-wave",
+      "anchorSec": 27.0,
+      "purpose": "farewell wave",
+      "pose": "front-facing, right hand raised near shoulder with open palm in a small wave, bright smile, mouth slightly open as if saying '안녕'",
+      "expression": "cheerful farewell",
+      "chalkboard": "empty",
+      "outputPath": "keyframes/kf-05-ending-wave.png"
+    }
+  ],
+  "reviewChecklist": [
+    "Character occupies right ~22% of frame in every KF",
+    "Left ~78% of chalkboard is completely empty (no text, no chalk marks, no scroll overlap)",
+    "Same silver hair, violet eyes, black gat, durumagi across all 5 KFs",
+    "2D anime style consistent — no 3D drift",
+    "Scroll prop small and at hip, not enlarged into board",
+    "Pose changes per KF readable at a glance (opening calm → speaking → listening → pointing → waving)"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "episode": {
+    "slug": "malmoelab-ko-lesson-daehan-001",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refKeyframePlan": "./keyframe-plan.json"
+  },
+  "globalSettings": {
+    "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+    "provider": "pending",
+    "preferredProvider": "grok",
+    "fallbackProvider": "runway",
+    "continuityTarget": "previous-scene-last-frame",
+    "aspectRatio": "16:9",
+    "targetDurationSec": 30,
+    "sceneDurationSec": 6,
+    "resolution": "1280x720",
+    "fps": 30,
+    "seed": 541001,
+    "style": "warm 3D CG anime",
+    "characterReferenceBase": "assets/refs/daehan-clean-base-wide-refined.jpg",
+    "negativePromptCommon": "text, letters, Korean characters, subtitles, numbers, logos, watermarks, chalk writing, calligraphy, labels, extra characters, modern suit, photorealistic skin, distorted hands, deformed face, blurry, low quality, dark horror tone",
+    "compositionRule": "Keep Daehan as the same warm 3D CG Korean teacher from the approved keyframe set. Keep him on the right quarter, keep the board clean on the left, and leave all readable lesson text for typography.",
+    "providerExpectations": {
+      "keyframeGate": "Approve all five Daehan keyframes before any scene video generation begins.",
+      "pictureStage": "Generate mute picture-only clips first, then hand off for picture lock, dub, and typography.",
+      "continuityRule": "Scene 1 starts from approved keyframe 01; scenes 2-5 start from the previous scene final frame and aim toward the approved next keyframe pose card.",
+      "textRule": "Do not bake Korean, romanization, English, CTA, answer text, or chalk writing into generated frames.",
+      "styleRule": "Use characters/daehan as the visual canon and use 003 only for scene rhythm, timing, and ending posture.",
+      "sceneDelivery": "Each completed scene should yield one picture clip, one provider manifest, and one extracted last-frame asset for the next handoff."
+    }
+  },
+  "_note": "Daehan lesson handoff packet. Lock the 5-scene 30-second picture plan after keyframe review; generated footage stays picture-only with the teacher on the right quarter and the chalkboard clean on the left.",
+  "futureScenes": [
+    {
+      "sceneId": "scene-1-opening-handoff",
+      "durationSec": 6.0,
+      "startSeed": "keyframes/kf-01-opening-handoff.jpg",
+      "targetPoseCard": "keyframes/kf-01-opening-handoff.jpg",
+      "outputPath": "renders/picture/scene-1-opening-handoff.mp4",
+      "manifestPath": "renders/grok/scene-1-opening-handoff.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-1-last-frame.jpg",
+      "providerExpectation": "Open on a friendly Daehan host beat that immediately pays the packaging promise of a short classroom lesson, while keeping the board completely empty for later sentence typography.",
+      "continuityNotes": [
+        "Lock the warm greeting posture and right-quarter framing from the approved opening keyframe.",
+        "No baked-in board text, no subtitle artifacts, and no camera move that steals board space."
+      ]
+    },
+    {
+      "sceneId": "scene-2-lesson-intro",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-1-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-02-lesson-intro.jpg",
+      "outputPath": "renders/picture/scene-2-lesson-intro.mp4",
+      "manifestPath": "renders/grok/scene-2-lesson-intro.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-2-last-frame.jpg",
+      "providerExpectation": "Carry the same classroom framing forward and shift into the full-sentence teaching beat without changing Daehan's 3D identity or crowding the chalkboard.",
+      "continuityNotes": [
+        "The sentence is introduced in performance only; readable Korean stays for post typography.",
+        "Keep the board pristine and preserve the same eye-level, right-quarter classroom composition."
+      ]
+    },
+    {
+      "sceneId": "scene-3-repeat-listen",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-2-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-03-repeat-listen.jpg",
+      "outputPath": "renders/picture/scene-3-repeat-listen.mp4",
+      "manifestPath": "renders/grok/scene-3-repeat-listen.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-3-last-frame.jpg",
+      "providerExpectation": "Preserve scene-to-scene continuity and create a patient repeat-after-me hold that supports the spoken sentence replay without introducing answer text into the frame.",
+      "continuityNotes": [
+        "Daehan stays in the same lesson setup with listening energy and enough empty board area for the repeated sentence overlay.",
+        "Motion should be gentle and readable, not comedic or exaggerated."
+      ]
+    },
+    {
+      "sceneId": "scene-4-quiz-point",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-3-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-04-quiz-point.jpg",
+      "outputPath": "renders/picture/scene-4-quiz-point.mp4",
+      "manifestPath": "renders/grok/scene-4-quiz-point.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-4-last-frame.jpg",
+      "providerExpectation": "Land the blank-recall pointing pose cleanly so the board can carry the blank sentence and English prompt in post, while still withholding the answer from the generated frame.",
+      "continuityNotes": [
+        "Do not reveal the answer word visually before typography; the board must remain empty even during pointing or writing motions.",
+        "Carry the same classroom background and teacher scale so the recall beat feels like a continuation, not a reset."
+      ]
+    },
+    {
+      "sceneId": "scene-5-ending-wave",
+      "durationSec": 6.0,
+      "startSeed": "assets/refs/scene-4-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-05-ending-wave.jpg",
+      "outputPath": "renders/picture/scene-5-ending-wave.mp4",
+      "manifestPath": "renders/grok/scene-5-ending-wave.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-5-last-frame.jpg",
+      "providerExpectation": "End on a generated farewell wave that keeps Daehan warm and teacher-like, with room for the final CTA lower third and no fixed ending clip dependency.",
+      "continuityNotes": [
+        "Maintain the same 3D Daehan identity, classroom continuity, and right-quarter framing through the final wave.",
+        "Leave the board and lower-third region clean for the downstream CTA overlay."
+      ]
+    }
+  ]
+}

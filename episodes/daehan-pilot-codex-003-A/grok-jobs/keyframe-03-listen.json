@@ -1,0 +1,23 @@
+{
+  "_schema": "xAI image generation job · pilot-003 keyframe",
+  "_endpoint": "POST https://api.x.ai/v1/images/generations",
+  "_note": "Keyframe #3 at anchor t=15.0s. Listen/repeat-after-me beat.",
+  "provider": "xai_grok",
+  "taskType": "text_to_image",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Flat 2D anime illustration of a bishōnen male Korean language teacher named Daehan. Long silver-white hair, violet eyes, wearing a black gat (traditional Korean hat) with a gold ornamental band and red tassels, a plain black durumagi hanbok, white inner collar, and black gloves. 16:9 widescreen classroom scene. Daehan stands on the RIGHT side of the frame, his body occupying only the right ~22% — his left shoulder near horizontal 78% of the image, medium chest-up shot. Front-facing camera with head slightly tilted to the right, GENTLE CLOSED-MOUTH SMILE, right hand raised with palm cupped near his right ear in an attentive 'I'm listening, repeat after me' pose. His left hand holds a small tied paper scroll at his hip. LEFT 78% of the frame is a dark green empty chalkboard with a thin wooden frame and a narrow wooden chalk tray at the bottom. The chalkboard surface is ABSOLUTELY EMPTY — no text, no Korean characters, no chalk marks, no numbers, no writing. Flat anime shading, crisp line-art, matching traditional Korean educational illustrated shorts.",
+    "n": 1,
+    "response_format": "url"
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-03-listen.png",
+    "manifestFile": "../keyframes/kf-03-listen.manifest.json"
+  },
+  "reviewCriteria": [
+    "Hand cupped near ear pose is readable",
+    "Gentle patient expression",
+    "Character in right 22%",
+    "Board untouched"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-lesson-daehan-001 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same Warm 3D CG anime teacher matching characters/daehan/daehan.jpg and characters/daehan/Daehan_KoreanTeacher_3D.jpg. Use the input image as the canonical base for Daehan. front-facing, playful curious teacher, one arm pointing toward the empty chalkboard, recall-check energy. Keep the teacher on the right quarter of frame and keep the entire chalkboard empty and clean for later typography. Avoid: 2D redraw, chibi simplification, photorealistic skin, text, chalk writing, subtitle artifacts, extra characters, modern suit, gat removal, glove removal, dark horror tone.",
+    "image": {
+      "url": "../assets/refs/daehan-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-04-quiz-point.jpg",
+    "manifestFile": "../keyframes/kf-04-quiz-point.manifest.json"
+  }
+}

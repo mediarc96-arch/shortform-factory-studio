@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:03,000
+Hello, I'm Daehan!
+
+2
+00:00:03,500 --> 00:00:07,500
+I blew the balloon too big...
+
+3
+00:00:08,500 --> 00:00:11,800
+...and it ended up popping! (ppang!)
+
+4
+00:00:12,300 --> 00:00:18,500
+What word goes in the blank?
+
+5
+00:00:22,000 --> 00:00:24,000
+The answer is "ppang"!
+
+6
+00:00:24,000 --> 00:00:26,700
+Let's say it together! "Ppang"!
+
+7
+00:00:26,700 --> 00:00:30,000
+Hope this helps. See you next time!

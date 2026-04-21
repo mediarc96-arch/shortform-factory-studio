@@ -1,0 +1,166 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "malmoelab-ko-lesson-daehan-001",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "characterSlug": "daehan",
+  "characterRoot": "characters/daehan",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
+  "status": "planning",
+  "createdAt": "2026-04-19T14:24:00Z",
+  "reusableAssets": {
+    "characterImage2D": "characters/daehan/daehan.jpg",
+    "characterReferencePrimary": "characters/daehan/daehan.jpg",
+    "characterReferenceSecondary": "characters/daehan/Daehan_KoreanTeacher_3D.jpg",
+    "bible": "characters/daehan/bible.md",
+    "promptSet": "characters/daehan/prompts.md",
+    "voiceConfig": "characters/daehan/voice.json",
+    "rightsNote": "characters/daehan/rights.md",
+    "preferredHandwritingFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "lesson": {
+    "topicType": "sentence-lesson-with-blank-quiz",
+    "sourceRef": "malmoelab.word_example:8aa3c16b-1f40-4d83-9273-e5118ac2f58a",
+    "wordId": "9599e2c4-c6d1-46c0-8c81-10b185d7311d",
+    "senseId": "1c405853-2603-430d-8c1f-2adb7883ca02",
+    "sentenceKo": "수업이 두 시에 끝납니다.",
+    "sentenceEn": "The class ends at two o'clock.",
+    "sentenceRomanized": "sueopi du sie kkeutnapnida.",
+    "sentenceBlankKo": "___이 두 시에 끝납니다.",
+    "sentenceBlankRomanized": "___i du sie kkeutnapnida.",
+    "focusWord": "수업",
+    "focusWordRomanized": "sueop",
+    "focusWordGloss": "class",
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요."
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "durationSec": 30
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "sceneDurationSec": 6.0,
+      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "poseTargetRule": "approved keyframes are the target pose cards for each 6-second clip",
+      "contentContinuityFocus": [
+        "same-daehan-3d-identity",
+        "same-empty-classroom-board",
+        "teacher-on-right-quarter",
+        "no-text-in-generated-video",
+        "readable-pose-change-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "generationStage": "mute-video-only",
+      "dubStage": "post-picture-lock",
+      "voiceInheritance": "characters/daehan/voice.json",
+      "voiceOverride": "none-requested"
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-dub-lock",
+      "chalkStyle": "bold-handwritten-chalk",
+      "quizFunction": "scene-4-recall-check"
+    },
+    "disclosurePolicy": {
+      "placement": "description-level",
+      "visibleFrameDisclosure": false,
+      "attributionRequired": true
+    },
+    "productionMode": {
+      "characterMode": "reference-only",
+      "characterTraining": "not-approved"
+    }
+  },
+  "brief": {
+    "targetViewer": "English-speaking beginner Korean learner who wants one fast classroom sentence plus a light self-check before the short ends.",
+    "whyClickNow": "Learn one useful Korean classroom sentence in under 30 seconds, then confirm that you remember the key word with a blank recall beat.",
+    "viewerPromise": "The viewer learns the word for class through a real sentence tied to a simple time expression instead of an isolated flashcard.",
+    "angle": "Use a school-specific sentence with a clear time marker so the lesson feels practical, easy to repeat, and easy to recall.",
+    "hookOptions": [
+      "Learn one Korean classroom sentence in 30 seconds",
+      "Hear it, repeat it, then check yourself",
+      "Today's quick Korean lesson with Daehan"
+    ],
+    "proofPlan": [
+      "Introduce the full sentence early so the lesson promise pays off fast.",
+      "Use a repeat beat to move the viewer from passive watching to speaking along.",
+      "Convert the same sentence into a blank recall in scene-4 to prove retention."
+    ],
+    "packagingRule": "Title, thumbnail, and opening frame must promise a fast classroom Korean lesson with an end-of-short recall check, not a misleading blind quiz.",
+    "engagementCopy": "Double tap if you know it."
+  },
+  "structure": {
+    "basis": "daehan-pilot-codex-003 spoken and scene structure",
+    "visualBasis": "characters/daehan canonical 3D CG reference pack",
+    "scenes": [
+      {
+        "id": "scene-1-opening-handoff",
+        "durationSec": 6.0,
+        "goal": "Open with the standard Daehan greeting beat and establish a friendly classroom lesson tone."
+      },
+      {
+        "id": "scene-2-lesson-intro",
+        "durationSec": 6.0,
+        "goal": "Introduce the full sentence and focus the viewer on the classroom meaning plus time expression."
+      },
+      {
+        "id": "scene-3-repeat-listen",
+        "durationSec": 6.0,
+        "goal": "Give the viewer a repeat-along beat so the full sentence sticks."
+      },
+      {
+        "id": "scene-4-quiz-point",
+        "durationSec": 6.0,
+        "goal": "Switch the lesson into a blank recall check using the same sentence."
+      },
+      {
+        "id": "scene-5-ending-wave",
+        "durationSec": 6.0,
+        "goal": "Close with a short service CTA and warm farewell wave."
+      }
+    ]
+  },
+  "productionNotes": {
+    "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/daehan",
+    "referenceResolution": "Use daehan canon for visual identity and use 003 only for structure, timing, and ending posture.",
+    "openingReusePolicy": "Reuse the proven greeting cadence and lesson-host posture, but do not import the 2D pilot render style.",
+    "endingTreatment": "Keep scene-5 as a generated farewell shot plus downstream dub and typography; no fixed ending asset is required at brief stage.",
+    "canonicalOrder": [
+      "source",
+      "brief",
+      "script",
+      "keyframe-review",
+      "picture",
+      "dub",
+      "typography"
+    ],
+    "romanizationSourceNote": "Use the fallback romanization locked in source-packet.json only as helper copy because source reading data was not reliable.",
+    "voiceOverrideReason": ""
+  },
+  "sourcePacketFile": "./source-packet.json",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "videoGenerationJobFile": "./video-generation-job.json",
+  "notes": {
+    "currentExecutionMode": "malmoelab-keyframe-dub-after-picture-v1-brief",
+    "briefReferenceEpisode": "episodes/daehan-pilot-codex-003",
+    "managedBy": "content-strategist",
+    "blockingStatus": "none",
+    "downstreamGuardrail": "Do not change the source sentence, switch to 2D pilot styling, or introduce visible text during generation."
+  }
+}

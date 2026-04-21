@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Scene begins from the attached reference frame. Daehan stands on the RIGHT SIDE of the frame (30% width), classroom background softly blurred (no chalkboard visible yet). He holds a red balloon in his hands near his mouth and blows into it with cheeks playfully puffed, eyes slightly closed with a focused expression. Over 5 seconds, the balloon gradually inflates from small to very large. Character maintains the same outfit and appearance as the reference. Keep the background uncluttered — only the character and the balloon are the focus.\n\nComposition: The character is Daehan: long silver-white hair, violet eyes, small confident smile, black durumagi hanbok, white inner collar, black gat (traditional Korean hat) with golden band and red tassels, black gloves on both hands. Medium shot, eye-level, 16:9 widescreen. Do NOT render any text or writing anywhere in the frame.\n\nAVOID: photorealistic, realistic skin texture, western fantasy robe, modern suit, short hair, black hair, brown eyes, no hat, no gloves, extra fingers, deformed hands, dark horror tone, text, letters, numbers, subtitles, logos, watermarks, text artifacts, multiple characters, distorted face, blurry, low quality",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-001/reference-frames/00-opening-last.png",
+    "duration": 5,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "seed": 42
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-001/renders/scene-1.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-001/renders/grok/scene-1-situation.manifest.json"
+  }
+}

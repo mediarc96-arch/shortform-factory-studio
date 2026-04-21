@@ -1,0 +1,66 @@
+{
+  "episodeSlug": "malmoelab-ko-lesson-daehan-001",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-19T13:42:22+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "9599e2c4-c6d1-46c0-8c81-10b185d7311d",
+    "senseId": "1c405853-2603-430d-8c1f-2adb7883ca02",
+    "exampleId": "8aa3c16b-1f40-4d83-9273-e5118ac2f58a",
+    "wordText": "수업",
+    "wordRomanization": "sueop",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "교사가 학생에게 지식이나 기술을 가르쳐 줌.",
+    "definitionTranslated": "A teacher teaching a student certain studies or skills.",
+    "englishGloss": "class",
+    "exampleText": "수업이 두 시에 끝납니다.",
+    "exampleTranslationText": "The class ends at two o'clock.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "30-second classroom Korean lesson",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 수업",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "___이 두 시에 끝납니다.",
+    "fullSentence": "수업이 두 시에 끝납니다.",
+    "blankedSentenceRomanization": "___i du sie kkeutnapnida.",
+    "fullSentenceRomanization": "sueopi du sie kkeutnapnida.",
+    "answerWord": "수업",
+    "answerRomanization": "sueop",
+    "answerGloss": "class",
+    "answerTranslation": "The class ends at two o'clock."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  },
+  "operatorNotes": {
+    "characterSlug": "daehan",
+    "referencePacketPath": "characters/daehan",
+    "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+    "selectionRationale": "Selected an unused TOPIK 1 classroom sentence so the first Daehan lesson chain starts with school-specific vocabulary and a short repeatable line.",
+    "difficultyMemo": "The sentence is short, uses one clear noun focus word, and includes a familiar time expression, which fits the 30-second scene flow for full-sentence intro, repeat, and blank-quiz reveal.",
+    "pronunciationMemo": "The romanization is a render fallback, not authoritative learning content. Downstream should prioritize natural Korean audio for '수업' and the sentence ending '끝납니다' rather than teaching from the fallback spelling."
+  }
+}

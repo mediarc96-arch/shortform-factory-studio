@@ -1,0 +1,21 @@
+{
+  "_schema": "xAI Grok img2vid job · pilot-003 scene clip",
+  "_endpoint": "POST https://api.x.ai/v1/videos/generations (polled via /v1/videos/{id})",
+  "_note": "Scene-01 of pilot-003-B. Uses approved keyframe-01 as seed. 6s clip for the opening block (first 3s used; remainder discarded in compose). Runs via scripts/pilot/run_xai_grok_scene.py.",
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "dependsOnKeyframe": "kf-01-opening-handoff",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate the attached still. The character Daehan (silver-white hair, violet eyes, black gat, black durumagi hanbok, black gloves) stays locked to the right 22% of the 16:9 frame for the entire clip — no lateral drift. Subtle natural motion only: gentle blink every 2–3 seconds, very light breathing, brief warm smile. He is welcoming the viewer into the lesson. The LEFT 78% of the frame must remain an absolutely empty green chalkboard throughout — no chalk marks, no text, no Korean characters, no writing of any kind may appear. Maintain the flat 2D anime illustration style of the seed image — do NOT shift to 3D render.",
+    "image": "../keyframes/kf-01-opening-handoff.png",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/scene-01-opening-handoff.mp4",
+    "manifestFile": "../renders/scene-01-opening-handoff.manifest.json",
+    "useInCompose": { "trimFromStart": true, "trimToSec": 3.0 }
+  }
+}

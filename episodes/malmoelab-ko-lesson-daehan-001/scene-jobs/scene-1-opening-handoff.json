@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same Daehan teacher identity, the same empty classroom, the same camera distance, and the same right-quarter composition. Open on a friendly Daehan host beat that immediately pays the packaging promise of a short classroom lesson, while keeping the board completely empty for later sentence typography. Lock the warm greeting posture and right-quarter framing from the approved opening keyframe. No baked-in board text, no subtitle artifacts, and no camera move that steals board space. Transition naturally toward the approved target pose and expression. No camera reset, no tighter crop, and no text anywhere.",
+    "image": "../keyframes/kf-01-opening-handoff.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-1-opening-handoff.mp4",
+    "manifestFile": "../renders/grok/scene-1-opening-handoff.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-1-last-frame.jpg"
+  }
+}

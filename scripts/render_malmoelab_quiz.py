@@ -26,6 +26,7 @@ DEFAULT_CONFIG = {
     "questionDuration": 7.0,
     "engagementDuration": 2.0,
     "answerDuration": 4.0,
+    "thumbnailTimeSeconds": None,
     "musicFile": "",
     "musicCredit": {},
     "ctaUrl": "https://malmoelab.com",
@@ -683,10 +684,11 @@ def draw_board_quiz(draw: ImageDraw.ImageDraw, board_rect: tuple[int, int, int, 
         draw.ellipse((start[0] - 14, start[1] - 14, start[0] + 14, start[1] + 14), fill=(255, 244, 219, 240))
 
 
-def build_publish_packet(packet: dict, config: dict, final_video: Path, thumbnail_file: Path) -> dict:
+def build_publish_packet(packet: dict, config: dict, final_video: Path, thumbnail_file: Path, episode_dir: Path) -> dict:
     source = packet["source"]
     quiz = packet["quiz"]
-    title = f"{quiz['questionCaption']} | {source['wordText']} Korean quiz"
+    disclosure_text = "AI로 만들어진 영상입니다. Reference-only classroom visuals with post-produced typography."
+    title = f"{quiz['questionCaption']} | Beginner Korean quiz"
     description_lines = [
         "MalmoeLab Korean fill-in-the-blank short for English learners.",
         "",
@@ -695,6 +697,9 @@ def build_publish_packet(packet: dict, config: dict, final_video: Path, thumbnai
         f"Meaning: {source.get('englishGloss') or 'gloss unavailable'}",
         f"Example: {quiz['fullSentence']}",
         f"English: {source.get('exampleTranslationText') or 'translation unavailable'}",
+        "",
+        f"Disclosure: {disclosure_text}",
+        "Attribution: Lesson source by MalmoeLab. Classroom teacher background plate used as the reference-only visual base.",
         "",
         f"Study more: {config.get('ctaUrl', 'https://malmoelab.com')}",
         f"Source: {source.get('baseUrl', 'https://malmoelab.com')}",
@@ -711,6 +716,14 @@ def build_publish_packet(packet: dict, config: dict, final_video: Path, thumbnai
                 f"- URL: {music_credit.get('sourceUrl', '').strip()}",
             ]
         )
+    else:
+        description_lines.extend(
+            [
+                "",
+                "Music credit:",
+                "- None. No background music used in the final render.",
+            ]
+        )
     description = "\n".join(line for line in description_lines if line is not None)
     return {
         "title": title,
@@ -719,11 +732,41 @@ def build_publish_packet(packet: dict, config: dict, final_video: Path, thumbnai
         "thumbnailFile": str(thumbnail_file),
         "privacyStatus": "private",
         "categoryId": "22",
+        "playlistId": "",
+        "notifySubscribers": False,
+        "madeForKids": False,
+        "disclosureText": disclosure_text,
+        "episodeSlug": packet.get("episodeSlug", ""),
+        "workType": "new_episode",
+        "protagonist": "classroom teacher background plate only",
+        "productionMode": "reference-only",
+        "referencePacketPath": str(Path(config.get("teacherImage") or "").resolve()),
+        "disclosurePlacement": "metadata-only; no visible-frame disclosure",
+        "rightsPosture": "Reference-only classroom teacher background plate from the studio asset library; no named recurring protagonist.",
+        "assetSourcePaths": [
+            str(Path(config.get("teacherImage") or "").resolve()),
+            str((episode_dir / "source-packet.json").resolve()),
+            str((episode_dir / "render-config.json").resolve()),
+        ],
+        "finalFileLocations": {
+            "videoFile": str(final_video),
+            "thumbnailFile": str(thumbnail_file),
+        },
+        "educationalSource": {
+            "label": "MalmoeLab",
+            "url": source.get("baseUrl", "https://malmoelab.com"),
+            "exampleId": source.get("exampleId", ""),
+        },
+        "musicCredit": music_credit or {
+            "status": "none",
+            "text": "No background music used in the final render.",
+        },
         "tags": [
             "malmoelab",
             "learnkorean",
             "koreanquiz",
             "hangul",
+            "blankfill",
             source["wordText"],
         ],
     }
@@ -967,8 +1010,13 @@ def main() -> int:
 
     final_video = final_dir / f"{slug}.mp4"
     thumb_path = final_dir / f"{slug}-thumb.png"
-    first_answer_frame = frames_dir / f"frame-{max(engagement_cut, 0):04d}.png"
-    Image.open(first_answer_frame).save(thumb_path)
+    thumbnail_time_seconds = config.get("thumbnailTimeSeconds")
+    if thumbnail_time_seconds is None:
+        thumbnail_frame_index = min(max(question_cut - 1, 0), title_cut + max((question_cut - title_cut) // 2, 0))
+    else:
+        thumbnail_frame_index = min(total_frames - 1, max(0, int(float(thumbnail_time_seconds) * fps)))
+    thumbnail_frame = frames_dir / f"frame-{thumbnail_frame_index:04d}.png"
+    Image.open(thumbnail_frame).save(thumb_path)
 
     video_only_path = episode_dir / "renders" / f"tmp-{slug}-video-only.mp4"
     run_ffmpeg(
@@ -991,7 +1039,7 @@ def main() -> int:
     narration_path = build_narration_mix(source_packet, episode_dir, config, duration_seconds)
     mux_video_with_audio(video_only_path, final_video, narration_path=narration_path, music_file=music_file, duration_seconds=duration_seconds)
 
-    publish_packet = build_publish_packet(source_packet, config, final_video, thumb_path)
+    publish_packet = build_publish_packet(source_packet, config, final_video, thumb_path, episode_dir)
     publish_packet_path = episode_dir / "publish-packet.json"
     publish_packet_path.write_text(json.dumps(publish_packet, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

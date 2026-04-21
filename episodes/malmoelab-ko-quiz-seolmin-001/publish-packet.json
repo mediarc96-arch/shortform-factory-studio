@@ -1,0 +1,50 @@
+{
+  "title": "학생이 학교에 갑니다 | Korean lesson with Seolmin",
+  "description": "Seolmin teaches one beginner Korean sentence and closes with a short blank-fill quiz.\n\nKorean: 학생이 학교에 갑니다.\nRomanization: haksaengi hakgyoe gapnida.\nEnglish: The student goes to school.\nFocus word: 학생 (haksaeng)\nQuiz prompt: ___이 학교에 갑니다.\n\nStudy more: https://malmoelab.com\nSource: https://malmoelab.com",
+  "videoFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-final.mp4",
+  "thumbnailFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-final-thumb.jpg",
+  "tags": [
+    "malmoelab",
+    "learnkorean",
+    "koreanlesson",
+    "hangul",
+    "학생",
+    "seolmin"
+  ],
+  "privacyStatus": "private",
+  "categoryId": "22",
+  "playlistId": "",
+  "notifySubscribers": false,
+  "madeForKids": false,
+  "disclosureText": "",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-001",
+  "workType": "publish_only",
+  "protagonist": "seolmin",
+  "productionMode": "reference-only",
+  "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+  "disclosurePlacement": "metadata-only; no visible-frame disclosure",
+  "rightsPosture": "Seolmin character assets are treated as internal project assets. See /home/kindsr/projects/shortform-factory-studio/characters/seolmin/rights.md.",
+  "assetSourcePaths": [
+    "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/Seolmin.png",
+    "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/rights.md",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/source-packet.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/render-config.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/render-manifest.json"
+  ],
+  "finalFileLocations": {
+    "videoFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-final.mp4",
+    "thumbnailFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/malmoelab-ko-quiz-seolmin-001-final-thumb.jpg",
+    "renderManifest": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-001/renders/final/render-manifest.json"
+  },
+  "educationalSource": {
+    "label": "MalmoeLab",
+    "url": "https://malmoelab.com",
+    "exampleId": "38c19d5e-fd41-49be-b289-caa80f578d76"
+  },
+  "priorContext": {
+    "sourceIssue": "SHO-28",
+    "qaIssue": "SHO-34",
+    "parentIssue": "SHO-27",
+    "newUploadRequired": true
+  }
+}

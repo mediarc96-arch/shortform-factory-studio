@@ -1,0 +1,23 @@
+{
+  "_schema": "xAI image generation job · pilot-003 keyframe",
+  "_endpoint": "POST https://api.x.ai/v1/images/generations",
+  "_note": "Keyframe #5 at anchor t=27.0s. Cheerful farewell wave.",
+  "provider": "xai_grok",
+  "taskType": "text_to_image",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Flat 2D anime illustration of a bishōnen male Korean language teacher named Daehan. Long silver-white hair, violet eyes, wearing a black gat (traditional Korean hat) with a gold ornamental band and red tassels, a plain black durumagi hanbok, white inner collar, and black gloves. 16:9 widescreen classroom scene. Daehan stands on the RIGHT side of the frame, his body occupying only the right ~22% — his left shoulder near horizontal 78% of the image, chest-up medium shot. Front-facing camera with a bright OPEN-MOUTH SMILE as if saying '안녕' in a cheerful farewell. His right arm is raised near shoulder height with an open gloved palm in a small waving motion — the arm stays on the right side of the frame, does NOT cross into the board. His left hand holds a small tied paper scroll at his hip. Warm cheerful energy. LEFT 78% of the frame is a dark green empty chalkboard with a thin wooden frame and a narrow wooden chalk tray at the bottom. The chalkboard surface is ABSOLUTELY EMPTY — no text, no Korean characters, no chalk marks, no numbers, no writing. Flat anime shading, crisp line-art, matching traditional Korean educational illustrated shorts.",
+    "n": 1,
+    "response_format": "url"
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-05-ending-wave.png",
+    "manifestFile": "../keyframes/kf-05-ending-wave.manifest.json"
+  },
+  "reviewCriteria": [
+    "Right hand in mid-wave near shoulder",
+    "Bright smile, open mouth mid-'안녕'",
+    "Character in right 22%",
+    "Board untouched"
+  ]
+}

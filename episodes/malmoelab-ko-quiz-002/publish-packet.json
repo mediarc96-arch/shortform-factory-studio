@@ -1,15 +1,45 @@
 {
-  "title": "Which word fits the blank? | 집 Korean quiz",
-  "description": "MalmoeLab Korean fill-in-the-blank short for English learners.\n\nQuestion: 저녁에는 ___에서 쉽니다.\nAnswer: 집 (jip)\nMeaning: house\nExample: 저녁에는 집에서 쉽니다.\nEnglish: I rest at home in the evening.\n\nStudy more: https://malmoelab.com\nSource: https://malmoelab.com",
+  "title": "Which word fits the blank? | Beginner Korean quiz",
+  "description": "MalmoeLab Korean fill-in-the-blank short for English learners.\n\nQuestion: 저녁에는 ___에서 쉽니다.\nAnswer: 집 (jip)\nMeaning: house\nExample: 저녁에는 집에서 쉽니다.\nEnglish: I rest at home in the evening.\n\nDisclosure: AI로 만들어진 영상입니다. Reference-only classroom visuals with post-produced typography.\nAttribution: Lesson source by MalmoeLab. Classroom teacher background plate used as the reference-only visual base.\n\nStudy more: https://malmoelab.com\nSource: https://malmoelab.com\n\nMusic credit:\n- None. No background music used in the final render.",
   "videoFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-002/final/malmoelab-ko-quiz-002.mp4",
   "thumbnailFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-002/final/malmoelab-ko-quiz-002-thumb.png",
   "privacyStatus": "private",
   "categoryId": "22",
+  "playlistId": "",
+  "notifySubscribers": false,
+  "madeForKids": false,
+  "disclosureText": "AI로 만들어진 영상입니다. Reference-only classroom visuals with post-produced typography.",
+  "episodeSlug": "malmoelab-ko-quiz-002",
+  "workType": "new_episode",
+  "protagonist": "classroom teacher background plate only",
+  "productionMode": "reference-only",
+  "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/shared/backgrounds/images/korean/teacher.png",
+  "disclosurePlacement": "metadata-only; no visible-frame disclosure",
+  "rightsPosture": "Reference-only classroom teacher background plate from the studio asset library; no named recurring protagonist.",
+  "assetSourcePaths": [
+    "/home/kindsr/projects/shortform-factory-studio/shared/backgrounds/images/korean/teacher.png",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-002/source-packet.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-002/render-config.json"
+  ],
+  "finalFileLocations": {
+    "videoFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-002/final/malmoelab-ko-quiz-002.mp4",
+    "thumbnailFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-002/final/malmoelab-ko-quiz-002-thumb.png"
+  },
+  "educationalSource": {
+    "label": "MalmoeLab",
+    "url": "https://malmoelab.com",
+    "exampleId": "a157625f-2bcb-4ffa-a5d9-41e0d1125978"
+  },
+  "musicCredit": {
+    "status": "none",
+    "text": "No background music used in the final render."
+  },
   "tags": [
     "malmoelab",
     "learnkorean",
     "koreanquiz",
     "hangul",
+    "blankfill",
     "집"
   ]
 }

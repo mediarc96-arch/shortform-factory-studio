@@ -1,0 +1,21 @@
+{
+  "_schema": "xAI Grok img2vid job · pilot-003 scene clip",
+  "_endpoint": "POST https://api.x.ai/v1/videos/generations",
+  "_note": "Scene-04 of pilot-003-B. Quiz pointing beat around t=18→26.",
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "dependsOnKeyframe": "kf-04-quiz-point",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Animate the attached still. Daehan's BODY stays locked to the right 22% of the 16:9 frame — no body drift. For the first 2.5s his right arm stays extended leftward with index finger pointing toward left-center of the empty board, as if asking 'what word goes here?'. For the next 3s he relaxes the pointing arm, taps his chin once with a thoughtful smile, then gestures with an open right palm toward the BOTTOM of the frame (as if inviting the viewer to look at the CTA subtitle below). The LEFT 78% of the frame is a completely empty green chalkboard throughout — no chalk marks, no text, no writing ever appears. Only the outstretched gloved finger (during the first 2.5s) may cross into the board zone; no other body part does. Flat 2D anime style, no 3D drift.",
+    "image": "../keyframes/kf-04-quiz-point.png",
+    "duration": 7,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/scene-04-quiz-point.mp4",
+    "manifestFile": "../renders/scene-04-quiz-point.manifest.json",
+    "useInCompose": { "trimFromStart": true, "trimToSec": 6.2 }
+  }
+}

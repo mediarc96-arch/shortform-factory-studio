@@ -1,0 +1,33 @@
+{
+  "provider": "xai_grok",
+  "status": "succeeded",
+  "taskType": "text_to_image",
+  "jobPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-003-A/grok-jobs/keyframe-02-intro-speak.json",
+  "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-003-A/keyframes/kf-02-intro-speak.manifest.json",
+  "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-003-A/keyframes/kf-02-intro-speak.png",
+  "outputUrls": [
+    "https://imgen.x.ai/xai-imgen/xai-tmp-imgen-95f6a846-e992-489c-aac5-764df095809c.jpeg"
+  ],
+  "errorMessage": null,
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Flat 2D anime illustration of a bishōnen male Korean language teacher named Daehan. Long silver-white hair, violet eyes, wearing a black gat (traditional Korean hat) with a gold ornamental band and red tassels, a plain black durumagi hanbok, white inner collar, and black gloves. 16:9 widescreen classroom scene. Daehan stands on the RIGHT side of the frame, his body occupying only the right ~22% — his left shoulder near the horizontal 78% mark, chest-up to mid-thigh medium shot. Front-facing camera with a slight rightward head tilt, MOUTH OPEN mid-syllable as if articulating a lesson, right hand raised to chest height with an open-palm presenting gesture — the arm stays on the right side of the frame, does NOT cross into the board. His left hand holds a small tied paper scroll at his hip. LEFT 78% of the frame is a dark green empty chalkboard with a thin wooden frame on all sides and a narrow wooden chalk tray at the bottom. The chalkboard surface is ABSOLUTELY EMPTY — no text, no Korean characters, no chalk marks, no numbers, no symbols, no writing. Flat anime shading, crisp line-art, matching the style of traditional Korean educational illustrated shorts.",
+    "n": 1,
+    "response_format": "url"
+  },
+  "response": {
+    "data": [
+      {
+        "url": "https://imgen.x.ai/xai-imgen/xai-tmp-imgen-95f6a846-e992-489c-aac5-764df095809c.jpeg",
+        "mime_type": "image/jpeg",
+        "revised_prompt": ""
+      }
+    ],
+    "usage": {
+      "cost_in_usd_ticks": 200000000
+    }
+  },
+  "generatedAt": "2026-04-17T22:20:19Z",
+  "revisedPrompt": "",
+  "mimeType": "image/jpeg"
+}

@@ -1,0 +1,33 @@
+{
+  "provider": "xai_grok",
+  "status": "succeeded",
+  "taskType": "text_to_image",
+  "jobPath": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-003-A/grok-jobs/keyframe-04-quiz-point.json",
+  "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-003-A/keyframes/kf-04-quiz-point.manifest.json",
+  "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/daehan-pilot-codex-003-A/keyframes/kf-04-quiz-point.png",
+  "outputUrls": [
+    "https://imgen.x.ai/xai-imgen/xai-tmp-imgen-b78209e8-77ca-44e9-92e1-3601d50f9534.jpeg"
+  ],
+  "errorMessage": null,
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Flat 2D anime illustration of a bishōnen male Korean language teacher named Daehan. Long silver-white hair, violet eyes, wearing a black gat (traditional Korean hat) with a gold ornamental band and red tassels, a plain black durumagi hanbok, white inner collar, and black gloves. 16:9 widescreen classroom scene. Daehan's BODY stays on the RIGHT side of the frame — torso occupying only the right ~22%, his left shoulder near horizontal 78%. His right ARM extends leftward at shoulder height with the gloved index finger pointing toward the left-center of the empty chalkboard — only the outstretched arm crosses into the board zone; the rest of his body stays right. Playful curious teacher expression, small smile, looking toward the camera. His left hand holds a small tied paper scroll at his hip. LEFT 78% of the frame is a dark green empty chalkboard with a thin wooden frame and a narrow wooden chalk tray at the bottom. The chalkboard surface is ABSOLUTELY EMPTY — no text, no Korean characters, no chalk marks, no numbers, no writing. Flat anime shading, crisp line-art.",
+    "n": 1,
+    "response_format": "url"
+  },
+  "response": {
+    "data": [
+      {
+        "url": "https://imgen.x.ai/xai-imgen/xai-tmp-imgen-b78209e8-77ca-44e9-92e1-3601d50f9534.jpeg",
+        "mime_type": "image/jpeg",
+        "revised_prompt": ""
+      }
+    ],
+    "usage": {
+      "cost_in_usd_ticks": 200000000
+    }
+  },
+  "generatedAt": "2026-04-17T22:20:22Z",
+  "revisedPrompt": "",
+  "mimeType": "image/jpeg"
+}

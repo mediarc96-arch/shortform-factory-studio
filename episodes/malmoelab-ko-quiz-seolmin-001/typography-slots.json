@@ -44,8 +44,8 @@
       "stylePreset": "malmoelab-board-handwritten-bold",
       "plannedInTimeSec": 13.0,
       "plannedOutTimeSec": 18.0,
-      "inTimeSec": 14.57,
-      "outTimeSec": 17.19
+      "inTimeSec": 14.52,
+      "outTimeSec": 17.06
     },
     {
       "slotId": "scene-4-quiz-blank",
@@ -70,7 +70,7 @@
       "plannedInTimeSec": 24.15,
       "plannedOutTimeSec": 27.1,
       "inTimeSec": 26.5,
-      "outTimeSec": 29.66
+      "outTimeSec": 29.75
     }
   ]
 }

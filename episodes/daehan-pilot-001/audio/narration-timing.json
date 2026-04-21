@@ -1,0 +1,34 @@
+{
+  "segments": [
+    {
+      "file": "audio/narration-ko-scene1.mp3",
+      "text": "풍선을 너무 크게 불었더니…",
+      "speed": 1.0,
+      "startSec": 3.5
+    },
+    {
+      "file": "audio/narration-ko-scene2.mp3",
+      "text": "결국 빵 터져 버렸다!",
+      "speed": 0.9,
+      "startSec": 9.6
+    },
+    {
+      "file": "audio/narration-ko-scene3.mp3",
+      "text": "빈칸에 들어갈 말은 무엇일까요?",
+      "speed": 1.0,
+      "startSec": 12.3
+    },
+    {
+      "file": "audio/narration-ko-scene4-1.mp3",
+      "text": "정답은 빵!",
+      "speed": 1.0,
+      "startSec": 22.0
+    },
+    {
+      "file": "audio/narration-ko-scene4-2.mp3",
+      "text": "같이 따라해볼까요? 빵!",
+      "speed": 1.0,
+      "startSec": 24.0
+    }
+  ]
+}

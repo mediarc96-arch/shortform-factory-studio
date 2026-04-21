@@ -1,5 +1,5 @@
 # Final Review: malmoelab-ko-quiz-seolmin-001
-날짜: 2026-04-17
+날짜: 2026-04-19
 
 ## 전체 요약
 - 상태: `malmoelab-keyframe-dub-after-picture-v1 final export`
