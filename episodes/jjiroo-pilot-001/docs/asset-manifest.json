@@ -1,0 +1,78 @@
+{
+  "project": "jjiroo_duck_episode",
+  "version": "1.0",
+  "style": {
+    "visual_mode": "hand-drawn pastel 2D illustration",
+    "line_quality": "rough grainy black pencil outline",
+    "color_mode": "flat soft low-saturation colors",
+    "rendering": "non-photorealistic, non-3D, simple storybook finish",
+    "background_treatment": "clean riverside environments with soft detail",
+    "consistency_rules": [
+      "preserve exact reference character silhouettes",
+      "no realistic fur",
+      "no glossy rendering",
+      "no comic grid, no panel borders, no layout frames"
+    ]
+  },
+  "characters": {
+    "jjiroo": {
+      "role": "main dog",
+      "species_style": "small simplified companion dog",
+      "fur_color": "cream to light beige",
+      "ears": "droopy",
+      "eyes": "small black dot eyes",
+      "muzzle": "short",
+      "body": "round soft small body with short legs",
+      "acting_core": [
+        "curious",
+        "impulsive",
+        "friendly",
+        "high-interest in other animals"
+      ],
+      "motion_signature": [
+        "nose-first movement",
+        "quick burst starts",
+        "eager paddling",
+        "head tilt"
+      ]
+    },
+    "jjonga": {
+      "role": "secondary dog",
+      "fur_color": "medium brown",
+      "ears": "rounded asymmetrical silhouette",
+      "eyes": "small black dot eyes but sharper expression",
+      "body": "small but tenser stance",
+      "acting_core": [
+        "alert",
+        "selective",
+        "watchful",
+        "smart"
+      ],
+      "motion_signature": [
+        "tense posture",
+        "tail raised",
+        "measured observation"
+      ]
+    },
+    "mother": {
+      "role": "human owner",
+      "design_mode": "simple stylized human, hoodie and jeans, soft cartoon anatomy",
+      "acting_core": [
+        "concerned",
+        "protective",
+        "panicked during chase",
+        "drenched and exhausted at end"
+      ]
+    }
+  },
+  "forbidden_drift": [
+    "photorealism",
+    "3D characters",
+    "breed-specific realistic dog details",
+    "turning Jjiroo brown",
+    "turning Jjonga cream",
+    "erect ears for Jjiroo",
+    "exposed fangs or aggressive attack mood",
+    "multi-panel comic page composition"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "project": "jjiroo_duck_episode",
+  "target_aspect_ratio": "9:16",
+  "target_duration_seconds": 18,
+  "shared_prompt_prefix": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid, preserve exact hand-drawn pastel 2D style from the reference images, rough black pencil outline, soft flat pastel coloring, non-photorealistic, no 3D",
+  "shots": [
+    {
+      "id": "scene_01_discovery",
+      "duration_seconds": 2.4,
+      "reference_still": "generated_scenes/cut_02_discovery.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. At a bright riverside path, a small cream-colored dog named Jjiroo with droopy ears and dot eyes freezes and stares at ducks near the water. Use a medium over-the-shoulder view from behind Jjiroo, then slowly push in. Subtle head tilt, focused eye-line, slight breeze in grass, ducks resting near the bank. Keep the exact hand-drawn pastel 2D style. Include a speech bubble in Korean: '어? 저거 뭐야?'",
+      "camera": "slow push-in",
+      "motion_notes": [
+        "freeze",
+        "head tilt",
+        "subtle breathing"
+      ],
+      "transition_out": "hard cut on attention spike"
+    },
+    {
+      "id": "scene_02_breakaway",
+      "duration_seconds": 1.8,
+      "reference_still": "generated_scenes/cut_03_breakaway.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. Jjiroo suddenly bursts forward at extreme speed on the riverside path, slipping free from the harness. The mother lunges after him too late. Jjonga is visible behind, watching in surprise. Use a low side angle with a fast pan to follow Jjiroo. Strong motion blur and dirt kick-up, but maintain the exact hand-drawn pastel 2D style. Include the Korean speech bubble: '찌루야!!! 안돼!!!'",
+      "camera": "fast lateral pan",
+      "motion_notes": [
+        "explosive acceleration",
+        "harness snap",
+        "mother reaching"
+      ],
+      "transition_out": "match cut into leap"
+    },
+    {
+      "id": "scene_03_splash",
+      "duration_seconds": 1.4,
+      "reference_still": "generated_scenes/cut_04_splash.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. Jjiroo dives into the river after startled ducks. Track forward into the jump and land on a huge upward splash. Ducks flap and scatter into the water. Keep the exact hand-drawn pastel 2D style with dynamic water shapes. Add Korean on-screen text: '첨벙!!'",
+      "camera": "forward tracking plunge",
+      "motion_notes": [
+        "jump",
+        "splash impact",
+        "ducks scattering"
+      ],
+      "transition_out": "splash wipe"
+    },
+    {
+      "id": "scene_04_chase",
+      "duration_seconds": 2.4,
+      "reference_still": "generated_scenes/cut_05_chase.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. Jjiroo paddles quickly through the river chasing ducks that remain just out of reach. Use a medium-wide side tracking shot parallel to the water surface. Cute determination, not violence. Keep the exact hand-drawn pastel 2D style. Include a Korean speech bubble: '기다려!!!'",
+      "camera": "side tracking shot",
+      "motion_notes": [
+        "rapid paddling",
+        "water ripples",
+        "ducks maintaining distance"
+      ],
+      "transition_out": "cut to mother's entry"
+    },
+    {
+      "id": "scene_05_mother_chase",
+      "duration_seconds": 2.5,
+      "reference_still": "generated_scenes/cut_06_mother_chase.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. The mother splashes into the river trying to catch Jjiroo, who is already farther ahead. Ducks continue escaping in the distance. Use a three-quarter rear shot of the mother reaching toward Jjiroo. Maintain the exact hand-drawn pastel 2D style. Include a Korean speech bubble: '찌루 멈춰!!!'",
+      "camera": "three-quarter rear tracking shot",
+      "motion_notes": [
+        "mother wading",
+        "reaching arm",
+        "Jjiroo swimming ahead"
+      ],
+      "transition_out": "cut on failed reach"
+    },
+    {
+      "id": "scene_06_self_rescue",
+      "duration_seconds": 2.1,
+      "reference_still": "generated_scenes/cut_07_self_rescue.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. Jjiroo calmly climbs back onto the shore by himself, water dripping from his fur. Use a medium shoreline shot with gentle camera drift. He looks relaxed as if nothing happened. Keep the exact hand-drawn pastel 2D style.",
+      "camera": "static medium shot with subtle drift",
+      "motion_notes": [
+        "wet paw steps",
+        "small body shake",
+        "dripping fur"
+      ],
+      "transition_out": "hold half beat before reveal"
+    },
+    {
+      "id": "scene_07_punchline",
+      "duration_seconds": 4.0,
+      "reference_still": "generated_scenes/cut_08_punchline.png",
+      "prompt": "single scene animated shot, one moment only, no panels, no borders, no layout, no grid. The mother is drenched and exhausted in the water near shore, while Jjiroo stands on land, mostly fine, looking at her with a puzzled innocent face. Use a medium-wide two-character shot and a very slow push-in. Jjiroo gives a small head tilt. Keep the exact hand-drawn pastel 2D style. Preferred Korean speech bubble: '왜 거기서 그러고 있어...?'",
+      "camera": "slow push-in two-shot",
+      "motion_notes": [
+        "mother catching breath",
+        "Jjiroo head tilt",
+        "subtle water movement"
+      ],
+      "transition_out": "end hold for punchline"
+    }
+  ]
+}

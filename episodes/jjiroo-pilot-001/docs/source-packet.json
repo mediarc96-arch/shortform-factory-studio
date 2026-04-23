@@ -1,0 +1,37 @@
+{
+  "project": "jjiroo_duck_episode",
+  "created_at": "2026-04-23T09:58:43.201160Z",
+  "docs": {
+    "scene_plan": "docs/scene-plan.md",
+    "shot_prompts": "docs/shot-prompts.json",
+    "asset_manifest": "docs/asset-manifest.json",
+    "readme": "README.md"
+  },
+  "reference_assets": [
+    "references/jjiroo.png",
+    "references/jjiroo_sit.png",
+    "references/jjiroo_laydown.png",
+    "references/jjonga.png",
+    "references/jjonga_stand.png",
+    "references/jjonga_laydown.png",
+    "references/jjiroo_bible.md",
+    "references/jjiroo_prompts.md",
+    "references/jjonga_bible.md",
+    "references/jjonga_prompts.md"
+  ],
+  "generated_scene_assets": [
+    "generated_scenes/cut_01_walk.png",
+    "generated_scenes/cut_02_discovery.png",
+    "generated_scenes/cut_03_breakaway.png",
+    "generated_scenes/cut_04_splash.png",
+    "generated_scenes/cut_05_chase.png",
+    "generated_scenes/cut_06_mother_chase.png",
+    "generated_scenes/cut_07_self_rescue.png",
+    "generated_scenes/cut_08_punchline.png"
+  ],
+  "notes": [
+    "Use one shot per generation call whenever possible.",
+    "Always attach character references if the tool supports image references.",
+    "Do not ask the model to generate the full story as a comic page."
+  ]
+}
