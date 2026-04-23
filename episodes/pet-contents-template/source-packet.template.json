@@ -1,0 +1,94 @@
+{
+  "_template": "pet-contents-vertical-webtoon-v1",
+  "_instructions": "모든 {{PLACEHOLDER}} 값을 실제 데이터로 치환한다. [Pet Contents] 이슈의 raw narrative를 먼저 source packet으로 정리한다.",
+  "issueTrigger": {
+    "titlePrefix": "[Pet Contents]",
+    "minimalNarrativeInputAllowed": true
+  },
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "seriesSlug": "pet-contents",
+  "formatProfile": "pet-contents-vertical-webtoon-v1",
+  "createdAt": "{{ISO8601_TIMESTAMP}}",
+  "input": {
+    "sourceType": "paperclip.pet_contents_issue",
+    "issueTitle": "{{ISSUE_TITLE}}",
+    "rawEpisodeNarrative": "{{RAW_EPISODE_NARRATIVE}}",
+    "hasNarrationScript": "{{HAS_NARRATION_SCRIPT}}",
+    "rawNarrationScript": "{{OPTIONAL_NARRATION_SCRIPT}}"
+  },
+  "cast": {
+    "primaryPets": [
+      {
+        "slug": "{{PRIMARY_PET_SLUG}}",
+        "name": "{{PRIMARY_PET_NAME}}",
+        "role": "{{PRIMARY_PET_ROLE}}",
+        "characterBible": "characters/{{PRIMARY_PET_SLUG}}/character-bible.md",
+        "appearanceLock": "{{PRIMARY_PET_APPEARANCE_LOCK}}"
+      }
+    ],
+    "supportingPets": [
+      {
+        "slug": "{{SUPPORTING_PET_SLUG}}",
+        "name": "{{SUPPORTING_PET_NAME}}",
+        "role": "{{SUPPORTING_PET_ROLE}}",
+        "characterBible": "characters/{{SUPPORTING_PET_SLUG}}/character-bible.md",
+        "appearanceLock": "{{SUPPORTING_PET_APPEARANCE_LOCK}}"
+      }
+    ],
+    "humans": [
+      {
+        "name": "{{HUMAN_NAME}}",
+        "role": "{{HUMAN_ROLE}}",
+        "presenceRule": "{{HUMAN_PRESENCE_RULE}}"
+      }
+    ],
+    "wildlife": [
+      {
+        "label": "{{WILDLIFE_LABEL}}",
+        "role": "{{WILDLIFE_ROLE}}",
+        "toneRule": "{{WILDLIFE_TONE_RULE}}"
+      }
+    ]
+  },
+  "setting": {
+    "location": "{{LOCATION}}",
+    "timeOfDay": "{{TIME_OF_DAY}}",
+    "weather": "{{WEATHER}}",
+    "continuityAnchors": [
+      "{{ANCHOR_1}}",
+      "{{ANCHOR_2}}",
+      "{{ANCHOR_3}}"
+    ]
+  },
+  "storyTruth": {
+    "setup": "{{SETUP}}",
+    "trigger": "{{TRIGGER}}",
+    "escalation": "{{ESCALATION}}",
+    "climax": "{{CLIMAX}}",
+    "ending": "{{ENDING}}",
+    "comedicPayoff": "{{COMEDIC_PAYOFF}}",
+    "safetyRule": "{{SAFETY_RULE}}"
+  },
+  "styleLockInputs": {
+    "mode": "canonical-if-available-else-provisional-from-narrative",
+    "globalTone": [
+      "{{STYLE_LINE_1}}",
+      "{{STYLE_LINE_2}}",
+      "{{STYLE_LINE_3}}",
+      "{{STYLE_LINE_4}}",
+      "{{STYLE_LINE_5}}"
+    ],
+    "characterPromptSource": "characters/<slug>/character-bible.md",
+    "outputFile": "storyboard/style-lock.md"
+  },
+  "productionPolicy": {
+    "storyboardProvider": "openai",
+    "storyboardModel": "gpt-image-2",
+    "storyboardOrchestrator": "codex_local",
+    "storyboardStage": "review-before-scene-video",
+    "pictureStage": "mute-video-only",
+    "dubStage": "post-picture-lock",
+    "typographyStage": "post-dub-lock",
+    "textInGeneration": "forbidden"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "formatVersion": "pet-contents-typography-slots@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "stylePresets": {
+    "soft-webtoon-subtitle": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "soft-webtoon-caption",
+      "surface": "subtitle-lower-third",
+      "fill": "#F8F5EC",
+      "strokeFill": "#2E2A27",
+      "strokeWidth": 3
+    },
+    "comic-pop": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "look": "comic-reaction-pop",
+      "surface": "reaction-float",
+      "fill": "#FFF3A7",
+      "strokeFill": "#3A2D12",
+      "strokeWidth": 4
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-02-caption",
+      "sceneId": "scene-02",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_02_CAPTION}}",
+      "stylePreset": "soft-webtoon-subtitle"
+    },
+    {
+      "slotId": "scene-04-caption",
+      "sceneId": "scene-04",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_04_CAPTION}}",
+      "stylePreset": "soft-webtoon-subtitle"
+    },
+    {
+      "slotId": "scene-05-pop",
+      "sceneId": "scene-05",
+      "surface": "reaction-float",
+      "text": "{{SCENE_05_CAPTION}}",
+      "stylePreset": "comic-pop"
+    },
+    {
+      "slotId": "scene-07-caption",
+      "sceneId": "scene-07",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_07_CAPTION}}",
+      "stylePreset": "soft-webtoon-subtitle"
+    },
+    {
+      "slotId": "scene-10-ending-caption",
+      "sceneId": "scene-10",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_10_CAPTION}}",
+      "stylePreset": "soft-webtoon-subtitle"
+    }
+  ]
+}

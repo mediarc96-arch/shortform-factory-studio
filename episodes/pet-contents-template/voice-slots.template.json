@@ -1,0 +1,117 @@
+{
+  "formatVersion": "pet-contents-voice-slots@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "timingSource": "local-basic-guide-pass-or-approved-human-script",
+  "slots": [
+    {
+      "voiceSlotId": "scene-01-line",
+      "sceneId": "scene-01",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_01_LINE}}",
+      "plannedStartSec": 0.2,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-01-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-02-line",
+      "sceneId": "scene-02",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_02_LINE}}",
+      "plannedStartSec": 3.4,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-02-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-03-line",
+      "sceneId": "scene-03",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_03_LINE}}",
+      "plannedStartSec": 6.8,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-03-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-04-line",
+      "sceneId": "scene-04",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_04_LINE}}",
+      "plannedStartSec": 10.2,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-04-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-05-line",
+      "sceneId": "scene-05",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_05_LINE}}",
+      "plannedStartSec": 13.6,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-05-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-06-line",
+      "sceneId": "scene-06",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_06_LINE}}",
+      "plannedStartSec": 17.0,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-06-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-07-line",
+      "sceneId": "scene-07",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_07_LINE}}",
+      "plannedStartSec": 20.4,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-07-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-08-line",
+      "sceneId": "scene-08",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_08_LINE}}",
+      "plannedStartSec": 23.8,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-08-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-09-line",
+      "sceneId": "scene-09",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_09_LINE}}",
+      "plannedStartSec": 27.2,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-09-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-10-line",
+      "sceneId": "scene-10",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_10_LINE}}",
+      "plannedStartSec": 30.6,
+      "plannedDurationSec": 2.0,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-10-line.wav"
+    }
+  ]
+}

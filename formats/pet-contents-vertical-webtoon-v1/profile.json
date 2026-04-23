@@ -1,0 +1,86 @@
+{
+  "id": "pet-contents-vertical-webtoon-v1",
+  "label": "Pet Contents Vertical Webtoon V1",
+  "description": "raw pet episode narrative를 받아 storyboard/webtoon cuts를 먼저 만들고, style lock과 camera plan을 고정한 뒤 motion-ready keyframes, scene video, dubbing, SFX, typography로 이어지는 pet-content 포맷.",
+  "runnerHints": {
+    "intakeStage": "if the Paperclip issue title starts with [Pet Contents], treat the raw issue narrative as enough input to bootstrap the episode packet",
+    "sourceStage": "lock the observed episode truth, cast, setting, safety notes, and optional narration script before creative generation",
+    "styleLockStage": "if cast already exists under characters/<slug>, derive a reusable style-lock prompt from their character bibles and refs; otherwise derive a provisional style lock from the raw narrative and save it before storyboard generation",
+    "storyboardStage": "generate 8 to 10 webtoon-like storyboard cuts through the codex_local agent using OpenAI GPT Image 2 and store them under storyboard/webtoon-cuts before scene-video work",
+    "storyboardProviderRule": "treat Duct Tape as a non-canonical reference, and use GPT Image 2 as the default storyboard image model unless the issue explicitly approves another tool",
+    "keyframeStage": "convert approved storyboard cuts into motion-friendly keyframes and handoff frames for scene-video generation",
+    "cameraStage": "write an explicit camera plan per cut or scene including movement type, intensity, duration intent, and transition note",
+    "pictureStage": "generate sequential vertical scenes using the previous scene last frame as the next scene starting state",
+    "postStage": "after picture lock, apply narration dubbing, SFX, BGM, typography, color treatment, and QA against the post-production checklist"
+  },
+  "reviewPolicy": {
+    "gate": "storyboard-approval-required-before-scene-video",
+    "minimumApprovedStoryboardCuts": 8,
+    "minimumApprovedKeyframes": 8,
+    "outputBundle": "review/contact-sheets/overview.jpg + review/review-report.md"
+  },
+  "sceneGenerationPolicy": {
+    "defaultStoryboardCutCount": 10,
+    "defaultSceneCount": 10,
+    "defaultClipDurationSec": 3.4,
+    "defaultTotalDurationSec": 34.0,
+    "continuityMode": "previous-scene-last-frame-seeds-next-scene",
+    "sceneStartRule": "scene-01 starts from approved storyboard or keyframe anchor; later scenes start from the previous scene final frame",
+    "sceneBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+    "scenePoseTargetRule": "approved storyboard cuts and keyframes define the intended composition, emotion, and motion direction for each scene",
+    "textInGeneration": "forbidden",
+    "defaultAspectRatio": "9:16",
+    "defaultResolution": "1080x1920",
+    "defaultCompositionRule": "keep pet identity stable, keep environmental continuity readable, and avoid actual dangerous ingestion or threatening animal behavior"
+  },
+  "scriptPolicy": {
+    "defaultNarrationRule": "prefer story-driven narration derived from the issue `대본:` or a compressed retelling of the observed episode rather than dialogue-heavy exchanges",
+    "timingPriority": "if narration script exists, runtime follows the local timing pass before visual beats are split into scenes",
+    "captionRule": "captions are sparse and should support emotion, timing, or payoff instead of paraphrasing every spoken line"
+  },
+  "audioPolicy": {
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "contentTtsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "timingGuideRule": "if narration script exists, estimate rough timing with a local/basic no-paid-API guide TTS or equivalent timing pass before final scene durations are locked",
+    "musicPolicy": "light-emotional-or-comic-bed-optional",
+    "sfxPolicy": "paw-step-sniff-water-splash-chair-rustle-duck-flutter-allowed-in-post",
+    "generationStage": "mute-video-only",
+    "dubStage": "post-picture-lock"
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "post-dub-lock",
+    "surface": "subtitle-lower-third-or-comic-reaction-pop",
+    "style": "soft-webtoon-caption",
+    "preferredFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "strokeSupportFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "postProductionPolicy": {
+    "requiredChecklist": [
+      "image-consistency",
+      "face-correction",
+      "simple-parts-animation",
+      "background-separation",
+      "situation-fx",
+      "speed-ramp",
+      "subtitle-plan",
+      "sfx-plan",
+      "bgm-plan",
+      "color-pass",
+      "qa-risk-check"
+    ]
+  },
+  "safetyPolicy": {
+    "animalThreatTone": "do-not-make-pets-look-cruel-or-aggressive",
+    "wildlifeThreatTone": "do-not-stage-wildlife-as-horror-prey",
+    "humanPresence": "supporting-context-by-default",
+    "rightsPolicy": "recurring-pet-series-must-have-character-bible-rights-note-and-ref-pack"
+  }
+}

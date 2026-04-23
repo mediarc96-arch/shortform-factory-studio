@@ -1,0 +1,99 @@
+{
+  "_schema": "pet contents storyboard plan",
+  "_note": "[Pet Contents] 기준. storyboard/webtoon cuts를 먼저 만들고 승인을 받은 뒤에만 keyframe과 scene video로 넘어간다.",
+  "episode": {
+    "slug": "{{EPISODE_SLUG}}",
+    "basis": "raw episode narrative -> style lock -> storyboard cuts -> keyframes -> sequential video"
+  },
+  "provider": {
+    "preferred": "openai",
+    "model": "gpt-image-2",
+    "orchestrator": "codex_local",
+    "fallback": "{{STORYBOARD_PROVIDER_OVERRIDE}}"
+  },
+  "styleLockFile": "storyboard/style-lock.md",
+  "cameraPlanFile": "storyboard/camera-plan.md",
+  "cutBundleRoot": "storyboard/webtoon-cuts",
+  "cuts": [
+    {
+      "id": "cut-01",
+      "beat": "{{CUT_01_BEAT}}",
+      "cameraConcept": "{{CUT_01_CAMERA}}",
+      "emotion": "{{CUT_01_EMOTION}}",
+      "motionPotential": "{{CUT_01_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-01.png"
+    },
+    {
+      "id": "cut-02",
+      "beat": "{{CUT_02_BEAT}}",
+      "cameraConcept": "{{CUT_02_CAMERA}}",
+      "emotion": "{{CUT_02_EMOTION}}",
+      "motionPotential": "{{CUT_02_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-02.png"
+    },
+    {
+      "id": "cut-03",
+      "beat": "{{CUT_03_BEAT}}",
+      "cameraConcept": "{{CUT_03_CAMERA}}",
+      "emotion": "{{CUT_03_EMOTION}}",
+      "motionPotential": "{{CUT_03_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-03.png"
+    },
+    {
+      "id": "cut-04",
+      "beat": "{{CUT_04_BEAT}}",
+      "cameraConcept": "{{CUT_04_CAMERA}}",
+      "emotion": "{{CUT_04_EMOTION}}",
+      "motionPotential": "{{CUT_04_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-04.png"
+    },
+    {
+      "id": "cut-05",
+      "beat": "{{CUT_05_BEAT}}",
+      "cameraConcept": "{{CUT_05_CAMERA}}",
+      "emotion": "{{CUT_05_EMOTION}}",
+      "motionPotential": "{{CUT_05_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-05.png"
+    },
+    {
+      "id": "cut-06",
+      "beat": "{{CUT_06_BEAT}}",
+      "cameraConcept": "{{CUT_06_CAMERA}}",
+      "emotion": "{{CUT_06_EMOTION}}",
+      "motionPotential": "{{CUT_06_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-06.png"
+    },
+    {
+      "id": "cut-07",
+      "beat": "{{CUT_07_BEAT}}",
+      "cameraConcept": "{{CUT_07_CAMERA}}",
+      "emotion": "{{CUT_07_EMOTION}}",
+      "motionPotential": "{{CUT_07_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-07.png"
+    },
+    {
+      "id": "cut-08",
+      "beat": "{{CUT_08_BEAT}}",
+      "cameraConcept": "{{CUT_08_CAMERA}}",
+      "emotion": "{{CUT_08_EMOTION}}",
+      "motionPotential": "{{CUT_08_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-08.png"
+    },
+    {
+      "id": "cut-09",
+      "beat": "{{CUT_09_BEAT}}",
+      "cameraConcept": "{{CUT_09_CAMERA}}",
+      "emotion": "{{CUT_09_EMOTION}}",
+      "motionPotential": "{{CUT_09_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-09.png"
+    },
+    {
+      "id": "cut-10",
+      "beat": "{{CUT_10_BEAT}}",
+      "cameraConcept": "{{CUT_10_CAMERA}}",
+      "emotion": "{{CUT_10_EMOTION}}",
+      "motionPotential": "{{CUT_10_MOTION_POTENTIAL}}",
+      "outputPath": "storyboard/webtoon-cuts/cut-10.png"
+    }
+  ]
+}

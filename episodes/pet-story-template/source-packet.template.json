@@ -1,0 +1,65 @@
+{
+  "_template": "pet-story-short-vertical-v1",
+  "_instructions": "모든 {{PLACEHOLDER}} 값을 실제 데이터로 치환한다. 이 템플릿은 owner-observed pet episode packet이다.",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "seriesSlug": "{{SERIES_SLUG}}",
+  "characterSlug": "{{CHARACTER_SLUG}}",
+  "formatProfile": "pet-story-short-vertical-v1",
+  "createdAt": "{{ISO8601_TIMESTAMP}}",
+  "source": {
+    "sourceType": "owner.observed_pet_episode",
+    "observationDate": "{{OBSERVATION_DATE}}",
+    "petName": "{{PET_NAME}}",
+    "species": "{{SPECIES}}",
+    "breed": "{{BREED}}",
+    "ageBand": "{{AGE_BAND}}",
+    "homeLocation": "{{HOME_LOCATION}}",
+    "rightsNote": "{{RIGHTS_NOTE}}",
+    "truthSummary": "{{TRUTH_SUMMARY}}",
+    "trigger": "{{TRIGGER}}",
+    "safetyRule": "{{SAFETY_RULE}}"
+  },
+  "episodeIntent": {
+    "viewerPromise": "{{VIEWER_PROMISE}}",
+    "hook": "{{HOOK}}",
+    "coreBeat": "{{CORE_BEAT}}",
+    "endingPayoff": "{{ENDING_PAYOFF}}",
+    "narrationMode": "{{NARRATION_MODE}}"
+  },
+  "beatArc": [
+    {
+      "sceneId": "scene-1-watchful-wait",
+      "beat": "{{SCENE_1_BEAT}}"
+    },
+    {
+      "sceneId": "scene-2-coast-clear",
+      "beat": "{{SCENE_2_BEAT}}"
+    },
+    {
+      "sceneId": "scene-3-chair-approach",
+      "beat": "{{SCENE_3_BEAT}}"
+    },
+    {
+      "sceneId": "scene-4-climb-and-jump",
+      "beat": "{{SCENE_4_BEAT}}"
+    },
+    {
+      "sceneId": "scene-5-caught-but-innocent",
+      "beat": "{{SCENE_5_BEAT}}"
+    }
+  ],
+  "reusableAssets": {
+    "characterBible": "characters/{{CHARACTER_SLUG}}/character-bible.md",
+    "referencePack": "characters/{{CHARACTER_SLUG}}/refs",
+    "voiceConfig": "characters/{{CHARACTER_SLUG}}/voice.json"
+  },
+  "productionPolicy": {
+    "visualMode": "reference-only",
+    "keyframeStage": "review-before-video",
+    "pictureStage": "mute-video-only",
+    "dubStage": "post-picture-lock",
+    "typographyStage": "post-dub-lock",
+    "textInGeneration": "forbidden",
+    "dangerousIngestionDepiction": "forbidden-as-payoff"
+  }
+}

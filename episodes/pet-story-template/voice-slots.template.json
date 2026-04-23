@@ -1,0 +1,101 @@
+{
+  "formatVersion": "pet-story-voice-slots@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "slots": [
+    {
+      "voiceSlotId": "scene-1-watch-line",
+      "kind": "narration-line",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_1_LINE}}",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-1-watchful-wait",
+      "plannedStartSec": 0.2,
+      "plannedDurationSec": 1.2,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-1-watch-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-2-coast-clear-line",
+      "kind": "narration-line",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_2_LINE}}",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-2-coast-clear",
+      "plannedStartSec": 4.2,
+      "plannedDurationSec": 1.3,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-2-coast-clear-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-3-chair-approach-line",
+      "kind": "narration-line",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_3_LINE}}",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-3-chair-approach",
+      "plannedStartSec": 8.2,
+      "plannedDurationSec": 1.5,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-3-chair-approach-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-4-climb-line",
+      "kind": "narration-line",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_4_LINE}}",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-4-climb-and-jump",
+      "plannedStartSec": 12.6,
+      "plannedDurationSec": 1.5,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-4-climb-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-5-caught-line",
+      "kind": "narration-line",
+      "speaker": "{{NARRATOR_OR_CHARACTER_SLUG}}",
+      "text": "{{SCENE_5_LINE}}",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-5-caught-but-innocent",
+      "plannedStartSec": 17.4,
+      "plannedDurationSec": 1.6,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "{{NARRATOR_VOICE_ENV}}",
+      "recordingTarget": "dubbing/audio-overrides/scene-5-caught-line.wav"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "pet-story-short-vertical-v1",
+  "label": "Pet Story Short Vertical V1",
+  "description": "반려동물 일상 에피소드형 Shorts 포맷. owner-observed 행동 비트를 source로 잠그고, 9:16 세로 5-scene picture lock을 먼저 만든 뒤, 짧은 내레이션, SE, sparse typography를 후반에서 얹는다.",
+  "runnerHints": {
+    "sourceStage": "lock the observed pet story truth, room continuity, rights note, and safety rule before writing beats",
+    "basePrep": "prepare a canonical pet reference pack and a vertical clean-base frame before keyframe work",
+    "keyframeGate": "generate and review five keyframes before any video generation",
+    "pictureStage": "generate five mute vertical clips sequentially using the previous scene's last frame as the next scene seed",
+    "dubStage": "lock picture first, then add sparse narration, optional inner monologue, music, and SFX",
+    "typeStage": "apply sparse reaction-led typography only after dub lock"
+  },
+  "reviewPolicy": {
+    "gate": "keyframe-approval-required-before-video",
+    "minimumApprovedKeyframes": 5,
+    "outputBundle": "review/contact-sheets/overview.jpg + review/review-report.md"
+  },
+  "sceneGenerationPolicy": {
+    "defaultSceneCount": 5,
+    "defaultClipDurationSec": 4.5,
+    "defaultTotalDurationSec": 22.0,
+    "defaultSceneDurationPlanSec": [4.0, 4.0, 4.0, 5.0, 5.0],
+    "continuityMode": "previous-scene-last-frame-seeds-next-scene",
+    "sceneStartRule": "scene-1 starts from approved keyframe-01; later scenes start from prior clip final frame",
+    "sceneBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+    "scenePoseTargetRule": "approved keyframes define the target pose and expression for each scene block",
+    "textInGeneration": "forbidden",
+    "defaultAspectRatio": "9:16",
+    "defaultResolution": "1080x1920",
+    "defaultCompositionRule": "pet stays dominant in frame, dining-space continuity stays readable, and food is visible without showing actual ingestion"
+  },
+  "scriptPolicy": {
+    "defaultVoiceSlotPattern": [
+      "scene-1-watch-line",
+      "scene-2-coast-clear-line",
+      "scene-3-chair-approach-line",
+      "scene-4-climb-line",
+      "scene-5-caught-line"
+    ],
+    "defaultNarrationRule": "prefer one short line or one reaction beat per scene; do not write a dialogue-heavy script",
+    "defaultEndingRule": "the final line should support the innocent reaction payoff rather than explain the whole story"
+  },
+  "voiceConfigPolicy": {
+    "voiceIdScope": "per-character-or-narrator",
+    "characterVoiceFile": "characters/<slug>/voice.json",
+    "slotOverrideAllowed": true,
+    "rule": "voice-slots may override ttsVoiceEnv, otherwise the workflow may use a narrator default or stay silent when the brief chooses a no-voice pass"
+  },
+  "audioPolicy": {
+    "contentVoiceSourcePriority": [
+      "human-dub",
+      "actor-dub",
+      "voice-pack",
+      "supertone-guide",
+      "elevenlabs-guide"
+    ],
+    "contentTtsProvider": "supertone",
+    "fallbackTtsProvider": "elevenlabs",
+    "timingGuideRule": "if narration script exists, estimate rough timing with a local/basic no-paid-API guide TTS or equivalent timing pass before final scene durations are locked",
+    "musicPolicy": "light-comedic-bed-optional",
+    "sfxPolicy": "chair-creak-paw-step-table-rustle-allowed-in-post",
+    "generationStage": "mute-video-only",
+    "dubStage": "post-picture-lock"
+  },
+  "typographyPolicy": {
+    "generationStage": "no-text-in-video",
+    "postStage": "post-dub-lock",
+    "surface": "subtitle-lower-third-or-reaction-pop",
+    "style": "sparse-soft-reaction-caption",
+    "preferredFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "strokeSupportFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "safetyPolicy": {
+    "humanFoodRisk": "do-not-show-actual-dangerous-ingestion-as-payoff",
+    "humanPresence": "background-only-by-default",
+    "rightsPolicy": "recurring-pet-series-must-have-character-bible-and-rights-note"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "_schema": "pet story keyframe plan",
+  "_note": "vertical pet short 기준. keyframe 5장을 먼저 잠그고 난 뒤에만 scene video로 넘어간다.",
+  "episode": {
+    "slug": "{{EPISODE_SLUG}}",
+    "basis": "{{PET_DISPLAY_NAME}} reference pack -> approved keyframes -> sequential video generation"
+  },
+  "baseImage": {
+    "source": "characters/{{CHARACTER_SLUG}}/refs/{{PRIMARY_REF_FILE}}",
+    "refinedVerticalPath": "assets/refs/{{CHARACTER_SLUG}}-vertical-clean-base.png"
+  },
+  "framingRule": {
+    "aspectRatio": "9:16",
+    "canvas": [1080, 1920],
+    "petZone": {
+      "xPctRange": [18, 82],
+      "yPctRange": [20, 92]
+    },
+    "foodAndTableZone": {
+      "xPctRange": [10, 90],
+      "yPctRange": [0, 42]
+    },
+    "humanZone": {
+      "xPctRange": [0, 100],
+      "yPctRange": [0, 55]
+    }
+  },
+  "styleLock": {
+    "renderStyle": "{{VISUAL_STYLE_TARGET}} matching the character reference image",
+    "avoid": "text, letters, subtitles, numbers, logos, watermarks, extra dogs, different dog identity, wrong fur color, wrong ear shape, distorted paws, extra limbs, uncanny human faces, bitten food, chewing, swallowing"
+  },
+  "reviewFlow": {
+    "gate": "user-review-before-video",
+    "reviewBundle": {
+      "report": "review/review-report.md",
+      "overview": "review/contact-sheets/overview.jpg"
+    }
+  },
+  "keyframes": [
+    {
+      "id": "kf-01-watchful-wait",
+      "anchorSec": 0.0,
+      "futureSceneId": "scene-1-watchful-wait",
+      "purpose": "quiet visual hook",
+      "pose": "looking up at the table with pleading eyes, still body, patient wait",
+      "outputPath": "keyframes/kf-01-watchful-wait.jpg"
+    },
+    {
+      "id": "kf-02-coast-clear",
+      "anchorSec": 4.0,
+      "futureSceneId": "scene-2-coast-clear",
+      "purpose": "checking whether anyone is watching",
+      "pose": "ears perked, eyes scanning left and right, frozen guilty curiosity",
+      "outputPath": "keyframes/kf-02-coast-clear.jpg"
+    },
+    {
+      "id": "kf-03-chair-approach",
+      "anchorSec": 8.0,
+      "futureSceneId": "scene-3-chair-approach",
+      "purpose": "sneaky approach beat",
+      "pose": "body stretched toward the chair, one paw slightly lifted, committed sneaky move",
+      "outputPath": "keyframes/kf-03-chair-approach.jpg"
+    },
+    {
+      "id": "kf-04-climb-and-jump",
+      "anchorSec": 12.0,
+      "futureSceneId": "scene-4-climb-and-jump",
+      "purpose": "climax motion beat",
+      "pose": "mid climb or jump, front paws reaching up, peak tension before getting food",
+      "outputPath": "keyframes/kf-04-climb-and-jump.jpg"
+    },
+    {
+      "id": "kf-05-caught-but-innocent",
+      "anchorSec": 17.0,
+      "futureSceneId": "scene-5-caught-but-innocent",
+      "purpose": "comedic payoff reaction",
+      "pose": "frozen after being caught, innocent eyes, pretending nothing happened",
+      "outputPath": "keyframes/kf-05-caught-but-innocent.jpg"
+    }
+  ]
+}

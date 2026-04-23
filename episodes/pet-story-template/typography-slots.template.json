@@ -1,0 +1,53 @@
+{
+  "formatVersion": "pet-story-typography-slots@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "stylePresets": {
+    "pet-reaction-soft": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "soft-reaction-subtitle",
+      "surface": "subtitle-lower-third",
+      "fill": "#F7F7F4",
+      "strokeFill": "#2D2D2D",
+      "strokeWidth": 3
+    },
+    "pet-comic-pop": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "look": "comic-reaction-pop",
+      "surface": "reaction-float",
+      "fill": "#FFF6BF",
+      "strokeFill": "#3A2D12",
+      "strokeWidth": 4
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-2-reaction-caption",
+      "sceneId": "scene-2-coast-clear",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_2_CAPTION}}",
+      "stylePreset": "pet-reaction-soft"
+    },
+    {
+      "slotId": "scene-3-reaction-caption",
+      "sceneId": "scene-3-chair-approach",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_3_CAPTION}}",
+      "stylePreset": "pet-reaction-soft"
+    },
+    {
+      "slotId": "scene-4-climax-pop",
+      "sceneId": "scene-4-climb-and-jump",
+      "surface": "reaction-float",
+      "text": "{{SCENE_4_CAPTION}}",
+      "stylePreset": "pet-comic-pop"
+    },
+    {
+      "slotId": "scene-5-ending-caption",
+      "sceneId": "scene-5-caught-but-innocent",
+      "surface": "subtitle-lower-third",
+      "text": "{{SCENE_5_CAPTION}}",
+      "stylePreset": "pet-reaction-soft"
+    }
+  ]
+}

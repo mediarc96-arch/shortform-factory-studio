@@ -1,0 +1,50 @@
+{
+  "formatVersion": "pet-contents-episode@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "seriesSlug": "pet-contents",
+  "formatProfile": "pet-contents-vertical-webtoon-v1",
+  "formatProfilePath": "formats/pet-contents-vertical-webtoon-v1/profile.json",
+  "status": "planning",
+  "createdAt": "{{ISO8601_TIMESTAMP}}",
+  "issueTrigger": {
+    "titlePrefix": "[Pet Contents]",
+    "channelLane": "pet",
+    "projectLane": "pet",
+    "publishTarget": "youtube-pets"
+  },
+  "renderTargets": {
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "fps": 30,
+    "durationPolicy": "narration-timing-first"
+  },
+  "policies": {
+    "storyboardPolicy": {
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "orchestrator": "codex_local",
+      "reviewGate": "storyboard-before-keyframe-before-video",
+      "defaultCutCount": 10
+    },
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "entryFrameRule": "scene-01 uses approved storyboard or keyframe anchor; later scenes use previous scene final frame",
+      "cutBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues"
+    },
+    "audioPolicy": {
+      "timingGuideRule": "if issue includes `대본:`, estimate rough narration timing with a local/basic no-paid-API guide TTS or equivalent timing pass before final runtime is locked",
+      "dubStage": "post-picture-lock"
+    }
+  },
+  "sourcePacketFile": "./source-packet.json",
+  "packetFile": "./packet.md",
+  "storyboardPlanFile": "./storyboard/storyboard-plan.json",
+  "styleLockFile": "./storyboard/style-lock.md",
+  "cameraPlanFile": "./storyboard/camera-plan.md",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "narrationScriptFile": "./narration-script.md",
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "postProductionPlanFile": "./post-production-plan.md",
+  "videoGenerationJobFile": "./video-generation-job.json"
+}

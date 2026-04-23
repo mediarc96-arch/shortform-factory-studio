@@ -1,0 +1,65 @@
+{
+  "episode": {
+    "slug": "{{EPISODE_SLUG}}",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refKeyframePlan": "./keyframe-plan.json"
+  },
+  "globalSettings": {
+    "formatProfile": "pet-story-short-vertical-v1",
+    "provider": "pending",
+    "preferredProvider": "{{VIDEO_PROVIDER}}",
+    "continuityTarget": "previous-scene-last-frame",
+    "sceneBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "fps": 30,
+    "seed": "{{SEED}}",
+    "style": "{{VISUAL_STYLE_TARGET}}",
+    "characterReferenceBase": "assets/refs/{{CHARACTER_SLUG}}-vertical-clean-base.png",
+    "negativePromptCommon": "text, letters, subtitles, numbers, logos, watermarks, extra dogs, different dog identity, wrong fur color, wrong ear shape, distorted paws, extra limbs, uncanny human faces, broken chair geometry, bitten food, chewing, swallowing, low quality, blurry",
+    "compositionRule": "Keep {{PET_DISPLAY_NAME}} as the same pet from the approved keyframe set. Preserve coat pattern, muzzle, ear shape, eye mood, and body size. Keep the dining room continuity stable and readable. Do not show actual dangerous ingestion. Keep generated frames text-free."
+  },
+  "_note": "pet-story vertical 기준. keyframe 승인 후에만 5개 scene video를 생성한다.",
+  "futureScenes": [
+    {
+      "sceneId": "scene-1-watchful-wait",
+      "durationSec": 4.0,
+      "startSeed": "keyframes/kf-01-watchful-wait.jpg",
+      "targetPoseCard": "keyframes/kf-01-watchful-wait.jpg",
+      "handoffLastFramePath": "assets/refs/scene-1-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-2-coast-clear",
+      "durationSec": 4.0,
+      "startSeed": "assets/refs/scene-1-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-1 final frame",
+      "targetPoseCard": "keyframes/kf-02-coast-clear.jpg",
+      "handoffLastFramePath": "assets/refs/scene-2-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-3-chair-approach",
+      "durationSec": 4.0,
+      "startSeed": "assets/refs/scene-2-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-2 final frame",
+      "targetPoseCard": "keyframes/kf-03-chair-approach.jpg",
+      "handoffLastFramePath": "assets/refs/scene-3-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-4-climb-and-jump",
+      "durationSec": 5.0,
+      "startSeed": "assets/refs/scene-3-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-3 final frame",
+      "targetPoseCard": "keyframes/kf-04-climb-and-jump.jpg",
+      "handoffLastFramePath": "assets/refs/scene-4-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-5-caught-but-innocent",
+      "durationSec": 5.0,
+      "startSeed": "assets/refs/scene-4-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-4 final frame",
+      "targetPoseCard": "keyframes/kf-05-caught-but-innocent.jpg",
+      "handoffLastFramePath": "assets/refs/scene-5-last-frame.jpg"
+    }
+  ]
+}

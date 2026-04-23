@@ -1,0 +1,99 @@
+{
+  "_schema": "pet contents keyframe plan",
+  "_note": "storyboard 승인 후 motion-friendly keyframe으로 다시 정리한다. 각 scene의 시작 상태는 이전 scene 마지막 상태와 이어져야 한다.",
+  "episode": {
+    "slug": "{{EPISODE_SLUG}}",
+    "basis": "approved storyboard cuts -> motion-ready keyframes -> sequential scene-video generation"
+  },
+  "styleLockFile": "storyboard/style-lock.md",
+  "storyboardPlanFile": "storyboard/storyboard-plan.json",
+  "reviewFlow": {
+    "gate": "user-review-before-scene-video",
+    "reviewBundle": {
+      "report": "review/review-report.md",
+      "overview": "review/contact-sheets/overview.jpg"
+    }
+  },
+  "keyframes": [
+    {
+      "id": "kf-01",
+      "futureSceneId": "scene-01",
+      "sourceCutId": "cut-01",
+      "pose": "{{KF_01_POSE}}",
+      "cameraIntent": "{{KF_01_CAMERA}}",
+      "outputPath": "keyframes/kf-01.jpg"
+    },
+    {
+      "id": "kf-02",
+      "futureSceneId": "scene-02",
+      "sourceCutId": "cut-02",
+      "pose": "{{KF_02_POSE}}",
+      "cameraIntent": "{{KF_02_CAMERA}}",
+      "outputPath": "keyframes/kf-02.jpg"
+    },
+    {
+      "id": "kf-03",
+      "futureSceneId": "scene-03",
+      "sourceCutId": "cut-03",
+      "pose": "{{KF_03_POSE}}",
+      "cameraIntent": "{{KF_03_CAMERA}}",
+      "outputPath": "keyframes/kf-03.jpg"
+    },
+    {
+      "id": "kf-04",
+      "futureSceneId": "scene-04",
+      "sourceCutId": "cut-04",
+      "pose": "{{KF_04_POSE}}",
+      "cameraIntent": "{{KF_04_CAMERA}}",
+      "outputPath": "keyframes/kf-04.jpg"
+    },
+    {
+      "id": "kf-05",
+      "futureSceneId": "scene-05",
+      "sourceCutId": "cut-05",
+      "pose": "{{KF_05_POSE}}",
+      "cameraIntent": "{{KF_05_CAMERA}}",
+      "outputPath": "keyframes/kf-05.jpg"
+    },
+    {
+      "id": "kf-06",
+      "futureSceneId": "scene-06",
+      "sourceCutId": "cut-06",
+      "pose": "{{KF_06_POSE}}",
+      "cameraIntent": "{{KF_06_CAMERA}}",
+      "outputPath": "keyframes/kf-06.jpg"
+    },
+    {
+      "id": "kf-07",
+      "futureSceneId": "scene-07",
+      "sourceCutId": "cut-07",
+      "pose": "{{KF_07_POSE}}",
+      "cameraIntent": "{{KF_07_CAMERA}}",
+      "outputPath": "keyframes/kf-07.jpg"
+    },
+    {
+      "id": "kf-08",
+      "futureSceneId": "scene-08",
+      "sourceCutId": "cut-08",
+      "pose": "{{KF_08_POSE}}",
+      "cameraIntent": "{{KF_08_CAMERA}}",
+      "outputPath": "keyframes/kf-08.jpg"
+    },
+    {
+      "id": "kf-09",
+      "futureSceneId": "scene-09",
+      "sourceCutId": "cut-09",
+      "pose": "{{KF_09_POSE}}",
+      "cameraIntent": "{{KF_09_CAMERA}}",
+      "outputPath": "keyframes/kf-09.jpg"
+    },
+    {
+      "id": "kf-10",
+      "futureSceneId": "scene-10",
+      "sourceCutId": "cut-10",
+      "pose": "{{KF_10_POSE}}",
+      "cameraIntent": "{{KF_10_CAMERA}}",
+      "outputPath": "keyframes/kf-10.jpg"
+    }
+  ]
+}

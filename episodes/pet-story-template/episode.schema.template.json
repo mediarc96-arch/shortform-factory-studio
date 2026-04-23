@@ -1,0 +1,76 @@
+{
+  "formatVersion": "pet-story-episode@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "seriesSlug": "{{SERIES_SLUG}}",
+  "characterSlug": "{{CHARACTER_SLUG}}",
+  "characterRoot": "characters/{{CHARACTER_SLUG}}",
+  "formatProfile": "pet-story-short-vertical-v1",
+  "formatProfilePath": "formats/pet-story-short-vertical-v1/profile.json",
+  "status": "planning",
+  "createdAt": "{{ISO8601_TIMESTAMP}}",
+  "reusableAssets": {
+    "characterBible": "characters/{{CHARACTER_SLUG}}/character-bible.md",
+    "referencePack": "characters/{{CHARACTER_SLUG}}/refs",
+    "voiceConfig": "characters/{{CHARACTER_SLUG}}/voice.json",
+    "preferredCaptionFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "story": {
+    "topicType": "reaction-led-pet-short",
+    "sourceRef": "{{SOURCE_REF}}",
+    "viewerPromise": "{{VIEWER_PROMISE}}",
+    "hook": "{{HOOK}}",
+    "coreAction": "{{CORE_ACTION}}",
+    "endingPayoff": "{{ENDING_PAYOFF}}",
+    "narrationMode": "{{NARRATION_MODE}}",
+    "safetyRule": "{{SAFETY_RULE}}"
+  },
+  "renderTargets": {
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "fps": 30,
+    "durationSec": 22
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "sceneDurationSec": 4.5,
+      "defaultSceneDurationPlanSec": [4.0, 4.0, 4.0, 5.0, 5.0],
+      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "cutBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+      "poseTargetRule": "approved keyframes are the target pose cards for each scene clip",
+      "contentContinuityFocus": [
+        "same-pet-identity",
+        "same-home-dining-space",
+        "same-chair-and-table-props",
+        "no-text-in-generated-video",
+        "no-actual-dangerous-ingestion"
+      ]
+    },
+    "audioPolicy": {
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "timingGuideRule": "if issue includes `대본:`, estimate rough narration timing with a local/basic no-paid-API guide TTS or equivalent timing pass before final runtime is locked",
+      "sfxStage": "post-picture-lock",
+      "generationStage": "mute-video-only",
+      "dubStage": "post-picture-lock"
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-dub-lock",
+      "captionStyle": "soft-reaction-subtitle"
+    }
+  },
+  "sourcePacketFile": "./source-packet.json",
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "videoGenerationJobFile": "./video-generation-job.json"
+}

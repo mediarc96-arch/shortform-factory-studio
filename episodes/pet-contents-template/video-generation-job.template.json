@@ -1,0 +1,103 @@
+{
+  "episode": {
+    "slug": "{{EPISODE_SLUG}}",
+    "_refSourcePacket": "./source-packet.json",
+    "_refStoryboardPlan": "./storyboard/storyboard-plan.json",
+    "_refKeyframePlan": "./keyframe-plan.json",
+    "_refCameraPlan": "./storyboard/camera-plan.md"
+  },
+  "globalSettings": {
+    "formatProfile": "pet-contents-vertical-webtoon-v1",
+    "provider": "pending",
+    "preferredProvider": "{{VIDEO_PROVIDER}}",
+    "continuityTarget": "previous-scene-last-frame",
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "fps": 30,
+    "seed": "{{SEED}}",
+    "styleLockFile": "storyboard/style-lock.md",
+    "compositionRule": "Keep the same cast identity, environment continuity, and emotional direction from the approved storyboard and keyframe plan. Do not generate text in-frame.",
+    "negativePromptCommon": "text, letters, subtitles, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, broken anatomy, uncanny faces, threatening wildlife horror tone, gore, blurry"
+  },
+  "futureScenes": [
+    {
+      "sceneId": "scene-01",
+      "durationSec": "{{SCENE_01_DURATION}}",
+      "startSeed": "keyframes/kf-01.jpg",
+      "cameraIntent": "{{SCENE_01_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-01-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-02",
+      "durationSec": "{{SCENE_02_DURATION}}",
+      "startSeed": "assets/refs/scene-01-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-01 final frame",
+      "cameraIntent": "{{SCENE_02_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-02-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-03",
+      "durationSec": "{{SCENE_03_DURATION}}",
+      "startSeed": "assets/refs/scene-02-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-02 final frame",
+      "cameraIntent": "{{SCENE_03_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-03-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-04",
+      "durationSec": "{{SCENE_04_DURATION}}",
+      "startSeed": "assets/refs/scene-03-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-03 final frame",
+      "cameraIntent": "{{SCENE_04_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-04-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-05",
+      "durationSec": "{{SCENE_05_DURATION}}",
+      "startSeed": "assets/refs/scene-04-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-04 final frame",
+      "cameraIntent": "{{SCENE_05_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-05-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-06",
+      "durationSec": "{{SCENE_06_DURATION}}",
+      "startSeed": "assets/refs/scene-05-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-05 final frame",
+      "cameraIntent": "{{SCENE_06_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-06-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-07",
+      "durationSec": "{{SCENE_07_DURATION}}",
+      "startSeed": "assets/refs/scene-06-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-06 final frame",
+      "cameraIntent": "{{SCENE_07_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-07-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-08",
+      "durationSec": "{{SCENE_08_DURATION}}",
+      "startSeed": "assets/refs/scene-07-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-07 final frame",
+      "cameraIntent": "{{SCENE_08_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-08-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-09",
+      "durationSec": "{{SCENE_09_DURATION}}",
+      "startSeed": "assets/refs/scene-08-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-08 final frame",
+      "cameraIntent": "{{SCENE_09_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-09-last-frame.jpg"
+    },
+    {
+      "sceneId": "scene-10",
+      "durationSec": "{{SCENE_10_DURATION}}",
+      "startSeed": "assets/refs/scene-09-last-frame.jpg",
+      "openingStateRule": "must begin from the same state as scene-09 final frame",
+      "cameraIntent": "{{SCENE_10_CAMERA}}",
+      "handoffLastFramePath": "assets/refs/scene-10-last-frame.jpg"
+    }
+  ]
+}
