@@ -47,7 +47,7 @@ _이 파일은 `episodes/pet-contents-template/packet.template.md` 기반으로 
 
 ## storyboard plan
 
-- provider: `OpenAI GPT Image 2`
+- provider: `approved operational image provider (e.g. xAI Grok image or OpenAI GPT Image 2)`
 - orchestrator: `codex_local`
 - cut count: `{{CUT_COUNT}}`
 - storyboard plan file: `./storyboard/storyboard-plan.json`

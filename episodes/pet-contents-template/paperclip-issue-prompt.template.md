@@ -31,7 +31,8 @@ raw pet episode narrative를 storyboard-first workflow로 제작한다.
 - Use `/home/kindsr/projects/shortform-factory-studio/formats/pet-contents-vertical-webtoon-v1/profile.json` as the format profile.
 - Keep the stage order fixed: `SOURCE -> STORYBOARD -> BRIEF -> SCRIPT -> EDIT -> RENDER -> POST -> QA -> PUBLISH`.
 - The first visual deliverable is a storyboard/webtoon cut bundle.
-- Generate storyboard cuts through the `codex_local` agent using OpenAI `GPT Image 2` unless the issue explicitly approves another image tool.
+- Generate storyboard cuts through the `codex_local` agent using any approved image-capable provider that is actually operational in the current runtime.
+- `xAI Grok image` and `OpenAI GPT Image 2` are both acceptable storyboard providers.
 - Treat `Duct Tape` as a non-canonical test-line reference, not as the default directly selected production model for this workflow.
 - If cast members already exist under `characters/<slug>/`, derive the shared style-lock prompt from their bibles and refs before storyboard generation.
 - If canonical character files do not exist yet, derive a provisional style lock from the raw episode narrative and continue planning instead of blocking intake.

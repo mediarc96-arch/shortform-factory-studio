@@ -90,8 +90,9 @@ storyboard-first pet-content path를 정의한다.
 
 ## 운영 규칙
 
-- storyboard cuts는 `codex_local` agent가 OpenAI `GPT Image 2`를 호출하는 경로를 기본 provider로 본다.
-- `Duct Tape`는 이 템플릿에서 canonical production model로 직접 지정하지 않는다. storyboard 이미지 기본값은 `GPT Image 2`다.
+- storyboard cuts는 `codex_local` agent가 현재 런타임에서 실제로 사용 가능한 approved image provider를 고르는 경로를 기본으로 본다.
+- `xAI Grok image`와 `OpenAI GPT Image 2`는 모두 허용 가능한 storyboard provider다. 현재 workspace에서 실제로 동작하는 쪽을 고른다.
+- `Duct Tape`는 이 템플릿에서 canonical production model로 직접 지정하지 않는다.
 - recurring cast가 있으면 `characters/<slug>/character-bible.md`와 `refs/`를 먼저 본다.
 - recurring cast 파일이 아직 없더라도 episode 내부 일관성을 위한 provisional style lock은 반드시 만든다.
 - canonical character art나 승인된 reference drawing style이 이미 있으면, storyboard·keyframe·scene 결과물은 그 원본 그림체를 살려서 유지해야 한다. 임의로 다른 화풍으로 미화하거나 재해석하지 않는다.
@@ -103,5 +104,12 @@ storyboard-first pet-content path를 정의한다.
   - 분위기
   - 캐릭터별 고정 외형
   - negative prompt
+  - 캐릭터별 허용 개체 수
+  - 금지 변형 요소
+- storyboard plan에는 컷마다 어떤 캐릭터가 몇 개체까지 등장 가능한지 적어야 한다.
+- 같은 scene에서 모델이 승인되지 않은 추가 강아지, 추가 개체, 잘못된 색의 복제 캐릭터를 만들면 drift로 보고 폐기한다.
+- negative prompt에는 최소한 `extra dog`, `duplicate pet`, `extra animal`, `extra limbs`, `wings`, `merged face`, `second version of same dog`, `wrong fur color`, `style drift`를 포함한다.
 - camera plan은 각 cut의 movement, intensity, purpose를 함께 적어야 한다.
 - post-production plan은 consistency, face correction, simple animation, background separation, FX, sound, color, QA를 빠짐없이 적어야 한다.
+- 점프, 돌진, 수영처럼 drift가 잘 나는 액션은 긴 single shot보다 더 짧은 beat로 쪼개거나 approved keyframe 기반 limited-motion으로 풀어야 한다.
+- pet identity를 깨는 과한 whip, shake, zoom은 shot intensity를 낮춰서 다시 잡는다.
