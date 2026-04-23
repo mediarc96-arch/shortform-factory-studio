@@ -1,0 +1,139 @@
+{
+  "_template": "pet-contents-vertical-webtoon-v1",
+  "episodeSlug": "jjiroo-tancheon-duck-chase-002",
+  "seriesSlug": "pet-contents",
+  "formatProfile": "pet-contents-vertical-webtoon-v1",
+  "createdAt": "2026-04-23T05:44:00Z",
+  "input": {
+    "sourceType": "paperclip.pet_contents_issue",
+    "issueTitle": "[Pet Contents] 찌루 탄천 오리 추격 사건 (원본 스타일 유지 재진행)",
+    "rawEpisodeNarrative": "어느날 어머니가 찌루랑 쫑아랑 탄천에서 산책을 하고 있었어요. 그날따라 날씨가 좋아서 산책을 나가는 아이들의 발걸음도 유달리 가벼웠죠. 흙 냄새를 맡으며 오줌도 누고, 다른 강아지들하고 서로 똥꼬 냄새도 맡으며 재밌게 산책을 하고 있는데, 찌루가 봐 버린거에요. 강 밖에서 쉬고있는 오리들을. 당시 찌루는 어리기도 하고 다른 동물들에게도 관심이 많았기 때문에, 살금살금 다가가 하네스를 끊고 전광석화와도 같은 속도로 달려가 오리들을 잡으려고 했지만, 눈치빠른 오리들은 재빠르게 강으로 도망쳤죠. 하지만 당시 찌루 (4살)은 수영도 잘했기 때문에 강으로 뛰어들어 수영을 하며 오리를 잡으려고 했지만 당연하게도 역부족이었죠. 깜짝 놀란 어머니가 찌루를 잡기위해 강으로 뛰어들어 찌루를 쫓아갔지만, 찌루는 물살을 거슬러 수영하는 속도가 정말 빨랐고, 어머니는 이렇게 찌루를 잃어버리나 했는데,,,, 찌루가 오리 잡는걸 포기하고 다시 수영쳐서 땅 위로 올라가 엄마를 쳐다보는데 눈빛이 마치 (왜 거기에서 그러고 있어..?)라는 표정으로 엄마를 봤데요. 결국 찌루는 강으로 혼자 들어갔다가 혼자 자력으로 나왔고, 어머니만 다 젖어버린 그런 사건이 되었습니당.",
+    "hasNarrationScript": true,
+    "rawNarrationScript": "어느날 어머니가 찌루랑 쫑아랑 탄천에서 산책을 하고 있었어요. 그날따라 날씨가 좋아서 산책을 나가는 아이들의 발걸음도 유달리 가벼웠죠. 흙 냄새를 맡으며 오줌도 누고, 다른 강아지들하고 서로 똥꼬 냄새도 맡으며 재밌게 산책을 하고 있는데, 찌루가 봐 버린거에요. 강 밖에서 쉬고있는 오리들을. 당시 찌루는 어리기도 하고 다른 동물들에게도 관심이 많았기 때문에, 살금살금 다가가 하네스를 끊고 전광석화와도 같은 속도로 달려가 오리들을 잡으려고 했지만, 눈치빠른 오리들은 재빠르게 강으로 도망쳤죠. 하지만 당시 찌루 (4살)은 수영도 잘했기 때문에 강으로 뛰어들어 수영을 하며 오리를 잡으려고 했지만 당연하게도 역부족이었죠. 깜짝 놀란 어머니가 찌루를 잡기위해 강으로 뛰어들어 찌루를 쫓아갔지만, 찌루는 물살을 거슬러 수영하는 속도가 정말 빨랐고, 어머니는 이렇게 찌루를 잃어버리나 했는데,,,, 찌루가 오리 잡는걸 포기하고 다시 수영쳐서 땅 위로 올라가 엄마를 쳐다보는데 눈빛이 마치 (왜 거기에서 그러고 있어..?)라는 표정으로 엄마를 봤데요. 결국 찌루는 강으로 혼자 들어갔다가 혼자 자력으로 나왔고, 어머니만 다 젖어버린 그런 사건이 되었습니당."
+  },
+  "cast": {
+    "primaryPets": [
+      {
+        "slug": "jjiroo",
+        "name": "찌루",
+        "role": "protagonist",
+        "characterBible": "characters/jjiroo/character-bible.md",
+        "appearanceLock": "No canonical character folder exists yet. Use the episode-local provisional identity from episodes/jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md: small cream-ivory dog, upright triangle ears, dark round eyes, curled fluffy tail, mint Y-harness, curious and quick."
+      }
+    ],
+    "supportingPets": [
+      {
+        "slug": "jjonga",
+        "name": "쫑아",
+        "role": "supporting walking companion",
+        "characterBible": "characters/jjonga/character-bible.md",
+        "appearanceLock": "No canonical character folder exists yet. Use the episode-local provisional identity from episodes/jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md: smaller caramel-brown dog, floppy ears, rounder face, short legs, peach harness, calmer observer energy."
+      }
+    ],
+    "humans": [
+      {
+        "name": "어머니",
+        "role": "guardian and late rescue chaser",
+        "presenceRule": "Keep her in the walk setup and the river rescue escalation, but do not let her visually overtake Jjiroo as the protagonist."
+      }
+    ],
+    "wildlife": [
+      {
+        "label": "탄천 오리들",
+        "role": "flight trigger and chase target",
+        "toneRule": "They must read as alert wild ducks escaping safely, never as injured prey or a violent capture target."
+      }
+    ]
+  },
+  "characterAssetStatus": {
+    "jjirooCharacterFolderExists": false,
+    "jjongaCharacterFolderExists": false,
+    "provisionalStyleBasis": "episodes/jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md",
+    "policy": "Do not block SOURCE on missing character folders. Carry forward a provisional episode-local style basis and preserve the original drawing style through storyboard, keyframe, and scene render."
+  },
+  "setting": {
+    "location": "경기도 성남 탄천 산책로와 얕은 강 가장자리",
+    "timeOfDay": "bright daytime walk",
+    "weather": "맑고 산책하기 좋은 날씨",
+    "continuityAnchors": [
+      "탄천 산책로, 흙길, 풀 가장자리, 얕은 강, 강 밖에서 쉬는 오리, 강으로 올라오는 지점이 같은 장소로 읽혀야 한다.",
+      "찌루는 민트색 Y형 하네스, 쫑아는 복숭아색 하네스를 고정하고 컷마다 체형과 털색이 흔들리면 안 된다.",
+      "클라이맥스는 찌루가 먼저 물로 들어가고 어머니가 뒤늦게 따라 들어가는 순서여야 하며, 마지막은 찌루가 자력으로 다시 땅 위에 올라온 상태에서 끝난다."
+    ]
+  },
+  "storyTruth": {
+    "setup": "찌루와 쫑아가 어머니와 함께 날씨 좋은 탄천에서 가볍고 평온한 산책을 시작한다.",
+    "trigger": "찌루가 강 밖에서 쉬고 있는 오리들을 발견하고 호기심이 폭발한다.",
+    "escalation": "찌루가 하네스를 끊고 달려가 오리를 쫓고, 오리들이 강으로 피하자 물속까지 따라 들어간다.",
+    "climax": "어머니가 놀라서 강으로 뛰어들어 찌루를 쫓지만, 찌루는 물살 속에서도 더 빠르게 움직여 잠시 잃어버릴 것 같은 위기감을 만든다.",
+    "ending": "찌루는 결국 오리를 포기하고 스스로 땅 위로 올라와 어머니를 태연하게 쳐다본다.",
+    "comedicPayoff": "젖은 것은 어머니뿐이고, 찌루는 '왜 거기에서 그러고 있어?' 같은 표정으로 상황을 뒤집는 아이러니가 엔딩의 핵심이다.",
+    "safetyRule": "전체 톤은 코믹한 실화여야 하며, 동물 학대·공포 구조물·익사 패닉·오리 포획 성공처럼 읽히면 안 된다."
+  },
+  "beatSequence": [
+    {
+      "beatId": "beat-1-walk-setup",
+      "summary": "좋은 날씨의 탄천 산책 도입. 찌루, 쫑아, 어머니가 함께 걷는다."
+    },
+    {
+      "beatId": "beat-2-curious-dogs",
+      "summary": "두 강아지가 흙 냄새와 다른 강아지 냄새를 맡으며 산책의 즐거움을 누린다."
+    },
+    {
+      "beatId": "beat-3-duck-spotting",
+      "summary": "찌루가 강 밖에서 쉬는 오리들을 보고 사냥이 아닌 호기심 기반의 강한 집중 상태로 전환된다."
+    },
+    {
+      "beatId": "beat-4-sudden-chase",
+      "summary": "찌루가 하네스를 끊고 전광석화처럼 달려 오리를 쫓고, 오리들은 강으로 빠르게 피한다."
+    },
+    {
+      "beatId": "beat-5-river-pursuit",
+      "summary": "찌루가 수영 실력을 믿고 강으로 뛰어들어 오리를 계속 따라간다."
+    },
+    {
+      "beatId": "beat-6-mother-jumps-in",
+      "summary": "어머니가 놀라서 찌루를 잡으러 강으로 뛰어들지만, 찌루는 더 빠르게 헤엄쳐 위기감을 만든다."
+    },
+    {
+      "beatId": "beat-7-self-recovery",
+      "summary": "찌루가 추격을 포기하고 스스로 강가로 돌아와 올라온다."
+    },
+    {
+      "beatId": "beat-8-ironic-look",
+      "summary": "찌루가 젖은 어머니를 향해 태연하고 약간 어이없다는 표정으로 쳐다보며 해프닝이 마무리된다."
+    }
+  ],
+  "styleLockInputs": {
+    "mode": "canonical-if-available-else-provisional-from-narrative",
+    "globalTone": [
+      "따뜻한 관찰형 반려동물 웹툰 일러스트와 밝은 낮 산책 공기를 유지한다.",
+      "이번 rerun은 episodes/jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md 의 original drawing style basis를 보존하고 더 예쁘거나 다른 화풍으로 재해석하지 않는다.",
+      "같은 episode 안에서 찌루와 쫑아의 체형, 털색, 귀 모양, 하네스 색, 꼬리 실루엣, 눈매를 절대 흔들지 않는다.",
+      "스타일 락과 downstream prompt는 duplicate pet, extra animal, wings, extra limbs, merged face, wrong fur color, style drift를 명시적으로 금지해야 한다.",
+      "generated footage와 storyboard cut에는 텍스트, 자막, 숫자, 로고를 넣지 않는다."
+    ],
+    "characterPromptSource": "episodes/jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md",
+    "outputFile": "storyboard/style-lock.md"
+  },
+  "downstreamConstraints": {
+    "singleNextReadyChild": "STORYBOARD",
+    "storyboardFirst": true,
+    "cameraPlanAllowedInSource": false,
+    "newUploadRequired": true,
+    "productionMode": "reference-only",
+    "disclosurePlan": "metadata-level disclosure plan to be finalized downstream",
+    "narrationTimingPassRequired": true,
+    "timingPolicy": "Because 대본 exists, downstream runtime and scene durations must follow a local/basic no-paid-API timing pass before final durations lock."
+  },
+  "productionPolicy": {
+    "storyboardProvider": "openai",
+    "storyboardModel": "gpt-image-2",
+    "storyboardOrchestrator": "codex_local",
+    "storyboardStage": "review-before-scene-video",
+    "pictureStage": "mute-video-only",
+    "dubStage": "post-picture-lock",
+    "typographyStage": "post-dub-lock",
+    "textInGeneration": "forbidden"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "_template": "pet-contents-vertical-webtoon-v1",
+  "_instructions": "Raw episode narrative를 source packet으로 정리했다. canonical character 파일이 없으므로 storyboard 단계에서 provisional style lock을 생성하고, 그 첫 승인안의 pet identity를 이후 전 단계에서 고정한다.",
+  "issueTrigger": {
+    "titlePrefix": "[Pet Contents]",
+    "minimalNarrativeInputAllowed": true
+  },
+  "episodeSlug": "jjiroo-tancheon-duck-chase-001",
+  "seriesSlug": "pet-contents",
+  "formatProfile": "pet-contents-vertical-webtoon-v1",
+  "createdAt": "2026-04-22T23:49:17Z",
+  "routing": {
+    "sourceIssue": "SHO-60",
+    "channelLane": "pet",
+    "projectLane": "pet",
+    "publishTarget": "youtube-pets",
+    "newUploadRequired": true
+  },
+  "input": {
+    "sourceType": "paperclip.pet_contents_issue",
+    "issueTitle": "[Pet Contents] 찌루 탄천 오리 추격 사건",
+    "rawEpisodeNarrative": "어느날 어머니가 찌루랑 쫑아랑 탄천에서 산책을 하고 있었어요.\n그날따라 날씨가 좋아서 산책을 나가는 아이들의 발걸음도 유달리 가벼웠죠.\n흙 냄새를 맡으며 오줌도 누고, 다른 강아지들하고 서로 똥꼬 냄새도 맡으며 재밌게 산책을 하고 있는데, 찌루가 봐 버린거에요. 강 밖에서 쉬고있는 오리들을.\n당시 찌루는 어리기도 하고 다른 동물들에게도 관심이 많았기 때문에, 살금살금 다가가 하네스를 끊고 전광석화와도 같은 속도로 달려가 오리들을 잡으려고 했지만, 눈치빠른 오리들은 재빠르게 강으로 도망쳤죠. 하지만 당시 찌루 (4살)은 수영도 잘했기 때문에 강으로 뛰어들어 수영을 하며 오리를 잡으려고 했지만 당연하게도 역부족이었죠.\n깜짝 놀란 어머니가 찌루를 잡기위해 강으로 뛰어들어 찌루를 쫓아갔지만, 찌루는 물살을 거슬러 수영하는 속도가 정말 빨랐고, 어머니는 이렇게 찌루를 잃어버리나 했는데,,,,\n찌루가 오리 잡는걸 포기하고 다시 수영쳐서 땅 위로 올라가 엄마를 쳐다보는데 눈빛이 마치 (왜 거기에서 그러고 있어..?)라는 표정으로 엄마를 봤데요.\n결국 찌루는 강으로 혼자 들어갔다가 혼자 자력으로 나왔고, 어머니만 다 젖어버린 그런 사건이 되었습니당.",
+    "hasNarrationScript": true,
+    "rawNarrationScript": "어느날 어머니가 찌루랑 쫑아랑 탄천에서 산책을 하고 있었어요.\n그날따라 날씨가 좋아서 산책을 나가는 아이들의 발걸음도 유달리 가벼웠죠.\n흙 냄새를 맡으며 오줌도 누고, 다른 강아지들하고 서로 똥꼬 냄새도 맡으며 재밌게 산책을 하고 있는데, 찌루가 봐 버린거에요. 강 밖에서 쉬고있는 오리들을.\n당시 찌루는 어리기도 하고 다른 동물들에게도 관심이 많았기 때문에, 살금살금 다가가 하네스를 끊고 전광석화와도 같은 속도로 달려가 오리들을 잡으려고 했지만, 눈치빠른 오리들은 재빠르게 강으로 도망쳤죠. 하지만 당시 찌루 (4살)은 수영도 잘했기 때문에 강으로 뛰어들어 수영을 하며 오리를 잡으려고 했지만 당연하게도 역부족이었죠.\n깜짝 놀란 어머니가 찌루를 잡기위해 강으로 뛰어들어 찌루를 쫓아갔지만, 찌루는 물살을 거슬러 수영하는 속도가 정말 빨랐고, 어머니는 이렇게 찌루를 잃어버리나 했는데,,,,\n찌루가 오리 잡는걸 포기하고 다시 수영쳐서 땅 위로 올라가 엄마를 쳐다보는데 눈빛이 마치 (왜 거기에서 그러고 있어..?)라는 표정으로 엄마를 봤데요.\n결국 찌루는 강으로 혼자 들어갔다가 혼자 자력으로 나왔고, 어머니만 다 젖어버린 그런 사건이 되었습니당."
+  },
+  "cast": {
+    "primaryPets": [
+      {
+        "slug": "jjiroo",
+        "name": "찌루",
+        "role": "protagonist and chase instigator",
+        "characterBible": "characters/jjiroo/character-bible.md",
+        "appearanceLock": "Canonical files are not present yet. For storyboard kickoff, choose one provisional pet design and freeze it across all cuts: same coat pattern, ear shape, muzzle length, eye mood, body size, tail silhouette, and pre-breakaway harness look. Performance should read young, curious, fast, and confident in water without making the pet look aggressive."
+      }
+    ],
+    "supportingPets": [
+      {
+        "slug": "jjonga",
+        "name": "쫑아",
+        "role": "supporting walking companion and contrast pet",
+        "characterBible": "characters/jjonga/character-bible.md",
+        "appearanceLock": "Canonical files are not present yet. Lock one supporting-pet design that remains visually distinct from 찌루 in size, silhouette, and face readability, but keep the pet calm and secondary in staging so the chase payoff stays centered on 찌루."
+      }
+    ],
+    "humans": [
+      {
+        "name": "어머니",
+        "role": "owner / worried rescuer",
+        "presenceRule": "Keep the mother as supporting background presence until the rescue beat. She may enter the river during the climax, but the emotional POV stays on the dogs and the final soggy-mom reaction."
+      }
+    ],
+    "wildlife": [
+      {
+        "label": "탄천 오리들",
+        "role": "trigger for the chase and escape target",
+        "toneRule": "Ducks should read alert and evasive, not injured or hunted. The scene stays comic and observational rather than predatory."
+      }
+    ]
+  },
+  "setting": {
+    "location": "탄천 riverside walking path and shallow river edge",
+    "timeOfDay": "bright daytime walk",
+    "weather": "clear and pleasant",
+    "continuityAnchors": [
+      "Start on a relaxed Tancheon walk with dirt path, grass, and riverside openness clearly readable.",
+      "찌루 and 쫑아 begin in harnessed walk mode before 찌루 breaks away toward the ducks.",
+      "The duck resting zone, river entry point, and climb-out bank must remain geographically legible so the payoff shot feels like one continuous incident."
+    ]
+  },
+  "storyTruth": {
+    "setup": "어머니가 날씨 좋은 날 찌루와 쫑아를 데리고 탄천 산책을 한다.",
+    "trigger": "산책 중 찌루가 강 밖에서 쉬고 있는 오리들을 발견한다.",
+    "escalation": "찌루가 살금살금 접근하다가 하네스를 끊고 전광석화처럼 달려가 오리들을 쫓고, 오리들이 강으로 피하자 물까지 뛰어든다.",
+    "climax": "찌루는 수영까지 하며 오리를 따라가고, 놀란 어머니는 찌루를 잡으려고 강으로 뛰어들지만 따라잡지 못한다.",
+    "ending": "찌루는 스스로 강에서 나와 땅 위로 올라온 뒤, 물에 젖은 엄마를 이상하다는 듯 바라본다.",
+    "comedicPayoff": "결국 강에 들어간 건 찌루뿐 아니라 어머니였고, 무사히 자력으로 올라온 찌루가 오히려 '왜 거기에서 그러고 있어..?' 같은 표정으로 엄마를 본다.",
+    "safetyRule": "Play the incident as a real but non-harmful pet anecdote. No injury, drowning panic, duck harm, or cruel predator framing. The chase energy should feel impulsive and comic, and 찌루's self-recovery must read clearly before the final reaction beat."
+  },
+  "styleLockInputs": {
+    "mode": "canonical-if-available-else-provisional-from-narrative",
+    "globalTone": [
+      "Warm owner-observed pet anecdote with a clean comic reveal at the end.",
+      "Vertical webtoon-style storytelling with expressive pet faces and readable riverside geography.",
+      "Because canonical character folders are absent, the first approved storyboard cut must establish a provisional identity lock for 찌루 and 쫑아, then that exact design carries through storyboard, keyframes, and scene video.",
+      "Keep ducks as startled wildlife and the mother as supporting rescue context; do not let any element read as violent animal threat.",
+      "The last beat should land on soggy-mom irony and 찌루's innocent, slightly puzzled look."
+    ],
+    "characterPromptSource": "Use characters/<slug>/character-bible.md if created later; otherwise freeze the provisional pet designs chosen at storyboard approval.",
+    "outputFile": "storyboard/style-lock.md"
+  },
+  "continuityPolicy": {
+    "referencePacketPath": "characters/jjiroo if present later; otherwise episode-local provisional style lock",
+    "supportingReferencePacketPath": "characters/jjonga if present later; otherwise episode-local provisional style lock",
+    "productionMode": "reference-only",
+    "canonicalCharacterAssetsPresent": false,
+    "disclosurePlan": "metadata-only disclosure and attribution; visible-frame AI disclosure 없음"
+  },
+  "deliverySpec": {
+    "targetAspectRatio": "9:16",
+    "targetResolution": "1080x1920",
+    "targetDurationSec": 34.0,
+    "targetSceneCount": 10
+  },
+  "productionPolicy": {
+    "storyboardProvider": "duct_tape_ai",
+    "storyboardStage": "review-before-scene-video",
+    "pictureStage": "mute-video-only",
+    "dubStage": "post-picture-lock",
+    "typographyStage": "post-dub-lock",
+    "textInGeneration": "forbidden"
+  },
+  "handoffNotes": {
+    "storyboardPriority": "Translate the narrative into 8 to 10 webtoon-like cuts that preserve clear geography from duck sighting to river exit.",
+    "mustPreserve": [
+      "same pet identity across all cuts once the first provisional design is approved",
+      "same riverbank geography across chase, water entry, and climb-out payoff",
+      "same emotional tone: curious chase -> worried rescue -> innocent final look"
+    ],
+    "openQuestions": []
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "title": "대한과 배우는 한국어 | 수업이 두 시에 끝납니다.",
+  "description": "Daehan teaches one beginner Korean classroom sentence, then closes with a short blank recall check.\n\nKorean: 수업이 두 시에 끝납니다.\nRomanization: sueopi du sie kkeutnapnida.\nEnglish: The class ends at two o'clock.\nFocus word: 수업 (sueop, class)\nBlank recall: ___이 두 시에 끝납니다.\n\nDisclosure: AI-assisted educational video using reference-guided character visuals with post-produced dubbing and typography.\nAttribution: Daehan character assets are approved internal project assets derived from the devscent.com-owned base image noted in /home/kindsr/projects/shortform-factory-studio/characters/daehan/rights.md. Lesson source: https://malmoelab.com\n\nStudy more: https://malmoelab.com\nSource: https://malmoelab.com",
+  "videoFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/malmoelab-ko-lesson-daehan-001-final.mp4",
+  "thumbnailFile": "",
+  "tags": [
+    "malmoelab",
+    "learnkorean",
+    "koreanlesson",
+    "hangul",
+    "daehan",
+    "수업",
+    "classroomkorean"
+  ],
+  "privacyStatus": "private",
+  "categoryId": "22",
+  "playlistId": "",
+  "notifySubscribers": false,
+  "madeForKids": false,
+  "disclosureText": "AI-assisted educational video using reference-guided character visuals with post-produced dubbing and typography.",
+  "episodeSlug": "malmoelab-ko-lesson-daehan-001",
+  "packetStatus": "pre-qa-locked",
+  "workType": "publish_only",
+  "protagonist": "daehan",
+  "productionMode": "reference-only",
+  "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/daehan",
+  "disclosurePlacement": "description-level only; no visible-frame disclosure",
+  "rightsPosture": "Daehan character assets derive from the devscent.com-owned base image and are approved for internal derivatives and public-platform video publishing within this project. See /home/kindsr/projects/shortform-factory-studio/characters/daehan/rights.md.",
+  "thumbnailMode": "youtube-auto-selected",
+  "thumbnailDecision": {
+    "customThumbnailApproved": false,
+    "selectedMode": "youtube-auto-selected",
+    "selectedThumbnailFile": "",
+    "reviewWaivedByIssueComment": "/SHO/issues/SHO-54#comment-b5f77ad9-feea-4686-8fa7-b3fb2c6cc5cc",
+    "lessonFirstGuardrail": "Do not upload the local final-thumb candidate as a custom thumbnail for this pass; it leans quiz-first while this episode is packaged as learn-first, recall-later.",
+    "reviewedLocalCandidate": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/malmoelab-ko-lesson-daehan-001-final-thumb.jpg"
+  },
+  "assetSourcePaths": [
+    "/home/kindsr/projects/shortform-factory-studio/characters/daehan/daehan.jpg",
+    "/home/kindsr/projects/shortform-factory-studio/characters/daehan/Daehan_KoreanTeacher_3D.jpg",
+    "/home/kindsr/projects/shortform-factory-studio/characters/daehan/rights.md",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/source-packet.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/packet.md",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/narration-script.md",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/voice-slots.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/typography-slots.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/episode.schema.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/render-manifest.json",
+    "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/malmoelab-ko-lesson-daehan-001-final-thumb.jpg"
+  ],
+  "finalFileLocations": {
+    "videoFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/malmoelab-ko-lesson-daehan-001-final.mp4",
+    "thumbnailFile": "",
+    "thumbnailCandidateFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/malmoelab-ko-lesson-daehan-001-final-thumb.jpg",
+    "renderManifest": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/renders/final/render-manifest.json",
+    "reviewOverview": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-lesson-daehan-001/review/final-contact-sheets/overview.jpg"
+  },
+  "educationalSource": {
+    "label": "MalmoeLab",
+    "url": "https://malmoelab.com",
+    "exampleId": "8aa3c16b-1f40-4d83-9273-e5118ac2f58a"
+  },
+  "videoSpec": {
+    "aspectRatio": "16:9",
+    "resolution": "1280x720",
+    "fps": 30,
+    "durationSec": 30
+  },
+  "priorContext": {
+    "sourceIssue": "SHO-48",
+    "briefIssue": "SHO-49",
+    "scriptIssue": "SHO-50",
+    "editIssue": "SHO-51",
+    "renderIssue": "SHO-52",
+    "postIssue": "SHO-53",
+    "qaIssue": "SHO-54",
+    "publishIssue": "SHO-55",
+    "operationsIssue": "SHO-58",
+    "packagingIssue": "SHO-59",
+    "parentIssue": "SHO-47",
+    "newUploadRequired": true
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "_schema": "pet contents storyboard plan",
+  "_note": "jjiroo-tancheon-duck-chase-002 storyboard-first rerun plan. Reuse the original 001 drawing style basis, stay reference-only, and lock cast cardinality before image generation.",
+  "episode": {
+    "slug": "jjiroo-tancheon-duck-chase-002",
+    "basis": "source-packet -> style-lock -> storyboard cuts -> brief",
+    "protagonist": "jjiroo",
+    "supportingPet": "jjonga",
+    "referenceMode": "reference-only",
+    "originalStyleBasis": "../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md"
+  },
+  "provider": {
+    "preferred": "openai",
+    "model": "gpt-image-2",
+    "orchestrator": "codex_local"
+  },
+  "styleLockFile": "storyboard/style-lock.md",
+  "cutBundleRoot": "storyboard/webtoon-cuts",
+  "format": {
+    "aspectRatio": "9:16",
+    "targetCutCount": 10,
+    "timingNote": "Narration exists upstream, so storyboard pacing should remain compatible with a later local/basic no-paid-API timing pass before final durations lock."
+  },
+  "globalPromptRules": {
+    "mustPreserve": [
+      "Keep the same original 001 pet-webtoon illustration style.",
+      "Keep Tancheon path, grass edge, shallow river, duck rest area, and climb-out bank readable as one continuous location.",
+      "Keep Jjiroo as the visual protagonist even when mother enters the frame.",
+      "Keep Jjiroo mint Y-harness and Jjonga peach harness stable in every cut where they appear."
+    ],
+    "forbid": [
+      "duplicate pet",
+      "second version of same dog",
+      "extra dog",
+      "extra animal",
+      "wrong fur color",
+      "wrong harness color",
+      "wrong ear shape",
+      "merged face",
+      "extra limbs",
+      "wings",
+      "style drift",
+      "text",
+      "numbers",
+      "logos",
+      "watermarks",
+      "drowning panic",
+      "violent duck capture"
+    ]
+  },
+  "cuts": [
+    {
+      "id": "cut-01",
+      "beatId": "beat-1-walk-setup",
+      "beat": "Sunny Tancheon walk establishes mother, Jjiroo, and Jjonga moving together along the riverside path.",
+      "cameraConcept": "Vertical medium-wide establishing shot showing dirt path, grass edge, and river in one readable composition.",
+      "emotion": "Relaxed, cheerful, observational.",
+      "motionPotential": "Light walking loop, leash sway, grass breeze, easy opening push.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 1,
+        "mother": 1,
+        "ducks": 0
+      },
+      "continuityGoal": "Introduce the full walk geography and lock both harness colors before action starts.",
+      "promptCore": "Show one cream-ivory Jjiroo in a mint Y-harness and one caramel-brown Jjonga in a peach harness walking with their mother on a bright Tancheon riverside path.",
+      "outputPath": "storyboard/webtoon-cuts/cut-01.png"
+    },
+    {
+      "id": "cut-02",
+      "beatId": "beat-2-curious-dogs",
+      "beat": "The two dogs enjoy the walk by sniffing dirt, grass, and the environment before the incident begins.",
+      "cameraConcept": "Lower angle slice-of-life frame focused on dog behavior with the mother partly present above or behind them.",
+      "emotion": "Playful and grounded.",
+      "motionPotential": "Sniffing noses, tail flicks, tiny steps, path-life detail.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 1,
+        "mother": 1,
+        "ducks": 0
+      },
+      "continuityGoal": "Reinforce that Jjiroo and Jjonga are separate dogs with different silhouettes and energy.",
+      "promptCore": "Show one Jjiroo and one Jjonga enjoying the walk, sniffing around the Tancheon path while the mother remains a secondary guardian presence.",
+      "outputPath": "storyboard/webtoon-cuts/cut-02.png"
+    },
+    {
+      "id": "cut-03",
+      "beatId": "beat-3-duck-spotting",
+      "beat": "Jjiroo spots ducks resting near the riverbank and locks onto them with sudden focused curiosity.",
+      "cameraConcept": "Reaction composition foregrounding Jjiroo while ducks remain readable in the distance near the bank.",
+      "emotion": "Curious, alert, target acquired.",
+      "motionPotential": "Ear perk, gaze snap, subtle push toward ducks.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 1,
+        "mother": 0,
+        "ducks": 3
+      },
+      "continuityGoal": "Keep the ducks visibly outside the water at first and make Jjiroo's attention shift readable.",
+      "promptCore": "Show one Jjiroo suddenly freezing and staring toward three resting ducks near the riverside bank while Jjonga remains nearby as a calmer observer.",
+      "outputPath": "storyboard/webtoon-cuts/cut-03.png"
+    },
+    {
+      "id": "cut-04",
+      "beatId": "beat-3-duck-spotting",
+      "beat": "Jjiroo lowers into a stalking posture and edges forward while the ducks are still momentarily unaware.",
+      "cameraConcept": "Low side-profile tension frame with crouched body language and readable riverbank depth.",
+      "emotion": "Coiled anticipation.",
+      "motionPotential": "Tiny paw placement, body compression, harness tension, held suspense.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 0,
+        "mother": 0,
+        "ducks": 3
+      },
+      "continuityGoal": "Keep this as curiosity-driven stalking, not predator violence, and preserve the same bank geography.",
+      "promptCore": "Show one Jjiroo in a low curious stalking pose near the bank, focused on three ducks that have not fully reacted yet.",
+      "outputPath": "storyboard/webtoon-cuts/cut-04.png"
+    },
+    {
+      "id": "cut-05",
+      "beatId": "beat-4-sudden-chase",
+      "beat": "Jjiroo snaps free and rockets toward the ducks as they burst away toward the river.",
+      "cameraConcept": "Dynamic diagonal chase composition with ducks breaking toward water and the chase direction clearly readable.",
+      "emotion": "Sudden chaos and comic speed.",
+      "motionPotential": "Sprint burst, duck flutter, directional smear, fast escalation.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 0,
+        "mother": 1,
+        "ducks": 3
+      },
+      "continuityGoal": "Sell the breakaway moment without creating duplicate Jjiroo bodies or violent contact with ducks.",
+      "promptCore": "Show one Jjiroo exploding into a sprint toward three ducks that are escaping toward the river, with the mother reacting behind him.",
+      "outputPath": "storyboard/webtoon-cuts/cut-05.png"
+    },
+    {
+      "id": "cut-06",
+      "beatId": "beat-5-river-pursuit",
+      "beat": "Jjiroo commits to the chase and dives into the shallow river after the ducks.",
+      "cameraConcept": "Impact frame at the water-entry point showing the exact bank Jjiroo launched from.",
+      "emotion": "Bold, impulsive, impressive.",
+      "motionPotential": "Launch, splash burst, water entry transition, startled shoreline reaction.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 1,
+        "mother": 0,
+        "ducks": 3
+      },
+      "continuityGoal": "Make Jjiroo the first one in the river and keep Jjonga safely on shore as a witness.",
+      "promptCore": "Show one Jjiroo diving into the shallow river after three escaping ducks while one Jjonga stays back on shore.",
+      "outputPath": "storyboard/webtoon-cuts/cut-06.png"
+    },
+    {
+      "id": "cut-07",
+      "beatId": "beat-6-mother-jumps-in",
+      "beat": "The mother jumps into the river after Jjiroo, who is already swimming ahead.",
+      "cameraConcept": "Layered depth shot with soaked mother behind, Jjiroo midstream, and ducks farther ahead.",
+      "emotion": "Alarmed rescue energy with comic mismatch.",
+      "motionPotential": "Water churn, arm reach, strong swim direction, widening distance gag.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 0,
+        "mother": 1,
+        "ducks": 3
+      },
+      "continuityGoal": "Mother enters after Jjiroo, not with him, and Jjiroo must still read as confident rather than distressed.",
+      "promptCore": "Show one mother jumping into the river in pursuit while one Jjiroo is already swimming ahead of her and three ducks remain farther forward.",
+      "outputPath": "storyboard/webtoon-cuts/cut-07.png"
+    },
+    {
+      "id": "cut-08",
+      "beatId": "beat-6-mother-jumps-in",
+      "beat": "Jjiroo moves fast through the current while the mother struggles behind, creating a brief lost-him scare.",
+      "cameraConcept": "Long vertical river-lane frame emphasizing distance between Jjiroo and the mother.",
+      "emotion": "Escalation with absurdity.",
+      "motionPotential": "Upstream swim rhythm, ripples, effort contrast, fleeing ducks out of reach.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 0,
+        "mother": 1,
+        "ducks": 2
+      },
+      "continuityGoal": "Keep the danger level comic and readable, not panic-driven, while selling Jjiroo's surprising swim speed.",
+      "promptCore": "Show one Jjiroo confidently swimming ahead in the river with the mother trailing behind and two ducks still escaping farther away.",
+      "outputPath": "storyboard/webtoon-cuts/cut-08.png"
+    },
+    {
+      "id": "cut-09",
+      "beatId": "beat-7-self-recovery",
+      "beat": "Jjiroo gives up on the ducks, returns to shore, and climbs out on his own.",
+      "cameraConcept": "Recovery shot focused on the same climb-out bank so the self-rescue reads clearly.",
+      "emotion": "Relief and reset.",
+      "motionPotential": "Wet dog climb, shake-off setup, mother still recovering behind.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 0,
+        "mother": 1,
+        "ducks": 0
+      },
+      "continuityGoal": "Make the self-recovery unambiguous: Jjiroo is already solving the problem himself before the payoff lands.",
+      "promptCore": "Show one dripping Jjiroo climbing out of the river onto the readable bank by himself while the mother remains wet behind him.",
+      "outputPath": "storyboard/webtoon-cuts/cut-09.png"
+    },
+    {
+      "id": "cut-10",
+      "beatId": "beat-8-ironic-look",
+      "beat": "Final payoff: Jjiroo stands safely on shore and gives the soaked mother a puzzled, innocent look.",
+      "cameraConcept": "Comedy reaction frame with Jjiroo foreground on land and the mother stranded behind in the water or at the edge.",
+      "emotion": "Innocent irony, anticlimax, clean laugh.",
+      "motionPotential": "Tiny hold, blink, head tilt, lingering reaction beat.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "jjonga": 0,
+        "mother": 1,
+        "ducks": 0
+      },
+      "continuityGoal": "Land the joke that only the mother ended up soaked while Jjiroo looks almost confused by her situation.",
+      "promptCore": "Show one safe Jjiroo back on shore giving the soaked mother a puzzled 'why are you in there' look, with no visible danger left in frame.",
+      "outputPath": "storyboard/webtoon-cuts/cut-10.png"
+    }
+  ]
+}

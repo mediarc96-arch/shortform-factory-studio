@@ -27,7 +27,15 @@
       "recordingTarget": "dubbing/audio-overrides/scene-1-opening-greeting-ko.wav",
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
-      "performanceNote": "Warm opening greeting. Keep the standard 003 lesson-host cadence."
+      "performanceNote": "Warm opening greeting. Keep the standard 003 lesson-host cadence.",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-1-opening-greeting-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-1-opening-greeting-ko.mp3",
+      "startSec": 0.6,
+      "endSec": 4.05,
+      "durationSec": 3.45,
+      "renderText": "안녕하세요. 여러분과 한글을 함께 공부할 대한입니다!"
     },
     {
       "voiceSlotId": "scene-2-intro-ko",
@@ -47,7 +55,15 @@
       "recordingTarget": "dubbing/audio-overrides/scene-2-intro-ko.wav",
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
-      "performanceNote": "Introduce the full lesson sentence early. This is the payoff beat, not the quiz prompt."
+      "performanceNote": "Introduce the full lesson sentence early. This is the payoff beat, not the quiz prompt.",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-2-intro-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-2-intro-ko.mp3",
+      "startSec": 6.55,
+      "endSec": 9.84,
+      "durationSec": 3.29,
+      "renderText": "오늘 배울 문장은 수업이 두 시에 끝납니다, 입니다."
     },
     {
       "voiceSlotId": "scene-3-repeat-cue-ko",
@@ -68,7 +84,15 @@
       "recordingTarget": "dubbing/audio-overrides/scene-3-repeat-cue-ko.wav",
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
-      "performanceNote": "Repeat invitation. Keep it bright and encouraging."
+      "performanceNote": "Repeat invitation. Keep it bright and encouraging.",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-3-repeat-cue-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-repeat-cue-ko.mp3",
+      "startSec": 12.55,
+      "endSec": 13.46,
+      "durationSec": 0.91,
+      "renderText": "따라해 볼까요?"
     },
     {
       "voiceSlotId": "scene-3-sentence-ko",
@@ -89,7 +113,15 @@
       "recordingTarget": "dubbing/audio-overrides/scene-3-sentence-ko.wav",
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
-      "performanceNote": "Read the full sentence clearly after the repeat cue."
+      "performanceNote": "Read the full sentence clearly after the repeat cue.",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-3-sentence-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-3-sentence-ko.mp3",
+      "startSec": 14.46,
+      "endSec": 15.84,
+      "durationSec": 1.38,
+      "renderText": "수업이 두 시에 끝납니다."
     },
     {
       "voiceSlotId": "scene-4-cta-ko",
@@ -109,7 +141,15 @@
       "recordingTarget": "dubbing/audio-overrides/scene-4-cta-ko.wav",
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
-      "performanceNote": "Blank recall question only. Do not reveal the answer in the spoken line."
+      "performanceNote": "Blank recall question only. Do not reveal the answer in the spoken line.",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-4-cta-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-4-cta-ko.mp3",
+      "startSec": 19.2,
+      "endSec": 21.11,
+      "durationSec": 1.91,
+      "renderText": "빈칸에 들어갈 말은 무엇일까요?"
     },
     {
       "voiceSlotId": "scene-5-ending-ko",
@@ -129,7 +169,15 @@
       "recordingTarget": "dubbing/audio-overrides/scene-5-ending-ko.wav",
       "ttsProvider": "supertone",
       "ttsVoiceEnv": "SUPERTONE_VOICE_ID_DAEHAN",
-      "performanceNote": "Short service CTA plus a warm goodbye that matches Daehan's friendly teacher tone."
+      "performanceNote": "Short service CTA plus a warm goodbye that matches Daehan's friendly teacher tone.",
+      "selectedAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
+      "guideAsset": "dubbing/guide-audio/scene-5-ending-ko.mp3",
+      "selectedSource": "supertone-guide",
+      "activeRenderAsset": "renders/dub-lock/narration-guide/scene-5-ending-ko.mp3",
+      "startSec": 26.55,
+      "endSec": 28.85,
+      "durationSec": 2.3,
+      "renderText": "말모이랩닷컴에서 더 알아보아요. 안녕!"
     }
   ]
 }

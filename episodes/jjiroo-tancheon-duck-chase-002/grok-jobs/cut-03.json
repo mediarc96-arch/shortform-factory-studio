@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · jjiroo-tancheon-duck-chase-002 storyboard cut-03",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Use the input image as the approved original-style storyboard cut for this same beat. Preserve the exact same pet identity, harness colors, readable Tancheon geography, and warm observational webtoon drawing style from the input image. Do not beautify, repaint, photorealize, or reinterpret the art style. Create a clean vertical 9:16 storyboard/webtoon cut. Cast lock: show exactly 1 Jjiroo, exactly 1 Jjonga, exactly 3 ducks. Do not show mother. Story beat: Jjiroo spots ducks resting near the riverbank and locks onto them with sudden focused curiosity.. Camera concept: Reaction composition foregrounding Jjiroo while ducks remain readable in the distance near the bank.. Emotion: Curious, alert, target acquired.. Continuity goal: Keep the ducks visibly outside the water at first and make Jjiroo's attention shift readable.. Core action: Show one Jjiroo suddenly freezing and staring toward three resting ducks near the riverside bank while Jjonga remains nearby as a calmer observer.. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime riverside air. Keep Tancheon geography readable across all cuts: dirt walking path, grass edge, shallow river, duck rest area, and a clear climb-out bank must feel like one continuous location. Expressions may be comedic and readable, but never cruel, horror-coded, or rescue-disaster melodrama. Do no Forbidden: duplicate pet, second version of same dog, extra dog, extra animal, wrong fur color, wrong harness color, wrong ear shape, merged face, extra limbs, wings, style drift, text, numbers, logos, watermarks, drowning panic, violent duck capture. Keep the tone comic, safe, and readable, never violent or panic-driven. No text of any kind anywhere in frame, including captions, subtitles, corner labels, numbers, logos, or watermarks. No duplicate pets, extra animals, wings, extra limbs, merged faces, or wrong fur colors.",
+    "image": {
+      "url": "../../jjiroo-tancheon-duck-chase-001/storyboard/webtoon-cuts/cut-03.png"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../storyboard/webtoon-cuts/cut-03.png",
+    "manifestFile": "../storyboard/webtoon-cuts/cut-03.manifest.json"
+  }
+}

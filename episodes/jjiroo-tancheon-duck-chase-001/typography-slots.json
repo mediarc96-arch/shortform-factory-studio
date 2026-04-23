@@ -1,0 +1,71 @@
+{
+  "formatVersion": "pet-contents-typography-slots@0.1",
+  "episodeSlug": "jjiroo-tancheon-duck-chase-001",
+  "_note": "Sparse post-only captions aligned to the same beat map as `voice-slots.json`. Captions support trigger, escalation, and payoff instead of paraphrasing every narration line.",
+  "stylePresets": {
+    "soft-webtoon-subtitle": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "soft-webtoon-caption",
+      "surface": "subtitle-lower-third",
+      "fill": "#F8F5EC",
+      "strokeFill": "#2E2A27",
+      "strokeWidth": 3
+    },
+    "comic-pop": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "look": "comic-reaction-pop",
+      "surface": "reaction-float",
+      "fill": "#FFF3A7",
+      "strokeFill": "#3A2D12",
+      "strokeWidth": 4
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-03-caption",
+      "sceneId": "scene-03",
+      "surface": "subtitle-lower-third",
+      "text": "오리 발견",
+      "stylePreset": "soft-webtoon-subtitle",
+      "plannedInTimeSec": 5.55,
+      "plannedOutTimeSec": 7.3
+    },
+    {
+      "slotId": "scene-05-pop",
+      "sceneId": "scene-05",
+      "surface": "reaction-float",
+      "text": "그대로 돌진",
+      "stylePreset": "comic-pop",
+      "plannedInTimeSec": 10.75,
+      "plannedOutTimeSec": 12.45
+    },
+    {
+      "slotId": "scene-07-caption",
+      "sceneId": "scene-07",
+      "surface": "subtitle-lower-third",
+      "text": "엄마도 바로 입수",
+      "stylePreset": "soft-webtoon-subtitle",
+      "plannedInTimeSec": 16.8,
+      "plannedOutTimeSec": 18.95
+    },
+    {
+      "slotId": "scene-09-caption",
+      "sceneId": "scene-09",
+      "surface": "subtitle-lower-third",
+      "text": "혼자 다시 올라옴",
+      "stylePreset": "soft-webtoon-subtitle",
+      "plannedInTimeSec": 23.45,
+      "plannedOutTimeSec": 25.2
+    },
+    {
+      "slotId": "scene-10-ending-caption",
+      "sceneId": "scene-10",
+      "surface": "subtitle-lower-third",
+      "text": "왜 거기 있어요? 하는 눈빛",
+      "stylePreset": "soft-webtoon-subtitle",
+      "plannedInTimeSec": 26.55,
+      "plannedOutTimeSec": 29.55
+    }
+  ]
+}

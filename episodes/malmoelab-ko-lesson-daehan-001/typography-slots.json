@@ -49,8 +49,8 @@
       "stylePreset": "malmoelab-board-handwritten-bold",
       "plannedInTimeSec": 13.0,
       "plannedOutTimeSec": 18.0,
-      "inTimeSec": 14.44,
-      "outTimeSec": 17.21
+      "inTimeSec": 14.41,
+      "outTimeSec": 16.84
     },
     {
       "slotId": "scene-4-quiz-blank",
@@ -64,7 +64,7 @@
       "plannedInTimeSec": 18.2,
       "plannedOutTimeSec": 24.0,
       "inTimeSec": 18.15,
-      "outTimeSec": 23.85
+      "outTimeSec": 29.85
     },
     {
       "slotId": "scene-4-prompt-lower-third",
@@ -86,7 +86,7 @@
       "plannedInTimeSec": 24.15,
       "plannedOutTimeSec": 27.1,
       "inTimeSec": 26.5,
-      "outTimeSec": 29.75
+      "outTimeSec": 29.3
     }
   ]
 }

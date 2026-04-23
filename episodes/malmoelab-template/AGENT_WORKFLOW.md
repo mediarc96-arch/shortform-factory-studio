@@ -103,6 +103,7 @@
 - final export와 review bundle이 생성된다.
 - typography 수정만으로 TTS가 바뀌지 않도록 기존 오디오 재사용 정책을 지킨다.
 - 기본 lesson형 포맷에서는 blank sentence가 `scene-4`에서 시작해 `scene-5` 엔딩까지 칠판에 유지된다.
+- QA는 위 `scene-4 -> scene-5` blank sentence 유지 연출을 의도된 포맷으로 해석하고, typography continuity defect로 blocker 처리하지 않는다.
 - 사람이 직접 Paperclip에서 진행할 때도 final review bundle 기준으로 `scene-2/3 = full sentence`, `scene-4 = blank sentence`, `scene-5 = ending CTA`를 다시 확인한다.
 
 ### `[PUBLISH]`
@@ -110,6 +111,7 @@
 - `publish-packet.json`은 `videoFile`을 필수로 포함해야 한다.
 - `thumbnailFile`은 선택값이다.
 - 기본 `malmoelab` lesson형 업로드는 커스텀 썸네일을 사용하지 않는다.
+- QA와 publish review는 YouTube 자동 썸네일을 기본 정책으로 본다. 명시적 승인 없이 custom thumbnail이 없거나 예전 `thumbnailFile` 경로가 남아 있어도 blocker가 아니다.
 - 채널 권한과 운영 필요가 명시적으로 승인된 경우에만 `thumbnailFile`을 채운다.
 - 승인되지 않은 회차에서 `thumbnailFile`을 임의로 채워 업로드를 시도하지 않는다.
 

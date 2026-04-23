@@ -6,7 +6,7 @@
   "characterRoot": "characters/daehan",
   "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
   "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
-  "status": "planning",
+  "status": "final-export",
   "createdAt": "2026-04-19T14:24:00Z",
   "reusableAssets": {
     "characterImage2D": "characters/daehan/daehan.jpg",
@@ -157,10 +157,18 @@
   "typographySlotsFile": "./typography-slots.json",
   "videoGenerationJobFile": "./video-generation-job.json",
   "notes": {
-    "currentExecutionMode": "malmoelab-keyframe-dub-after-picture-v1-brief",
+    "currentExecutionMode": "malmoelab-keyframe-dub-after-picture-v1-final",
     "briefReferenceEpisode": "episodes/daehan-pilot-codex-003",
     "managedBy": "content-strategist",
     "blockingStatus": "none",
-    "downstreamGuardrail": "Do not change the source sentence, switch to 2D pilot styling, or introduce visible text during generation."
+    "downstreamGuardrail": "Do not change the source sentence, switch to 2D pilot styling, or introduce visible text during generation.",
+    "latestReviewReport": "./review/final-review-report.md",
+    "latestReviewSeverity": "pending-visual-qa",
+    "pictureLockPath": "./renders/picture-lock/malmoelab-ko-lesson-daehan-001-picture-lock.mp4",
+    "dubMixPath": "./renders/dub-lock/malmoelab-ko-lesson-daehan-001-guide-dub.m4a",
+    "dubbingPackagePath": "./dubbing/README.md",
+    "dubbingCuesPath": "./dubbing/dubbing-cues.csv",
+    "finalExportPath": "./renders/final/malmoelab-ko-lesson-daehan-001-final.mp4",
+    "thumbnailPath": "./renders/final/malmoelab-ko-lesson-daehan-001-final-thumb.jpg"
   }
 }

@@ -1,0 +1,187 @@
+{
+  "episode": {
+    "slug": "jjiroo-tancheon-duck-chase-001",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refStoryboardPlan": "./storyboard/storyboard-plan.json",
+    "_refKeyframePlan": "./keyframe-plan.json",
+    "_refCameraPlan": "./storyboard/camera-plan.md"
+  },
+  "globalSettings": {
+    "formatProfile": "pet-contents-vertical-webtoon-v1",
+    "provider": "runway",
+    "preferredProvider": "runway",
+    "fallbackProvider": "xai_grok",
+    "continuityTarget": "previous-scene-last-frame",
+    "sceneBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "fps": 30,
+    "seed": 422365,
+    "styleLockFile": "storyboard/style-lock.md",
+    "style": "warm observational pet webtoon motion, bright daytime Tancheon riverside, readable geography, comic anecdote tone",
+    "characterReferenceBase": "storyboard/webtoon-cuts/cut-01.png",
+    "negativePromptCommon": "text, letters, subtitles, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, broken anatomy, uncanny faces, predator-prey violence, drowning panic, injured ducks, blurry",
+    "compositionRule": "Keep Jjiroo and Jjonga identical to the approved storyboard and keyframe plan. Preserve the same Tancheon riverside geography from duck sighting to water entry to climb-out bank. Keep generated frames text-free and comic rather than dangerous.",
+    "providerExpectations": {
+      "keyframeGate": "Use the approved keyframe plan and storyboard bundle as the visual lock before generating any scene video.",
+      "pictureStage": "Generate mute picture-only clips first, then hand off to POST for narration, SFX, BGM, typography, and final assembly.",
+      "continuityRule": "Scene-01 starts from keyframes/kf-01.jpg. Scene-02 through scene-10 start from the prior scene handoff frame and aim toward the approved next keyframe pose card without resetting geography.",
+      "textRule": "Do not bake captions, CTA, labels, or any readable text into generated frames.",
+      "sceneDelivery": "Each completed scene should yield one picture clip, one provider manifest, and one extracted last-frame asset for the next handoff."
+    }
+  },
+  "_note": "Pet-contents storyboard-first path. Render the 10-scene picture chain sequentially with preserved riverside geography and exact scene-boundary continuity.",
+  "futureScenes": [
+    {
+      "sceneId": "scene-01",
+      "sourceCutId": "cut-01",
+      "durationSec": 2.5,
+      "startSeed": "keyframes/kf-01.jpg",
+      "targetPoseCard": "keyframes/kf-01.jpg",
+      "handoffLastFramePath": "assets/refs/scene-01-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-01.mp4",
+      "cameraIntent": "gentle opening pan over a calm riverside walk",
+      "providerExpectation": "Open on a clean, bright Tancheon establishing beat that immediately locks the mother, Jjiroo, Jjonga, and the river path in the same readable world.",
+      "continuityNotes": [
+        "Use the same harness colors and pet silhouettes as the storyboard lock.",
+        "The river, dirt path, and walking direction become the baseline geography for every later scene."
+      ]
+    },
+    {
+      "sceneId": "scene-02",
+      "sourceCutId": "cut-02",
+      "durationSec": 2.5,
+      "startSeed": "assets/refs/scene-01-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-02.jpg",
+      "handoffLastFramePath": "assets/refs/scene-02-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-02.mp4",
+      "cameraIntent": "subtle dog-height handheld drift with slice-of-life detail",
+      "providerExpectation": "Stay close to the dogs and sell relaxed sniffing behavior without changing the environment logic or pet identity.",
+      "continuityNotes": [
+        "Begin from the same walking state as scene-01 final frame before lowering into sniffing behavior.",
+        "Keep the mother secondary and the riverbank relationship unchanged."
+      ]
+    },
+    {
+      "sceneId": "scene-03",
+      "sourceCutId": "cut-03",
+      "durationSec": 2.5,
+      "startSeed": "assets/refs/scene-02-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-03.jpg",
+      "handoffLastFramePath": "assets/refs/scene-03-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-03.mp4",
+      "cameraIntent": "tiny push-in on Jjiroo's duck-lock reaction",
+      "providerExpectation": "Make the duck sighting unmistakable while keeping Jjiroo foregrounded and the ducks readable in the same location they will escape from later.",
+      "continuityNotes": [
+        "The ducks must appear at the same resting zone that later connects to the chase and water entry.",
+        "Jjonga remains secondary and calm; no sudden breed or scale drift."
+      ]
+    },
+    {
+      "sceneId": "scene-04",
+      "sourceCutId": "cut-04",
+      "durationSec": 2.8,
+      "startSeed": "assets/refs/scene-03-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-04.jpg",
+      "handoffLastFramePath": "assets/refs/scene-04-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-04.mp4",
+      "cameraIntent": "slow lateral creep during a coiled stalking hold",
+      "providerExpectation": "Build pre-sprint tension through posture, leash strain, and eye-line only; hold geography steady so the later burst feels like one continuous action.",
+      "continuityNotes": [
+        "Jjiroo's crouch direction must match the sprint direction in scene-05.",
+        "Do not let the ducks relocate or the bank shape change between scenes."
+      ]
+    },
+    {
+      "sceneId": "scene-05",
+      "sourceCutId": "cut-05",
+      "durationSec": 3.0,
+      "startSeed": "assets/refs/scene-04-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-05.jpg",
+      "handoffLastFramePath": "assets/refs/scene-05-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-05.mp4",
+      "cameraIntent": "aggressive diagonal chase frame with a sudden acceleration release",
+      "providerExpectation": "Explode from the stalking hold into a fast but readable sprint toward the river, with ducks scattering and the mother clearly lagging behind.",
+      "continuityNotes": [
+        "Keep Jjonga back on shore and out of the pursuit lane.",
+        "The final frame should land at the exact bank edge that becomes the splash point in scene-06."
+      ]
+    },
+    {
+      "sceneId": "scene-06",
+      "sourceCutId": "cut-06",
+      "durationSec": 3.0,
+      "startSeed": "assets/refs/scene-05-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-06.jpg",
+      "handoffLastFramePath": "assets/refs/scene-06-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-06.mp4",
+      "cameraIntent": "fast drop into a splash impact at the same bank edge",
+      "providerExpectation": "Scale the incident up by putting Jjiroo into the water immediately, but keep the entry point crystal clear and non-threatening.",
+      "continuityNotes": [
+        "The opening frame must exactly match scene-05's final sprint state before the water impact continues.",
+        "Keep the splash comic and energetic, not panicked or dangerous."
+      ]
+    },
+    {
+      "sceneId": "scene-07",
+      "sourceCutId": "cut-07",
+      "durationSec": 3.4,
+      "startSeed": "assets/refs/scene-06-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-07.jpg",
+      "handoffLastFramePath": "assets/refs/scene-07-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-07.mp4",
+      "cameraIntent": "forward chase framing with layered depth from shore into river",
+      "providerExpectation": "Reveal the mother entering after Jjiroo without losing the fact that Jjiroo is already ahead and in control of the frame.",
+      "continuityNotes": [
+        "The mother enters from the same water entry area established in scene-06.",
+        "Jjiroo stays the emotional center; the mother is a rescue context, not the lead."
+      ]
+    },
+    {
+      "sceneId": "scene-08",
+      "sourceCutId": "cut-08",
+      "durationSec": 3.4,
+      "startSeed": "assets/refs/scene-07-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-08.jpg",
+      "handoffLastFramePath": "assets/refs/scene-08-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-08.mp4",
+      "cameraIntent": "vertical tracking follow along the river lane",
+      "providerExpectation": "Sustain the absurdity by showing Jjiroo swimming confidently ahead while the ducks clear out and the mother cannot close the gap.",
+      "continuityNotes": [
+        "Distance between Jjiroo and the mother should widen without making the scene feel like an emergency.",
+        "By the end of the scene, Jjiroo begins redirecting from chase mode toward the climb-out bank."
+      ]
+    },
+    {
+      "sceneId": "scene-09",
+      "sourceCutId": "cut-09",
+      "durationSec": 3.0,
+      "startSeed": "assets/refs/scene-08-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-09.jpg",
+      "handoffLastFramePath": "assets/refs/scene-09-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-09.mp4",
+      "cameraIntent": "easing pullback toward the self-rescue climb-out point",
+      "providerExpectation": "Make Jjiroo's self-rescue legible and satisfying by landing him on the same readable bank system established earlier in the chase.",
+      "continuityNotes": [
+        "The climb-out bank must feel like the same river geography, not a reset to a new shoreline.",
+        "End with Jjiroo fully on land and turning his attention back toward the mother."
+      ]
+    },
+    {
+      "sceneId": "scene-10",
+      "sourceCutId": "cut-10",
+      "durationSec": 3.9,
+      "startSeed": "assets/refs/scene-09-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-10.jpg",
+      "handoffLastFramePath": "assets/refs/scene-10-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-10.mp4",
+      "cameraIntent": "mostly locked comedy hold with a tiny head-tilt reaction",
+      "providerExpectation": "Land the clean final laugh by holding on Jjiroo safe on the bank, dripping and puzzled, with the soaked mother behind him in the water.",
+      "continuityNotes": [
+        "Begin from the exact climb-out state reached in scene-09; only minimal facial and head movement should be added.",
+        "Leave room for the final lower-third caption in POST and keep the frame completely text-free."
+      ]
+    }
+  ]
+}

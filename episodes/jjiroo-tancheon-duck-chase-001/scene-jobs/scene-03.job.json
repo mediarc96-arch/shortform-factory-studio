@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Composition: Keep Jjiroo and Jjonga identical to the approved storyboard and keyframe plan. Preserve the same Tancheon riverside geography from duck sighting to water entry to climb-out bank. Keep generated frames text-free and comic rather than dangerous. Make the duck sighting unmistakable while keeping Jjiroo foregrounded and the ducks readable in the same location they will escape from later. Story beat: Jjiroo suddenly spots a group of ducks resting near the riverbank and locks onto them. Approved target pose: Jjiroo frozen in alert reaction with ears up, ducks readable in the distance near the bank, Jjonga secondary Camera intent: tiny push-in on Jjiroo's duck-lock reaction Continuity notes: The ducks must appear at the same resting zone that later connects to the chase and water entry. Jjonga remains secondary and calm; no sudden breed or scale drift. Style lock: # jjiroo-tancheon-duck-chase-001 Style Lock ## 스타일 고정 공통문구 세로형 9:16 따뜻한 관찰형 반려동물 웹툰 일러스트, 깔끔한 라인과 부드러운 채색, 밝은 낮 산책 공기 탄천 산책로와 얕은 강 가장자리가 한 에피소드 안에서 같은 장소로 읽히도록 지형과 동선을 명확하게 유지 표정은 과장 가능하지만 공포나 폭력 톤이 아니라 코믹한 실제 일화 톤으로 유지 같은 회차 안에서는 두 강아지의 체형, 털색, 귀 모양, 하네스 색, 꼬리 실루엣, 눈매를 절대 흔들지 않기 generated footage나 storyboard cut 안에 텍스트, 자막, 숫자, 로고를 넣지 않기 ## 캐릭터 고정 문구 찌루는 어린 주인공 반려견이다. 작은 체구의 크림아이보리색 강아지, 세모로 곧게 선 귀, 짧고 또렷한 주둥이, 동그랗고 진한 눈, 살짝 위로 말린 복슬 꼬리, 민트색 Y형 하네스. 영리하고 호기심이 많고 순간적으로 번개처럼 튀어나가는 인상. 물속에서도 겁먹기보다 자신감 있게 움직이지만 공격적으로 보이면 안 된다. 쫑아는 보조 반려견이다. 찌루보다 약간 더 작고 둥근 체형의 연한 카라멜브라운 강아지, 아래로 자연스럽게 떨어지는 귀, 더 둥근 얼굴선, 짧은 다리, 복숭아색 하네스. 산책 동반자로 차분하고 관찰자 같은 인상이며, 화면에서는 찌루와 즉시 구분되어야 한다. 어머니는 구조자이지만 주인공이 아니다. 초반에는 산책을 함께하는 보호자로 배경에 두고, 강에 뛰어드는 클라이맥스에서만 적극적으로 들어온다. 마지막 컷에서는 젖은 보호자의 허탈함이 보이되 얼굴보다 상황이 먼저 읽혀야 한다. 탄천 오리들은 놀라서 피하는 야생동물이다. 경계심 있고 재빠르게 물로 빠지지만 다치거나 잡힐 위험처럼 보이면 안 된다. ## 톤 규칙 전체 분위기: 날씨 좋은 날의 산책 해프닝이 점점  Avoid: text, letters, subtitles, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, broken anatomy, uncanny faces, predator-prey violence, drowning panic, injured ducks, blurry No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.\n\nComposition: Keep Jjiroo and Jjonga identical to the approved storyboard and keyframe plan. Preserve the same Tancheon riverside geography from duck sighting to water entry to climb-out bank. Keep generated frames text-free and comic rather than dangerous.\n\nAVOID: text, letters, subtitles, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, broken anatomy, uncanny faces, predator-prey violence, drowning panic, injured ducks, blurry",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-tancheon-duck-chase-001/assets/refs/scene-02-last-frame.jpg",
+    "duration": 2,
+    "aspect_ratio": "9:16",
+    "resolution": "720p",
+    "seed": 422365
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-tancheon-duck-chase-001/renders/picture/scene-03.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-tancheon-duck-chase-001/renders/grok/scene-03.manifest.json"
+  }
+}
