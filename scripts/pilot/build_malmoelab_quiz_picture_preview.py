@@ -6,6 +6,7 @@ import argparse
 import csv
 import json
 import math
+import re
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -35,6 +36,21 @@ def run(cmd: list[str]) -> None:
 
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def media_duration(ffmpeg: str, path: Path) -> float:
+    result = subprocess.run(
+        [ffmpeg, "-i", str(path), "-f", "null", "-"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    output = result.stderr or ""
+    match = re.search(r"Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)", output)
+    if not match:
+        raise RuntimeError(f"Unable to determine media duration for {path}")
+    return int(match.group(1)) * 3600 + int(match.group(2)) * 60 + float(match.group(3))
 
 
 def timecode(sec: float) -> str:
@@ -157,9 +173,9 @@ def build_scene_specs(episode_dir: Path) -> list[SceneSpec]:
         scene_entries = list(job.get("futureScenes") or [])
 
     for scene in scene_entries:
-        output_raw = scene.get("outputPath") or scene.get("sourceFile")
+        output_raw = scene.get("outputPath") or scene.get("outputClipPath") or scene.get("sourceFile")
         if not output_raw:
-            raise ValueError(f"Scene {scene.get('sceneId') or '<unknown>'} is missing outputPath/sourceFile")
+            raise ValueError(f"Scene {scene.get('sceneId') or '<unknown>'} is missing outputPath/outputClipPath/sourceFile")
         trim_start_sec, trim_end_sec = scene_time_range(scene)
         duration_sec = (
             max(trim_end_sec - trim_start_sec, 0.0)
@@ -266,10 +282,14 @@ def build_contact_sheets(ffmpeg: str, review_dir: Path, specs: list[SceneSpec]) 
 
     overview_frames: list[tuple[str, Path]] = []
     for spec in specs:
+        input_duration = media_duration(ffmpeg, spec.input_path)
+        available_duration = max(0.05, input_duration - spec.trim_start_sec)
+        if spec.trim_end_sec is not None:
+            available_duration = min(available_duration, max(spec.trim_end_sec - spec.trim_start_sec, 0.05))
         frames: list[tuple[str, Path]] = []
-        for idx, sec in enumerate(sample_times(spec.duration_sec)):
+        for idx, sec in enumerate(sample_times(available_duration)):
             frame_path = frame_dir / f"{spec.scene_id}-{idx + 1}.jpg"
-            actual_time = min(sec, max(spec.duration_sec - 0.05, 0.0))
+            actual_time = min(sec, max(available_duration - 0.05, 0.0))
             extract_frame(ffmpeg, spec.input_path, spec.trim_start_sec + actual_time, frame_path)
             frames.append((f"{spec.scene_id} / {actual_time:.2f}s", frame_path))
         make_contact_sheet(spec.scene_id, frames, contact_dir / f"{spec.scene_id}.jpg")

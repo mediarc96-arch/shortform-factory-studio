@@ -59,6 +59,7 @@ def resolve_path(raw: str, *, episode_dir: Path, repo_root: Path) -> Path:
 
 
 GROK_SUPPORTED_RESOLUTIONS = {"480p", "720p"}
+MAX_PROMPT_BYTES = 3900
 
 
 def build_resolution(raw: str) -> str:
@@ -80,13 +81,38 @@ def build_resolution(raw: str) -> str:
     return "720p"
 
 
+def trim_prompt_bytes(text: str, *, max_bytes: int = MAX_PROMPT_BYTES) -> str:
+    if len(text.encode("utf-8")) <= max_bytes:
+        return text
+
+    suffix = " Preserve approved original style and identity. No text or logos."
+    suffix_bytes = len(suffix.encode("utf-8"))
+    budget = max(0, max_bytes - suffix_bytes)
+
+    words = text.split()
+    kept: list[str] = []
+    current = ""
+    for word in words:
+        candidate = word if not current else f"{current} {word}"
+        if len(candidate.encode("utf-8")) > budget:
+            break
+        current = candidate
+        kept.append(word)
+
+    trimmed = " ".join(kept).rstrip(" ,;:")
+    if not trimmed:
+        trimmed = text.encode("utf-8")[:budget].decode("utf-8", errors="ignore").rstrip(" ,;:")
+    return f"{trimmed}{suffix}".strip()
+
+
 def extend_prompt(base_prompt: str, *, composition_rule: str | None, negative_prompt: str | None) -> str:
     parts = [base_prompt.strip()]
-    if composition_rule:
+    base_prompt_lower = base_prompt.lower()
+    if composition_rule and composition_rule.strip().lower() not in base_prompt_lower:
         parts.append(f"Composition: {composition_rule.strip()}")
-    if negative_prompt:
+    if negative_prompt and negative_prompt.strip().lower() not in base_prompt_lower and "avoid:" not in base_prompt_lower:
         parts.append(f"AVOID: {negative_prompt.strip()}")
-    return "\n\n".join(parts)
+    return trim_prompt_bytes("\n\n".join(parts))
 
 
 def build_scene_job(scene: dict, *, global_settings: dict, episode_dir: Path, repo_root: Path) -> tuple[dict, Path, Path]:
