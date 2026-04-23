@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import asyncio
 import csv
 import json
 import os
@@ -81,6 +82,41 @@ def synthesize_supertone_guide_tts(
     return output_path
 
 
+def synthesize_edge_guide_tts(
+    output_path: Path,
+    *,
+    text: str,
+    speed: float,
+    pitch_shift: float | None = None,
+) -> Path:
+    import edge_tts
+
+    voice = (
+        os.environ.get("EDGE_TTS_VOICE_DAEHAN")
+        or os.environ.get("EDGE_TTS_VOICE_KO")
+        or "ko-KR-InJoonNeural"
+    )
+    rate = f"{round((speed - 1.0) * 100):+d}%"
+    pitch_hz = int(round((pitch_shift or 0.0) * 2))
+    pitch = f"{pitch_hz:+d}Hz"
+
+    async def _run() -> None:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        communicate = edge_tts.Communicate(
+            text=text,
+            voice=voice,
+            rate=rate,
+            pitch=pitch,
+            volume="+0%",
+        )
+        await communicate.save(str(output_path))
+
+    asyncio.run(_run())
+    trim_audio_edges(output_path)
+    normalize_audio_mean_volume(output_path, target_mean_db=-19.0, peak_ceiling_db=-2.0)
+    return output_path
+
+
 def synthesize_slot(
     output_path: Path,
     *,
@@ -105,15 +141,36 @@ def synthesize_slot(
                 "supertone-guide",
             )
         except Exception:
-            return (
-                synthesize_guide_tts(
-                    output_path,
-                    text=text,
-                    speed=speed,
-                    voice_id_env=fallback_voice_id_env,
-                ),
-                "elevenlabs-guide-fallback",
-            )
+            try:
+                return (
+                    synthesize_edge_guide_tts(
+                        output_path,
+                        text=text,
+                        speed=speed,
+                        pitch_shift=pitch_shift,
+                    ),
+                    "edge-tts-guide",
+                )
+            except Exception:
+                return (
+                    synthesize_guide_tts(
+                        output_path,
+                        text=text,
+                        speed=speed,
+                        voice_id_env=fallback_voice_id_env,
+                    ),
+                    "elevenlabs-guide-fallback",
+                )
+    if provider_key == "edge-tts":
+        return (
+            synthesize_edge_guide_tts(
+                output_path,
+                text=text,
+                speed=speed,
+                pitch_shift=pitch_shift,
+            ),
+            "edge-tts-guide",
+        )
     return synthesize_guide_tts(output_path, text=text, speed=speed, voice_id_env=voice_id_env), "elevenlabs-guide"
 
 
@@ -496,7 +553,7 @@ def main() -> int:
 
     generated_segments: list[dict] = []
     provider_default = str(episode_schema["policies"]["audioPolicy"]["contentTtsProvider"])
-    reusable_guide_sources = {"supertone-guide", "elevenlabs-guide", "elevenlabs-guide-fallback"}
+    reusable_guide_sources = {"supertone-guide", "edge-tts-guide", "elevenlabs-guide", "elevenlabs-guide-fallback"}
 
     fixed_plan = [
         {

@@ -27,9 +27,25 @@ except Exception:  # pragma: no cover
 import urllib.error
 import urllib.request
 
+SCRIPT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(SCRIPT_ROOT))
+
+from paperclip_costs import record_supertone_cost_from_duration  # noqa: E402
+
 
 API_BASE = "https://supertoneapi.com/v1"
 DEFAULT_MODEL = "sona_speech_1"  # supports ko + voice_settings (pitch, similarity, etc.)
+
+
+def _parse_audio_length_seconds(value: Any) -> float | None:
+    if isinstance(value, str) and value.strip():
+        try:
+            parsed = float(value.strip())
+        except ValueError:
+            return None
+        if parsed > 0:
+            return parsed
+    return None
 
 
 @dataclass
@@ -105,6 +121,7 @@ class SupertoneClient:
         }
 
         url = f"{API_BASE}/text-to-speech/{self.voice_id}"
+        audio_length_seconds: float | None = None
         if requests is not None:
             session = self.session if self.session is not None else requests.Session()
             response = session.post(url, headers=headers, json=body, timeout=self.timeout_sec)
@@ -112,6 +129,7 @@ class SupertoneClient:
                 raise RuntimeError(
                     f"Supertone TTS failed {response.status_code}: {response.text[:500]}"
                 )
+            audio_length_seconds = _parse_audio_length_seconds(response.headers.get("X-Audio-Length"))
             payload = response.content
         else:
             request = urllib.request.Request(
@@ -122,6 +140,7 @@ class SupertoneClient:
             )
             try:
                 with urllib.request.urlopen(request, timeout=self.timeout_sec) as response:
+                    audio_length_seconds = _parse_audio_length_seconds(response.headers.get("X-Audio-Length"))
                     payload = response.read()
             except urllib.error.HTTPError as exc:
                 body_text = exc.read().decode("utf-8", errors="replace")
@@ -131,6 +150,11 @@ class SupertoneClient:
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_bytes(payload)
+        if audio_length_seconds is not None:
+            record_supertone_cost_from_duration(
+                model=body["model"],
+                duration_seconds=audio_length_seconds,
+            )
         return output_path
 
 

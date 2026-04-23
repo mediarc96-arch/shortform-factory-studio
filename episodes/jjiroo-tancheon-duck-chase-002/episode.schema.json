@@ -1,0 +1,268 @@
+{
+  "formatVersion": "pet-contents-episode@0.2",
+  "status": "brief-locked",
+  "createdAt": "2026-04-23T09:11:36Z",
+  "episodeSlug": "jjiroo-tancheon-duck-chase-002",
+  "seriesSlug": "pet-contents",
+  "formatProfile": "pet-contents-vertical-webtoon-v1",
+  "formatProfilePath": "formats/pet-contents-vertical-webtoon-v1/profile.json",
+  "issueRefs": {
+    "parentIssue": "SHO-70",
+    "sourceIssue": "SHO-72",
+    "storyboardIssue": "SHO-74",
+    "briefIssue": "SHO-75"
+  },
+  "routing": {
+    "workType": "new_episode",
+    "channelLane": "pet",
+    "projectLane": "pet",
+    "publishTarget": "youtube-pets",
+    "newUploadRequired": true
+  },
+  "viewerPromise": {
+    "targetViewer": "pet-short viewers who like real anecdote energy, expressive dogs, and clean ironic payoff",
+    "whyClickNow": "The click reason is visible in both the trigger and the payoff: Jjiroo spots ducks, overcommits into the river, and the mother ends up looking more stranded than the dog.",
+    "promise": "Watch Jjiroo turn a calm riverside walk into a duck chase, then climb out on his own and give the soaked mother a puzzled look.",
+    "angle": "owner-observed comic anecdote, not animal-danger spectacle"
+  },
+  "packaging": {
+    "openingPromise": "오리 본 찌루가 탄천에 뛰어든 날, 결국 엄마만 다 젖었어요",
+    "hookOptions": [
+      "오리 보자마자 달려든 찌루... 결국 더 젖은 건 엄마였어요",
+      "산책하다 오리 본 찌루, 혼자 강에 들어갔다가 혼자 올라왔어요",
+      "엄마는 흠뻑 젖었는데 찌루 표정은 왜 거기 있어? 였어요"
+    ],
+    "thumbnailTargets": [
+      "cut-03 duck-spotting reaction with Jjiroo foregrounded and ducks readable by the bank",
+      "cut-10 puzzled final reaction with Jjiroo dry-side foreground and mother still in the water behind"
+    ],
+    "titleThumbnailRule": "title, first frame, and final payoff must all point to the same duck-chase-to-ironic-reaction story"
+  },
+  "cast": {
+    "protagonist": {
+      "name": "찌루",
+      "slug": "jjiroo",
+      "role": "protagonist and chase instigator",
+      "referencePacketPath": "characters/jjiroo",
+      "effectiveReferenceMode": "episode-local-provisional-style-lock",
+      "effectiveReferenceFile": "./storyboard/style-lock.md",
+      "visualAnchors": [
+        "small cream-ivory dog",
+        "upright triangle ears",
+        "round dark eyes",
+        "curled fluffy tail",
+        "mint Y-harness"
+      ],
+      "performanceAnchors": [
+        "young",
+        "curious",
+        "fast",
+        "confident in water",
+        "never aggressive"
+      ]
+    },
+    "supportingPet": {
+      "name": "쫑아",
+      "slug": "jjonga",
+      "referencePacketPath": "characters/jjonga",
+      "effectiveReferenceMode": "episode-local-provisional-style-lock",
+      "effectiveReferenceFile": "./storyboard/style-lock.md",
+      "visualAnchors": [
+        "small caramel-brown dog",
+        "floppy ears",
+        "rounder face",
+        "peach harness"
+      ],
+      "performanceAnchors": [
+        "calm",
+        "secondary",
+        "observer energy"
+      ]
+    },
+    "humanSupport": {
+      "name": "어머니",
+      "role": "worried rescuer",
+      "presenceRule": "supporting context only; even during the river rescue beat the episode POV stays centered on Jjiroo"
+    },
+    "wildlife": {
+      "label": "탄천 오리들",
+      "toneRule": "alert and evasive, never harmed and never staged as horror prey"
+    }
+  },
+  "creativeDirection": {
+    "visualStyle": "warm observational pet webtoon illustration with the original 001 drawing style preserved and Tancheon geography kept readable",
+    "productionMode": "reference-only",
+    "characterEscalationDecision": "stay-reference-only",
+    "disclosurePlan": "metadata-only disclosure and attribution; visible-frame AI disclosure 없음",
+    "safetyTone": "comic anecdote only; no drowning panic, no animal cruelty framing, no violent duck capture",
+    "mutationBlockers": [
+      "duplicate pet",
+      "extra animal",
+      "wings",
+      "extra limbs",
+      "merged face",
+      "wrong fur color",
+      "wrong harness color",
+      "style drift"
+    ]
+  },
+  "renderTargets": {
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "fps": 30,
+    "targetDurationSec": 30.0,
+    "maxDurationSec": 34.0,
+    "targetSceneCount": 10
+  },
+  "retentionPlan": {
+    "openLoop": "duck sighting creates the first question, mother entering the river creates the second, and the puzzled final look closes both",
+    "beatWindows": [
+      {
+        "label": "setup",
+        "startSec": 0.0,
+        "endSec": 5.0,
+        "goal": "lock the calm walk and character identity fast"
+      },
+      {
+        "label": "trigger",
+        "startSec": 5.0,
+        "endSec": 10.0,
+        "goal": "make the duck sighting unmistakable"
+      },
+      {
+        "label": "acceleration",
+        "startSec": 10.0,
+        "endSec": 16.3,
+        "goal": "convert stalking tension into breakaway and river entry"
+      },
+      {
+        "label": "comic escalation",
+        "startSec": 16.3,
+        "endSec": 23.1,
+        "goal": "show Jjiroo ahead and the mother behind to widen the irony"
+      },
+      {
+        "label": "payoff",
+        "startSec": 23.1,
+        "endSec": 30.0,
+        "goal": "land self-rescue and puzzled reaction with clean readability"
+      }
+    ],
+    "doNotStretch": [
+      "mid-chase filler",
+      "extra duck action",
+      "repeated rescue struggle beats"
+    ]
+  },
+  "proofPlan": [
+    "show the calm Tancheon walk clearly before the chase",
+    "show Jjiroo and Jjonga in harnessed walk mode",
+    "show the ducks as the direct trigger",
+    "show the stalking beat before the sprint",
+    "show the water entry point clearly",
+    "show the mother entering after Jjiroo",
+    "show Jjiroo swimming ahead rather than trapped",
+    "show the climb-out bank clearly",
+    "show the final puzzled look toward the soaked mother"
+  ],
+  "storyboardLock": {
+    "provider": "xai_grok",
+    "model": "grok-imagine-image",
+    "orchestrator": "codex_local",
+    "approvedCutCount": 10,
+    "storyboardPlanFile": "./storyboard/storyboard-plan.json",
+    "styleLockFile": "./storyboard/style-lock.md",
+    "storyboardCutsGlob": "./storyboard/webtoon-cuts/cut-*.png",
+    "storyboardManifestGlob": "./storyboard/webtoon-cuts/cut-*.manifest.json",
+    "providerJobGlob": "./grok-jobs/cut-*.json"
+  },
+  "sceneStructure": [
+    {
+      "sceneId": "scene-01",
+      "sourceCutId": "cut-01",
+      "durationSec": 2.5,
+      "beat": "sunny Tancheon walk establishing"
+    },
+    {
+      "sceneId": "scene-02",
+      "sourceCutId": "cut-02",
+      "durationSec": 2.5,
+      "beat": "sniffing and relaxed walk behavior"
+    },
+    {
+      "sceneId": "scene-03",
+      "sourceCutId": "cut-03",
+      "durationSec": 2.5,
+      "beat": "Jjiroo spots the ducks"
+    },
+    {
+      "sceneId": "scene-04",
+      "sourceCutId": "cut-04",
+      "durationSec": 2.8,
+      "beat": "stalking tension before breakaway"
+    },
+    {
+      "sceneId": "scene-05",
+      "sourceCutId": "cut-05",
+      "durationSec": 3.0,
+      "beat": "breakaway sprint and duck scatter"
+    },
+    {
+      "sceneId": "scene-06",
+      "sourceCutId": "cut-06",
+      "durationSec": 3.0,
+      "beat": "Jjiroo dives into the river"
+    },
+    {
+      "sceneId": "scene-07",
+      "sourceCutId": "cut-07",
+      "durationSec": 3.4,
+      "beat": "mother jumps in after him"
+    },
+    {
+      "sceneId": "scene-08",
+      "sourceCutId": "cut-08",
+      "durationSec": 3.4,
+      "beat": "Jjiroo swims ahead and widens the gap"
+    },
+    {
+      "sceneId": "scene-09",
+      "sourceCutId": "cut-09",
+      "durationSec": 3.0,
+      "beat": "self-rescue climb-out"
+    },
+    {
+      "sceneId": "scene-10",
+      "sourceCutId": "cut-10",
+      "durationSec": 3.9,
+      "beat": "puzzled final reaction on shore"
+    }
+  ],
+  "assetRequirements": {
+    "sourcePacketFile": "./source-packet.json",
+    "packetFile": "./packet.md",
+    "schemaFile": "./episode.schema.json",
+    "keyframePlanFile": "./keyframe-plan.json",
+    "storyboardCutsGlob": "./storyboard/webtoon-cuts/cut-*.png",
+    "storyboardManifestGlob": "./storyboard/webtoon-cuts/cut-*.manifest.json",
+    "providerJobGlob": "./grok-jobs/cut-*.json",
+    "mustStayTextFreeInGeneration": true,
+    "continuityFocus": [
+      "same dog identity across every cut and keyframe",
+      "same riverbank geography from duck sighting to climb-out",
+      "same harness colors and pet silhouettes",
+      "same emotional direction from curiosity to irony"
+    ]
+  },
+  "repurposeNotes": {
+    "shorterCutOption": "15s alt cut can start from duck sighting and compress directly to the final reaction",
+    "communityCopy": "오리 쫓으러 뛰어든 찌루보다 엄마가 더 놀란 날",
+    "captionTone": "real anecdote, low-hype, no fake danger or fake hero framing"
+  },
+  "handoffNotes": {
+    "scriptWriter": "compress the long raw narration aggressively; keep only the duck sighting, breakaway, river entry, mother entry, and final reaction spine",
+    "packagingDirector": "choose either the duck-spotting focus or the final puzzled look as the public-facing hero image",
+    "videoEditor": "preserve river entry point and climb-out bank legibility over extra motion spectacle; reduce motion span if swimming causes identity drift",
+    "qualityChecker": "reject any version that reads as animal harm, drowning panic, or successful duck capture"
+  }
+}

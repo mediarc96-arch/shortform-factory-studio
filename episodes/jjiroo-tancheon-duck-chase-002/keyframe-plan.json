@@ -1,0 +1,184 @@
+{
+  "_schema": "pet contents keyframe plan",
+  "_note": "Approved xAI Grok storyboard cuts are converted into motion-friendly keyframes. Scene-01 starts from kf-01, and every later scene must inherit the previous scene's final frame state before motion continues.",
+  "episode": {
+    "slug": "jjiroo-tancheon-duck-chase-002",
+    "basis": "approved storyboard cuts -> brief lock -> motion-ready keyframes -> sequential scene-video generation"
+  },
+  "packetFile": "packet.md",
+  "styleLockFile": "storyboard/style-lock.md",
+  "storyboardPlanFile": "storyboard/storyboard-plan.json",
+  "storyboardManifestGlob": "storyboard/webtoon-cuts/cut-*.manifest.json",
+  "providerJobGlob": "grok-jobs/cut-*.json",
+  "renderTargets": {
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "targetDurationSec": 30.0,
+    "targetSceneCount": 10
+  },
+  "continuityRules": {
+    "entryFrameRule": "scene-01 starts from the approved keyframe anchor; later scenes start from the previous scene's final frame state",
+    "boundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+    "identityRule": "Jjiroo, Jjonga, harness colors, and riverbank geography must stay unchanged across the whole episode",
+    "toneRule": "comic anecdote only; ducks are evasive, mother is worried, Jjiroo is impulsive but not aggressive",
+    "actionDriftFallback": "if sprinting, jumping, swimming, or splash beats cause identity drift, shorten the motion span or fall back to limited-motion/parallax from the approved keyframe"
+  },
+  "reviewFlow": {
+    "gate": "user-review-before-scene-video",
+    "reviewBundle": {
+      "report": "review/review-report.md",
+      "overview": "review/contact-sheets/overview.jpg"
+    }
+  },
+  "keyframes": [
+    {
+      "id": "kf-01",
+      "anchorSec": 0.0,
+      "durationSec": 2.5,
+      "futureSceneId": "scene-01",
+      "sourceCutId": "cut-01",
+      "purpose": "establish walk, cast, and readable Tancheon geography",
+      "pose": "Jjiroo and Jjonga walking lightly along the riverside path in harness, mother behind them, open daylight and shallow river visible",
+      "cameraIntent": "gentle vertical medium-wide opening push with calm observational energy",
+      "continuityIn": "cold open into bright daytime path and river relationship",
+      "motionBeat": "easy paw steps, leash sway, mild grass movement, relaxed rhythm",
+      "continuityOut": "Jjiroo shifts slightly lower and closer to sniffing behavior while preserving the same walk direction",
+      "outputPath": "keyframes/kf-01.jpg"
+    },
+    {
+      "id": "kf-02",
+      "anchorSec": 2.5,
+      "durationSec": 2.5,
+      "futureSceneId": "scene-02",
+      "sourceCutId": "cut-02",
+      "purpose": "build slice-of-life calm before the trigger",
+      "pose": "low-angle dog-height view of Jjiroo sniffing the ground while Jjonga stays nearby and the mother is partially framed above",
+      "cameraIntent": "subtle handheld drift near dog height",
+      "continuityIn": "inherits the same riverside path, dog positions, and harness lock from scene-01",
+      "motionBeat": "nose-to-ground sniffing, tail flicks, tiny weight shifts",
+      "continuityOut": "Jjiroo's attention starts to lift toward the riverbank where ducks rest",
+      "outputPath": "keyframes/kf-02.jpg"
+    },
+    {
+      "id": "kf-03",
+      "anchorSec": 5.0,
+      "durationSec": 2.5,
+      "futureSceneId": "scene-03",
+      "sourceCutId": "cut-03",
+      "purpose": "make the duck sighting unmistakable",
+      "pose": "Jjiroo frozen in alert reaction with eyes wide, ducks readable near the bank, Jjonga secondary behind him",
+      "cameraIntent": "reaction push-in that keeps Jjiroo foregrounded and ducks legible in the same frame",
+      "continuityIn": "Jjiroo lifts from sniffing into a locked sightline without changing location logic",
+      "motionBeat": "eye snap, ear perk, micro head turn toward the ducks",
+      "continuityOut": "body lowers into a stalking posture while the ducks remain in the same geography",
+      "outputPath": "keyframes/kf-03.jpg"
+    },
+    {
+      "id": "kf-04",
+      "anchorSec": 7.5,
+      "durationSec": 2.8,
+      "futureSceneId": "scene-04",
+      "sourceCutId": "cut-04",
+      "purpose": "build stalking tension before the burst",
+      "pose": "Jjiroo crouched low with intense forward focus, harness taut, ducks still ahead, riverbank readable",
+      "cameraIntent": "slow lateral creep from side profile",
+      "continuityIn": "same dog-to-duck line from scene-03, now compressed into pre-sprint tension",
+      "motionBeat": "careful paw steps, body compression, held suspense",
+      "continuityOut": "the held crouch releases into a forward launch toward the ducks",
+      "outputPath": "keyframes/kf-04.jpg"
+    },
+    {
+      "id": "kf-05",
+      "anchorSec": 10.3,
+      "durationSec": 3.0,
+      "futureSceneId": "scene-05",
+      "sourceCutId": "cut-05",
+      "purpose": "deliver the first acceleration peak",
+      "pose": "Jjiroo sprinting diagonally after breaking free, ducks scattering toward the water, mother lagging behind",
+      "cameraIntent": "high-energy diagonal chase composition",
+      "continuityIn": "explodes directly from the stalking release without resetting the camera direction",
+      "motionBeat": "sprint burst, duck flutter, strong directional flow toward the river",
+      "continuityOut": "Jjiroo reaches the same readable bank edge where the water entry happens next",
+      "outputPath": "keyframes/kf-05.jpg"
+    },
+    {
+      "id": "kf-06",
+      "anchorSec": 13.3,
+      "durationSec": 3.0,
+      "futureSceneId": "scene-06",
+      "sourceCutId": "cut-06",
+      "purpose": "scale the incident up by putting Jjiroo into the water",
+      "pose": "Jjiroo launching into or just hitting the shallow river with a splash at the exact bank entry point established in scene-05 while Jjonga remains back on shore",
+      "cameraIntent": "fast drop into splash impact while preserving entry-point clarity",
+      "continuityIn": "same directional momentum from the sprint, no geography reset",
+      "motionBeat": "air-to-water transition, splash burst, shore witness reaction",
+      "continuityOut": "Jjiroo is now clearly in the river and moving ahead of everyone else",
+      "outputPath": "keyframes/kf-06.jpg"
+    },
+    {
+      "id": "kf-07",
+      "anchorSec": 16.3,
+      "durationSec": 3.4,
+      "futureSceneId": "scene-07",
+      "sourceCutId": "cut-07",
+      "purpose": "start the rescue mismatch comedy",
+      "pose": "mother entering the river behind while Jjiroo already swims ahead midstream and ducks stay farther in front",
+      "cameraIntent": "forward chase framing with layered depth",
+      "continuityIn": "mother reacts from the same bank and water entry area established in scene-06",
+      "motionBeat": "water churn, arm reach, widening distance between mother and Jjiroo",
+      "continuityOut": "the gap between them increases and the river lane becomes the main action axis",
+      "outputPath": "keyframes/kf-07.jpg"
+    },
+    {
+      "id": "kf-08",
+      "anchorSec": 19.7,
+      "durationSec": 3.4,
+      "futureSceneId": "scene-08",
+      "sourceCutId": "cut-08",
+      "purpose": "peak the absurdity without turning it into danger",
+      "pose": "Jjiroo confidently swimming ahead, mother struggling behind, ducks escaping farther away and out of reach",
+      "cameraIntent": "vertical tracking follow along the river lane",
+      "continuityIn": "inherits the chase line and spacing from scene-07",
+      "motionBeat": "steady swim rhythm, ripples, rescue strain behind, ducks clearing the frame",
+      "continuityOut": "Jjiroo abandons the chase and redirects toward the climb-out bank",
+      "outputPath": "keyframes/kf-08.jpg"
+    },
+    {
+      "id": "kf-09",
+      "anchorSec": 23.1,
+      "durationSec": 3.0,
+      "futureSceneId": "scene-09",
+      "sourceCutId": "cut-09",
+      "purpose": "lock the self-rescue clearly before the reaction beat",
+      "pose": "wet Jjiroo climbing out of the river on his own at the readable bank exit while the mother remains in the water behind",
+      "cameraIntent": "easing pullback toward the climb-out point",
+      "continuityIn": "same river geography, now pivoting from pursuit to recovery",
+      "motionBeat": "front paws finding ground, wet body hauling up, relief replacing chase energy",
+      "continuityOut": "Jjiroo reaches dry land, turns back toward the mother, and settles into a reaction hold",
+      "outputPath": "keyframes/kf-09.jpg"
+    },
+    {
+      "id": "kf-10",
+      "anchorSec": 26.1,
+      "durationSec": 3.9,
+      "futureSceneId": "scene-10",
+      "sourceCutId": "cut-10",
+      "purpose": "land the clean final laugh and replay value",
+      "pose": "Jjiroo safely on the bank, dripping but calm, head slightly tilted toward the soaked mother behind him with a puzzled innocent look",
+      "cameraIntent": "mostly locked comedy hold with Jjiroo foregrounded and the mother in water behind",
+      "continuityIn": "starts from the exact climb-out state reached in scene-09",
+      "motionBeat": "small blink, tiny head tilt, reaction hold long enough for the joke to register",
+      "continuityOut": "end on a still-readable bank-versus-water composition suitable for loop or hard end",
+      "outputPath": "keyframes/kf-10.jpg"
+    }
+  ],
+  "reviewChecklist": [
+    "찌루와 쫑아의 털색, 귀 모양, 하네스 색이 전 장면에서 유지되는가",
+    "탄천 강변 지형이 duck sighting, water entry, climb-out까지 같은 장소로 읽히는가",
+    "오리가 다치거나 사냥당하는 느낌 없이 놀라서 피하는 톤으로 보이는가",
+    "어머니는 supporting context를 주고 화면 중심은 끝까지 찌루에 남는가",
+    "scene-05에서 scene-10까지 액션 방향이 끊기지 않고 이어지는가",
+    "generated keyframe에 텍스트, 숫자, 로고, 워터마크가 없는가",
+    "scene-10의 표정이 위험 해소보다 코믹 아이러니로 먼저 읽히는가"
+  ]
+}

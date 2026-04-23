@@ -15,6 +15,11 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+
+from paperclip_costs import record_xai_cost_from_payload  # noqa: E402
+
 
 API_BASE = "https://api.x.ai/v1"
 
@@ -169,6 +174,7 @@ def main() -> int:
     }
     manifest_file.parent.mkdir(parents=True, exist_ok=True)
     manifest_file.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    record_xai_cost_from_payload(model=str(request_payload.get("model") or "unknown"), payload=payload)
 
     print(str(output_file))
     print(str(manifest_file))
