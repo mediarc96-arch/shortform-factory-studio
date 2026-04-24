@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SFS Console Wireframes</title>
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --surface: #ffffff;
+      --surface-2: #f0eee7;
+      --ink: #24231f;
+      --muted: #6b665d;
+      --line: #ddd8cc;
+      --line-strong: #c9c1b2;
+      --accent: #2f6f5e;
+      --accent-2: #8a5b22;
+      --danger: #a13d3a;
+      --ok-bg: #e7f1ec;
+      --warn-bg: #f5ead8;
+      --bad-bg: #f5e1df;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 7px;
+      min-height: 34px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    button.danger {
+      color: var(--danger);
+      border-color: #d7b8b4;
+      background: #fff8f7;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 7px 9px;
+      color: var(--ink);
+    }
+
+    textarea {
+      min-height: 116px;
+      resize: vertical;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px 1fr;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: #f1efe8;
+      padding: 20px 14px;
+    }
+
+    .brand {
+      padding: 0 10px 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      border-radius: 7px;
+      margin-bottom: 3px;
+      padding: 9px 10px;
+      color: #45423c;
+    }
+
+    .nav button.active {
+      background: #ded8ca;
+      color: #1f1d19;
+      font-weight: 650;
+    }
+
+    .sidebar-note {
+      margin: 18px 10px 0;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 22px 26px 34px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+
+    .title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 180px 150px auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    .layout-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .layout-3 {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr) 340px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfaf7;
+    }
+
+    .panel-header strong {
+      font-size: 14px;
+    }
+
+    .panel-body {
+      padding: 14px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 11px 12px;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      background: #fbfaf7;
+    }
+
+    .table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .row-title {
+      font-weight: 650;
+    }
+
+    .row-sub {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 2px 6px;
+      background: #fff;
+      font-size: 12px;
+      color: #4c4740;
+      white-space: nowrap;
+    }
+
+    .badge.ok {
+      background: var(--ok-bg);
+      border-color: #bed4c9;
+      color: #245445;
+    }
+
+    .badge.warn {
+      background: var(--warn-bg);
+      border-color: #ddc69e;
+      color: #714914;
+    }
+
+    .badge.bad {
+      background: var(--bad-bg);
+      border-color: #ddb6b1;
+      color: #843330;
+    }
+
+    .stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--line);
+      padding: 0 12px;
+      background: #fbfaf7;
+    }
+
+    .tabs button {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      padding: 11px 8px 9px;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      min-height: 0;
+    }
+
+    .tabs button.active {
+      border-bottom-color: var(--accent);
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .media-box {
+      aspect-ratio: 16 / 9;
+      background: #24231f;
+      border-radius: 6px;
+      border: 1px solid #171611;
+      color: #ece8df;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .media-box.vertical {
+      aspect-ratio: 9 / 16;
+      max-height: 420px;
+      margin-inline: auto;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 8px;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 64px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .bar {
+      height: 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #3c3933;
+    }
+
+    .check input {
+      width: auto;
+      min-height: 0;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .file-item {
+      display: grid;
+      grid-template-columns: 18px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+    }
+
+    .mini-map {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .frame {
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface-2);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .ops-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .ops-item {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 11px;
+      background: #fff;
+    }
+
+    .ops-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .ops-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav {
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+      }
+
+      .nav button {
+        width: auto;
+        white-space: nowrap;
+      }
+
+      .toolbar,
+      .layout-2,
+      .layout-3,
+      .field-grid,
+      .ops-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        display: block;
+      }
+
+      .actions {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <strong>SFS Console</strong>
+        <span>sfs.devscent.com planning wireframe</span>
+      </div>
+      <nav class="nav" aria-label="Wireframe screens">
+        <button class="active" data-screen="dashboard">Dashboard</button>
+        <button data-screen="request">New Request</button>
+        <button data-screen="episode">Episode Workspace</button>
+        <button data-screen="characters">Characters</button>
+        <button data-screen="delivery">Delivery</button>
+        <button data-screen="settings">Settings</button>
+      </nav>
+      <div class="sidebar-note">
+        File-system native console for Shortform Factory Studio. Paperclip remains the agent execution layer.
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="dashboard" class="screen active">
+        <div class="topbar">
+          <div class="title">
+            <h1>Production Dashboard</h1>
+            <p>Workspace scanner reads characters, episodes, final outputs, and review reports.</p>
+          </div>
+          <div class="actions">
+            <button>Run scanner</button>
+            <button class="primary" data-screen-jump="request">New request</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div>
+            <label>Search</label>
+            <input value="malmoelab">
+          </div>
+          <div>
+            <label>Status</label>
+            <select>
+              <option>Delivery ready</option>
+              <option>Needs review</option>
+              <option>In production</option>
+            </select>
+          </div>
+          <div>
+            <label>Format</label>
+            <select>
+              <option>All formats</option>
+              <option>Malmoelab</option>
+              <option>Pet Toon</option>
+            </select>
+          </div>
+          <button>Export CSV</button>
+        </div>
+
+        <div class="layout-2">
+          <div class="panel">
+            <div class="panel-header">
+              <strong>Episodes</strong>
+              <span class="badge">40 folders scanned</span>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Episode</th>
+                  <th>State</th>
+                  <th>Assets</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="row-title">malmoelab-ko-quiz-seolmin-002</div>
+                    <div class="row-sub">seolmin · malmoelab-keyframe-dub-after-picture-v1</div>
+                  </td>
+                  <td><span class="badge ok">qa-pass</span></td>
+                  <td>final mp4 · thumb · report</td>
+                  <td><button data-screen-jump="episode">Open</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="row-title">pet-toon-jjonga-rainy-walk-001</div>
+                    <div class="row-sub">jjonga · pet-toon-image-only-v1</div>
+                  </td>
+                  <td><span class="badge warn">review-needed</span></td>
+                  <td>cuts · strip · manifest</td>
+                  <td><button data-screen-jump="episode">Open</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="row-title">nabi-korea-trip-001</div>
+                    <div class="row-sub">nabi · legacy packet</div>
+                  </td>
+                  <td><span class="badge bad">rights-blocked</span></td>
+                  <td>final mp4 · thumb</td>
+                  <td><button data-screen-jump="episode">Open</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <strong>Work Queue</strong>
+            </div>
+            <div class="panel-body stack">
+              <div>
+                <span class="badge ok">Ready</span>
+                <div class="row-title">5 delivery packages can be created</div>
+                <div class="row-sub">Final output and review report are present.</div>
+              </div>
+              <div>
+                <span class="badge warn">Needs operator</span>
+                <div class="row-title">3 episodes missing publish packet</div>
+                <div class="row-sub">Create or regenerate publish-packet.json before publisher handoff.</div>
+              </div>
+              <div>
+                <span class="badge bad">Blocked</span>
+                <div class="row-title">2 characters have incomplete rights notes</div>
+                <div class="row-sub">Public delivery stays disabled until rights status is set.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="request" class="screen">
+        <div class="topbar">
+          <div class="title">
+            <h1>New Production Request</h1>
+            <p>Structured intake creates a Paperclip-ready issue body without asking users to know the folder rules.</p>
+          </div>
+          <div class="actions">
+            <button>Save draft</button>
+            <button class="primary">Generate Markdown</button>
+          </div>
+        </div>
+
+        <div class="layout-2">
+          <div class="panel">
+            <div class="panel-header">
+              <strong>Request Form</strong>
+              <span class="badge">PAPERCLIP_ISSUE_OPERATIONS.md</span>
+            </div>
+            <div class="panel-body stack">
+              <div class="field-grid">
+                <div>
+                  <label>Work type</label>
+                  <select>
+                    <option>new_episode</option>
+                    <option>revise_episode</option>
+                    <option>publish_only</option>
+                    <option>metadata_update</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Episode slug</label>
+                  <input value="malmoelab-ko-repeat-jeonyeok-006">
+                </div>
+                <div>
+                  <label>Character</label>
+                  <select>
+                    <option>daehan</option>
+                    <option>seolmin</option>
+                    <option>jjonga</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Format profile</label>
+                  <select>
+                    <option>malmoelab-keyframe-dub-after-picture-v1</option>
+                    <option>pet-toon-image-only-v1</option>
+                  </select>
+                </div>
+                <div class="wide">
+                  <label>Brief</label>
+                  <textarea>말모이랩 예문 기반 반복 학습 쇼츠. 영상 생성 단계에서는 텍스트를 넣지 않고, picture lock 이후 더빙과 칠판 타이포를 적용한다.</textarea>
+                </div>
+                <div class="wide">
+                  <label>Completion criteria</label>
+                  <textarea>- 30초 final mp4 생성
+- review bundle 생성
+- publish packet 생성
+- delivery package 생성 전 QA pass</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <strong>Validation</strong>
+            </div>
+            <div class="panel-body stack">
+              <div class="check"><input type="checkbox" checked> Episode slug is unique</div>
+              <div class="check"><input type="checkbox" checked> Character bible exists</div>
+              <div class="check"><input type="checkbox" checked> Format profile exists</div>
+              <div class="check"><input type="checkbox"> Rights note approved</div>
+              <div class="check"><input type="checkbox"> Background asset selected</div>
+              <button class="primary">Create Paperclip issue</button>
+              <button>Copy Markdown only</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="episode" class="screen">
+        <div class="topbar">
+          <div class="title">
+            <h1>Episode Workspace</h1>
+            <p>malmoelab-ko-quiz-seolmin-002 · seolmin · final-export</p>
+          </div>
+          <div class="actions">
+            <button>Open folder</button>
+            <button>Request revision</button>
+            <button class="primary" data-screen-jump="delivery">Create delivery</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="tabs">
+            <button class="active">Overview</button>
+            <button>Media</button>
+            <button>Dubbing</button>
+            <button>Typography</button>
+            <button>Review</button>
+            <button>Export</button>
+          </div>
+          <div class="panel-body">
+            <div class="layout-3">
+              <div>
+                <div class="media-box">
+                  <div>
+                    <strong>Final preview</strong>
+                    <div>renders/final/malmoelab-ko-quiz-seolmin-002-final.mp4</div>
+                  </div>
+                </div>
+                <div class="mini-map">
+                  <div class="frame">scene 1</div>
+                  <div class="frame">scene 2</div>
+                  <div class="frame">scene 3</div>
+                  <div class="frame">scene 4</div>
+                  <div class="frame">scene 5</div>
+                </div>
+              </div>
+
+              <div class="stack">
+                <div class="panel">
+                  <div class="panel-header"><strong>Stage Timeline</strong></div>
+                  <div class="panel-body timeline">
+                    <div class="timeline-row"><span>source</span><div class="bar"><span style="width:100%"></span></div><span>done</span></div>
+                    <div class="timeline-row"><span>picture</span><div class="bar"><span style="width:100%"></span></div><span>lock</span></div>
+                    <div class="timeline-row"><span>dub</span><div class="bar"><span style="width:100%"></span></div><span>lock</span></div>
+                    <div class="timeline-row"><span>typography</span><div class="bar"><span style="width:92%"></span></div><span>ready</span></div>
+                    <div class="timeline-row"><span>QA</span><div class="bar"><span style="width:80%"></span></div><span>pass</span></div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div class="panel-header"><strong>Review Files</strong></div>
+                  <div class="panel-body file-list">
+                    <div class="file-item"><span>□</span><span>review/final-review-report.md</span><button>View</button></div>
+                    <div class="file-item"><span>□</span><span>review/final-audio-analysis.md</span><button>View</button></div>
+                    <div class="file-item"><span>□</span><span>review/final-contact-sheets/overview.jpg</span><button>View</button></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header"><strong>Gate Checklist</strong></div>
+                <div class="panel-body checklist">
+                  <div class="check"><input type="checkbox" checked> Character identity stable</div>
+                  <div class="check"><input type="checkbox" checked> Board text added in post</div>
+                  <div class="check"><input type="checkbox" checked> Final audio checked</div>
+                  <div class="check"><input type="checkbox" checked> Publish packet exists</div>
+                  <div class="check"><input type="checkbox"> Delivery package issued</div>
+                  <button class="primary">Mark delivery ready</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="characters" class="screen">
+        <div class="topbar">
+          <div class="title">
+            <h1>Character Registry</h1>
+            <p>Canonical character files are generated from templates and stored under characters/&lt;slug&gt;.</p>
+          </div>
+          <div class="actions">
+            <button>Import from folder</button>
+            <button class="primary">New character</button>
+          </div>
+        </div>
+
+        <div class="layout-2">
+          <div class="panel">
+            <div class="panel-header">
+              <strong>Characters</strong>
+              <span class="badge">10 folders</span>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Character</th>
+                  <th>Rights</th>
+                  <th>Assets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="row-title">daehan</div><div class="row-sub">Korean teacher</div></td>
+                  <td><span class="badge ok">approved</span></td>
+                  <td>bible · prompts · voice · opening · ending</td>
+                </tr>
+                <tr>
+                  <td><div class="row-title">seolmin</div><div class="row-sub">2D chibi teacher</div></td>
+                  <td><span class="badge ok">approved</span></td>
+                  <td>bible · prompts · voice · refs</td>
+                </tr>
+                <tr>
+                  <td><div class="row-title">chiyo</div><div class="row-sub">space drift pilot</div></td>
+                  <td><span class="badge warn">needs note</span></td>
+                  <td>reference image only</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <strong>Character Editor</strong>
+            </div>
+            <div class="panel-body stack">
+              <div>
+                <label>Slug</label>
+                <input value="haruna">
+              </div>
+              <div>
+                <label>Display name</label>
+                <input value="하루나">
+              </div>
+              <div>
+                <label>Rights status</label>
+                <select>
+                  <option>approved</option>
+                  <option>unknown</option>
+                  <option>blocked</option>
+                </select>
+              </div>
+              <div>
+                <label>Canonical prompt notes</label>
+                <textarea>외형, 허용 변화, 금지 드리프트, reference-only 원칙을 bible.md와 prompts.md에 분리 저장한다.</textarea>
+              </div>
+              <div class="file-list">
+                <div class="file-item"><span>□</span><span>bible.md</span><button>Edit</button></div>
+                <div class="file-item"><span>□</span><span>prompts.md</span><button>Edit</button></div>
+                <div class="file-item"><span>□</span><span>rights.md</span><button>Edit</button></div>
+                <div class="file-item"><span>□</span><span>voice.json</span><button>Edit</button></div>
+              </div>
+              <button class="primary">Save character</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="delivery" class="screen">
+        <div class="topbar">
+          <div class="title">
+            <h1>Delivery Package</h1>
+            <p>Token-based client view for approved outputs. No shell access, no raw workspace browsing.</p>
+          </div>
+          <div class="actions">
+            <button class="danger">Revoke</button>
+            <button class="primary">Generate link</button>
+          </div>
+        </div>
+
+        <div class="layout-2">
+          <div class="panel">
+            <div class="panel-header"><strong>Package Files</strong></div>
+            <div class="panel-body file-list">
+              <div class="file-item"><input type="checkbox" checked><span>final/malmoelab-ko-quiz-seolmin-002-final.mp4</span><button>Preview</button></div>
+              <div class="file-item"><input type="checkbox" checked><span>final/malmoelab-ko-quiz-seolmin-002-final-thumb.jpg</span><button>Preview</button></div>
+              <div class="file-item"><input type="checkbox" checked><span>review/final-review-report.md</span><button>View</button></div>
+              <div class="file-item"><input type="checkbox" checked><span>publish-packet.json</span><button>View</button></div>
+              <div class="file-item"><input type="checkbox"><span>characters/seolmin/rights.md</span><button>View</button></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><strong>Client Link</strong></div>
+            <div class="panel-body stack">
+              <div>
+                <label>Title</label>
+                <input value="Seolmin quiz 002 delivery">
+              </div>
+              <div>
+                <label>Expires</label>
+                <input type="date" value="2026-05-24">
+              </div>
+              <div>
+                <label>Revision request</label>
+                <select>
+                  <option>enabled</option>
+                  <option>disabled</option>
+                </select>
+              </div>
+              <div>
+                <label>Generated URL</label>
+                <input value="https://sfs.devscent.com/d/7df2-preview-token">
+              </div>
+              <button>Copy link</button>
+              <button class="primary">Open client view</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="settings" class="screen">
+        <div class="topbar">
+          <div class="title">
+            <h1>Settings / Ops</h1>
+            <p>Service health and deployment guardrails for the nginx + postgres14 environment.</p>
+          </div>
+          <div class="actions">
+            <button>View logs</button>
+            <button class="primary">Run smoke test</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <strong>Operational Checks</strong>
+            <span class="badge ok">edge network</span>
+          </div>
+          <div class="panel-body ops-grid">
+            <div class="ops-item">
+              <strong>Backend health</strong>
+              <span>GET /health -> ok, DB check included</span>
+            </div>
+            <div class="ops-item">
+              <strong>Postgres</strong>
+              <span>Database shortform_factory on shared postgres14</span>
+            </div>
+            <div class="ops-item">
+              <strong>Nginx</strong>
+              <span>97-sfs.conf, no conflict with 96-harness.conf</span>
+            </div>
+            <div class="ops-item">
+              <strong>Paperclip</strong>
+              <span>pc.devscent.com remains paperclip:3100</span>
+            </div>
+            <div class="ops-item">
+              <strong>Workspace</strong>
+              <span>/workspace/shortform-factory-studio allowlisted</span>
+            </div>
+            <div class="ops-item">
+              <strong>Ports</strong>
+              <span>No host ports. Public traffic only through 80/443.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const navButtons = document.querySelectorAll("[data-screen]");
+    const screens = document.querySelectorAll(".screen");
+
+    function activate(id) {
+      screens.forEach((screen) => {
+        screen.classList.toggle("active", screen.id === id);
+      });
+      navButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.screen === id);
+      });
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    navButtons.forEach((button) => {
+      button.addEventListener("click", () => activate(button.dataset.screen));
+    });
+
+    document.querySelectorAll("[data-screen-jump]").forEach((button) => {
+      button.addEventListener("click", () => activate(button.dataset.screenJump));
+    });
+  </script>
+</body>
+</html>
