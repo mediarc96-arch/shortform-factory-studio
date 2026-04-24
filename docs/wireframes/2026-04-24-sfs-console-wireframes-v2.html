@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko-KR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SFS Console Wireframes v2</title>
+  <title>SFS Console Wireframes v2 - i18n</title>
   <style>
     :root {
       color-scheme: dark;
@@ -24,8 +24,8 @@
       --ink: #0d0f10;
       --radius: 8px;
       --shadow: 0 20px 60px rgba(0, 0, 0, .32);
-      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "Noto Sans Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: "Noto Sans KR", "Noto Sans", "Noto Sans JP", "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * {
@@ -262,7 +262,7 @@
 
     .topline {
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) minmax(240px, 440px) auto;
+      grid-template-columns: minmax(220px, 1fr) minmax(240px, 420px) auto auto;
       gap: 12px;
       align-items: center;
       margin-bottom: 18px;
@@ -295,6 +295,49 @@
       border-radius: 8px;
       color: var(--muted);
       white-space: nowrap;
+    }
+
+    .locale-switcher {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 40px;
+      padding: 4px;
+      background: var(--shell);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+    }
+
+    .locale-switcher button {
+      min-width: 38px;
+      min-height: 30px;
+      padding: 0 8px;
+      color: var(--quiet);
+      background: transparent;
+      border-color: transparent;
+      font-size: 11px;
+      font-weight: 840;
+    }
+
+    .locale-switcher button.active {
+      color: var(--ink);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .font-note {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .font-note code {
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 11px;
+      overflow-wrap: anywhere;
     }
 
     .avatar {
@@ -1245,33 +1288,41 @@
         <div class="mark">SFS</div>
         <div>
           <strong>SFS Console v2</strong>
-          <span>sfs.devscent.com media operations</span>
+          <span>sfs.devscent.com 영상 운영 콘솔</span>
         </div>
       </div>
 
       <nav class="nav" aria-label="Wireframe screens">
-        <button class="active" data-screen="production"><span class="nav-dot"></span>Production Desk</button>
-        <button data-screen="review"><span class="nav-dot"></span>Review Studio</button>
-        <button data-screen="request"><span class="nav-dot"></span>Request Builder</button>
-        <button data-screen="characters"><span class="nav-dot"></span>Character Lab</button>
-        <button data-screen="delivery"><span class="nav-dot"></span>Delivery Room</button>
-        <button data-screen="ops"><span class="nav-dot"></span>Ops</button>
+        <button class="active" data-screen="production"><span class="nav-dot"></span>프로덕션 데스크</button>
+        <button data-screen="review"><span class="nav-dot"></span>리뷰 스튜디오</button>
+        <button data-screen="request"><span class="nav-dot"></span>요청 빌더</button>
+        <button data-screen="characters"><span class="nav-dot"></span>캐릭터 랩</button>
+        <button data-screen="delivery"><span class="nav-dot"></span>딜리버리 룸</button>
+        <button data-screen="ops"><span class="nav-dot"></span>운영 설정</button>
       </nav>
 
       <div class="rail-section">
-        <p class="rail-title">Live Workspace</p>
+        <p class="rail-title">라이브 워크스페이스</p>
         <div class="mini-stack">
           <div class="mini-row"><span>scanner: episodes/*</span><i class="pulse"></i></div>
           <div class="mini-row"><span>postgres14 metadata</span><i class="pulse"></i></div>
-          <div class="mini-row"><span>paperclip issue handoff</span><i class="pulse warn"></i></div>
-          <div class="mini-row"><span>public rights gate</span><i class="pulse hot"></i></div>
+          <div class="mini-row"><span>paperclip 이슈 핸드오프</span><i class="pulse warn"></i></div>
+          <div class="mini-row"><span>공개 권리 게이트</span><i class="pulse hot"></i></div>
         </div>
       </div>
 
       <div class="rail-section">
-        <p class="rail-title">Design Intent</p>
+        <p class="rail-title">i18n / 폰트</p>
+        <div class="font-note">
+          <span>기본 로케일은 KO이며, US/JP/CN/SP는 같은 정보 구조를 공유합니다.</span>
+          <code>Noto Sans KR -> Noto Sans -> Noto Sans JP -> Noto Sans SC</code>
+        </div>
+      </div>
+
+      <div class="rail-section">
+        <p class="rail-title">디자인 의도</p>
         <div class="caption">
-          V2 treats SFS as a video production control room: large review objects, shot evidence, contact sheets, and delivery previews before tables.
+          V2는 SFS를 영상 제작 관제실로 다룹니다. 표보다 큰 리뷰 오브젝트, 컷 증거, 컨택트시트, 전달 미리보기가 먼저 보입니다.
         </div>
       </div>
     </aside>
@@ -1283,22 +1334,29 @@
           /home/kindsr/projects/shortform-factory-studio
         </div>
         <div class="search">
-          <input value="Search episode, character, frame note, delivery token" aria-label="Global search">
+          <input value="에피소드, 캐릭터, 프레임 노트, 전달 토큰 검색" aria-label="Global search">
         </div>
-        <div class="operator"><span class="avatar">OP</span>Operator</div>
+        <div class="locale-switcher" aria-label="Locale preview">
+          <button class="active" data-locale="ko-KR">KO</button>
+          <button data-locale="en-US">US</button>
+          <button data-locale="ja-JP">JP</button>
+          <button data-locale="zh-CN">CN</button>
+          <button data-locale="es-ES">SP</button>
+        </div>
+        <div class="operator"><span class="avatar">OP</span>운영자</div>
       </div>
 
       <section id="production" class="screen active">
         <div class="screen-head">
           <div class="title-block">
-            <p class="eyebrow">Screen 01</p>
-            <h1>Production Desk</h1>
-            <p class="subhead">The first screen surfaces the best available media object, current gates, and delivery risk. It is not a KPI landing page.</p>
+            <p class="eyebrow">화면 01</p>
+            <h1>프로덕션 데스크</h1>
+            <p class="subhead">첫 화면은 KPI 랜딩이 아니라 가장 중요한 영상 결과물, 현재 승인 게이트, 전달 리스크를 바로 보여줍니다.</p>
           </div>
           <div class="actions">
-            <button>Run scanner</button>
-            <button data-screen-jump="request">New request</button>
-            <button class="primary" data-screen-jump="review">Open review</button>
+            <button>스캐너 실행</button>
+            <button data-screen-jump="request">새 요청</button>
+            <button class="primary" data-screen-jump="review">리뷰 열기</button>
           </div>
         </div>
 
@@ -1306,8 +1364,8 @@
           <div class="stack">
             <div class="surface">
               <div class="panel-head">
-                <strong>Active review: jjiroo-pilot-001 / vertical final candidate</strong>
-                <span class="badge warn">needs rights note</span>
+                <strong>진행 중 리뷰: jjiroo-pilot-001 / 세로형 최종 후보</strong>
+                <span class="badge warn">권리 노트 필요</span>
               </div>
               <div class="media-preview" aria-label="Video preview placeholder">
                 <div class="video-subject"></div>
@@ -1318,58 +1376,58 @@
               <div class="status-bar">
                 <div class="status-cell">
                   <strong>Picture</strong>
-                  <span>locked from 8 generated cuts</span>
+                  <span>생성 컷 8개 기준 잠금</span>
                 </div>
                 <div class="status-cell">
-                  <strong>Dubbing</strong>
-                  <span>voice take B approved</span>
+                  <strong>더빙</strong>
+                  <span>보이스 테이크 B 승인</span>
                 </div>
                 <div class="status-cell">
-                  <strong>Review</strong>
-                  <span>2 frame notes open</span>
+                  <strong>리뷰</strong>
+                  <span>프레임 노트 2개 열림</span>
                 </div>
                 <div class="status-cell">
-                  <strong>Delivery</strong>
-                  <span>client link not issued</span>
+                  <strong>전달</strong>
+                  <span>클라이언트 링크 미발급</span>
                 </div>
               </div>
             </div>
 
             <div class="panel">
               <div class="panel-head">
-                <strong>Episode Filmstrip</strong>
-                <span class="badge cyan">shot evidence first</span>
+                <strong>에피소드 필름스트립</strong>
+                <span class="badge cyan">컷 증거 우선</span>
               </div>
               <div class="panel-body">
                 <div class="filmstrip">
-                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>01 Opening</strong><span>00:00-00:06</span></div></div>
-                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>02 Hook</strong><span>00:06-00:12</span></div></div>
-                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>03 Turn</strong><span>00:12-00:19</span></div></div>
-                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>04 Reaction</strong><span>00:19-00:27</span></div></div>
-                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>05 Resolve</strong><span>00:27-00:35</span></div></div>
-                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>06 End card</strong><span>00:35-00:42</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>01 오프닝</strong><span>00:00-00:06</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>02 훅</strong><span>00:06-00:12</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>03 전환</strong><span>00:12-00:19</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>04 리액션</strong><span>00:19-00:27</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>05 해결</strong><span>00:27-00:35</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>06 엔드 카드</strong><span>00:35-00:42</span></div></div>
                 </div>
               </div>
             </div>
 
             <div class="panel">
               <div class="panel-head">
-                <strong>Queue</strong>
-                <span class="badge">40 scanned episodes</span>
+                <strong>제작 큐</strong>
+                <span class="badge">스캔된 에피소드 40개</span>
               </div>
               <div class="panel-body">
                 <div class="table">
                   <div class="table-row header">
-                    <div>Episode</div><div>Character</div><div>Status</div><div>Next Gate</div><div>Action</div>
+                    <div>에피소드</div><div>캐릭터</div><div>상태</div><div>다음 게이트</div><div>작업</div>
                   </div>
                   <div class="table-row">
-                    <div>jjiroo-pilot-001</div><div>Jjiroo</div><div><span class="badge warn">review</span></div><div>rights note</div><div><button data-screen-jump="review">Open</button></div>
+                    <div>jjiroo-pilot-001</div><div>Jjiroo</div><div><span class="badge warn">리뷰</span></div><div>권리 노트</div><div><button data-screen-jump="review">열기</button></div>
                   </div>
                   <div class="table-row">
-                    <div>pet-toon-jjonga-rainy-walk-001</div><div>Jjonga</div><div><span class="badge hot">blocked</span></div><div>image jobs missing</div><div><button>Inspect</button></div>
+                    <div>pet-toon-jjonga-rainy-walk-001</div><div>Jjonga</div><div><span class="badge hot">차단</span></div><div>이미지 작업 누락</div><div><button>검사</button></div>
                   </div>
                   <div class="table-row">
-                    <div>malmoelab-quiz-episode-041</div><div>Daehan</div><div><span class="badge good">ready</span></div><div>delivery link</div><div><button data-screen-jump="delivery">Package</button></div>
+                    <div>malmoelab-quiz-episode-041</div><div>Daehan</div><div><span class="badge good">준비됨</span></div><div>전달 링크</div><div><button data-screen-jump="delivery">패키지</button></div>
                   </div>
                 </div>
               </div>
@@ -1379,30 +1437,30 @@
           <div class="stack">
             <div class="panel">
               <div class="panel-head">
-                <strong>Gate Stack</strong>
-                <span class="badge warn">2 open</span>
+                <strong>게이트 스택</strong>
+                <span class="badge warn">2개 열림</span>
               </div>
               <div class="panel-body">
                 <div class="gate-list">
                   <div class="gate good">
                     <div class="gate-index">1</div>
-                    <div><strong>Source packet indexed</strong><span>source-packet.json, storyboard plan, render candidates</span></div>
-                    <span class="badge good">done</span>
+                    <div><strong>소스 패킷 인덱싱 완료</strong><span>source-packet.json, storyboard plan, render candidates</span></div>
+                    <span class="badge good">완료</span>
                   </div>
                   <div class="gate good">
                     <div class="gate-index">2</div>
-                    <div><strong>Vertical final found</strong><span>renders/final/review-candidate.mp4</span></div>
-                    <span class="badge good">done</span>
+                    <div><strong>세로형 최종 후보 발견</strong><span>renders/final/review-candidate.mp4</span></div>
+                    <span class="badge good">완료</span>
                   </div>
                   <div class="gate warn">
                     <div class="gate-index">3</div>
-                    <div><strong>Rights note incomplete</strong><span>public publish blocked until rights.md is confirmed</span></div>
-                    <span class="badge warn">next</span>
+                    <div><strong>권리 노트 미완료</strong><span>rights.md 확인 전까지 공개 발행 차단</span></div>
+                    <span class="badge warn">다음</span>
                   </div>
                   <div class="gate hot">
                     <div class="gate-index">4</div>
-                    <div><strong>Client package not issued</strong><span>No active token, no external audit trail yet</span></div>
-                    <span class="badge hot">risk</span>
+                    <div><strong>클라이언트 패키지 미발급</strong><span>활성 토큰과 외부 열람 감사 기록 없음</span></div>
+                    <span class="badge hot">리스크</span>
                   </div>
                 </div>
               </div>
@@ -1410,22 +1468,22 @@
 
             <div class="panel">
               <div class="panel-head">
-                <strong>Producer Notes</strong>
-                <span class="badge cyan">Paperclip aware</span>
+                <strong>프로듀서 노트</strong>
+                <span class="badge cyan">Paperclip 연동 전제</span>
               </div>
               <div class="panel-body">
                 <div class="annotation">
                   <div class="note">
-                    <strong>Best next action</strong>
-                    <span>Open Character Lab, attach canonical refs, then generate a revise_episode markdown for the missing rights note.</span>
+                    <strong>다음 최선 작업</strong>
+                    <span>캐릭터 랩을 열어 canonical refs를 붙인 뒤, 누락된 권리 노트용 revise_episode 마크다운을 생성합니다.</span>
                   </div>
                   <div class="note">
-                    <strong>Do not run generation here</strong>
-                    <span>The console remains a scanner, approval, and handoff layer. Paperclip keeps execution ownership.</span>
+                    <strong>여기서 생성 작업은 실행하지 않음</strong>
+                    <span>콘솔은 스캐너, 승인, 핸드오프 계층입니다. 실제 실행 소유권은 Paperclip에 둡니다.</span>
                   </div>
                   <div class="note">
-                    <strong>Deployment constraint</strong>
-                    <span>Serve through nginx on sfs.devscent.com with no public host ports. Use shared postgres14 only for metadata.</span>
+                    <strong>배포 제약</strong>
+                    <span>sfs.devscent.com은 nginx 경유로만 서비스하고 공개 호스트 포트는 열지 않습니다. postgres14는 메타데이터에만 사용합니다.</span>
                   </div>
                 </div>
               </div>
@@ -1437,13 +1495,13 @@
       <section id="review" class="screen">
         <div class="screen-head">
           <div class="title-block">
-            <p class="eyebrow">Screen 02</p>
-            <h1>Review Studio</h1>
-            <p class="subhead">A focused workspace for final output review, contact sheet evidence, frame notes, audio checks, and approval decisions.</p>
+            <p class="eyebrow">화면 02</p>
+            <h1>리뷰 스튜디오</h1>
+            <p class="subhead">최종 산출물 리뷰, 컨택트시트 증거, 프레임 노트, 오디오 검사, 승인 결정을 한 화면에서 처리합니다.</p>
           </div>
           <div class="actions">
-            <button>Request revision</button>
-            <button class="primary" data-screen-jump="delivery">Approve for delivery</button>
+            <button>수정 요청</button>
+            <button class="primary" data-screen-jump="delivery">전달 승인</button>
           </div>
         </div>
 
@@ -1557,13 +1615,13 @@
       <section id="request" class="screen">
         <div class="screen-head">
           <div class="title-block">
-            <p class="eyebrow">Screen 03</p>
-            <h1>Request Builder</h1>
-            <p class="subhead">A structured form that produces Paperclip-ready markdown while blocking incomplete episode, revision, publish, or metadata requests.</p>
+            <p class="eyebrow">화면 03</p>
+            <h1>요청 빌더</h1>
+            <p class="subhead">에피소드, 수정, 발행, 메타데이터 요청을 구조화하고 누락 항목이 있으면 Paperclip 마크다운 생성을 막습니다.</p>
           </div>
           <div class="actions">
-            <button>Validate</button>
-            <button class="primary">Copy markdown</button>
+            <button>검증</button>
+            <button class="primary">마크다운 복사</button>
           </div>
         </div>
 
@@ -1645,13 +1703,13 @@
       <section id="characters" class="screen">
         <div class="screen-head">
           <div class="title-block">
-            <p class="eyebrow">Screen 04</p>
-            <h1>Character Lab</h1>
-            <p class="subhead">Reference packs, prompt locks, voice defaults, and rights status are managed together because character drift is a production risk.</p>
+            <p class="eyebrow">화면 04</p>
+            <h1>캐릭터 랩</h1>
+            <p class="subhead">캐릭터 드리프트는 제작 리스크이므로 레퍼런스 팩, 프롬프트 잠금, 보이스 기본값, 권리 상태를 함께 관리합니다.</p>
           </div>
           <div class="actions">
-            <button>Import refs</button>
-            <button class="primary">Create character</button>
+            <button>레퍼런스 가져오기</button>
+            <button class="primary">캐릭터 생성</button>
           </div>
         </div>
 
@@ -1730,13 +1788,13 @@
       <section id="delivery" class="screen">
         <div class="screen-head">
           <div class="title-block">
-            <p class="eyebrow">Screen 05</p>
-            <h1>Delivery Room</h1>
-            <p class="subhead">A client-safe view is assembled from approved files only. Download access, expiry, revision request, and audit state remain visible.</p>
+            <p class="eyebrow">화면 05</p>
+            <h1>딜리버리 룸</h1>
+            <p class="subhead">승인된 파일만으로 클라이언트용 화면을 구성하고 다운로드 권한, 만료, 수정 요청, 감사 상태를 계속 보여줍니다.</p>
           </div>
           <div class="actions">
-            <button>Revoke link</button>
-            <button class="primary">Generate token</button>
+            <button>링크 폐기</button>
+            <button class="primary">토큰 생성</button>
           </div>
         </div>
 
@@ -1819,13 +1877,13 @@
       <section id="ops" class="screen">
         <div class="screen-head">
           <div class="title-block">
-            <p class="eyebrow">Screen 06</p>
-            <h1>Ops</h1>
-            <p class="subhead">Service health is shown as a deployment map so the new console can run beside pc.devscent.com without port or database confusion.</p>
+            <p class="eyebrow">화면 06</p>
+            <h1>운영 설정</h1>
+            <p class="subhead">신규 콘솔이 pc.devscent.com과 충돌하지 않도록 서비스 상태를 배포 맵으로 보여줍니다.</p>
           </div>
           <div class="actions">
-            <button>Open runbook</button>
-            <button class="primary">Run health check</button>
+            <button>런북 열기</button>
+            <button class="primary">헬스체크 실행</button>
           </div>
         </div>
 
@@ -1927,6 +1985,7 @@
   <script>
     const navButtons = document.querySelectorAll("[data-screen]");
     const screens = document.querySelectorAll(".screen");
+    const localeButtons = document.querySelectorAll("[data-locale]");
 
     function activate(id) {
       screens.forEach((screen) => {
@@ -1946,6 +2005,15 @@
 
     document.querySelectorAll("[data-screen-jump]").forEach((button) => {
       button.addEventListener("click", () => activate(button.dataset.screenJump));
+    });
+
+    localeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        localeButtons.forEach((item) => {
+          item.classList.toggle("active", item === button);
+        });
+        document.documentElement.lang = button.dataset.locale;
+      });
     });
   </script>
 </body>
