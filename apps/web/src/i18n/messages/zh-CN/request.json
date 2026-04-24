@@ -1,0 +1,16 @@
+{
+  "eyebrow": "屏幕 03",
+  "title": "请求构建器",
+  "subtitle": "结构化剧集、修改、发布或元数据请求，并在缺少字段时阻止生成 Paperclip Markdown。",
+  "productionRequest": "制作请求",
+  "generatedMarkdown": "生成的 Paperclip Markdown",
+  "missingField": "缺少 1 个字段",
+  "requestType": "请求类型",
+  "formatProfile": "格式配置",
+  "episodeSlug": "剧集 slug",
+  "character": "角色",
+  "referencePath": "参考路径",
+  "outputTarget": "输出条件",
+  "completionCriteria": "完成标准",
+  "creativeBrief": "创意简报"
+}

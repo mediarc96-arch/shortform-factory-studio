@@ -1,0 +1,14 @@
+{
+  "eyebrow": "屏幕 06",
+  "title": "运维设置",
+  "subtitle": "用部署图展示服务健康状态，确保新控制台与 pc.devscent.com 并行运行且不产生端口或数据库混淆。",
+  "runtimeMap": "运行时地图",
+  "edgeRoute": "nginx edge route",
+  "scanner": "扫描器",
+  "security": "安全",
+  "architecture": "架构",
+  "recommended": "推荐",
+  "backend": "Backend",
+  "frontend": "Frontend",
+  "worker": "Worker"
+}

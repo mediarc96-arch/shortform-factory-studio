@@ -1,0 +1,17 @@
+{
+  "eyebrow": "Pantalla 05",
+  "title": "Sala de Entrega",
+  "subtitle": "La vista para cliente se arma solo con archivos aprobados. El acceso, vencimiento, revisión y auditoría permanecen visibles.",
+  "clientPreview": "Vista de cliente",
+  "safePackage": "paquete seguro",
+  "includedFiles": "Archivos incluidos",
+  "selected": "4 seleccionados",
+  "accessPolicy": "Política de acceso",
+  "tokenized": "tokenizado",
+  "expires": "Vence",
+  "maxDownloads": "Descargas máximas",
+  "clientNote": "Nota para cliente",
+  "audit": "Auditoría",
+  "readonly": "solo lectura",
+  "downloadPackage": "Descargar paquete"
+}

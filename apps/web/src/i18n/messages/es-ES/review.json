@@ -1,0 +1,18 @@
+{
+  "eyebrow": "Pantalla 02",
+  "title": "Estudio de Revisión",
+  "subtitle": "Workspace enfocado para revisar el resultado final, hojas de contacto, notas de fotograma, audio y decisiones de aprobación.",
+  "player": "Reproductor del candidato final",
+  "format": "vertical 1080x1920",
+  "contactSheet": "Hoja de contacto",
+  "frameMap": "Mapa de fotogramas",
+  "report": "Reporte de revisión",
+  "audio": "Audio",
+  "openNotes": "Notas de revisión abiertas",
+  "unresolved": "2 sin resolver",
+  "audioMeters": "Medidores de audio",
+  "withinTarget": "dentro del objetivo",
+  "decision": "Decisión",
+  "conditional": "condicional",
+  "rightsMissing": "La nota de derechos es obligatoria antes de la entrega pública"
+}

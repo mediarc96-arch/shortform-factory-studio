@@ -1,0 +1,18 @@
+{
+  "eyebrow": "画面 04",
+  "title": "キャラクターラボ",
+  "subtitle": "キャラクターのずれは制作リスクのため、参照パック、プロンプトロック、音声既定値、権利状態をまとめて管理します。",
+  "importRefs": "参照を取り込む",
+  "createCharacter": "キャラクター作成",
+  "referenceWall": "Canonical Reference Wall",
+  "safeRefs": "制作安全参照 7 件",
+  "dossier": "キャラクター資料",
+  "rightsReview": "権利確認",
+  "displayName": "表示名",
+  "series": "シリーズ",
+  "voiceDefault": "音声既定値",
+  "rightsStatus": "権利状態",
+  "negativePrompt": "ネガティブプロンプトロック",
+  "generatedFiles": "生成ファイル",
+  "templateBacked": "テンプレート準拠"
+}

@@ -1,0 +1,14 @@
+{
+  "eyebrow": "画面 06",
+  "title": "運用設定",
+  "subtitle": "新しいコンソールが pc.devscent.com と衝突しないように、サービス状態をデプロイマップで表示します。",
+  "runtimeMap": "ランタイムマップ",
+  "edgeRoute": "nginx edge route",
+  "scanner": "スキャナー",
+  "security": "セキュリティ",
+  "architecture": "アーキテクチャ",
+  "recommended": "推奨",
+  "backend": "Backend",
+  "frontend": "Frontend",
+  "worker": "Worker"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "shortform-factory-studio",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "dev:web": "pnpm --filter @sfs/web dev",
+    "build:web": "pnpm --filter @sfs/web build",
+    "typecheck:web": "pnpm --filter @sfs/web typecheck",
+    "test:web": "pnpm --filter @sfs/web test",
+    "test:api": "python3 -m unittest discover -s apps/api/tests",
+    "test": "pnpm test:web && python3 -m unittest discover -s apps/api/tests"
+  }
+}

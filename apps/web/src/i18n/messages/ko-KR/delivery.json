@@ -1,0 +1,17 @@
+{
+  "eyebrow": "화면 05",
+  "title": "딜리버리 룸",
+  "subtitle": "승인된 파일만으로 클라이언트용 화면을 구성하고 다운로드 권한, 만료, 수정 요청, 감사 상태를 계속 보여줍니다.",
+  "clientPreview": "클라이언트 미리보기",
+  "safePackage": "안전 패키지",
+  "includedFiles": "포함 파일",
+  "selected": "4개 선택됨",
+  "accessPolicy": "접근 정책",
+  "tokenized": "토큰 방식",
+  "expires": "만료",
+  "maxDownloads": "최대 다운로드",
+  "clientNote": "클라이언트 노트",
+  "audit": "감사 로그",
+  "readonly": "읽기 전용",
+  "downloadPackage": "패키지 다운로드"
+}

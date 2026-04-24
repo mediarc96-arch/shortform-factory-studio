@@ -1,0 +1,18 @@
+{
+  "eyebrow": "화면 04",
+  "title": "캐릭터 랩",
+  "subtitle": "캐릭터 드리프트는 제작 리스크이므로 레퍼런스 팩, 프롬프트 잠금, 보이스 기본값, 권리 상태를 함께 관리합니다.",
+  "importRefs": "레퍼런스 가져오기",
+  "createCharacter": "캐릭터 생성",
+  "referenceWall": "Canonical Reference Wall",
+  "safeRefs": "제작 안전 레퍼런스 7개",
+  "dossier": "캐릭터 문서",
+  "rightsReview": "권리 검토",
+  "displayName": "표시 이름",
+  "series": "시리즈",
+  "voiceDefault": "보이스 기본값",
+  "rightsStatus": "권리 상태",
+  "negativePrompt": "네거티브 프롬프트 잠금",
+  "generatedFiles": "생성 파일",
+  "templateBacked": "템플릿 기반"
+}

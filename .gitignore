@@ -9,6 +9,8 @@ episodes/*/renders/tmp-*.mp4
 .venv-video-tools/
 scripts/__pycache__/
 scripts/**/__pycache__/
+__pycache__/
+**/__pycache__/
 BRIEF
 EDIT
 POST
@@ -38,3 +40,13 @@ episodes/daehan-pilot-codex-003/review/frames/
 .env.local
 episodes/*/.env
 episodes/*/.env.local
+
+# SFS Console app build artifacts
+node_modules/
+.next/
+apps/*/.next/
+apps/*/node_modules/
+coverage/
+*.tsbuildinfo
+.mypy_cache/
+.ruff_cache/

@@ -1,0 +1,18 @@
+{
+  "eyebrow": "屏幕 04",
+  "title": "角色实验室",
+  "subtitle": "角色漂移是制作风险，因此参考包、提示词锁定、语音默认值和权利状态需要一起管理。",
+  "importRefs": "导入参考",
+  "createCharacter": "创建角色",
+  "referenceWall": "Canonical Reference Wall",
+  "safeRefs": "7 个制作安全参考",
+  "dossier": "角色档案",
+  "rightsReview": "权利审核",
+  "displayName": "显示名称",
+  "series": "系列",
+  "voiceDefault": "语音默认值",
+  "rightsStatus": "权利状态",
+  "negativePrompt": "负面提示词锁定",
+  "generatedFiles": "生成文件",
+  "templateBacked": "基于模板"
+}

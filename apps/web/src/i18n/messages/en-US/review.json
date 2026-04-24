@@ -1,0 +1,18 @@
+{
+  "eyebrow": "Screen 02",
+  "title": "Review Studio",
+  "subtitle": "A focused workspace for final output review, contact sheet evidence, frame notes, audio checks, and approval decisions.",
+  "player": "Final candidate player",
+  "format": "vertical 1080x1920",
+  "contactSheet": "Contact sheet",
+  "frameMap": "Frame map",
+  "report": "Review report",
+  "audio": "Audio",
+  "openNotes": "Open Review Notes",
+  "unresolved": "2 unresolved",
+  "audioMeters": "Audio Meters",
+  "withinTarget": "within target",
+  "decision": "Decision",
+  "conditional": "conditional",
+  "rightsMissing": "Rights note required before public delivery"
+}

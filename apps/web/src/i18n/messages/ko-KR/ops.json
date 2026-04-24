@@ -1,0 +1,14 @@
+{
+  "eyebrow": "화면 06",
+  "title": "운영 설정",
+  "subtitle": "신규 콘솔이 pc.devscent.com과 충돌하지 않도록 서비스 상태를 배포 맵으로 보여줍니다.",
+  "runtimeMap": "런타임 맵",
+  "edgeRoute": "nginx edge route",
+  "scanner": "스캐너",
+  "security": "보안",
+  "architecture": "아키텍처",
+  "recommended": "권장",
+  "backend": "Backend",
+  "frontend": "Frontend",
+  "worker": "Worker"
+}

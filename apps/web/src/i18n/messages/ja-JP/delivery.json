@@ -1,0 +1,17 @@
+{
+  "eyebrow": "画面 05",
+  "title": "デリバリールーム",
+  "subtitle": "承認済みファイルだけでクライアント向け画面を構成し、ダウンロード権限、有効期限、修正依頼、監査状態を表示します。",
+  "clientPreview": "クライアントプレビュー",
+  "safePackage": "安全パッケージ",
+  "includedFiles": "同梱ファイル",
+  "selected": "4 件選択済み",
+  "accessPolicy": "アクセス方針",
+  "tokenized": "トークン方式",
+  "expires": "有効期限",
+  "maxDownloads": "最大ダウンロード",
+  "clientNote": "クライアントメモ",
+  "audit": "監査ログ",
+  "readonly": "読み取り専用",
+  "downloadPackage": "パッケージをダウンロード"
+}

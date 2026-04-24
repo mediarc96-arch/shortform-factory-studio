@@ -1,0 +1,14 @@
+{
+  "eyebrow": "Screen 06",
+  "title": "Ops",
+  "subtitle": "Service health is shown as a deployment map so the new console can run beside pc.devscent.com without port or database confusion.",
+  "runtimeMap": "Runtime map",
+  "edgeRoute": "nginx edge route",
+  "scanner": "Scanner",
+  "security": "Security",
+  "architecture": "Architecture",
+  "recommended": "recommended",
+  "backend": "Backend",
+  "frontend": "Frontend",
+  "worker": "Worker"
+}

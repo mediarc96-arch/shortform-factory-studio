@@ -1,0 +1,17 @@
+{
+  "eyebrow": "屏幕 05",
+  "title": "交付室",
+  "subtitle": "仅用已批准文件组成客户安全视图，并持续显示下载权限、到期、修改请求和审计状态。",
+  "clientPreview": "客户预览",
+  "safePackage": "安全包",
+  "includedFiles": "包含文件",
+  "selected": "已选择 4 个",
+  "accessPolicy": "访问策略",
+  "tokenized": "令牌化",
+  "expires": "到期时间",
+  "maxDownloads": "最大下载次数",
+  "clientNote": "客户备注",
+  "audit": "审计",
+  "readonly": "只读",
+  "downloadPackage": "下载包"
+}

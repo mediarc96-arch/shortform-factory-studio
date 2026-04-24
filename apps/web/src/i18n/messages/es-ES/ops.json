@@ -1,0 +1,14 @@
+{
+  "eyebrow": "Pantalla 06",
+  "title": "Operaciones",
+  "subtitle": "La salud del servicio se muestra como un mapa de despliegue para que la consola conviva con pc.devscent.com sin confusión de puertos o base de datos.",
+  "runtimeMap": "Mapa de runtime",
+  "edgeRoute": "nginx edge route",
+  "scanner": "Scanner",
+  "security": "Seguridad",
+  "architecture": "Arquitectura",
+  "recommended": "recomendado",
+  "backend": "Backend",
+  "frontend": "Frontend",
+  "worker": "Worker"
+}

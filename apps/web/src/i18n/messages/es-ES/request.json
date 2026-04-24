@@ -1,0 +1,16 @@
+{
+  "eyebrow": "Pantalla 03",
+  "title": "Constructor de Solicitudes",
+  "subtitle": "Formulario estructurado que produce markdown listo para Paperclip y bloquea solicitudes incompletas de episodio, revisión, publicación o metadatos.",
+  "productionRequest": "Solicitud de producción",
+  "generatedMarkdown": "Markdown de Paperclip generado",
+  "missingField": "1 campo faltante",
+  "requestType": "Tipo de solicitud",
+  "formatProfile": "Perfil de formato",
+  "episodeSlug": "Slug del episodio",
+  "character": "Personaje",
+  "referencePath": "Ruta de referencia",
+  "outputTarget": "Objetivo de salida",
+  "completionCriteria": "Criterios de finalización",
+  "creativeBrief": "Brief creativo"
+}

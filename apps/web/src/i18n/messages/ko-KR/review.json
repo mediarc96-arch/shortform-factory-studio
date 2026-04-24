@@ -1,0 +1,18 @@
+{
+  "eyebrow": "화면 02",
+  "title": "리뷰 스튜디오",
+  "subtitle": "최종 산출물 리뷰, 컨택트시트 증거, 프레임 노트, 오디오 검사, 승인 결정을 한 화면에서 처리합니다.",
+  "player": "최종 후보 플레이어",
+  "format": "세로형 1080x1920",
+  "contactSheet": "컨택트시트",
+  "frameMap": "프레임 맵",
+  "report": "리뷰 리포트",
+  "audio": "오디오",
+  "openNotes": "열린 리뷰 노트",
+  "unresolved": "2개 미해결",
+  "audioMeters": "오디오 미터",
+  "withinTarget": "목표 범위",
+  "decision": "결정",
+  "conditional": "조건부",
+  "rightsMissing": "공개 전달 전 권리 노트 확인 필요"
+}

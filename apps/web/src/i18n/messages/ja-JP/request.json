@@ -1,0 +1,16 @@
+{
+  "eyebrow": "画面 03",
+  "title": "リクエストビルダー",
+  "subtitle": "エピソード、修正、公開、メタデータ依頼を構造化し、不足項目がある場合は Paperclip Markdown 生成を止めます。",
+  "productionRequest": "制作リクエスト",
+  "generatedMarkdown": "生成された Paperclip Markdown",
+  "missingField": "不足項目 1 件",
+  "requestType": "リクエスト種別",
+  "formatProfile": "フォーマットプロファイル",
+  "episodeSlug": "エピソード slug",
+  "character": "キャラクター",
+  "referencePath": "参照パス",
+  "outputTarget": "出力条件",
+  "completionCriteria": "完了基準",
+  "creativeBrief": "クリエイティブブリーフ"
+}

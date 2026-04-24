@@ -1,0 +1,18 @@
+{
+  "eyebrow": "屏幕 02",
+  "title": "审片室",
+  "subtitle": "集中处理最终成果审查、联系表证据、帧备注、音频检查和审批决定。",
+  "player": "最终候选播放器",
+  "format": "竖版 1080x1920",
+  "contactSheet": "联系表",
+  "frameMap": "帧地图",
+  "report": "审片报告",
+  "audio": "音频",
+  "openNotes": "未处理审片备注",
+  "unresolved": "2 条未解决",
+  "audioMeters": "音频表",
+  "withinTarget": "目标范围内",
+  "decision": "决定",
+  "conditional": "有条件",
+  "rightsMissing": "公开交付前需要确认权利说明"
+}

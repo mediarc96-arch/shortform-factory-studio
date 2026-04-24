@@ -1,0 +1,18 @@
+{
+  "eyebrow": "Screen 04",
+  "title": "Character Lab",
+  "subtitle": "Reference packs, prompt locks, voice defaults, and rights status are managed together because character drift is a production risk.",
+  "importRefs": "Import refs",
+  "createCharacter": "Create character",
+  "referenceWall": "Canonical Reference Wall",
+  "safeRefs": "7 production-safe refs",
+  "dossier": "Character dossier",
+  "rightsReview": "rights review",
+  "displayName": "Display name",
+  "series": "Series",
+  "voiceDefault": "Voice default",
+  "rightsStatus": "Rights status",
+  "negativePrompt": "Negative prompt lock",
+  "generatedFiles": "Generated files",
+  "templateBacked": "template backed"
+}

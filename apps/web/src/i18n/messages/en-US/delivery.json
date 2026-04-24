@@ -1,0 +1,17 @@
+{
+  "eyebrow": "Screen 05",
+  "title": "Delivery Room",
+  "subtitle": "A client-safe view is assembled from approved files only. Download access, expiry, revision request, and audit state remain visible.",
+  "clientPreview": "Client preview",
+  "safePackage": "safe package",
+  "includedFiles": "Included files",
+  "selected": "4 selected",
+  "accessPolicy": "Access policy",
+  "tokenized": "tokenized",
+  "expires": "Expires",
+  "maxDownloads": "Max downloads",
+  "clientNote": "Client note",
+  "audit": "Audit",
+  "readonly": "read-only",
+  "downloadPackage": "Download package"
+}

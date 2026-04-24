@@ -1,0 +1,18 @@
+{
+  "eyebrow": "Pantalla 04",
+  "title": "Laboratorio de Personajes",
+  "subtitle": "Los paquetes de referencia, prompts bloqueados, voz por defecto y derechos se gestionan juntos porque el drift del personaje es un riesgo de producción.",
+  "importRefs": "Importar refs",
+  "createCharacter": "Crear personaje",
+  "referenceWall": "Canonical Reference Wall",
+  "safeRefs": "7 refs seguras para producción",
+  "dossier": "Dossier del personaje",
+  "rightsReview": "revisión de derechos",
+  "displayName": "Nombre visible",
+  "series": "Serie",
+  "voiceDefault": "Voz por defecto",
+  "rightsStatus": "Estado de derechos",
+  "negativePrompt": "Bloqueo de prompt negativo",
+  "generatedFiles": "Archivos generados",
+  "templateBacked": "basado en plantilla"
+}

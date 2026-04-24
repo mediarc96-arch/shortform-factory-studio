@@ -1,0 +1,16 @@
+{
+  "eyebrow": "화면 03",
+  "title": "요청 빌더",
+  "subtitle": "에피소드, 수정, 발행, 메타데이터 요청을 구조화하고 누락 항목이 있으면 Paperclip 마크다운 생성을 막습니다.",
+  "productionRequest": "제작 요청",
+  "generatedMarkdown": "생성된 Paperclip 마크다운",
+  "missingField": "누락 항목 1개",
+  "requestType": "요청 유형",
+  "formatProfile": "포맷 프로필",
+  "episodeSlug": "에피소드 slug",
+  "character": "캐릭터",
+  "referencePath": "레퍼런스 경로",
+  "outputTarget": "출력 조건",
+  "completionCriteria": "완료 기준",
+  "creativeBrief": "크리에이티브 브리프"
+}

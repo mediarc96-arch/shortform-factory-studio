@@ -1,0 +1,18 @@
+{
+  "eyebrow": "画面 02",
+  "title": "レビュースタジオ",
+  "subtitle": "最終成果物レビュー、コンタクトシート証跡、フレームメモ、音声チェック、承認判断を一画面で扱います。",
+  "player": "最終候補プレイヤー",
+  "format": "縦型 1080x1920",
+  "contactSheet": "コンタクトシート",
+  "frameMap": "フレームマップ",
+  "report": "レビュー報告",
+  "audio": "音声",
+  "openNotes": "未処理レビューメモ",
+  "unresolved": "2 件未解決",
+  "audioMeters": "音声メーター",
+  "withinTarget": "目標範囲内",
+  "decision": "判断",
+  "conditional": "条件付き",
+  "rightsMissing": "公開配信前に権利ノート確認が必要"
+}

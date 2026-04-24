@@ -1,0 +1,16 @@
+{
+  "eyebrow": "Screen 03",
+  "title": "Request Builder",
+  "subtitle": "A structured form that produces Paperclip-ready markdown and blocks incomplete episode, revision, publish, or metadata requests.",
+  "productionRequest": "Production request",
+  "generatedMarkdown": "Generated Paperclip Markdown",
+  "missingField": "1 missing field",
+  "requestType": "Request type",
+  "formatProfile": "Format profile",
+  "episodeSlug": "Episode slug",
+  "character": "Character",
+  "referencePath": "Reference path",
+  "outputTarget": "Output target",
+  "completionCriteria": "Completion criteria",
+  "creativeBrief": "Creative brief"
+}

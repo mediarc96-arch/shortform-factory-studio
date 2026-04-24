@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: SFS Console API
+  version: 0.1.0
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      responses:
+        "200":
+          description: API health response
+  /workspace:
+    get:
+      operationId: getWorkspaceSnapshot
+      responses:
+        "200":
+          description: Read-only workspace scanner snapshot
+  /episodes:
+    get:
+      operationId: listEpisodes
+      responses:
+        "200":
+          description: Scanned production episodes
+  /episodes/{episode_slug}/delivery-readiness:
+    get:
+      operationId: getDeliveryReadiness
+      parameters:
+        - name: episode_slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delivery gate status for one episode
