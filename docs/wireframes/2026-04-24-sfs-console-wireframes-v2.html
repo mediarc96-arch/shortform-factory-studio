@@ -1,0 +1,1952 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SFS Console Wireframes v2</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d0f10;
+      --shell: #141718;
+      --shell-2: #1b1f20;
+      --panel: #202426;
+      --panel-2: #272c2e;
+      --line: #3a4143;
+      --line-soft: #2f3537;
+      --text: #f4efe5;
+      --muted: #a7aea9;
+      --quiet: #7f8783;
+      --accent: #f0b35b;
+      --accent-2: #e8664f;
+      --good: #72b889;
+      --cyan: #78b8c7;
+      --ink: #0d0f10;
+      --radius: 8px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .32);
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 4px),
+        var(--bg);
+      font-family: var(--sans);
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 12px;
+      color: var(--text);
+      background: #252b2d;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: #303638;
+      border-color: #4c5558;
+    }
+
+    button.primary {
+      color: #1a1308;
+      background: var(--accent);
+      border-color: var(--accent);
+      font-weight: 760;
+    }
+
+    button.danger {
+      color: #fff2ed;
+      background: #743124;
+      border-color: #9e4937;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 38px;
+      padding: 9px 10px;
+      color: var(--text);
+      background: #15191a;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 118px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+      text-transform: uppercase;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .rail {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 18px;
+      background: #111415;
+      border-right: 1px solid var(--line-soft);
+      overflow: auto;
+    }
+
+    .brand {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      color: var(--ink);
+      background: var(--accent);
+      border-radius: 8px;
+      font-weight: 900;
+    }
+
+    .brand strong,
+    .brand span {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .brand strong {
+      font-size: 16px;
+    }
+
+    .brand span {
+      margin-top: 3px;
+      color: var(--quiet);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+      margin: 18px 0;
+    }
+
+    .nav button {
+      justify-content: flex-start;
+      gap: 10px;
+      width: 100%;
+      height: 42px;
+      padding: 0 10px;
+      background: transparent;
+      border-color: transparent;
+      color: var(--muted);
+    }
+
+    .nav button.active {
+      color: var(--text);
+      background: var(--shell-2);
+      border-color: var(--line-soft);
+    }
+
+    .nav button.active .nav-dot {
+      background: var(--accent);
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      background: #4b5558;
+      flex: 0 0 auto;
+    }
+
+    .rail-section {
+      padding: 14px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .rail-title {
+      margin: 0 0 10px;
+      color: var(--quiet);
+      font-size: 11px;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    .mini-stack {
+      display: grid;
+      gap: 9px;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mini-row span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pulse {
+      display: inline-flex;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--good);
+    }
+
+    .pulse.warn {
+      background: var(--accent);
+    }
+
+    .pulse.hot {
+      background: var(--accent-2);
+    }
+
+    .main {
+      min-width: 0;
+      padding: 18px;
+    }
+
+    .topline {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(240px, 440px) auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .crumb {
+      min-width: 0;
+      color: var(--quiet);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .crumb strong {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .search input {
+      height: 40px;
+    }
+
+    .operator {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 40px;
+      padding: 0 10px;
+      background: var(--shell);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      color: var(--ink);
+      background: var(--cyan);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .screen-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .title-block {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 840;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 980px;
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .subhead {
+      margin: 9px 0 0;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .surface {
+      background: var(--shell);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel {
+      min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      min-height: 48px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .panel-head strong {
+      min-width: 0;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .panel-body {
+      padding: 14px;
+    }
+
+    .caption {
+      color: var(--quiet);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      color: var(--muted);
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .badge.good {
+      color: #d7ffe1;
+      background: #193326;
+      border-color: #315f43;
+    }
+
+    .badge.warn {
+      color: #fff0d3;
+      background: #412c13;
+      border-color: #745129;
+    }
+
+    .badge.hot {
+      color: #ffe0d9;
+      background: #4b211a;
+      border-color: #80402f;
+    }
+
+    .badge.cyan {
+      color: #e4fbff;
+      background: #17323a;
+      border-color: #315c66;
+    }
+
+    .media-preview {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      min-height: 280px;
+      background:
+        linear-gradient(90deg, rgba(240,179,91,.10), transparent 26%, rgba(120,184,199,.12) 70%, transparent),
+        #111516;
+      border-bottom: 1px solid var(--line-soft);
+      overflow: hidden;
+    }
+
+    .media-preview::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(244, 239, 229, .14);
+      border-radius: 6px;
+    }
+
+    .media-preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 42px, rgba(244,239,229,.035) 42px 43px),
+        repeating-linear-gradient(0deg, transparent 0 42px, rgba(244,239,229,.028) 42px 43px);
+      pointer-events: none;
+    }
+
+    .video-subject {
+      position: absolute;
+      left: 10%;
+      top: 14%;
+      width: 42%;
+      height: 70%;
+      border-radius: 8px;
+      border: 1px solid rgba(244, 239, 229, .18);
+      background:
+        radial-gradient(circle at 35% 30%, #f0b35b 0 13%, transparent 14%),
+        linear-gradient(135deg, #293235 0 40%, #4f3a2b 40% 62%, #1e2b2d 62% 100%);
+      opacity: .92;
+    }
+
+    .video-subject.secondary {
+      left: 56%;
+      top: 24%;
+      width: 28%;
+      height: 50%;
+      background:
+        radial-gradient(circle at 62% 28%, #78b8c7 0 12%, transparent 13%),
+        linear-gradient(135deg, #1b292d 0 45%, #56342c 45% 66%, #242829 66% 100%);
+      opacity: .8;
+    }
+
+    .timecode {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      padding: 7px 9px;
+      color: var(--text);
+      background: rgba(13, 15, 16, .82);
+      border: 1px solid rgba(244, 239, 229, .16);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .play-button {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      color: var(--ink);
+      background: var(--accent);
+      border-radius: 999px;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--line-soft);
+      background: #171b1c;
+    }
+
+    .status-cell {
+      min-width: 0;
+      padding: 13px 14px;
+      border-right: 1px solid var(--line-soft);
+    }
+
+    .status-cell:last-child {
+      border-right: 0;
+    }
+
+    .status-cell strong,
+    .status-cell span {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .status-cell strong {
+      font-size: 13px;
+    }
+
+    .status-cell span {
+      margin-top: 4px;
+      color: var(--quiet);
+      font-size: 12px;
+    }
+
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(320px, .8fr);
+      gap: 14px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .filmstrip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(116px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .shot {
+      min-width: 116px;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      background: #171b1c;
+      overflow: hidden;
+    }
+
+    .thumb {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      min-height: 142px;
+      background:
+        linear-gradient(145deg, rgba(240,179,91,.18), transparent 45%),
+        linear-gradient(45deg, rgba(120,184,199,.16), transparent 58%),
+        #101415;
+    }
+
+    .thumb.landscape {
+      aspect-ratio: 16 / 9;
+      min-height: 76px;
+    }
+
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(244, 239, 229, .12);
+      border-radius: 5px;
+    }
+
+    .thumb-label {
+      display: grid;
+      gap: 2px;
+      padding: 8px;
+      min-width: 0;
+    }
+
+    .thumb-label strong {
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .thumb-label span {
+      color: var(--quiet);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .gate-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .gate {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 48px;
+      padding: 10px;
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+    }
+
+    .gate-index {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      color: var(--ink);
+      background: var(--muted);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .gate.good .gate-index {
+      background: var(--good);
+    }
+
+    .gate.warn .gate-index {
+      background: var(--accent);
+    }
+
+    .gate.hot .gate-index {
+      color: #fff4ef;
+      background: var(--accent-2);
+    }
+
+    .gate strong,
+    .gate span {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .gate strong {
+      font-size: 13px;
+    }
+
+    .gate span {
+      margin-top: 2px;
+      color: var(--quiet);
+      font-size: 12px;
+    }
+
+    .table {
+      display: grid;
+      gap: 1px;
+      background: var(--line-soft);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: minmax(180px, 1.2fr) minmax(110px, .7fr) minmax(96px, .6fr) minmax(120px, .8fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+      min-height: 48px;
+      padding: 9px 10px;
+      background: #171b1c;
+    }
+
+    .table-row.header {
+      min-height: 36px;
+      color: var(--quiet);
+      background: #202526;
+      font-size: 11px;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    .table-row > div {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field-grid .wide {
+      grid-column: 1 / -1;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      padding: 10px;
+      background: #171b1c;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .tabs button {
+      min-height: 32px;
+      font-size: 12px;
+    }
+
+    .tabs button.active {
+      color: var(--ink);
+      background: var(--cyan);
+      border-color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .track-labels {
+      display: grid;
+      grid-template-rows: repeat(4, 34px);
+      gap: 8px;
+      color: var(--quiet);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .track-labels span {
+      display: flex;
+      align-items: center;
+    }
+
+    .tracks {
+      display: grid;
+      grid-template-rows: repeat(4, 34px);
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .track {
+      position: relative;
+      min-width: 0;
+      background: #15191a;
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .clip {
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      min-width: 32px;
+      border-radius: 5px;
+      background: var(--cyan);
+    }
+
+    .clip.audio {
+      background: var(--good);
+    }
+
+    .clip.text {
+      background: var(--accent);
+    }
+
+    .clip.issue {
+      background: var(--accent-2);
+    }
+
+    .contact-sheet {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .frame-card {
+      min-width: 0;
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .frame-card .thumb {
+      min-height: 96px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .frame-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 8px;
+      color: var(--quiet);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .annotation {
+      display: grid;
+      gap: 8px;
+    }
+
+    .note {
+      padding: 10px;
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+    }
+
+    .note strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .note span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .meters {
+      display: grid;
+      gap: 8px;
+    }
+
+    .meter {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr) 42px;
+      gap: 9px;
+      align-items: center;
+      color: var(--quiet);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .meter-bar {
+      height: 9px;
+      background: #121617;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      display: block;
+      height: 100%;
+      background: var(--good);
+    }
+
+    .meter-fill.warn {
+      background: var(--accent);
+    }
+
+    .meter-fill.hot {
+      background: var(--accent-2);
+    }
+
+    .markdown-preview {
+      min-height: 410px;
+      padding: 14px;
+      color: #e6e0d5;
+      background: #121617;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .reference-wall {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .ref-tile {
+      min-width: 0;
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .ref-art {
+      aspect-ratio: 1;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(240,179,91,.8) 0 13%, transparent 14%),
+        linear-gradient(150deg, #213235 0 45%, #4c3430 45% 62%, #161a1b 62% 100%);
+    }
+
+    .ref-art.alt {
+      background:
+        radial-gradient(circle at 45% 26%, rgba(120,184,199,.8) 0 12%, transparent 13%),
+        linear-gradient(140deg, #16272c 0 44%, #5b3a28 44% 65%, #202425 65% 100%);
+    }
+
+    .ref-name {
+      padding: 7px 8px;
+      color: var(--muted);
+      font-size: 11px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .delivery-preview {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 14px;
+    }
+
+    .phone {
+      max-width: 320px;
+      margin: 0 auto;
+      padding: 12px;
+      background: #101415;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .phone-screen {
+      min-height: 520px;
+      background: #1a1f20;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .phone-hero {
+      aspect-ratio: 9 / 14;
+      background:
+        radial-gradient(circle at 52% 34%, rgba(240,179,91,.8) 0 10%, transparent 11%),
+        linear-gradient(150deg, #26383d 0 45%, #52362b 45% 62%, #181c1d 62% 100%);
+    }
+
+    .phone-copy {
+      padding: 14px;
+    }
+
+    .phone-copy h2 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .phone-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 48px;
+      padding: 8px;
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+    }
+
+    .file-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      color: var(--ink);
+      background: var(--cyan);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .file-row strong,
+    .file-row span {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-row strong {
+      font-size: 13px;
+    }
+
+    .file-row span {
+      margin-top: 2px;
+      color: var(--quiet);
+      font-size: 11px;
+    }
+
+    .ops-map {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .ops-node {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      min-height: 134px;
+      padding: 12px;
+      background: #171b1c;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+    }
+
+    .ops-node strong {
+      font-size: 13px;
+    }
+
+    .ops-node span {
+      color: var(--quiet);
+      font-size: 12px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .connector-line {
+      height: 1px;
+      margin: 4px 0;
+      background: var(--line);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 7px;
+    }
+
+    .check {
+      display: grid;
+      grid-template-columns: 16px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .box {
+      width: 14px;
+      height: 14px;
+      margin-top: 2px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #121617;
+    }
+
+    .box.checked {
+      background: var(--good);
+      border-color: var(--good);
+    }
+
+    @media (max-width: 1180px) {
+      .app {
+        grid-template-columns: 230px minmax(0, 1fr);
+      }
+
+      .workspace-grid,
+      .delivery-preview {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .reference-wall {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .ops-map {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        display: block;
+      }
+
+      .rail {
+        position: static;
+        height: auto;
+      }
+
+      .nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .topline,
+      .screen-head,
+      .status-bar,
+      .grid-2,
+      .grid-3,
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .screen-head {
+        align-items: start;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .table-row {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .table-row.header {
+        display: none;
+      }
+
+      .contact-sheet {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .reference-wall {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .ops-map {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .main,
+      .rail {
+        padding: 12px;
+      }
+
+      .nav {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .media-preview {
+        min-height: 220px;
+      }
+
+      .filmstrip {
+        grid-template-columns: repeat(6, 108px);
+      }
+
+      .contact-sheet,
+      .reference-wall {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .track-labels {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="rail">
+      <div class="brand">
+        <div class="mark">SFS</div>
+        <div>
+          <strong>SFS Console v2</strong>
+          <span>sfs.devscent.com media operations</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Wireframe screens">
+        <button class="active" data-screen="production"><span class="nav-dot"></span>Production Desk</button>
+        <button data-screen="review"><span class="nav-dot"></span>Review Studio</button>
+        <button data-screen="request"><span class="nav-dot"></span>Request Builder</button>
+        <button data-screen="characters"><span class="nav-dot"></span>Character Lab</button>
+        <button data-screen="delivery"><span class="nav-dot"></span>Delivery Room</button>
+        <button data-screen="ops"><span class="nav-dot"></span>Ops</button>
+      </nav>
+
+      <div class="rail-section">
+        <p class="rail-title">Live Workspace</p>
+        <div class="mini-stack">
+          <div class="mini-row"><span>scanner: episodes/*</span><i class="pulse"></i></div>
+          <div class="mini-row"><span>postgres14 metadata</span><i class="pulse"></i></div>
+          <div class="mini-row"><span>paperclip issue handoff</span><i class="pulse warn"></i></div>
+          <div class="mini-row"><span>public rights gate</span><i class="pulse hot"></i></div>
+        </div>
+      </div>
+
+      <div class="rail-section">
+        <p class="rail-title">Design Intent</p>
+        <div class="caption">
+          V2 treats SFS as a video production control room: large review objects, shot evidence, contact sheets, and delivery previews before tables.
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topline">
+        <div class="crumb">
+          <strong>Shortform Factory Studio</strong><br>
+          /home/kindsr/projects/shortform-factory-studio
+        </div>
+        <div class="search">
+          <input value="Search episode, character, frame note, delivery token" aria-label="Global search">
+        </div>
+        <div class="operator"><span class="avatar">OP</span>Operator</div>
+      </div>
+
+      <section id="production" class="screen active">
+        <div class="screen-head">
+          <div class="title-block">
+            <p class="eyebrow">Screen 01</p>
+            <h1>Production Desk</h1>
+            <p class="subhead">The first screen surfaces the best available media object, current gates, and delivery risk. It is not a KPI landing page.</p>
+          </div>
+          <div class="actions">
+            <button>Run scanner</button>
+            <button data-screen-jump="request">New request</button>
+            <button class="primary" data-screen-jump="review">Open review</button>
+          </div>
+        </div>
+
+        <div class="workspace-grid">
+          <div class="stack">
+            <div class="surface">
+              <div class="panel-head">
+                <strong>Active review: jjiroo-pilot-001 / vertical final candidate</strong>
+                <span class="badge warn">needs rights note</span>
+              </div>
+              <div class="media-preview" aria-label="Video preview placeholder">
+                <div class="video-subject"></div>
+                <div class="video-subject secondary"></div>
+                <div class="play-button">▶</div>
+                <div class="timecode">00:19:08 / 00:42:00</div>
+              </div>
+              <div class="status-bar">
+                <div class="status-cell">
+                  <strong>Picture</strong>
+                  <span>locked from 8 generated cuts</span>
+                </div>
+                <div class="status-cell">
+                  <strong>Dubbing</strong>
+                  <span>voice take B approved</span>
+                </div>
+                <div class="status-cell">
+                  <strong>Review</strong>
+                  <span>2 frame notes open</span>
+                </div>
+                <div class="status-cell">
+                  <strong>Delivery</strong>
+                  <span>client link not issued</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Episode Filmstrip</strong>
+                <span class="badge cyan">shot evidence first</span>
+              </div>
+              <div class="panel-body">
+                <div class="filmstrip">
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>01 Opening</strong><span>00:00-00:06</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>02 Hook</strong><span>00:06-00:12</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>03 Turn</strong><span>00:12-00:19</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>04 Reaction</strong><span>00:19-00:27</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>05 Resolve</strong><span>00:27-00:35</span></div></div>
+                  <div class="shot"><div class="thumb"></div><div class="thumb-label"><strong>06 End card</strong><span>00:35-00:42</span></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Queue</strong>
+                <span class="badge">40 scanned episodes</span>
+              </div>
+              <div class="panel-body">
+                <div class="table">
+                  <div class="table-row header">
+                    <div>Episode</div><div>Character</div><div>Status</div><div>Next Gate</div><div>Action</div>
+                  </div>
+                  <div class="table-row">
+                    <div>jjiroo-pilot-001</div><div>Jjiroo</div><div><span class="badge warn">review</span></div><div>rights note</div><div><button data-screen-jump="review">Open</button></div>
+                  </div>
+                  <div class="table-row">
+                    <div>pet-toon-jjonga-rainy-walk-001</div><div>Jjonga</div><div><span class="badge hot">blocked</span></div><div>image jobs missing</div><div><button>Inspect</button></div>
+                  </div>
+                  <div class="table-row">
+                    <div>malmoelab-quiz-episode-041</div><div>Daehan</div><div><span class="badge good">ready</span></div><div>delivery link</div><div><button data-screen-jump="delivery">Package</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Gate Stack</strong>
+                <span class="badge warn">2 open</span>
+              </div>
+              <div class="panel-body">
+                <div class="gate-list">
+                  <div class="gate good">
+                    <div class="gate-index">1</div>
+                    <div><strong>Source packet indexed</strong><span>source-packet.json, storyboard plan, render candidates</span></div>
+                    <span class="badge good">done</span>
+                  </div>
+                  <div class="gate good">
+                    <div class="gate-index">2</div>
+                    <div><strong>Vertical final found</strong><span>renders/final/review-candidate.mp4</span></div>
+                    <span class="badge good">done</span>
+                  </div>
+                  <div class="gate warn">
+                    <div class="gate-index">3</div>
+                    <div><strong>Rights note incomplete</strong><span>public publish blocked until rights.md is confirmed</span></div>
+                    <span class="badge warn">next</span>
+                  </div>
+                  <div class="gate hot">
+                    <div class="gate-index">4</div>
+                    <div><strong>Client package not issued</strong><span>No active token, no external audit trail yet</span></div>
+                    <span class="badge hot">risk</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Producer Notes</strong>
+                <span class="badge cyan">Paperclip aware</span>
+              </div>
+              <div class="panel-body">
+                <div class="annotation">
+                  <div class="note">
+                    <strong>Best next action</strong>
+                    <span>Open Character Lab, attach canonical refs, then generate a revise_episode markdown for the missing rights note.</span>
+                  </div>
+                  <div class="note">
+                    <strong>Do not run generation here</strong>
+                    <span>The console remains a scanner, approval, and handoff layer. Paperclip keeps execution ownership.</span>
+                  </div>
+                  <div class="note">
+                    <strong>Deployment constraint</strong>
+                    <span>Serve through nginx on sfs.devscent.com with no public host ports. Use shared postgres14 only for metadata.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="review" class="screen">
+        <div class="screen-head">
+          <div class="title-block">
+            <p class="eyebrow">Screen 02</p>
+            <h1>Review Studio</h1>
+            <p class="subhead">A focused workspace for final output review, contact sheet evidence, frame notes, audio checks, and approval decisions.</p>
+          </div>
+          <div class="actions">
+            <button>Request revision</button>
+            <button class="primary" data-screen-jump="delivery">Approve for delivery</button>
+          </div>
+        </div>
+
+        <div class="workspace-grid">
+          <div class="stack">
+            <div class="surface">
+              <div class="panel-head">
+                <strong>Final candidate player</strong>
+                <span class="badge cyan">vertical 1080x1920</span>
+              </div>
+              <div class="media-preview">
+                <div class="video-subject"></div>
+                <div class="video-subject secondary"></div>
+                <div class="play-button">▶</div>
+                <div class="timecode">scene-04 / frame 1182</div>
+              </div>
+              <div class="panel-body">
+                <div class="timeline">
+                  <div class="track-labels">
+                    <span>picture</span><span>voice</span><span>type</span><span>notes</span>
+                  </div>
+                  <div class="tracks">
+                    <div class="track"><i class="clip" style="left:0;width:18%"></i><i class="clip" style="left:20%;width:24%"></i><i class="clip" style="left:47%;width:22%"></i><i class="clip" style="left:72%;width:25%"></i></div>
+                    <div class="track"><i class="clip audio" style="left:3%;width:31%"></i><i class="clip audio" style="left:38%;width:28%"></i><i class="clip audio" style="left:70%;width:18%"></i></div>
+                    <div class="track"><i class="clip text" style="left:8%;width:12%"></i><i class="clip text" style="left:33%;width:14%"></i><i class="clip text" style="left:58%;width:16%"></i></div>
+                    <div class="track"><i class="clip issue" style="left:44%;width:8%"></i><i class="clip issue" style="left:76%;width:10%"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="tabs">
+                <button class="active">Contact sheet</button>
+                <button>Frame map</button>
+                <button>Review report</button>
+                <button>Audio</button>
+              </div>
+              <div class="panel-body">
+                <div class="contact-sheet">
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>0012</span><span>ok</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>0248</span><span>ok</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>0516</span><span>note</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>0781</span><span>ok</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>1182</span><span>fix</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>1430</span><span>ok</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>1688</span><span>ok</span></div></div>
+                  <div class="frame-card"><div class="thumb landscape"></div><div class="frame-meta"><span>1904</span><span>ok</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Open Review Notes</strong>
+                <span class="badge hot">2 unresolved</span>
+              </div>
+              <div class="panel-body">
+                <div class="annotation">
+                  <div class="note">
+                    <strong>scene-04 / frame 1182</strong>
+                    <span>Character silhouette drifts from canonical ref. Mark as revise_episode if final output must publish externally.</span>
+                  </div>
+                  <div class="note">
+                    <strong>scene-05 / frame 1688</strong>
+                    <span>Subtitle contrast is low over bright background. Typography pass can fix without regenerating picture.</span>
+                  </div>
+                  <div class="note">
+                    <strong>Approval policy</strong>
+                    <span>Approve only after rights note, canonical reference, thumbnail, final mp4, and publish packet are all green.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Audio Meters</strong>
+                <span class="badge good">within target</span>
+              </div>
+              <div class="panel-body">
+                <div class="meters">
+                  <div class="meter"><span>voice</span><div class="meter-bar"><i class="meter-fill" style="width:74%"></i></div><span>-14 LU</span></div>
+                  <div class="meter"><span>music</span><div class="meter-bar"><i class="meter-fill warn" style="width:52%"></i></div><span>-22 LU</span></div>
+                  <div class="meter"><span>sfx</span><div class="meter-bar"><i class="meter-fill" style="width:61%"></i></div><span>-19 LU</span></div>
+                  <div class="meter"><span>peak</span><div class="meter-bar"><i class="meter-fill hot" style="width:31%"></i></div><span>-1.8 dB</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Decision</strong>
+                <span class="badge warn">conditional</span>
+              </div>
+              <div class="panel-body">
+                <div class="checklist">
+                  <div class="check"><span class="box checked"></span><span>Final mp4 exists and matches target format</span></div>
+                  <div class="check"><span class="box checked"></span><span>Review report generated</span></div>
+                  <div class="check"><span class="box"></span><span>Rights note confirmed for public client delivery</span></div>
+                  <div class="check"><span class="box"></span><span>Paperclip revision comment linked to episode</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="request" class="screen">
+        <div class="screen-head">
+          <div class="title-block">
+            <p class="eyebrow">Screen 03</p>
+            <h1>Request Builder</h1>
+            <p class="subhead">A structured form that produces Paperclip-ready markdown while blocking incomplete episode, revision, publish, or metadata requests.</p>
+          </div>
+          <div class="actions">
+            <button>Validate</button>
+            <button class="primary">Copy markdown</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Production request</strong>
+              <span class="badge cyan">new_episode</span>
+            </div>
+            <div class="panel-body">
+              <div class="field-grid">
+                <div>
+                  <label>Request type</label>
+                  <select><option>new_episode</option><option>revise_episode</option><option>publish_only</option><option>metadata_update</option></select>
+                </div>
+                <div>
+                  <label>Format profile</label>
+                  <select><option>pet-toon-image-only-v1</option><option>malmoelab-keyframe-dub-after-picture-v1</option></select>
+                </div>
+                <div>
+                  <label>Episode slug</label>
+                  <input value="jjiroo-pilot-002">
+                </div>
+                <div>
+                  <label>Character</label>
+                  <input value="jjiroo">
+                </div>
+                <div class="wide">
+                  <label>Reference path</label>
+                  <input value="characters/jjiroo/refs/canonical-pack">
+                </div>
+                <div>
+                  <label>Output target</label>
+                  <input value="vertical 1080x1920, 42s, Korean narration">
+                </div>
+                <div>
+                  <label>Completion criteria</label>
+                  <input value="final mp4, thumbnail, review report, publish metadata">
+                </div>
+                <div class="wide">
+                  <label>Creative brief</label>
+                  <textarea>Short emotional pet toon episode. Use existing character canon, avoid changing face shape, keep warm but not sentimental pacing.</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Generated Paperclip Markdown</strong>
+              <span class="badge warn">1 missing field</span>
+            </div>
+            <div class="panel-body">
+              <div class="markdown-preview"># new_episode: jjiroo-pilot-002
+
+## Workspace
+- root: /home/kindsr/projects/shortform-factory-studio
+- format: pet-toon-image-only-v1
+- character: jjiroo
+
+## Required output
+- final vertical mp4
+- thumbnail candidate
+- review report
+- publish metadata packet
+
+## Source assets
+- canonical refs: characters/jjiroo/refs/canonical-pack
+- background refs: missing
+
+## Acceptance
+- Character remains on-model across all generated cuts.
+- No public delivery until rights.md is confirmed.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="characters" class="screen">
+        <div class="screen-head">
+          <div class="title-block">
+            <p class="eyebrow">Screen 04</p>
+            <h1>Character Lab</h1>
+            <p class="subhead">Reference packs, prompt locks, voice defaults, and rights status are managed together because character drift is a production risk.</p>
+          </div>
+          <div class="actions">
+            <button>Import refs</button>
+            <button class="primary">Create character</button>
+          </div>
+        </div>
+
+        <div class="workspace-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Canonical Reference Wall</strong>
+              <span class="badge good">7 production-safe refs</span>
+            </div>
+            <div class="panel-body">
+              <div class="reference-wall">
+                <div class="ref-tile"><div class="ref-art"></div><div class="ref-name">front-neutral.png</div></div>
+                <div class="ref-tile"><div class="ref-art alt"></div><div class="ref-name">side-profile.png</div></div>
+                <div class="ref-tile"><div class="ref-art"></div><div class="ref-name">happy-expression.png</div></div>
+                <div class="ref-tile"><div class="ref-art alt"></div><div class="ref-name">rain-scene.png</div></div>
+                <div class="ref-tile"><div class="ref-art"></div><div class="ref-name">thumbnail-safe.png</div></div>
+                <div class="ref-tile"><div class="ref-art alt"></div><div class="ref-name">walking-pose.png</div></div>
+                <div class="ref-tile"><div class="ref-art"></div><div class="ref-name">close-up.png</div></div>
+                <div class="ref-tile"><div class="ref-art alt"></div><div class="ref-name">unsafe-archive.png</div></div>
+                <div class="ref-tile"><div class="ref-art"></div><div class="ref-name">turnaround.png</div></div>
+                <div class="ref-tile"><div class="ref-art alt"></div><div class="ref-name">style-lock.png</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Character dossier</strong>
+                <span class="badge warn">rights review</span>
+              </div>
+              <div class="panel-body">
+                <div class="field-grid">
+                  <div>
+                    <label>Display name</label>
+                    <input value="Jjiroo">
+                  </div>
+                  <div>
+                    <label>Series</label>
+                    <input value="Pet Toon">
+                  </div>
+                  <div>
+                    <label>Voice default</label>
+                    <input value="warm Korean narrator, small pauses">
+                  </div>
+                  <div>
+                    <label>Rights status</label>
+                    <select><option>needs review</option><option>production safe</option><option>internal only</option></select>
+                  </div>
+                  <div class="wide">
+                    <label>Negative prompt lock</label>
+                    <textarea>Do not alter face structure, fur pattern, eye spacing, or collar color. Avoid human hands unless explicitly requested.</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Generated files</strong>
+                <span class="badge cyan">template backed</span>
+              </div>
+              <div class="panel-body">
+                <div class="file-list">
+                  <div class="file-row"><span class="file-icon">MD</span><div><strong>characters/jjiroo/bible.md</strong><span>identity, behavior, visual canon</span></div><span class="badge good">ok</span></div>
+                  <div class="file-row"><span class="file-icon">MD</span><div><strong>characters/jjiroo/prompts.md</strong><span>defaults and banned drift</span></div><span class="badge good">ok</span></div>
+                  <div class="file-row"><span class="file-icon">MD</span><div><strong>characters/jjiroo/rights.md</strong><span>external use status</span></div><span class="badge warn">review</span></div>
+                  <div class="file-row"><span class="file-icon">JS</span><div><strong>characters/jjiroo/voice.json</strong><span>voice slots and take policy</span></div><span class="badge good">ok</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="delivery" class="screen">
+        <div class="screen-head">
+          <div class="title-block">
+            <p class="eyebrow">Screen 05</p>
+            <h1>Delivery Room</h1>
+            <p class="subhead">A client-safe view is assembled from approved files only. Download access, expiry, revision request, and audit state remain visible.</p>
+          </div>
+          <div class="actions">
+            <button>Revoke link</button>
+            <button class="primary">Generate token</button>
+          </div>
+        </div>
+
+        <div class="delivery-preview">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Client preview</strong>
+              <span class="badge good">safe package</span>
+            </div>
+            <div class="panel-body">
+              <div class="phone">
+                <div class="phone-screen">
+                  <div class="phone-hero"></div>
+                  <div class="phone-copy">
+                    <h2>jjiroo-pilot-001 delivery</h2>
+                    <p>Final video, thumbnail, review report, and publish metadata are available until 2026-05-01 23:59 UTC.</p>
+                    <div style="height:12px"></div>
+                    <button class="primary" style="width:100%">Download package</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Included files</strong>
+                <span class="badge">4 selected</span>
+              </div>
+              <div class="panel-body">
+                <div class="file-list">
+                  <div class="file-row"><span class="file-icon">MP4</span><div><strong>final-vertical.mp4</strong><span>1080x1920, approved</span></div><span class="badge good">on</span></div>
+                  <div class="file-row"><span class="file-icon">PNG</span><div><strong>thumbnail.png</strong><span>client preview image</span></div><span class="badge good">on</span></div>
+                  <div class="file-row"><span class="file-icon">MD</span><div><strong>review-report.md</strong><span>scene notes and QA result</span></div><span class="badge good">on</span></div>
+                  <div class="file-row"><span class="file-icon">JS</span><div><strong>publish-packet.json</strong><span>title, description, tags</span></div><span class="badge good">on</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Access policy</strong>
+                <span class="badge cyan">tokenized</span>
+              </div>
+              <div class="panel-body">
+                <div class="field-grid">
+                  <div>
+                    <label>Expires</label>
+                    <input value="2026-05-01 23:59 UTC">
+                  </div>
+                  <div>
+                    <label>Max downloads</label>
+                    <input value="5">
+                  </div>
+                  <div class="wide">
+                    <label>Client note</label>
+                    <textarea>Use revision request for timestamped feedback. Do not forward this link outside the approval group.</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Audit</strong>
+                <span class="badge">read-only</span>
+              </div>
+              <div class="panel-body">
+                <div class="annotation">
+                  <div class="note"><strong>2026-04-24 08:12 UTC</strong><span>Producer generated package draft.</span></div>
+                  <div class="note"><strong>2026-04-24 08:18 UTC</strong><span>Rights gate passed after Character Lab update.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ops" class="screen">
+        <div class="screen-head">
+          <div class="title-block">
+            <p class="eyebrow">Screen 06</p>
+            <h1>Ops</h1>
+            <p class="subhead">Service health is shown as a deployment map so the new console can run beside pc.devscent.com without port or database confusion.</p>
+          </div>
+          <div class="actions">
+            <button>Open runbook</button>
+            <button class="primary">Run health check</button>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="panel">
+            <div class="panel-head">
+              <strong>Runtime map</strong>
+              <span class="badge good">nginx edge route</span>
+            </div>
+            <div class="panel-body">
+              <div class="ops-map">
+                <div class="ops-node">
+                  <span class="badge cyan">public</span>
+                  <strong>sfs.devscent.com</strong>
+                  <span>External entry through nginx only.</span>
+                  <div class="connector-line"></div>
+                  <span>No direct host port.</span>
+                </div>
+                <div class="ops-node">
+                  <span class="badge">web</span>
+                  <strong>sfs-web:3000</strong>
+                  <span>Next.js app serving console and delivery pages.</span>
+                  <div class="connector-line"></div>
+                  <span>Docker edge network.</span>
+                </div>
+                <div class="ops-node">
+                  <span class="badge">api</span>
+                  <strong>sfs-api:8000</strong>
+                  <span>FastAPI scanner, auth, media proxy, delivery token API.</span>
+                  <div class="connector-line"></div>
+                  <span>/health returns ok.</span>
+                </div>
+                <div class="ops-node">
+                  <span class="badge">db</span>
+                  <strong>postgres14</strong>
+                  <span>Shared Postgres in /opt/infra for metadata and audit only.</span>
+                  <div class="connector-line"></div>
+                  <span>No video blobs in DB.</span>
+                </div>
+                <div class="ops-node">
+                  <span class="badge warn">exec</span>
+                  <strong>pc.devscent.com</strong>
+                  <span>Paperclip remains the work execution surface.</span>
+                  <div class="connector-line"></div>
+                  <span>Issue/comment handoff.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Scanner</strong>
+                <span class="badge good">ok</span>
+              </div>
+              <div class="panel-body">
+                <div class="checklist">
+                  <div class="check"><span class="box checked"></span><span>characters/ indexed</span></div>
+                  <div class="check"><span class="box checked"></span><span>episodes/ indexed</span></div>
+                  <div class="check"><span class="box checked"></span><span>formats/ indexed</span></div>
+                  <div class="check"><span class="box"></span><span>missing assets reported without deleting files</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Security</strong>
+                <span class="badge warn">MVP</span>
+              </div>
+              <div class="panel-body">
+                <div class="checklist">
+                  <div class="check"><span class="box checked"></span><span>role-based internal auth</span></div>
+                  <div class="check"><span class="box checked"></span><span>delivery token expiry</span></div>
+                  <div class="check"><span class="box"></span><span>signed media URLs</span></div>
+                  <div class="check"><span class="box"></span><span>audit export for client access</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <strong>Architecture</strong>
+                <span class="badge cyan">recommended</span>
+              </div>
+              <div class="panel-body">
+                <div class="annotation">
+                  <div class="note"><strong>Backend</strong><span>Python FastAPI, clean architecture, SQLAlchemy, Alembic, pytest.</span></div>
+                  <div class="note"><strong>Frontend</strong><span>Next.js app router, typed API client, Playwright smoke tests.</span></div>
+                  <div class="note"><strong>Worker</strong><span>Optional Python process for scanner/export jobs after MVP read flow lands.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const navButtons = document.querySelectorAll("[data-screen]");
+    const screens = document.querySelectorAll(".screen");
+
+    function activate(id) {
+      screens.forEach((screen) => {
+        screen.classList.toggle("active", screen.id === id);
+      });
+
+      navButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.screen === id);
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    navButtons.forEach((button) => {
+      button.addEventListener("click", () => activate(button.dataset.screen));
+    });
+
+    document.querySelectorAll("[data-screen-jump]").forEach((button) => {
+      button.addEventListener("click", () => activate(button.dataset.screenJump));
+    });
+  </script>
+</body>
+</html>
