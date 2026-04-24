@@ -20,10 +20,28 @@ type ProductionRequestPreviewResponse = {
   markdown: string;
 };
 
+export type ProductionRequestRecord = {
+  id: string;
+  request_type: string;
+  episode_slug: string;
+  character_slug: string;
+  format_profile_slug: string;
+  output_target: string;
+  reference_path: string;
+  completion_criteria: string;
+  creative_brief: string;
+  markdown: string;
+  status: string;
+  paperclip_issue_ref: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type ProductionRequestPreview = {
   source: "api" | "sample";
   draft: ProductionRequestDraft;
   markdown: string;
+  savedRequests: ProductionRequestRecord[];
 };
 
 export async function loadProductionRequestPreview(
@@ -49,9 +67,25 @@ export async function loadProductionRequestPreview(
       source: "api",
       draft,
       markdown: preview.markdown,
+      savedRequests: await loadRecentProductionRequests(),
     };
   } catch {
     return fallbackPreview(draft);
+  }
+}
+
+async function loadRecentProductionRequests(): Promise<ProductionRequestRecord[]> {
+  try {
+    const response = await fetch(`${getSfsApiBaseUrl()}/requests/production`, {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
+    if (!response.ok) {
+      return [];
+    }
+    return (await response.json()) as ProductionRequestRecord[];
+  } catch {
+    return [];
   }
 }
 
@@ -116,5 +150,6 @@ function fallbackPreview(draft: ProductionRequestDraft): ProductionRequestPrevie
       "- Do not publish externally until rights.md is confirmed.",
       "- Keep generated character output aligned to the canonical reference pack.",
     ].join("\n"),
+    savedRequests: [],
   };
 }

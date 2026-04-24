@@ -21,6 +21,60 @@ paths:
       responses:
         "200":
           description: Scanned production episodes
+  /characters:
+    get:
+      operationId: listCharacters
+      responses:
+        "200":
+          description: Scanned reusable character registry
+    post:
+      operationId: createCharacterTemplate
+      responses:
+        "200":
+          description: Created character template files under characters/{slug}
+        "422":
+          description: Invalid slug, missing fields, or character already exists
+  /formats:
+    get:
+      operationId: listFormats
+      responses:
+        "200":
+          description: Scanned format profiles
+  /requests/production/preview:
+    post:
+      operationId: previewProductionRequest
+      responses:
+        "200":
+          description: Paperclip-ready markdown preview
+        "422":
+          description: Missing required request fields
+  /requests/production:
+    get:
+      operationId: listProductionRequests
+      responses:
+        "200":
+          description: Recent persisted production request drafts
+    post:
+      operationId: createProductionRequest
+      responses:
+        "200":
+          description: Persisted production request draft with markdown and audit log
+        "422":
+          description: Missing required request fields
+  /requests/production/{request_id}/paperclip:
+    post:
+      operationId: sendProductionRequestToPaperclip
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Production request linked to a Paperclip issue
+        "503":
+          description: Paperclip integration is not configured
   /episodes/{episode_slug}/delivery-readiness:
     get:
       operationId: getDeliveryReadiness
@@ -33,3 +87,40 @@ paths:
       responses:
         "200":
           description: Delivery gate status for one episode
+  /deliveries/tokens:
+    get:
+      operationId: listDeliveryTokens
+      responses:
+        "200":
+          description: Recent delivery token records without plaintext token values
+    post:
+      operationId: createDeliveryToken
+      responses:
+        "200":
+          description: One-time plaintext delivery token plus persisted token metadata
+        "422":
+          description: Episode is missing or delivery readiness is blocked
+  /deliveries/tokens/{token_id}/revoke:
+    post:
+      operationId: revokeDeliveryToken
+      parameters:
+        - name: token_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Revoked delivery token
+  /audit-logs:
+    get:
+      operationId: listAuditLogs
+      responses:
+        "200":
+          description: Recent audit log entries
+  /ops/health:
+    get:
+      operationId: getOpsHealth
+      responses:
+        "200":
+          description: Workspace, database, Paperclip, and scanner component health

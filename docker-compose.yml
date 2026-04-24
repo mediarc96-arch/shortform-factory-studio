@@ -1,21 +1,39 @@
 name: sfs-console
 
 services:
-  api:
+  sfs-console-api:
     container_name: sfs-console-api
     build:
       context: .
       dockerfile: apps/api/Dockerfile
+    env_file:
+      - /opt/infra/postgres14/.env
     environment:
       SFS_WORKSPACE_ROOT: /workspace/shortform-factory-studio
+      SFS_DB_HOST: postgres14
+      SFS_DB_NAME: shortform_factory
+      SFS_DB_PORT: 5432
+      PAPERCLIP_BASE_URL: ${PAPERCLIP_BASE_URL:-https://pc.devscent.com}
+      PAPERCLIP_API_TOKEN: ${PAPERCLIP_API_TOKEN:-}
+      PAPERCLIP_COMPANY_ID: ${PAPERCLIP_COMPANY_ID:-}
+      PAPERCLIP_PROJECT_ID: ${PAPERCLIP_PROJECT_ID:-}
     ports:
       - "${SFS_API_BIND:-127.0.0.1}:${SFS_API_PORT:-8002}:8000"
     restart: unless-stopped
+    networks:
+      default:
+      edge:
+        aliases:
+          - sfs-console-api
     volumes:
       - type: bind
         source: .
         target: /workspace/shortform-factory-studio
         read_only: true
+      - type: bind
+        source: ./characters
+        target: /workspace/shortform-factory-studio/characters
+        read_only: false
     healthcheck:
       test:
         [
@@ -35,7 +53,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
     depends_on:
-      api:
+      sfs-console-api:
         condition: service_healthy
     environment:
       SFS_API_BASE_URL: http://sfs-console-api:8000

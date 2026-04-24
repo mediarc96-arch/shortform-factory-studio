@@ -11,10 +11,18 @@ sys.path.insert(0, str(API_SRC))
 
 from sfs_console.application.use_cases import (  # noqa: E402
     BuildProductionRequestMarkdown,
+    CharacterTemplateDraft,
+    CreateCharacterTemplate,
+    IssueDeliveryToken,
     ProductionRequestDraft,
+    SaveProductionRequest,
     ValidateDeliveryReadiness,
 )
-from sfs_console.infrastructure import FileSystemWorkspaceScanner  # noqa: E402
+from sfs_console.infrastructure import (  # noqa: E402
+    FileSystemCharacterWriter,
+    FileSystemWorkspaceScanner,
+    InMemorySfsStore,
+)
 
 
 class WorkspaceScannerTest(unittest.TestCase):
@@ -69,6 +77,67 @@ class WorkspaceScannerTest(unittest.TestCase):
         self.assertIn("# new_episode: jjiroo-pilot-002", markdown)
         self.assertIn("- character: jjiroo", markdown)
         self.assertIn("Do not publish externally", markdown)
+
+    def test_save_production_request_records_audit_event(self) -> None:
+        store = InMemorySfsStore()
+        draft = ProductionRequestDraft(
+            request_type="new_episode",
+            episode_slug="jjiroo-pilot-002",
+            character_slug="jjiroo",
+            format_profile_slug="pet-toon-image-only-v1",
+            output_target="vertical 1080x1920 mp4",
+            reference_path="characters/jjiroo/refs",
+            completion_criteria="final mp4, thumbnail, review report",
+            creative_brief="Keep the character on model.",
+        )
+
+        record = SaveProductionRequest(store, store).execute(draft)
+
+        self.assertEqual(record.status, "draft")
+        self.assertEqual(store.list_production_requests()[0].id, record.id)
+        self.assertEqual(store.list_audit_logs()[0].action, "production_request.created")
+
+    def test_character_template_writer_creates_canonical_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            writer = FileSystemCharacterWriter(root)
+            store = InMemorySfsStore()
+
+            result = CreateCharacterTemplate(writer, store).execute(
+                CharacterTemplateDraft(
+                    slug="jjiroo-friend",
+                    display_name="Jjiroo Friend",
+                    series="Pet Toon",
+                    voice_default="warm narrator",
+                    rights_status="needs_review",
+                    negative_prompt="Do not change face shape.",
+                )
+            )
+
+            self.assertEqual(result.slug, "jjiroo-friend")
+            self.assertTrue((root / "characters/jjiroo-friend/bible.md").exists())
+            self.assertEqual(store.list_audit_logs()[0].action, "character_template.created")
+
+    def test_delivery_token_hash_is_stored_without_plain_token(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._write(root / "characters/jjiroo/bible.md", "# Jjiroo")
+            self._write(root / "characters/jjiroo/rights.md", "# Rights")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final.mp4", "")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final-thumb.jpg", "")
+            self._write(root / "episodes/jjiroo-pilot-001/review/review-report.md", "# Review")
+            self._write(root / "episodes/jjiroo-pilot-001/publish-packet.json", "{}")
+            scanner = FileSystemWorkspaceScanner(root)
+            store = InMemorySfsStore()
+
+            issued = IssueDeliveryToken(scanner, store, store).execute(
+                episode_slug="jjiroo-pilot-001",
+                expires_in_hours=24,
+            )
+
+            self.assertNotEqual(issued.record.token_hash, issued.token)
+            self.assertEqual(len(issued.record.token_hash), 64)
+            self.assertEqual(store.list_delivery_tokens()[0].id, issued.record.id)
 
     def _write(self, path: Path, content: str) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)

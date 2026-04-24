@@ -5,12 +5,16 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from sfs_console.application import ProductionRequestDraft
+from sfs_console.application import CharacterTemplateDraft, ProductionRequestDraft
 from sfs_console.domain import (
+    AuditLogEntry,
     CharacterSummary,
+    CharacterTemplateResult,
     DeliveryReadiness,
+    DeliveryTokenRecord,
     EpisodeSummary,
     FormatProfileSummary,
+    ProductionRequestRecord,
     WorkspaceSnapshot,
 )
 
@@ -22,6 +26,7 @@ def _relative(path: Path | None) -> str | None:
 class HealthResponse(BaseModel):
     status: str
     service: str
+    persistence: str = "memory"
 
 
 class ProductionRequestPreviewRequest(BaseModel):
@@ -51,6 +56,42 @@ class ProductionRequestPreviewResponse(BaseModel):
     request_type: str
     episode_slug: str
     markdown: str
+
+
+class ProductionRequestResponse(BaseModel):
+    id: str
+    request_type: str
+    episode_slug: str
+    character_slug: str
+    format_profile_slug: str
+    output_target: str
+    reference_path: str
+    completion_criteria: str
+    creative_brief: str
+    markdown: str
+    status: str
+    paperclip_issue_ref: str | None
+    created_at: str
+    updated_at: str
+
+    @classmethod
+    def from_domain(cls, record: ProductionRequestRecord) -> "ProductionRequestResponse":
+        return cls(
+            id=record.id,
+            request_type=record.request_type,
+            episode_slug=record.episode_slug,
+            character_slug=record.character_slug,
+            format_profile_slug=record.format_profile_slug,
+            output_target=record.output_target,
+            reference_path=record.reference_path,
+            completion_criteria=record.completion_criteria,
+            creative_brief=record.creative_brief,
+            markdown=record.markdown,
+            status=record.status,
+            paperclip_issue_ref=record.paperclip_issue_ref,
+            created_at=record.created_at.isoformat(),
+            updated_at=record.updated_at.isoformat(),
+        )
 
 
 class GateResponse(BaseModel):
@@ -151,3 +192,103 @@ class DeliveryReadinessResponse(BaseModel):
             status=readiness.status,
             gates=[GateResponse(**gate.__dict__) for gate in readiness.gates],
         )
+
+
+class CharacterCreateRequest(BaseModel):
+    slug: str
+    display_name: str
+    series: str
+    voice_default: str
+    rights_status: Literal["needs_review", "production_safe", "internal_only"]
+    negative_prompt: str
+
+    def to_draft(self) -> CharacterTemplateDraft:
+        return CharacterTemplateDraft(
+            slug=self.slug,
+            display_name=self.display_name,
+            series=self.series,
+            voice_default=self.voice_default,
+            rights_status=self.rights_status,
+            negative_prompt=self.negative_prompt,
+        )
+
+
+class CharacterTemplateResponse(BaseModel):
+    slug: str
+    display_name: str
+    root_path: str
+    created_files: list[str]
+
+    @classmethod
+    def from_domain(cls, result: CharacterTemplateResult) -> "CharacterTemplateResponse":
+        return cls(
+            slug=result.slug,
+            display_name=result.display_name,
+            root_path=str(result.root_path),
+            created_files=[str(path) for path in result.created_files],
+        )
+
+
+class DeliveryTokenCreateRequest(BaseModel):
+    episode_slug: str
+    expires_in_hours: int = 168
+
+
+class DeliveryTokenResponse(BaseModel):
+    id: str
+    episode_slug: str
+    status: str
+    expires_at: str
+    created_at: str
+    revoked_at: str | None
+    token: str | None = None
+
+    @classmethod
+    def from_domain(
+        cls,
+        record: DeliveryTokenRecord,
+        *,
+        token: str | None = None,
+    ) -> "DeliveryTokenResponse":
+        return cls(
+            id=record.id,
+            episode_slug=record.episode_slug,
+            status=record.status,
+            expires_at=record.expires_at.isoformat(),
+            created_at=record.created_at.isoformat(),
+            revoked_at=record.revoked_at.isoformat() if record.revoked_at else None,
+            token=token,
+        )
+
+
+class AuditLogResponse(BaseModel):
+    id: str
+    action: str
+    entity_type: str
+    entity_id: str
+    payload: dict[str, object]
+    actor: str
+    created_at: str
+
+    @classmethod
+    def from_domain(cls, entry: AuditLogEntry) -> "AuditLogResponse":
+        return cls(
+            id=entry.id,
+            action=entry.action,
+            entity_type=entry.entity_type,
+            entity_id=entry.entity_id,
+            payload=entry.payload,
+            actor=entry.actor,
+            created_at=entry.created_at.isoformat(),
+        )
+
+
+class OpsComponentResponse(BaseModel):
+    key: str
+    status: str
+    detail: str
+
+
+class OpsHealthResponse(BaseModel):
+    status: str
+    components: list[OpsComponentResponse]

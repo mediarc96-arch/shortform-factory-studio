@@ -40,6 +40,27 @@ shared/
 - [docs/MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md](./docs/MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md)
 - [docs/YOUTUBE_CHANNEL_SETUP.md](./docs/YOUTUBE_CHANNEL_SETUP.md)
 
+## SFS Console
+
+`sfs.devscent.com` serves the Next.js/FastAPI console in this repo.
+
+```bash
+docker compose up -d --build
+```
+
+The API scans this workspace, stores request/delivery metadata in the shared
+Postgres database `shortform_factory`, and only writes files for explicit
+character creation actions. The default workspace mount is read-only, with
+`characters/` overlaid as the writable template scope.
+
+Implemented console actions:
+
+- production request preview and persisted draft creation
+- audit log writes for production request, character, and delivery actions
+- character template creation under `characters/<slug>`
+- delivery token issue/revoke with token hashes stored at rest
+- optional Paperclip issue handoff when `PAPERCLIP_COMPANY_ID` and a valid token are configured
+
 ## Quiz Pipeline
 
 - source fetch: `scripts/fetch_malmoelab_source.py`

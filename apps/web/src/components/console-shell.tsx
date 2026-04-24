@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -18,7 +18,11 @@ import {
   type SupportedLocale
 } from "@/i18n/locales";
 import type { Dictionary } from "@/i18n/get-dictionary";
-import type { ProductionRequestDraft, ProductionRequestPreview } from "@/lib/production-request-api";
+import type {
+  ProductionRequestDraft,
+  ProductionRequestPreview,
+  ProductionRequestRecord
+} from "@/lib/production-request-api";
 import { statusLabel } from "@/lib/status";
 import type { WorkspaceViewModel } from "@/lib/workspace-api";
 
@@ -28,6 +32,41 @@ type ConsoleShellProps = {
   requestPreview?: ProductionRequestPreview;
   screen: ScreenId;
   workspace: WorkspaceViewModel;
+};
+
+type ActionState = {
+  tone: "idle" | "good" | "warn" | "risk";
+  message: string;
+};
+
+type CharacterCreatePayload = {
+  slug: string;
+  display_name: string;
+  series: string;
+  voice_default: string;
+  rights_status: "needs_review" | "production_safe" | "internal_only";
+  negative_prompt: string;
+};
+
+type ProductionRequestPreviewResponse = {
+  request_type: string;
+  episode_slug: string;
+  markdown: string;
+};
+
+type DeliveryTokenResponse = {
+  id: string;
+  episode_slug: string;
+  status: string;
+  expires_at: string;
+  created_at: string;
+  revoked_at: string | null;
+  token: string | null;
+};
+
+type OpsHealthResponse = {
+  status: string;
+  components: { key: string; status: string; detail: string }[];
 };
 
 export function ConsoleShell({
@@ -61,7 +100,7 @@ export function ConsoleShell({
       return <RequestScreen dictionary={dictionary} requestPreview={requestPreview} workspace={workspace} />;
     }
     if (screen === "characters") return <CharactersScreen dictionary={dictionary} workspace={workspace} />;
-    if (screen === "delivery") return <DeliveryScreen dictionary={dictionary} />;
+    if (screen === "delivery") return <DeliveryScreen dictionary={dictionary} workspace={workspace} />;
     return <OpsScreen dictionary={dictionary} />;
   }, [dictionary, requestPreview, screen, workspace]);
 
@@ -372,7 +411,7 @@ function RequestScreen({
   workspace: WorkspaceViewModel;
 }) {
   const { common, request } = dictionary;
-  const draft = requestPreview?.draft ?? {
+  const initialDraft: ProductionRequestDraft = requestPreview?.draft ?? {
     requestType: "new_episode",
     episodeSlug: "jjiroo-pilot-002",
     characterSlug: "jjiroo",
@@ -382,8 +421,65 @@ function RequestScreen({
     completionCriteria: "final mp4, thumbnail, review report, publish metadata packet",
     creativeBrief: "Build a short vertical episode from existing character canon and keep the model stable."
   };
-  const markdown = requestPreview?.markdown ?? "";
+  const [draft, setDraft] = useState<ProductionRequestDraft>(initialDraft);
+  const [markdown, setMarkdown] = useState(requestPreview?.markdown ?? "");
+  const [savedRequests, setSavedRequests] = useState<ProductionRequestRecord[]>(
+    requestPreview?.savedRequests ?? []
+  );
+  const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
+  const [isPending, startTransition] = useTransition();
   const previewSource = requestPreview?.source ?? "sample";
+
+  const validateDraft = () => {
+    startTransition(async () => {
+      const result = await postJson<ProductionRequestPreviewResponse>(
+        "/api/sfs/requests/production/preview",
+        toProductionRequestPayload(draft)
+      );
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setMarkdown(result.data.markdown);
+      setAction({ tone: "good", message: "Markdown preview refreshed." });
+    });
+  };
+
+  const saveDraft = () => {
+    startTransition(async () => {
+      const result = await postJson<ProductionRequestRecord>(
+        "/api/sfs/requests/production",
+        toProductionRequestPayload(draft)
+      );
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setMarkdown(result.data.markdown);
+      setSavedRequests((current) => [result.data, ...current.filter((item) => item.id !== result.data.id)]);
+      setAction({ tone: "good", message: `Saved draft ${result.data.id.slice(0, 8)}.` });
+    });
+  };
+
+  const sendToPaperclip = (requestId: string) => {
+    startTransition(async () => {
+      const result = await postJson<ProductionRequestRecord>(
+        `/api/sfs/requests/production/${requestId}/paperclip`,
+        {}
+      );
+      if (!result.ok) {
+        setAction({ tone: "warn", message: result.error });
+        return;
+      }
+      setSavedRequests((current) =>
+        current.map((item) => (item.id === result.data.id ? result.data : item))
+      );
+      setAction({
+        tone: "good",
+        message: `Paperclip issue ${result.data.paperclip_issue_ref ?? result.data.id} linked.`
+      });
+    });
+  };
 
   return (
     <section>
@@ -393,16 +489,46 @@ function RequestScreen({
         subtitle={request.subtitle}
         actions={
           <>
-            <button type="button">{common.validate}</button>
-            <button className="primary" type="button">
-              {common.copyMarkdown}
+            <button type="button" onClick={validateDraft} disabled={isPending}>
+              {common.validate}
+            </button>
+            <button className="primary" type="button" onClick={saveDraft} disabled={isPending}>
+              Save draft
             </button>
           </>
         }
       />
       <div className="two-column">
-        <Panel title={request.productionRequest} meta="new_episode">
-          <FormGrid draft={draft} request={request} workspace={workspace} />
+        <Panel title={request.productionRequest} meta={draft.requestType}>
+          <FormGrid
+            draft={draft}
+            request={request}
+            setDraft={setDraft}
+            workspace={workspace}
+          />
+          <ActionMessage state={action} />
+          <div className="saved-list">
+            {savedRequests.length ? (
+              savedRequests.slice(0, 5).map((item) => (
+                <div className="saved-row" key={item.id}>
+                  <div>
+                    <strong>{item.episode_slug}</strong>
+                    <span>{item.status}</span>
+                  </div>
+                  <code>{item.paperclip_issue_ref ?? item.id.slice(0, 8)}</code>
+                  <button
+                    type="button"
+                    onClick={() => sendToPaperclip(item.id)}
+                    disabled={isPending || Boolean(item.paperclip_issue_ref)}
+                  >
+                    Paperclip
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="empty-state">No saved production requests yet.</p>
+            )}
+          </div>
         </Panel>
         <Panel title={request.generatedMarkdown} meta={`Paperclip · ${previewSource}`}>
           <pre className="markdown-preview">{markdown}</pre>
@@ -421,6 +547,37 @@ function CharactersScreen({
 }) {
   const { characters } = dictionary;
   const primaryCharacter = workspace.characters[0];
+  const [payload, setPayload] = useState<CharacterCreatePayload>({
+    slug: "new-character",
+    display_name: "New Character",
+    series: "Pet Toon",
+    voice_default: "warm Korean narrator",
+    rights_status: "needs_review",
+    negative_prompt: "Do not alter face structure, fur pattern, eye spacing, or collar color."
+  });
+  const [createdFiles, setCreatedFiles] = useState<string[]>([]);
+  const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
+  const [isPending, startTransition] = useTransition();
+
+  const update = <Key extends keyof CharacterCreatePayload>(
+    key: Key,
+    value: CharacterCreatePayload[Key]
+  ) => setPayload({ ...payload, [key]: value });
+
+  const createCharacter = () => {
+    startTransition(async () => {
+      const result = await postJson<{ slug: string; created_files: string[] }>(
+        "/api/sfs/characters",
+        payload
+      );
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setCreatedFiles(result.data.created_files);
+      setAction({ tone: "good", message: `Created characters/${result.data.slug}.` });
+    });
+  };
 
   return (
     <section>
@@ -431,7 +588,12 @@ function CharactersScreen({
         actions={
           <>
             <button type="button">{characters.importRefs}</button>
-            <button className="primary" type="button">
+            <button
+              className="primary"
+              type="button"
+              onClick={createCharacter}
+              disabled={isPending}
+            >
               {characters.createCharacter}
             </button>
           </>
@@ -451,18 +613,55 @@ function CharactersScreen({
         <div className="stack">
           <Panel title={characters.dossier} meta={primaryCharacter?.rightsStatus ?? characters.rightsReview}>
             <div className="form-grid">
-              <Field label={characters.displayName} value={primaryCharacter?.displayName ?? "Jjiroo"} />
-              <Field label={characters.series} value="Pet Toon" />
-              <Field label={characters.voiceDefault} value="warm Korean narrator" />
-              <Field
-                label={characters.rightsStatus}
-                value={primaryCharacter?.rightsStatus ?? "needs review"}
+              <EditableField
+                label="slug"
+                value={payload.slug}
+                onChange={(value) => update("slug", value)}
               />
+              <EditableField
+                label={characters.displayName}
+                value={payload.display_name}
+                onChange={(value) => update("display_name", value)}
+              />
+              <EditableField
+                label={characters.series}
+                value={payload.series}
+                onChange={(value) => update("series", value)}
+              />
+              <EditableField
+                label={characters.voiceDefault}
+                value={payload.voice_default}
+                onChange={(value) => update("voice_default", value)}
+              />
+              <label>
+                {characters.rightsStatus}
+                <select
+                  value={payload.rights_status}
+                  onChange={(event) =>
+                    update("rights_status", event.target.value as CharacterCreatePayload["rights_status"])
+                  }
+                >
+                  <option value="needs_review">needs_review</option>
+                  <option value="production_safe">production_safe</option>
+                  <option value="internal_only">internal_only</option>
+                </select>
+              </label>
               <label className="wide">
                 {characters.negativePrompt}
-                <textarea defaultValue="Do not alter face structure, fur pattern, eye spacing, or collar color." />
+                <textarea
+                  value={payload.negative_prompt}
+                  onChange={(event) => update("negative_prompt", event.target.value)}
+                />
               </label>
             </div>
+            <ActionMessage state={action} />
+            {createdFiles.length ? (
+              <div className="created-files">
+                {createdFiles.map((file) => (
+                  <code key={file}>{file}</code>
+                ))}
+              </div>
+            ) : null}
           </Panel>
           <Panel
             title={characters.generatedFiles}
@@ -494,8 +693,55 @@ function CharactersScreen({
   );
 }
 
-function DeliveryScreen({ dictionary }: { dictionary: Dictionary }) {
+function DeliveryScreen({
+  dictionary,
+  workspace
+}: {
+  dictionary: Dictionary;
+  workspace: WorkspaceViewModel;
+}) {
   const { common, delivery } = dictionary;
+  const initialEpisode =
+    workspace.queue.find((episode) => episode.status === "ready")?.slug ?? workspace.queue[0]?.slug ?? "";
+  const [episodeSlug, setEpisodeSlug] = useState(initialEpisode);
+  const [token, setToken] = useState<DeliveryTokenResponse | null>(null);
+  const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
+  const [isPending, startTransition] = useTransition();
+
+  const generateToken = () => {
+    startTransition(async () => {
+      const result = await postJson<DeliveryTokenResponse>("/api/sfs/deliveries/tokens", {
+        episode_slug: episodeSlug,
+        expires_in_hours: 168
+      });
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setToken(result.data);
+      setAction({ tone: "good", message: `Delivery token issued for ${result.data.episode_slug}.` });
+    });
+  };
+
+  const revokeToken = () => {
+    if (!token) {
+      setAction({ tone: "warn", message: "No active token selected." });
+      return;
+    }
+    startTransition(async () => {
+      const result = await postJson<DeliveryTokenResponse>(
+        `/api/sfs/deliveries/tokens/${token.id}/revoke`,
+        {}
+      );
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setToken(result.data);
+      setAction({ tone: "good", message: `Token ${result.data.id.slice(0, 8)} revoked.` });
+    });
+  };
+
   return (
     <section>
       <ScreenHeader
@@ -504,8 +750,15 @@ function DeliveryScreen({ dictionary }: { dictionary: Dictionary }) {
         subtitle={delivery.subtitle}
         actions={
           <>
-            <button type="button">{common.revokeLink}</button>
-            <button className="primary" type="button">
+            <button type="button" onClick={revokeToken} disabled={isPending || !token}>
+              {common.revokeLink}
+            </button>
+            <button
+              className="primary"
+              type="button"
+              onClick={generateToken}
+              disabled={isPending || !episodeSlug}
+            >
               {common.generateToken}
             </button>
           </>
@@ -533,6 +786,16 @@ function DeliveryScreen({ dictionary }: { dictionary: Dictionary }) {
           </Panel>
           <Panel title={delivery.accessPolicy} meta={delivery.tokenized}>
             <div className="form-grid">
+              <label className="wide">
+                Episode
+                <select value={episodeSlug} onChange={(event) => setEpisodeSlug(event.target.value)}>
+                  {workspace.queue.map((episode) => (
+                    <option value={episode.slug} key={episode.slug}>
+                      {episode.slug}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <Field label={delivery.expires} value="2026-05-01 23:59 UTC" />
               <Field label={delivery.maxDownloads} value="5" />
               <label className="wide">
@@ -540,6 +803,14 @@ function DeliveryScreen({ dictionary }: { dictionary: Dictionary }) {
                 <textarea defaultValue="Use revision request for timestamped feedback. Do not forward this link outside the approval group." />
               </label>
             </div>
+            <ActionMessage state={action} />
+            {token ? (
+              <div className="token-box">
+                <strong>{token.status}</strong>
+                <code>{token.token ?? token.id}</code>
+                <span>{token.expires_at}</span>
+              </div>
+            ) : null}
           </Panel>
           <Panel title={delivery.audit} meta={delivery.readonly}>
             <Note title="2026-04-24 08:12 UTC" text="Producer generated package draft." />
@@ -553,6 +824,22 @@ function DeliveryScreen({ dictionary }: { dictionary: Dictionary }) {
 
 function OpsScreen({ dictionary }: { dictionary: Dictionary }) {
   const { common, ops } = dictionary;
+  const [health, setHealth] = useState<OpsHealthResponse | null>(null);
+  const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
+  const [isPending, startTransition] = useTransition();
+
+  const runHealthCheck = () => {
+    startTransition(async () => {
+      const result = await getJson<OpsHealthResponse>("/api/sfs/ops/health");
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setHealth(result.data);
+      setAction({ tone: result.data.status === "ok" ? "good" : "warn", message: result.data.status });
+    });
+  };
+
   return (
     <section>
       <ScreenHeader
@@ -562,7 +849,12 @@ function OpsScreen({ dictionary }: { dictionary: Dictionary }) {
         actions={
           <>
             <button type="button">{common.openRunbook}</button>
-            <button className="primary" type="button">
+            <button
+              className="primary"
+              type="button"
+              onClick={runHealthCheck}
+              disabled={isPending}
+            >
               {common.runHealthCheck}
             </button>
           </>
@@ -577,6 +869,20 @@ function OpsScreen({ dictionary }: { dictionary: Dictionary }) {
             <OpsNode label="db" title="postgres14" text="Shared Postgres in /opt/infra for metadata and audit only." />
             <OpsNode label="exec" title="pc.devscent.com" text="Paperclip remains the work execution surface." />
           </div>
+          <ActionMessage state={action} />
+          {health ? (
+            <div className="health-list">
+              {health.components.map((component) => (
+                <div className="health-row" key={component.key}>
+                  <strong>{component.key}</strong>
+                  <span className={`badge ${component.status === "ok" ? "ready" : "review"}`}>
+                    {component.status}
+                  </span>
+                  <code>{component.detail}</code>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </Panel>
         <div className="three-column">
           <Panel title={ops.scanner} meta="ok">
@@ -734,10 +1040,12 @@ function Field({ label, value }: { label: string; value: string }) {
 function FormGrid({
   draft,
   request,
+  setDraft,
   workspace
 }: {
   draft: ProductionRequestDraft;
   request: Dictionary["request"];
+  setDraft: (draft: ProductionRequestDraft) => void;
   workspace: WorkspaceViewModel;
 }) {
   const formatOptions =
@@ -746,12 +1054,21 @@ function FormGrid({
     workspace.characters.length > 0
       ? workspace.characters.map((character) => character.slug)
       : [draft.characterSlug];
+  const update = <Key extends keyof ProductionRequestDraft>(
+    key: Key,
+    value: ProductionRequestDraft[Key]
+  ) => setDraft({ ...draft, [key]: value });
 
   return (
     <div className="form-grid">
       <label>
         {request.requestType}
-        <select defaultValue={draft.requestType}>
+        <select
+          value={draft.requestType}
+          onChange={(event) =>
+            update("requestType", event.target.value as ProductionRequestDraft["requestType"])
+          }
+        >
           <option value="new_episode">new_episode</option>
           <option value="revise_episode">revise_episode</option>
           <option value="publish_only">publish_only</option>
@@ -760,7 +1077,10 @@ function FormGrid({
       </label>
       <label>
         {request.formatProfile}
-        <select defaultValue={draft.formatProfileSlug}>
+        <select
+          value={draft.formatProfileSlug}
+          onChange={(event) => update("formatProfileSlug", event.target.value)}
+        >
           {formatOptions.map((format) => (
             <option value={format} key={format}>
               {format}
@@ -768,10 +1088,17 @@ function FormGrid({
           ))}
         </select>
       </label>
-      <Field label={request.episodeSlug} value={draft.episodeSlug} />
+      <EditableField
+        label={request.episodeSlug}
+        value={draft.episodeSlug}
+        onChange={(value) => update("episodeSlug", value)}
+      />
       <label>
         {request.character}
-        <select defaultValue={draft.characterSlug}>
+        <select
+          value={draft.characterSlug}
+          onChange={(event) => update("characterSlug", event.target.value)}
+        >
           {characterOptions.map((character) => (
             <option value={character} key={character}>
               {character}
@@ -781,15 +1108,46 @@ function FormGrid({
       </label>
       <label className="wide">
         {request.referencePath}
-        <input defaultValue={draft.referencePath} />
+        <input
+          value={draft.referencePath}
+          onChange={(event) => update("referencePath", event.target.value)}
+        />
       </label>
-      <Field label={request.outputTarget} value={draft.outputTarget} />
-      <Field label={request.completionCriteria} value={draft.completionCriteria} />
+      <EditableField
+        label={request.outputTarget}
+        value={draft.outputTarget}
+        onChange={(value) => update("outputTarget", value)}
+      />
+      <EditableField
+        label={request.completionCriteria}
+        value={draft.completionCriteria}
+        onChange={(value) => update("completionCriteria", value)}
+      />
       <label className="wide">
         {request.creativeBrief}
-        <textarea defaultValue={draft.creativeBrief} />
+        <textarea
+          value={draft.creativeBrief}
+          onChange={(event) => update("creativeBrief", event.target.value)}
+        />
       </label>
     </div>
+  );
+}
+
+function EditableField({
+  label,
+  value,
+  onChange
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label>
+      {label}
+      <input value={value} onChange={(event) => onChange(event.target.value)} />
+    </label>
   );
 }
 
@@ -824,4 +1182,71 @@ function OpsNode({ label, title, text }: { label: string; title: string; text: s
       <p>{text}</p>
     </div>
   );
+}
+
+function ActionMessage({ state }: { state: ActionState }) {
+  if (!state.message) {
+    return null;
+  }
+  return <div className={`action-message ${state.tone}`}>{state.message}</div>;
+}
+
+function toProductionRequestPayload(draft: ProductionRequestDraft) {
+  return {
+    request_type: draft.requestType,
+    episode_slug: draft.episodeSlug,
+    character_slug: draft.characterSlug,
+    format_profile_slug: draft.formatProfileSlug,
+    output_target: draft.outputTarget,
+    reference_path: draft.referencePath,
+    completion_criteria: draft.completionCriteria,
+    creative_brief: draft.creativeBrief
+  };
+}
+
+async function getJson<T>(url: string): Promise<{ ok: true; data: T } | { ok: false; error: string }> {
+  try {
+    const response = await fetch(url, {
+      headers: { accept: "application/json" },
+      cache: "no-store"
+    });
+    return parseJsonResponse<T>(response);
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "Request failed" };
+  }
+}
+
+async function postJson<T>(
+  url: string,
+  payload: unknown
+): Promise<{ ok: true; data: T } | { ok: false; error: string }> {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload),
+      cache: "no-store"
+    });
+    return parseJsonResponse<T>(response);
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : "Request failed" };
+  }
+}
+
+async function parseJsonResponse<T>(
+  response: Response
+): Promise<{ ok: true; data: T } | { ok: false; error: string }> {
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : null;
+  if (!response.ok) {
+    const detail =
+      data && typeof data === "object" && "detail" in data
+        ? String((data as { detail: unknown }).detail)
+        : response.statusText;
+    return { ok: false, error: detail };
+  }
+  return { ok: true, data: data as T };
 }
