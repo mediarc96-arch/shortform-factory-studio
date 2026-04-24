@@ -1,33 +1,33 @@
 {
   "id": "pet-toon-image-only-v1",
-  "label": "Pet Toon Image Only V1",
-  "description": "raw pet episode narrative를 받아 GPT Image 2 reference-image workflow로 컷별 웹툰 이미지를 생성하고, 최종 결과를 episodes/<slug>/images/에 이미지 파일로만 남기는 pet-toon 포맷.",
+  "label": "Pet Toon Manual Prompt Handoff V1",
+  "description": "raw pet episode narrative를 받아 사람이 ChatGPT에 붙여넣을 수 있는 웹툰 이미지 생성 프롬프트를 만들고, 실제 이미지 생성은 사람이 진행하는 pet-toon 포맷.",
   "runnerHints": {
     "intakeStage": "if the Paperclip issue title starts with [Pet Toon], treat the raw issue narrative as enough input to bootstrap an image-only episode packet",
     "sourceStage": "lock protagonist, episode truth, cut count, setting, safety notes, and reference assets before any image call",
     "styleLockStage": "if cast already exists under characters/<slug>, derive a strict reference-only style lock from their bibles and image refs; do not reinterpret, polish, or convert the art style",
-    "imageProviderRule": "use the Paperclip central image generation API first so the server holds the OpenAI key and calls GPT Image 2; use the repo-local direct OpenAI runner only as a manual fallback",
-    "storyboardStage": "write storyboard/storyboard-plan.json with per-cut prompts, exact cast cardinality, and reference image paths before generating cut images",
+    "imageProviderRule": "do not call image generation APIs from the agent; write a manual ChatGPT prompt handoff instead",
+    "storyboardStage": "write storyboard/storyboard-plan.json with per-cut prompts, exact cast cardinality, and reference image paths before writing the ChatGPT prompt",
     "identityLockStage": "every cut must use the same character registry and the same reference pack; first appearance of any newly introduced character becomes the canonical lock for all later appearances",
-    "outputStage": "save individual cut images under images/cuts/ and the stacked webtoon strip under images/episode-strip.png",
-    "stopStage": "stop after image generation and manifest write; do not create keyframe plans, camera plans, scene videos, dubbing, SFX, typography, QA video packets, or publish packets"
+    "outputStage": "save the human-facing prompt at chatgpt-image-prompt.md; human-saved images later go under images/cuts/ and images/episode-strip.png",
+    "stopStage": "stop after prompt handoff and manifest write; do not create OpenAI jobs, call APIs, keyframe plans, camera plans, scene videos, dubbing, SFX, typography, QA video packets, or publish packets"
   },
   "reviewPolicy": {
-    "gate": "image-consistency-review-required-before-any-public-use",
-    "minimumCutImages": 4,
-    "outputBundle": "images/cuts/*.png + images/episode-strip.png + pet-toon-manifest.json"
+    "gate": "prompt-quality-review-before-human-generation",
+    "minimumCutPrompts": 4,
+    "outputBundle": "chatgpt-image-prompt.md + storyboard/style-lock.md + storyboard/storyboard-plan.json + pet-toon-manifest.json"
   },
   "imageGenerationPolicy": {
-    "provider": "openai",
-    "defaultModel": "gpt-image-2",
-    "defaultTaskType": "image_edit",
+    "provider": "chatgpt_manual",
+    "defaultModel": "chatgpt-image-generation-ui",
+    "defaultTaskType": "manual_prompt_handoff",
     "defaultCutCount": 4,
     "defaultAspectRatio": "2:3",
     "defaultSize": "1024x1536",
     "defaultQuality": "high",
     "defaultOutputFormat": "png",
     "textInGeneration": "forbidden",
-    "referenceMode": "reference-only",
+    "referenceMode": "manual-chatgpt-reference-upload",
     "characterConsistencyRule": "copy the approved character drawing style almost exactly from canonical refs; preserve fur color, face marks, eye shape, nose, ear silhouette, outline roughness, color texture, proportions, and personality posture",
     "newCharacterRule": "if an undefined person or character appears, create a stable slug, record their first generated design in character-continuity.json, and reuse that locked description and first image for every later cut",
     "castCardinalityRule": "each cut must declare which characters are present and how many instances of each are allowed; default is exactly one instance of each named character",
@@ -40,9 +40,9 @@
     "styleLock": "storyboard/style-lock.md",
     "storyboardPlan": "storyboard/storyboard-plan.json",
     "characterContinuity": "storyboard/character-continuity.json",
-    "imageJobs": "openai-image-jobs/*.json; agents submit these through /api/companies/:companyId/image-generations when Paperclip env is present",
-    "cutImages": "images/cuts/*.png",
-    "webtoonStrip": "images/episode-strip.png",
+    "chatgptPrompt": "chatgpt-image-prompt.md",
+    "humanCutImages": "images/cuts/*.png",
+    "humanWebtoonStrip": "images/episode-strip.png",
     "manifest": "pet-toon-manifest.json"
   },
   "safetyPolicy": {

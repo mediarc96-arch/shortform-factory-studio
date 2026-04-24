@@ -2,7 +2,7 @@
   "workType": "new_pet_toon_episode",
   "channelLane": "pet",
   "projectLane": "pet-toon",
-  "outputPolicy": "image-only",
+  "outputPolicy": "manual-chatgpt-prompt-handoff",
   "series": "pet-toon",
   "formatProfile": "pet-toon-image-only-v1",
   "episode": {
@@ -15,7 +15,7 @@
     "name": "쫑아",
     "slug": "jjonga",
     "referenceFolder": "characters/jjonga",
-    "referenceMode": "reference-only",
+    "referenceMode": "manual-chatgpt-reference-upload",
     "referenceImages": [
       "characters/jjonga/jjonga.png",
       "characters/jjonga/jjonga_stand.png",
@@ -24,11 +24,13 @@
     ]
   },
   "outputs": {
-    "cutImages": "images/cuts/*.png",
-    "webtoonStrip": "images/episode-strip.png",
+    "chatgptPrompt": "chatgpt-image-prompt.md",
+    "humanSavedCutImages": "images/cuts/*.png",
+    "humanSavedWebtoonStrip": "images/episode-strip.png",
     "manifest": "pet-toon-manifest.json"
   },
   "hardRules": [
+    "The agent writes prompts only; it does not call image generation APIs.",
     "Preserve the canonical character drawing style almost exactly.",
     "Do not create video outputs.",
     "Do not add text, subtitles, logos, or watermarks inside generated images.",

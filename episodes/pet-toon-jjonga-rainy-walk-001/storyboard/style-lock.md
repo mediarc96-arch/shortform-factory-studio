@@ -2,13 +2,13 @@
 
 ## Reference Mode
 
-`reference-only`
+`manual-chatgpt-reference-upload`
 
 ## Canonical Character
 
 - Name: 쫑아 (`jjonga`)
 - Reference folder: `characters/jjonga`
-- Reference images:
+- Reference images for the human operator to upload to ChatGPT:
 - `../../characters/jjonga/jjonga.png`
 - `../../characters/jjonga/jjonga_stand.png`
 - `../../characters/jjonga/jjonga_laydown.png`
@@ -118,10 +118,9 @@ photorealistic, realistic fur, cream dog, golden retriever look, fluffy white do
 If an undefined person or character appears:
 
 1. assign a stable slug,
-2. record its first appearance in `storyboard/character-continuity.json`,
-3. save the first generated image path as that character's lock image,
-4. reuse that lock description and image for every later cut.
+2. describe its first appearance in the prompt,
+3. after ChatGPT creates that first image, reuse the same description and image as the reference for every later cut.
 
 ## Negative Prompt Core
 
-duplicate pet, second version of same character, extra animal, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitle, watermark, logo, cluttered background
+duplicate pet, second version of same character, extra animal, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitle, speech bubble, watermark, logo, cluttered background

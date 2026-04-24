@@ -4,7 +4,7 @@
     "jjonga": {
       "name": "쫑아",
       "source": "characters/jjonga",
-      "referenceMode": "reference-only",
+      "referenceMode": "manual-chatgpt-reference-upload",
       "canonicalReferenceImages": [
         "characters/jjonga/jjonga.png",
         "characters/jjonga/jjonga_stand.png",
@@ -16,8 +16,8 @@
     }
   },
   "newCharacterInstructions": [
-    "Assign a stable slug before generation.",
-    "Record first generated design and output image path.",
+    "Assign a stable slug before prompting ChatGPT.",
+    "Describe first generated design and output image path after the human receives it.",
     "Reuse the same locked description and image in later cuts."
   ]
 }
