@@ -6,20 +6,25 @@
   <title>SFS Console Wireframes</title>
   <style>
     :root {
-      --bg: #f7f6f2;
+      --bg: #f5f4f1;
       --surface: #ffffff;
-      --surface-2: #f0eee7;
-      --ink: #24231f;
-      --muted: #6b665d;
-      --line: #ddd8cc;
-      --line-strong: #c9c1b2;
-      --accent: #2f6f5e;
-      --accent-2: #8a5b22;
-      --danger: #a13d3a;
-      --ok-bg: #e7f1ec;
+      --surface-2: #eeece6;
+      --surface-3: #faf9f6;
+      --ink: #20201d;
+      --muted: #6a675f;
+      --subtle: #8b877e;
+      --line: #dfddd5;
+      --line-strong: #c8c4b8;
+      --accent: #245f4e;
+      --accent-weak: #e8f0ec;
+      --accent-2: #8b5e24;
+      --danger: #9c3f39;
+      --ok-bg: #e9f2ed;
       --warn-bg: #f5ead8;
-      --bad-bg: #f5e1df;
+      --bad-bg: #f5e3df;
+      --code: #2b2a26;
       --radius: 8px;
+      --shadow: 0 2px 8px rgba(38, 35, 29, 0.06);
     }
 
     * {
@@ -30,7 +35,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
       font-size: 14px;
       line-height: 1.5;
     }
@@ -47,9 +52,23 @@
       background: var(--surface);
       color: var(--ink);
       border-radius: 7px;
-      min-height: 34px;
-      padding: 6px 10px;
+      min-height: 32px;
+      padding: 6px 11px;
       cursor: pointer;
+      transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+    }
+
+    button:hover {
+      background: var(--surface-3);
+      border-color: #aaa59a;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid #9cc3b6;
+      outline-offset: 1px;
     }
 
     button.primary {
@@ -64,6 +83,12 @@
       background: #fff8f7;
     }
 
+    button.text {
+      border-color: transparent;
+      background: transparent;
+      color: var(--muted);
+    }
+
     input,
     select,
     textarea {
@@ -74,6 +99,7 @@
       background: #fff;
       padding: 7px 9px;
       color: var(--ink);
+      transition: border-color 140ms ease, box-shadow 140ms ease;
     }
 
     textarea {
@@ -86,29 +112,31 @@
       margin-bottom: 6px;
       color: var(--muted);
       font-size: 12px;
+      font-weight: 600;
     }
 
     .app {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 248px 1fr;
+      grid-template-columns: 244px 1fr;
     }
 
     .sidebar {
       border-right: 1px solid var(--line);
-      background: #f1efe8;
-      padding: 20px 14px;
+      background: #efeee9;
+      padding: 18px 12px;
     }
 
     .brand {
-      padding: 0 10px 18px;
+      padding: 0 9px 16px;
       border-bottom: 1px solid var(--line);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .brand strong {
       display: block;
-      font-size: 17px;
+      font-size: 18px;
+      letter-spacing: 0;
       font-weight: 700;
     }
 
@@ -120,25 +148,40 @@
     }
 
     .nav button {
-      display: block;
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 8px;
+      align-items: center;
       width: 100%;
       text-align: left;
       border: 0;
       background: transparent;
       border-radius: 7px;
-      margin-bottom: 3px;
-      padding: 9px 10px;
-      color: #45423c;
+      margin-bottom: 2px;
+      padding: 8px 9px;
+      color: #47443f;
     }
 
     .nav button.active {
-      background: #ded8ca;
+      background: #ddd9d0;
       color: #1f1d19;
       font-weight: 650;
     }
 
+    .nav-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: #bdb8ad;
+      margin-left: 5px;
+    }
+
+    .nav button.active .nav-icon {
+      background: var(--accent);
+    }
+
     .sidebar-note {
-      margin: 18px 10px 0;
+      margin: 18px 9px 0;
       padding-top: 14px;
       border-top: 1px solid var(--line);
       color: var(--muted);
@@ -147,7 +190,55 @@
 
     .main {
       min-width: 0;
-      padding: 22px 26px 34px;
+      padding: 18px 24px 34px;
+    }
+
+    .scopebar {
+      min-height: 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px auto;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .crumbs {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .crumbs strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .command input {
+      min-height: 34px;
+      background: #fbfaf7;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--code);
+      color: #f4f1e9;
+      display: inline-grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
     }
 
     .topbar {
@@ -155,7 +246,7 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
 
     .title h1 {
@@ -168,6 +259,7 @@
     .title p {
       margin: 4px 0 0;
       color: var(--muted);
+      max-width: 760px;
     }
 
     .actions {
@@ -187,7 +279,7 @@
 
     .toolbar {
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) 180px 150px auto;
+      grid-template-columns: minmax(260px, 1fr) 180px 150px auto;
       gap: 10px;
       align-items: end;
       margin-bottom: 14px;
@@ -195,15 +287,15 @@
 
     .layout-2 {
       display: grid;
-      grid-template-columns: minmax(0, 1.25fr) 360px;
-      gap: 18px;
+      grid-template-columns: minmax(0, 1fr) 368px;
+      gap: 16px;
       align-items: start;
     }
 
     .layout-3 {
       display: grid;
-      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr) 340px;
-      gap: 18px;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr) 328px;
+      gap: 16px;
       align-items: start;
     }
 
@@ -212,6 +304,7 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
     .panel-header {
@@ -219,9 +312,9 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 13px 14px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--line);
-      background: #fbfaf7;
+      background: var(--surface-3);
     }
 
     .panel-header strong {
@@ -230,6 +323,33 @@
 
     .panel-body {
       padding: 14px;
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .signal {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 11px;
+      box-shadow: var(--shadow);
+    }
+
+    .signal strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .signal span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .table {
@@ -241,7 +361,7 @@
     .table td {
       text-align: left;
       border-bottom: 1px solid var(--line);
-      padding: 11px 12px;
+      padding: 10px 12px;
       vertical-align: top;
     }
 
@@ -249,6 +369,14 @@
       color: var(--muted);
       font-size: 12px;
       font-weight: 650;
+      background: var(--surface-3);
+    }
+
+    .table tbody tr {
+      transition: background 120ms ease;
+    }
+
+    .table tbody tr:hover {
       background: #fbfaf7;
     }
 
@@ -271,7 +399,7 @@
       align-items: center;
       border: 1px solid var(--line);
       border-radius: 6px;
-      padding: 2px 6px;
+      padding: 2px 6px 3px;
       background: #fff;
       font-size: 12px;
       color: #4c4740;
@@ -301,6 +429,34 @@
       gap: 12px;
     }
 
+    .stack.tight {
+      gap: 8px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .meta {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px;
+      background: #fff;
+    }
+
+    .meta span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    .meta strong {
+      font-size: 13px;
+    }
+
     .field-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -313,17 +469,17 @@
 
     .tabs {
       display: flex;
-      gap: 4px;
+      gap: 8px;
       border-bottom: 1px solid var(--line);
       padding: 0 12px;
-      background: #fbfaf7;
+      background: var(--surface-3);
     }
 
     .tabs button {
       border: 0;
       border-radius: 0;
       background: transparent;
-      padding: 11px 8px 9px;
+      padding: 11px 4px 9px;
       border-bottom: 2px solid transparent;
       color: var(--muted);
       min-height: 0;
@@ -337,7 +493,7 @@
 
     .media-box {
       aspect-ratio: 16 / 9;
-      background: #24231f;
+      background: #25241f;
       border-radius: 6px;
       border: 1px solid #171611;
       color: #ece8df;
@@ -346,6 +502,16 @@
       text-align: center;
       padding: 16px;
       margin-bottom: 12px;
+    }
+
+    .media-box strong {
+      font-size: 15px;
+    }
+
+    .media-box div div {
+      color: #bdb8aa;
+      font-size: 12px;
+      margin-top: 4px;
     }
 
     .media-box.vertical {
@@ -367,7 +533,7 @@
     }
 
     .bar {
-      height: 12px;
+      height: 10px;
       background: var(--surface-2);
       border: 1px solid var(--line);
       border-radius: 4px;
@@ -378,6 +544,40 @@
       display: block;
       height: 100%;
       background: var(--accent);
+    }
+
+    .stage-list {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .stage-item {
+      display: grid;
+      grid-template-columns: 20px 1fr auto;
+      gap: 9px;
+      align-items: center;
+      padding: 9px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stage-item:last-child {
+      border-bottom: 0;
+    }
+
+    .stage-index {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: var(--surface-2);
+      display: inline-grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
     }
 
     .checklist {
@@ -411,6 +611,11 @@
       border: 1px solid var(--line);
       border-radius: 7px;
       background: #fff;
+      min-width: 0;
+    }
+
+    .file-item span:nth-child(2) {
+      overflow-wrap: anywhere;
     }
 
     .mini-map {
@@ -423,11 +628,70 @@
       aspect-ratio: 16 / 9;
       border: 1px solid var(--line);
       border-radius: 6px;
-      background: var(--surface-2);
+      background: #ebe8df;
       display: grid;
       place-items: center;
       color: var(--muted);
       font-size: 12px;
+    }
+
+    .inspector {
+      display: grid;
+      gap: 12px;
+    }
+
+    .next-action {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .next-action strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .next-action p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .codebox {
+      border: 1px solid #d4d0c4;
+      border-radius: 7px;
+      background: #2b2a26;
+      color: #f0ede4;
+      padding: 10px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow: auto;
+      max-height: 220px;
+    }
+
+    .segmented {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface-2);
+      padding: 2px;
+    }
+
+    .segmented button {
+      border: 0;
+      border-radius: 5px;
+      min-height: 28px;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .segmented button.active {
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(0,0,0,.05);
     }
 
     .ops-grid {
@@ -478,6 +742,9 @@
       .layout-2,
       .layout-3,
       .field-grid,
+      .meta-grid,
+      .scopebar,
+      .status-strip,
       .ops-grid {
         grid-template-columns: 1fr;
       }
@@ -498,31 +765,63 @@
     <aside class="sidebar">
       <div class="brand">
         <strong>SFS Console</strong>
-        <span>sfs.devscent.com planning wireframe</span>
+        <span>sfs.devscent.com · production ops</span>
       </div>
       <nav class="nav" aria-label="Wireframe screens">
-        <button class="active" data-screen="dashboard">Dashboard</button>
-        <button data-screen="request">New Request</button>
-        <button data-screen="episode">Episode Workspace</button>
-        <button data-screen="characters">Characters</button>
-        <button data-screen="delivery">Delivery</button>
-        <button data-screen="settings">Settings</button>
+        <button class="active" data-screen="dashboard"><span class="nav-icon"></span>Dashboard</button>
+        <button data-screen="request"><span class="nav-icon"></span>New Request</button>
+        <button data-screen="episode"><span class="nav-icon"></span>Episode Workspace</button>
+        <button data-screen="characters"><span class="nav-icon"></span>Characters</button>
+        <button data-screen="delivery"><span class="nav-icon"></span>Delivery</button>
+        <button data-screen="settings"><span class="nav-icon"></span>Settings</button>
       </nav>
       <div class="sidebar-note">
-        File-system native console for Shortform Factory Studio. Paperclip remains the agent execution layer.
+        Source of truth: `/home/kindsr/projects/shortform-factory-studio`. Paperclip remains execution.
       </div>
     </aside>
 
     <main class="main">
+      <div class="scopebar">
+        <div class="crumbs">
+          <strong>Shortform Factory Studio</strong> / workspace index / Friday, Apr 24, 2026
+        </div>
+        <div class="command">
+          <input value="Search episode, character, packet, output" aria-label="Global search">
+        </div>
+        <div class="user-chip">
+          <span class="avatar">KO</span>
+          <span>Operator</span>
+        </div>
+      </div>
+
       <section id="dashboard" class="screen active">
         <div class="topbar">
           <div class="title">
             <h1>Production Dashboard</h1>
-            <p>Workspace scanner reads characters, episodes, final outputs, and review reports.</p>
+            <p>Scanner output, delivery candidates, and blocked gates stay visible without opening the server shell.</p>
           </div>
           <div class="actions">
             <button>Run scanner</button>
             <button class="primary" data-screen-jump="request">New request</button>
+          </div>
+        </div>
+
+        <div class="status-strip">
+          <div class="signal">
+            <strong>Scanner</strong>
+            <span>Last run 02:41 UTC · 40 episodes</span>
+          </div>
+          <div class="signal">
+            <strong>Paperclip</strong>
+            <span>pc.devscent.com connected</span>
+          </div>
+          <div class="signal">
+            <strong>Delivery</strong>
+            <span>5 ready · 3 missing publish packet</span>
+          </div>
+          <div class="signal">
+            <strong>Rights</strong>
+            <span>2 blocked before public handoff</span>
           </div>
         </div>
 
@@ -562,6 +861,7 @@
                   <th>Episode</th>
                   <th>State</th>
                   <th>Assets</th>
+                  <th>Gate</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -573,6 +873,7 @@
                   </td>
                   <td><span class="badge ok">qa-pass</span></td>
                   <td>final mp4 · thumb · report</td>
+                  <td>Delivery</td>
                   <td><button data-screen-jump="episode">Open</button></td>
                 </tr>
                 <tr>
@@ -582,6 +883,7 @@
                   </td>
                   <td><span class="badge warn">review-needed</span></td>
                   <td>cuts · strip · manifest</td>
+                  <td>Visual QA</td>
                   <td><button data-screen-jump="episode">Open</button></td>
                 </tr>
                 <tr>
@@ -591,6 +893,7 @@
                   </td>
                   <td><span class="badge bad">rights-blocked</span></td>
                   <td>final mp4 · thumb</td>
+                  <td>Rights</td>
                   <td><button data-screen-jump="episode">Open</button></td>
                 </tr>
               </tbody>
@@ -599,23 +902,37 @@
 
           <div class="panel">
             <div class="panel-header">
-              <strong>Work Queue</strong>
+              <strong>Episode Inspector</strong>
+              <span class="badge ok">selected</span>
             </div>
-            <div class="panel-body stack">
-              <div>
-                <span class="badge ok">Ready</span>
-                <div class="row-title">5 delivery packages can be created</div>
-                <div class="row-sub">Final output and review report are present.</div>
+            <div class="panel-body inspector">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span>Current slug</span>
+                  <strong>malmoelab-ko-quiz-seolmin-002</strong>
+                </div>
+                <div class="meta">
+                  <span>Owner</span>
+                  <strong>Content Operator</strong>
+                </div>
+                <div class="meta">
+                  <span>Format</span>
+                  <strong>Keyframe dub after picture</strong>
+                </div>
+                <div class="meta">
+                  <span>Public status</span>
+                  <strong>Private delivery only</strong>
+                </div>
               </div>
-              <div>
-                <span class="badge warn">Needs operator</span>
-                <div class="row-title">3 episodes missing publish packet</div>
-                <div class="row-sub">Create or regenerate publish-packet.json before publisher handoff.</div>
+              <div class="next-action">
+                <strong>Next action</strong>
+                <p>Create a delivery package with final mp4, thumbnail, final review report, and publish packet.</p>
               </div>
-              <div>
-                <span class="badge bad">Blocked</span>
-                <div class="row-title">2 characters have incomplete rights notes</div>
-                <div class="row-sub">Public delivery stays disabled until rights status is set.</div>
+              <div class="stage-list">
+                <div class="stage-item"><span class="stage-index">1</span><span>Final output detected</span><span class="badge ok">done</span></div>
+                <div class="stage-item"><span class="stage-index">2</span><span>Review report attached</span><span class="badge ok">done</span></div>
+                <div class="stage-item"><span class="stage-index">3</span><span>Publish packet ready</span><span class="badge ok">done</span></div>
+                <div class="stage-item"><span class="stage-index">4</span><span>Delivery link not issued</span><span class="badge warn">next</span></div>
               </div>
             </div>
           </div>
@@ -626,7 +943,7 @@
         <div class="topbar">
           <div class="title">
             <h1>New Production Request</h1>
-            <p>Structured intake creates a Paperclip-ready issue body without asking users to know the folder rules.</p>
+            <p>Structured intake keeps Paperclip issue bodies consistent with the production rules and folder contract.</p>
           </div>
           <div class="actions">
             <button>Save draft</button>
@@ -634,11 +951,34 @@
           </div>
         </div>
 
+        <div class="status-strip">
+          <div class="signal">
+            <strong>Request type</strong>
+            <span>new_episode · creates a new folder</span>
+          </div>
+          <div class="signal">
+            <strong>Assignee</strong>
+            <span>Head of Content recommended</span>
+          </div>
+          <div class="signal">
+            <strong>Project</strong>
+            <span>Weekly Production Engine</span>
+          </div>
+          <div class="signal">
+            <strong>Blockers</strong>
+            <span>2 required fields missing</span>
+          </div>
+        </div>
+
         <div class="layout-2">
           <div class="panel">
             <div class="panel-header">
               <strong>Request Form</strong>
-              <span class="badge">PAPERCLIP_ISSUE_OPERATIONS.md</span>
+              <div class="segmented">
+                <button class="active">Issue</button>
+                <button>Revision</button>
+                <button>Publish</button>
+              </div>
             </div>
             <div class="panel-body stack">
               <div class="field-grid">
@@ -670,6 +1010,18 @@
                     <option>pet-toon-image-only-v1</option>
                   </select>
                 </div>
+                <div>
+                  <label>Reference path</label>
+                  <input value="characters/daehan">
+                </div>
+                <div>
+                  <label>Output target</label>
+                  <select>
+                    <option>private delivery package</option>
+                    <option>YouTube private upload</option>
+                    <option>review only</option>
+                  </select>
+                </div>
                 <div class="wide">
                   <label>Brief</label>
                   <textarea>말모이랩 예문 기반 반복 학습 쇼츠. 영상 생성 단계에서는 텍스트를 넣지 않고, picture lock 이후 더빙과 칠판 타이포를 적용한다.</textarea>
@@ -688,6 +1040,7 @@
           <div class="panel">
             <div class="panel-header">
               <strong>Validation</strong>
+              <span class="badge warn">2 missing</span>
             </div>
             <div class="panel-body stack">
               <div class="check"><input type="checkbox" checked> Episode slug is unique</div>
@@ -695,6 +1048,12 @@
               <div class="check"><input type="checkbox" checked> Format profile exists</div>
               <div class="check"><input type="checkbox"> Rights note approved</div>
               <div class="check"><input type="checkbox"> Background asset selected</div>
+              <div class="codebox">작업 유형: new_episode
+에피소드 슬러그: malmoelab-ko-repeat-jeonyeok-006
+새 업로드 필요: yes
+주인공: daehan
+참조 폴더: characters/daehan
+수정 범위: 새 에피소드 전체 제작</div>
               <button class="primary">Create Paperclip issue</button>
               <button>Copy Markdown only</button>
             </div>
@@ -712,6 +1071,25 @@
             <button>Open folder</button>
             <button>Request revision</button>
             <button class="primary" data-screen-jump="delivery">Create delivery</button>
+          </div>
+        </div>
+
+        <div class="status-strip">
+          <div class="signal">
+            <strong>Picture</strong>
+            <span>locked · final preview available</span>
+          </div>
+          <div class="signal">
+            <strong>Dub</strong>
+            <span>locked · audio analysis attached</span>
+          </div>
+          <div class="signal">
+            <strong>Typography</strong>
+            <span>post-stage board copy rendered</span>
+          </div>
+          <div class="signal">
+            <strong>QA</strong>
+            <span>pass · ready for delivery</span>
           </div>
         </div>
 
@@ -743,9 +1121,9 @@
               </div>
 
               <div class="stack">
-                <div class="panel">
-                  <div class="panel-header"><strong>Stage Timeline</strong></div>
-                  <div class="panel-body timeline">
+                <div class="next-action">
+                  <strong>Stage Timeline</strong>
+                  <div class="timeline">
                     <div class="timeline-row"><span>source</span><div class="bar"><span style="width:100%"></span></div><span>done</span></div>
                     <div class="timeline-row"><span>picture</span><div class="bar"><span style="width:100%"></span></div><span>lock</span></div>
                     <div class="timeline-row"><span>dub</span><div class="bar"><span style="width:100%"></span></div><span>lock</span></div>
@@ -753,9 +1131,9 @@
                     <div class="timeline-row"><span>QA</span><div class="bar"><span style="width:80%"></span></div><span>pass</span></div>
                   </div>
                 </div>
-                <div class="panel">
-                  <div class="panel-header"><strong>Review Files</strong></div>
-                  <div class="panel-body file-list">
+                <div class="next-action">
+                  <strong>Review Files</strong>
+                  <div class="file-list">
                     <div class="file-item"><span>□</span><span>review/final-review-report.md</span><button>View</button></div>
                     <div class="file-item"><span>□</span><span>review/final-audio-analysis.md</span><button>View</button></div>
                     <div class="file-item"><span>□</span><span>review/final-contact-sheets/overview.jpg</span><button>View</button></div>
@@ -783,11 +1161,30 @@
         <div class="topbar">
           <div class="title">
             <h1>Character Registry</h1>
-            <p>Canonical character files are generated from templates and stored under characters/&lt;slug&gt;.</p>
+            <p>Canon, reference assets, voice settings, and rights posture are edited as one production object.</p>
           </div>
           <div class="actions">
             <button>Import from folder</button>
             <button class="primary">New character</button>
+          </div>
+        </div>
+
+        <div class="status-strip">
+          <div class="signal">
+            <strong>Registry</strong>
+            <span>10 character folders scanned</span>
+          </div>
+          <div class="signal">
+            <strong>Ready</strong>
+            <span>6 can be used for new episodes</span>
+          </div>
+          <div class="signal">
+            <strong>Needs work</strong>
+            <span>2 missing rights notes</span>
+          </div>
+          <div class="signal">
+            <strong>Voice</strong>
+            <span>3 characters have voice.json</span>
           </div>
         </div>
 
@@ -830,6 +1227,16 @@
               <strong>Character Editor</strong>
             </div>
             <div class="panel-body stack">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span>Folder</span>
+                  <strong>characters/haruna</strong>
+                </div>
+                <div class="meta">
+                  <span>Status</span>
+                  <strong>Draft</strong>
+                </div>
+              </div>
               <div>
                 <label>Slug</label>
                 <input value="haruna">
@@ -856,7 +1263,10 @@
                 <div class="file-item"><span>□</span><span>rights.md</span><button>Edit</button></div>
                 <div class="file-item"><span>□</span><span>voice.json</span><button>Edit</button></div>
               </div>
-              <button class="primary">Save character</button>
+              <div class="actions">
+                <button>Preview files</button>
+                <button class="primary">Save character</button>
+              </div>
             </div>
           </div>
         </div>
@@ -866,11 +1276,30 @@
         <div class="topbar">
           <div class="title">
             <h1>Delivery Package</h1>
-            <p>Token-based client view for approved outputs. No shell access, no raw workspace browsing.</p>
+            <p>Token-based client view for approved outputs, with explicit expiry and a narrow file allowlist.</p>
           </div>
           <div class="actions">
             <button class="danger">Revoke</button>
             <button class="primary">Generate link</button>
+          </div>
+        </div>
+
+        <div class="status-strip">
+          <div class="signal">
+            <strong>Visibility</strong>
+            <span>Private token · no workspace browsing</span>
+          </div>
+          <div class="signal">
+            <strong>Expiry</strong>
+            <span>May 24, 2026 · renewable</span>
+          </div>
+          <div class="signal">
+            <strong>Audit</strong>
+            <span>Views and downloads recorded</span>
+          </div>
+          <div class="signal">
+            <strong>Revision</strong>
+            <span>Client form enabled</span>
           </div>
         </div>
 
@@ -889,6 +1318,16 @@
           <div class="panel">
             <div class="panel-header"><strong>Client Link</strong></div>
             <div class="panel-body stack">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span>Episode</span>
+                  <strong>seolmin-002</strong>
+                </div>
+                <div class="meta">
+                  <span>Package</span>
+                  <strong>4 files selected</strong>
+                </div>
+              </div>
               <div>
                 <label>Title</label>
                 <input value="Seolmin quiz 002 delivery">
@@ -908,8 +1347,10 @@
                 <label>Generated URL</label>
                 <input value="https://sfs.devscent.com/d/7df2-preview-token">
               </div>
-              <button>Copy link</button>
-              <button class="primary">Open client view</button>
+              <div class="actions">
+                <button>Copy link</button>
+                <button class="primary">Open client view</button>
+              </div>
             </div>
           </div>
         </div>
@@ -919,11 +1360,30 @@
         <div class="topbar">
           <div class="title">
             <h1>Settings / Ops</h1>
-            <p>Service health and deployment guardrails for the nginx + postgres14 environment.</p>
+            <p>Deployment guardrails for nginx, postgres14, Paperclip, and the mounted production workspace.</p>
           </div>
           <div class="actions">
             <button>View logs</button>
             <button class="primary">Run smoke test</button>
+          </div>
+        </div>
+
+        <div class="status-strip">
+          <div class="signal">
+            <strong>Ingress</strong>
+            <span>sfs.devscent.com via nginx</span>
+          </div>
+          <div class="signal">
+            <strong>Ports</strong>
+            <span>No host ports exposed by app containers</span>
+          </div>
+          <div class="signal">
+            <strong>Database</strong>
+            <span>shortform_factory on postgres14</span>
+          </div>
+          <div class="signal">
+            <strong>Runbook</strong>
+            <span>Inventory and ops changelog required</span>
           </div>
         </div>
 
