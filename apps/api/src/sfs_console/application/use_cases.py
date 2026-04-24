@@ -213,6 +213,8 @@ class SendProductionRequestToPaperclip:
         issue_ref = self._paperclip.create_issue(
             title=f"SFS {record.request_type}: {record.episode_slug}",
             description=record.markdown,
+            origin_kind="sfs_console.production_request",
+            origin_id=record.id,
         )
         updated = self._request_store.set_paperclip_issue_ref(
             request_id=record.id,

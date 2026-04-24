@@ -100,5 +100,7 @@ class PaperclipIssueClient(Protocol):
         *,
         title: str,
         description: str,
+        origin_kind: str | None = None,
+        origin_id: str | None = None,
     ) -> str:
         """Create a Paperclip issue and return its external reference."""

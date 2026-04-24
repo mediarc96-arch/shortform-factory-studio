@@ -19,13 +19,24 @@ class PaperclipIssueHttpClient:
         self._company_id = company_id
         self._project_id = project_id
 
-    def create_issue(self, *, title: str, description: str) -> str:
+    def create_issue(
+        self,
+        *,
+        title: str,
+        description: str,
+        origin_kind: str | None = None,
+        origin_id: str | None = None,
+    ) -> str:
         payload: dict[str, object] = {
             "title": title,
             "description": description,
             "status": "todo",
             "priority": "medium",
         }
+        if origin_kind:
+            payload["originKind"] = origin_kind
+        if origin_id:
+            payload["originId"] = origin_id
         if self._project_id:
             payload["projectId"] = self._project_id
 

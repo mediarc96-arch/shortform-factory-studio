@@ -12,11 +12,21 @@ sys.path.insert(0, str(API_SRC))
 try:
     from fastapi.testclient import TestClient
 
+    from sfs_console.application import (
+        ProductionRequestDraft,
+        SaveProductionRequest,
+        SendProductionRequestToPaperclip,
+    )
     from sfs_console.config import Settings
+    from sfs_console.infrastructure import InMemorySfsStore
     from sfs_console.presentation import create_app
 except Exception:  # pragma: no cover - dependency guard for bare Python environments
     TestClient = None  # type: ignore[assignment]
+    ProductionRequestDraft = None  # type: ignore[assignment]
+    SaveProductionRequest = None  # type: ignore[assignment]
+    SendProductionRequestToPaperclip = None  # type: ignore[assignment]
     Settings = None  # type: ignore[assignment]
+    InMemorySfsStore = None  # type: ignore[assignment]
     create_app = None  # type: ignore[assignment]
 
 
@@ -92,6 +102,49 @@ class ApiRoutesTest(unittest.TestCase):
             audit = client.get("/audit-logs")
             self.assertEqual(audit.status_code, 200)
             self.assertEqual(audit.json()[0]["action"], "production_request.created")
+
+    def test_paperclip_handoff_marks_issue_origin(self) -> None:
+        class FakePaperclip:
+            def __init__(self) -> None:
+                self.calls: list[dict[str, str | None]] = []
+
+            def create_issue(
+                self,
+                *,
+                title: str,
+                description: str,
+                origin_kind: str | None = None,
+                origin_id: str | None = None,
+            ) -> str:
+                self.calls.append(
+                    {
+                        "title": title,
+                        "description": description,
+                        "origin_kind": origin_kind,
+                        "origin_id": origin_id,
+                    }
+                )
+                return "SHO-123"
+
+        store = InMemorySfsStore()
+        draft = ProductionRequestDraft(
+            request_type="new_episode",
+            episode_slug="jjiroo-pilot-002",
+            character_slug="jjiroo",
+            format_profile_slug="pet-toon-image-only-v1",
+            output_target="vertical 1080x1920 mp4",
+            reference_path="characters/jjiroo/refs",
+            completion_criteria="final mp4, thumbnail, review report",
+            creative_brief="Keep the character on model.",
+        )
+        record = SaveProductionRequest(store, store).execute(draft)
+        paperclip = FakePaperclip()
+
+        updated = SendProductionRequestToPaperclip(store, store, paperclip).execute(record.id)
+
+        self.assertEqual(updated.paperclip_issue_ref, "SHO-123")
+        self.assertEqual(paperclip.calls[0]["origin_kind"], "sfs_console.production_request")
+        self.assertEqual(paperclip.calls[0]["origin_id"], record.id)
 
     def test_production_request_preview_rejects_missing_required_fields(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

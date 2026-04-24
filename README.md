@@ -59,7 +59,8 @@ Implemented console actions:
 - audit log writes for production request, character, and delivery actions
 - character template creation under `characters/<slug>`
 - delivery token issue/revoke with token hashes stored at rest
-- optional Paperclip issue handoff when `PAPERCLIP_COMPANY_ID` and a valid token are configured
+- optional Paperclip issue handoff when `SFS_PAPERCLIP_COMPANY_ID` and a valid
+  `SFS_PAPERCLIP_API_TOKEN` are configured
 
 ## Quiz Pipeline
 
