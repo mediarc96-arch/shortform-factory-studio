@@ -18,17 +18,25 @@ import {
   type SupportedLocale
 } from "@/i18n/locales";
 import type { Dictionary } from "@/i18n/get-dictionary";
+import type { ProductionRequestDraft, ProductionRequestPreview } from "@/lib/production-request-api";
 import { statusLabel } from "@/lib/status";
 import type { WorkspaceViewModel } from "@/lib/workspace-api";
 
 type ConsoleShellProps = {
   dictionary: Dictionary;
   locale: SupportedLocale;
+  requestPreview?: ProductionRequestPreview;
   screen: ScreenId;
   workspace: WorkspaceViewModel;
 };
 
-export function ConsoleShell({ dictionary, locale, screen, workspace }: ConsoleShellProps) {
+export function ConsoleShell({
+  dictionary,
+  locale,
+  requestPreview,
+  screen,
+  workspace
+}: ConsoleShellProps) {
   const router = useRouter();
   const common = dictionary.common;
 
@@ -49,11 +57,13 @@ export function ConsoleShell({ dictionary, locale, screen, workspace }: ConsoleS
       return <ProductionScreen dictionary={dictionary} navigate={navigate} workspace={workspace} />;
     }
     if (screen === "review") return <ReviewScreen dictionary={dictionary} navigate={navigate} />;
-    if (screen === "request") return <RequestScreen dictionary={dictionary} />;
+    if (screen === "request") {
+      return <RequestScreen dictionary={dictionary} requestPreview={requestPreview} workspace={workspace} />;
+    }
     if (screen === "characters") return <CharactersScreen dictionary={dictionary} workspace={workspace} />;
     if (screen === "delivery") return <DeliveryScreen dictionary={dictionary} />;
     return <OpsScreen dictionary={dictionary} />;
-  }, [dictionary, screen, workspace]);
+  }, [dictionary, requestPreview, screen, workspace]);
 
   return (
     <div className="console-app">
@@ -352,8 +362,29 @@ function ReviewScreen({
   );
 }
 
-function RequestScreen({ dictionary }: { dictionary: Dictionary }) {
+function RequestScreen({
+  dictionary,
+  requestPreview,
+  workspace
+}: {
+  dictionary: Dictionary;
+  requestPreview?: ProductionRequestPreview;
+  workspace: WorkspaceViewModel;
+}) {
   const { common, request } = dictionary;
+  const draft = requestPreview?.draft ?? {
+    requestType: "new_episode",
+    episodeSlug: "jjiroo-pilot-002",
+    characterSlug: "jjiroo",
+    formatProfileSlug: "pet-toon-image-only-v1",
+    outputTarget: "vertical 1080x1920 mp4",
+    referencePath: "characters/jjiroo/refs/canonical-pack",
+    completionCriteria: "final mp4, thumbnail, review report, publish metadata packet",
+    creativeBrief: "Build a short vertical episode from existing character canon and keep the model stable."
+  };
+  const markdown = requestPreview?.markdown ?? "";
+  const previewSource = requestPreview?.source ?? "sample";
+
   return (
     <section>
       <ScreenHeader
@@ -371,25 +402,10 @@ function RequestScreen({ dictionary }: { dictionary: Dictionary }) {
       />
       <div className="two-column">
         <Panel title={request.productionRequest} meta="new_episode">
-          <FormGrid request={request} />
+          <FormGrid draft={draft} request={request} workspace={workspace} />
         </Panel>
-        <Panel title={request.generatedMarkdown} meta={request.missingField} tone="warn">
-          <pre className="markdown-preview">{`# new_episode: jjiroo-pilot-002
-
-## Workspace
-- root: /home/kindsr/projects/shortform-factory-studio
-- format: pet-toon-image-only-v1
-- character: jjiroo
-
-## Required output
-- final vertical mp4
-- thumbnail candidate
-- review report
-- publish metadata packet
-
-## Source assets
-- canonical refs: characters/jjiroo/refs/canonical-pack
-- background refs: missing`}</pre>
+        <Panel title={request.generatedMarkdown} meta={`Paperclip · ${previewSource}`}>
+          <pre className="markdown-preview">{markdown}</pre>
         </Panel>
       </div>
     </section>
@@ -715,36 +731,63 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function FormGrid({ request }: { request: Dictionary["request"] }) {
+function FormGrid({
+  draft,
+  request,
+  workspace
+}: {
+  draft: ProductionRequestDraft;
+  request: Dictionary["request"];
+  workspace: WorkspaceViewModel;
+}) {
+  const formatOptions =
+    workspace.formats.length > 0 ? workspace.formats.map((format) => format.slug) : [draft.formatProfileSlug];
+  const characterOptions =
+    workspace.characters.length > 0
+      ? workspace.characters.map((character) => character.slug)
+      : [draft.characterSlug];
+
   return (
     <div className="form-grid">
       <label>
         {request.requestType}
-        <select defaultValue="new_episode">
-          <option>new_episode</option>
-          <option>revise_episode</option>
-          <option>publish_only</option>
-          <option>metadata_update</option>
+        <select defaultValue={draft.requestType}>
+          <option value="new_episode">new_episode</option>
+          <option value="revise_episode">revise_episode</option>
+          <option value="publish_only">publish_only</option>
+          <option value="metadata_update">metadata_update</option>
         </select>
       </label>
       <label>
         {request.formatProfile}
-        <select defaultValue="pet-toon-image-only-v1">
-          <option>pet-toon-image-only-v1</option>
-          <option>malmoelab-keyframe-dub-after-picture-v1</option>
+        <select defaultValue={draft.formatProfileSlug}>
+          {formatOptions.map((format) => (
+            <option value={format} key={format}>
+              {format}
+            </option>
+          ))}
         </select>
       </label>
-      <Field label={request.episodeSlug} value="jjiroo-pilot-002" />
-      <Field label={request.character} value="jjiroo" />
+      <Field label={request.episodeSlug} value={draft.episodeSlug} />
+      <label>
+        {request.character}
+        <select defaultValue={draft.characterSlug}>
+          {characterOptions.map((character) => (
+            <option value={character} key={character}>
+              {character}
+            </option>
+          ))}
+        </select>
+      </label>
       <label className="wide">
         {request.referencePath}
-        <input defaultValue="characters/jjiroo/refs/canonical-pack" />
+        <input defaultValue={draft.referencePath} />
       </label>
-      <Field label={request.outputTarget} value="vertical 1080x1920, 42s, Korean narration" />
-      <Field label={request.completionCriteria} value="final mp4, thumbnail, review report" />
+      <Field label={request.outputTarget} value={draft.outputTarget} />
+      <Field label={request.completionCriteria} value={draft.completionCriteria} />
       <label className="wide">
         {request.creativeBrief}
-        <textarea defaultValue="Short emotional pet toon episode. Use existing character canon and keep warm pacing." />
+        <textarea defaultValue={draft.creativeBrief} />
       </label>
     </div>
   );

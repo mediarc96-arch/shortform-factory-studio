@@ -1,4 +1,5 @@
 import { queueEpisodes, type QueueEpisode } from "@/features/console-data";
+import { getSfsApiBaseUrl } from "@/lib/sfs-api";
 
 export type WorkspaceEpisode = {
   slug: string;
@@ -46,18 +47,22 @@ export type CharacterRegistryItem = {
   hasVoice: boolean;
 };
 
+export type FormatRegistryItem = {
+  slug: string;
+  profilePath: string;
+};
+
 export type WorkspaceViewModel = {
   source: "api" | "sample";
   queue: QueueEpisode[];
   characters: CharacterRegistryItem[];
+  formats: FormatRegistryItem[];
   characterCount: number;
   episodeCount: number;
   formatCount: number;
   readyEpisodeCount: number;
   blockedEpisodeCount: number;
 };
-
-const DEFAULT_API_BASE_URL = "http://127.0.0.1:8000";
 
 export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
   const snapshot = await fetchWorkspaceSnapshot();
@@ -76,6 +81,7 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
           hasVoice: false
         }
       ],
+      formats: [{ slug: "pet-toon-image-only-v1", profilePath: "formats/pet-toon-image-only-v1/profile.json" }],
       characterCount: 1,
       episodeCount: queueEpisodes.length,
       formatCount: 1,
@@ -91,6 +97,7 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
     nextGate: nextGateForEpisode(episode)
   }));
   const characters = snapshot.characters ?? [];
+  const formats = snapshot.formats ?? [];
 
   return {
     source: "api",
@@ -103,6 +110,10 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
       hasPrompts: character.has_prompts,
       hasVoice: character.has_voice
     })),
+    formats: formats.map((format) => ({
+      slug: format.slug,
+      profilePath: format.profile_path
+    })),
     characterCount: snapshot.character_count,
     episodeCount: snapshot.episode_count,
     formatCount: snapshot.format_count,
@@ -112,7 +123,7 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
 }
 
 async function fetchWorkspaceSnapshot(): Promise<WorkspaceSnapshot | null> {
-  const baseUrl = process.env.SFS_API_BASE_URL ?? DEFAULT_API_BASE_URL;
+  const baseUrl = getSfsApiBaseUrl();
 
   try {
     const response = await fetch(`${baseUrl}/workspace`, {

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import BaseModel
 
+from sfs_console.application import ProductionRequestDraft
 from sfs_console.domain import (
     CharacterSummary,
     DeliveryReadiness,
@@ -20,6 +22,35 @@ def _relative(path: Path | None) -> str | None:
 class HealthResponse(BaseModel):
     status: str
     service: str
+
+
+class ProductionRequestPreviewRequest(BaseModel):
+    request_type: Literal["new_episode", "revise_episode", "publish_only", "metadata_update"]
+    episode_slug: str
+    character_slug: str
+    format_profile_slug: str
+    output_target: str
+    reference_path: str
+    completion_criteria: str
+    creative_brief: str
+
+    def to_draft(self) -> ProductionRequestDraft:
+        return ProductionRequestDraft(
+            request_type=self.request_type,
+            episode_slug=self.episode_slug,
+            character_slug=self.character_slug,
+            format_profile_slug=self.format_profile_slug,
+            output_target=self.output_target,
+            reference_path=self.reference_path,
+            completion_criteria=self.completion_criteria,
+            creative_brief=self.creative_brief,
+        )
+
+
+class ProductionRequestPreviewResponse(BaseModel):
+    request_type: str
+    episode_slug: str
+    markdown: str
 
 
 class GateResponse(BaseModel):

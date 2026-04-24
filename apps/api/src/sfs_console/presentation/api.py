@@ -1,8 +1,12 @@
 from __future__ import annotations
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
-from sfs_console.application import ListWorkspaceSnapshot, ValidateDeliveryReadiness
+from sfs_console.application import (
+    BuildProductionRequestMarkdown,
+    ListWorkspaceSnapshot,
+    ValidateDeliveryReadiness,
+)
 from sfs_console.config import Settings
 from sfs_console.infrastructure import FileSystemWorkspaceScanner
 from sfs_console.presentation.schemas import (
@@ -11,6 +15,8 @@ from sfs_console.presentation.schemas import (
     EpisodeResponse,
     FormatProfileResponse,
     HealthResponse,
+    ProductionRequestPreviewRequest,
+    ProductionRequestPreviewResponse,
     WorkspaceSnapshotResponse,
 )
 
@@ -44,6 +50,21 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def formats() -> list[FormatProfileResponse]:
         snapshot = ListWorkspaceSnapshot(scanner).execute()
         return [FormatProfileResponse.from_domain(profile) for profile in snapshot.formats]
+
+    @app.post("/requests/production/preview", response_model=ProductionRequestPreviewResponse)
+    def production_request_preview(
+        request: ProductionRequestPreviewRequest,
+    ) -> ProductionRequestPreviewResponse:
+        try:
+            markdown = BuildProductionRequestMarkdown().execute(request.to_draft())
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
+
+        return ProductionRequestPreviewResponse(
+            request_type=request.request_type,
+            episode_slug=request.episode_slug,
+            markdown=markdown,
+        )
 
     @app.get("/episodes/{episode_slug}/delivery-readiness", response_model=DeliveryReadinessResponse)
     def delivery_readiness(episode_slug: str) -> DeliveryReadinessResponse:
