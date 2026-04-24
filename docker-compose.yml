@@ -38,12 +38,17 @@ services:
       api:
         condition: service_healthy
     environment:
-      SFS_API_BASE_URL: http://api:8000
+      SFS_API_BASE_URL: http://sfs-console-api:8000
       HOSTNAME: 0.0.0.0
       PORT: 3000
     ports:
       - "${SFS_WEB_BIND:-127.0.0.1}:${SFS_WEB_PORT:-3002}:3000"
     restart: unless-stopped
+    networks:
+      default:
+      edge:
+        aliases:
+          - sfs-console-web
     healthcheck:
       test:
         [
@@ -56,3 +61,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
+
+networks:
+  edge:
+    external: true
