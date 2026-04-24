@@ -1,0 +1,58 @@
+name: sfs-console
+
+services:
+  api:
+    container_name: sfs-console-api
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      SFS_WORKSPACE_ROOT: /workspace/shortform-factory-studio
+    ports:
+      - "${SFS_API_BIND:-127.0.0.1}:${SFS_API_PORT:-8002}:8000"
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: .
+        target: /workspace/shortform-factory-studio
+        read_only: true
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2).read()",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  web:
+    container_name: sfs-console-web
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      SFS_API_BASE_URL: http://api:8000
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+    ports:
+      - "${SFS_WEB_BIND:-127.0.0.1}:${SFS_WEB_PORT:-3002}:3000"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:3000/ko/production', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
