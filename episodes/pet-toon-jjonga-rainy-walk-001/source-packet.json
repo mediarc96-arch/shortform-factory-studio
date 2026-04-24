@@ -1,0 +1,37 @@
+{
+  "workType": "new_pet_toon_episode",
+  "channelLane": "pet",
+  "projectLane": "pet-toon",
+  "outputPolicy": "image-only",
+  "series": "pet-toon",
+  "formatProfile": "pet-toon-image-only-v1",
+  "episode": {
+    "slug": "pet-toon-jjonga-rainy-walk-001",
+    "title": "비 오는 날 산책",
+    "rawNarrative": "비 오는 날 산책을 싫어하던 쫑아가 우비를 입고 나가서 작은 물웅덩이를 발견하고 신나게 노는 이야기.",
+    "cutCount": 4
+  },
+  "protagonist": {
+    "name": "쫑아",
+    "slug": "jjonga",
+    "referenceFolder": "characters/jjonga",
+    "referenceMode": "reference-only",
+    "referenceImages": [
+      "characters/jjonga/jjonga.png",
+      "characters/jjonga/jjonga_stand.png",
+      "characters/jjonga/jjonga_laydown.png",
+      "docs/example/찌루_쫑아_웹툰_파일럿.png"
+    ]
+  },
+  "outputs": {
+    "cutImages": "images/cuts/*.png",
+    "webtoonStrip": "images/episode-strip.png",
+    "manifest": "pet-toon-manifest.json"
+  },
+  "hardRules": [
+    "Preserve the canonical character drawing style almost exactly.",
+    "Do not create video outputs.",
+    "Do not add text, subtitles, logos, or watermarks inside generated images.",
+    "Lock any undefined character's first generated design for later reuse."
+  ]
+}

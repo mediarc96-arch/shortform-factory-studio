@@ -1,0 +1,54 @@
+{
+  "id": "pet-toon-image-only-v1",
+  "label": "Pet Toon Image Only V1",
+  "description": "raw pet episode narrative를 받아 GPT Image 2 reference-image workflow로 컷별 웹툰 이미지를 생성하고, 최종 결과를 episodes/<slug>/images/에 이미지 파일로만 남기는 pet-toon 포맷.",
+  "runnerHints": {
+    "intakeStage": "if the Paperclip issue title starts with [Pet Toon], treat the raw issue narrative as enough input to bootstrap an image-only episode packet",
+    "sourceStage": "lock protagonist, episode truth, cut count, setting, safety notes, and reference assets before any image call",
+    "styleLockStage": "if cast already exists under characters/<slug>, derive a strict reference-only style lock from their bibles and image refs; do not reinterpret, polish, or convert the art style",
+    "imageProviderRule": "use the Paperclip central image generation API first so the server holds the OpenAI key and calls GPT Image 2; use the repo-local direct OpenAI runner only as a manual fallback",
+    "storyboardStage": "write storyboard/storyboard-plan.json with per-cut prompts, exact cast cardinality, and reference image paths before generating cut images",
+    "identityLockStage": "every cut must use the same character registry and the same reference pack; first appearance of any newly introduced character becomes the canonical lock for all later appearances",
+    "outputStage": "save individual cut images under images/cuts/ and the stacked webtoon strip under images/episode-strip.png",
+    "stopStage": "stop after image generation and manifest write; do not create keyframe plans, camera plans, scene videos, dubbing, SFX, typography, QA video packets, or publish packets"
+  },
+  "reviewPolicy": {
+    "gate": "image-consistency-review-required-before-any-public-use",
+    "minimumCutImages": 4,
+    "outputBundle": "images/cuts/*.png + images/episode-strip.png + pet-toon-manifest.json"
+  },
+  "imageGenerationPolicy": {
+    "provider": "openai",
+    "defaultModel": "gpt-image-2",
+    "defaultTaskType": "image_edit",
+    "defaultCutCount": 4,
+    "defaultAspectRatio": "2:3",
+    "defaultSize": "1024x1536",
+    "defaultQuality": "high",
+    "defaultOutputFormat": "png",
+    "textInGeneration": "forbidden",
+    "referenceMode": "reference-only",
+    "characterConsistencyRule": "copy the approved character drawing style almost exactly from canonical refs; preserve fur color, face marks, eye shape, nose, ear silhouette, outline roughness, color texture, proportions, and personality posture",
+    "newCharacterRule": "if an undefined person or character appears, create a stable slug, record their first generated design in character-continuity.json, and reuse that locked description and first image for every later cut",
+    "castCardinalityRule": "each cut must declare which characters are present and how many instances of each are allowed; default is exactly one instance of each named character",
+    "mutationBlockers": "forbid duplicate pets, second version of same character, extra animals, extra limbs, wings, merged faces, wrong fur color, wrong ear shape, changed eye style, photorealism, glossy 3D, unrelated manga/anime style, text, subtitles, logos, and watermarks"
+  },
+  "filePolicy": {
+    "episodeRoot": "episodes/<episode-slug>",
+    "templateRoot": "episodes/pet-toon-template",
+    "sourcePacket": "source-packet.json",
+    "styleLock": "storyboard/style-lock.md",
+    "storyboardPlan": "storyboard/storyboard-plan.json",
+    "characterContinuity": "storyboard/character-continuity.json",
+    "imageJobs": "openai-image-jobs/*.json; agents submit these through /api/companies/:companyId/image-generations when Paperclip env is present",
+    "cutImages": "images/cuts/*.png",
+    "webtoonStrip": "images/episode-strip.png",
+    "manifest": "pet-toon-manifest.json"
+  },
+  "safetyPolicy": {
+    "animalThreatTone": "do-not-make-pets-look-cruel-or-aggressive",
+    "humanPresence": "supporting-context-by-default",
+    "rightsPolicy": "recurring-pet-series-must-have-character-bible-rights-note-and-ref-pack",
+    "publicUseRule": "do not publish generated images until the operator approves visual identity and rights status"
+  }
+}

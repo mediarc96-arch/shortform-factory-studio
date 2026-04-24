@@ -1,0 +1,31 @@
+{
+  "workType": "new_pet_toon_episode",
+  "channelLane": "pet",
+  "projectLane": "pet-toon",
+  "outputPolicy": "image-only",
+  "series": "pet-toon",
+  "formatProfile": "pet-toon-image-only-v1",
+  "episode": {
+    "slug": "{{EPISODE_SLUG}}",
+    "title": "{{EPISODE_TITLE}}",
+    "rawNarrative": "{{RAW_EPISODE_NARRATIVE}}",
+    "cutCount": "{{CUT_COUNT}}"
+  },
+  "protagonist": {
+    "name": "{{PROTAGONIST_NAME}}",
+    "slug": "{{PROTAGONIST_SLUG}}",
+    "referenceFolder": "characters/{{PROTAGONIST_SLUG}}",
+    "referenceMode": "reference-only"
+  },
+  "outputs": {
+    "cutImages": "images/cuts/*.png",
+    "webtoonStrip": "images/episode-strip.png",
+    "manifest": "pet-toon-manifest.json"
+  },
+  "hardRules": [
+    "Preserve the canonical character drawing style almost exactly.",
+    "Do not create video outputs.",
+    "Do not add text, subtitles, logos, or watermarks inside generated images.",
+    "Lock any undefined character's first generated design for later reuse."
+  ]
+}

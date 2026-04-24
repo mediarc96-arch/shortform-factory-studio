@@ -1,0 +1,24 @@
+{
+  "status": "blocked_missing_image_generation_service",
+  "blocker": "Paperclip central image generation env is not configured (PAPERCLIP_API_URL, PAPERCLIP_API_KEY, PAPERCLIP_COMPANY_ID, PAPERCLIP_PROJECT_WORKSPACE_ID), and OPENAI_API_KEY direct fallback is not configured.",
+  "episodeDir": "episodes/pet-toon-jjonga-rainy-walk-001",
+  "sourcePacket": "source-packet.json",
+  "styleLock": "storyboard/style-lock.md",
+  "storyboardPlan": "storyboard/storyboard-plan.json",
+  "characterContinuity": "storyboard/character-continuity.json",
+  "imageJobs": [
+    "openai-image-jobs/cut-01.json",
+    "openai-image-jobs/cut-02.json",
+    "openai-image-jobs/cut-03.json",
+    "openai-image-jobs/cut-04.json"
+  ],
+  "cutImages": [
+    "images/cuts/cut-01.png",
+    "images/cuts/cut-02.png",
+    "images/cuts/cut-03.png",
+    "images/cuts/cut-04.png"
+  ],
+  "webtoonStrip": null,
+  "runResults": [],
+  "generatedAt": "2026-04-24T02:54:16Z"
+}

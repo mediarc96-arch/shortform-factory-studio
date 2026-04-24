@@ -1,0 +1,27 @@
+{
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "formatProfile": "pet-toon-image-only-v1",
+  "outputPolicy": "image-only",
+  "provider": "openai",
+  "model": "gpt-image-2",
+  "size": "1024x1536",
+  "quality": "high",
+  "outputFormat": "png",
+  "referenceMode": "reference-only",
+  "cuts": [
+    {
+      "id": "cut-01",
+      "title": "{{CUT_01_TITLE}}",
+      "cast": [
+        {
+          "slug": "{{PROTAGONIST_SLUG}}",
+          "name": "{{PROTAGONIST_NAME}}",
+          "count": 1
+        }
+      ],
+      "prompt": "{{CUT_01_PROMPT}}",
+      "negativePrompt": "{{NEGATIVE_PROMPT}}",
+      "outputFile": "images/cuts/cut-01.png"
+    }
+  ]
+}

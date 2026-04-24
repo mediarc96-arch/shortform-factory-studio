@@ -1,0 +1,94 @@
+{
+  "episodeSlug": "pet-toon-jjonga-rainy-walk-001",
+  "title": "비 오는 날 산책",
+  "formatProfile": "pet-toon-image-only-v1",
+  "outputPolicy": "image-only",
+  "provider": "openai",
+  "model": "gpt-image-2",
+  "size": "1024x1536",
+  "quality": "high",
+  "outputFormat": "png",
+  "referenceMode": "reference-only",
+  "cuts": [
+    {
+      "id": "cut-01",
+      "title": "rainy reluctance",
+      "cast": [
+        {
+          "slug": "jjonga",
+          "name": "쫑아",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical webtoon panel, no text.\n\nEpisode premise: 비 오는 날 산책을 싫어하던 쫑아가 우비를 입고 나가서 작은 물웅덩이를 발견하고 신나게 노는 이야기.\nCut 01/04: 쫑아 hesitates at the doorway on a rainy day, wearing a simple raincoat and looking suspicious about going outside.\nEmotion: watchful, reluctant, slightly annoyed\n\nCharacter lock:\n- Draw exactly one 쫑아 (`jjonga`).\n- Preserve the same canonical brown small dog from the reference images.\n- Preserve the rough black outline, simple 2D hand-drawn pastel style, small black dot eyes, small nose, asymmetric rounded/floppy ears, and alert smart expression.\n- Do not redesign the character, do not switch art style, do not make a realistic dog, and do not create a second copy of the dog.\n\nComposition:\n- 2:3 vertical webtoon panel, soft everyday background, simple readable staging.\n- Keep the panel text-free: no captions, no speech bubbles, no signs, no logos, no watermark.\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitle, watermark, logo, cluttered background",
+      "referenceImages": [
+        "characters/jjonga/jjonga.png",
+        "characters/jjonga/jjonga_stand.png",
+        "characters/jjonga/jjonga_laydown.png",
+        "docs/example/찌루_쫑아_웹툰_파일럿.png"
+      ],
+      "outputFile": "images/cuts/cut-01.png"
+    },
+    {
+      "id": "cut-02",
+      "title": "first step outside",
+      "cast": [
+        {
+          "slug": "jjonga",
+          "name": "쫑아",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical webtoon panel, no text.\n\nEpisode premise: 비 오는 날 산책을 싫어하던 쫑아가 우비를 입고 나가서 작은 물웅덩이를 발견하고 신나게 노는 이야기.\nCut 02/04: 쫑아 carefully steps onto the wet sidewalk, keeping the same tense posture and sharp little dot eyes.\nEmotion: cautious curiosity\n\nCharacter lock:\n- Draw exactly one 쫑아 (`jjonga`).\n- Preserve the same canonical brown small dog from the reference images.\n- Preserve the rough black outline, simple 2D hand-drawn pastel style, small black dot eyes, small nose, asymmetric rounded/floppy ears, and alert smart expression.\n- Do not redesign the character, do not switch art style, do not make a realistic dog, and do not create a second copy of the dog.\n\nComposition:\n- 2:3 vertical webtoon panel, soft everyday background, simple readable staging.\n- Keep the panel text-free: no captions, no speech bubbles, no signs, no logos, no watermark.\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitle, watermark, logo, cluttered background",
+      "referenceImages": [
+        "characters/jjonga/jjonga.png",
+        "characters/jjonga/jjonga_stand.png",
+        "characters/jjonga/jjonga_laydown.png",
+        "docs/example/찌루_쫑아_웹툰_파일럿.png"
+      ],
+      "outputFile": "images/cuts/cut-02.png"
+    },
+    {
+      "id": "cut-03",
+      "title": "puddle discovery",
+      "cast": [
+        {
+          "slug": "jjonga",
+          "name": "쫑아",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical webtoon panel, no text.\n\nEpisode premise: 비 오는 날 산책을 싫어하던 쫑아가 우비를 입고 나가서 작은 물웅덩이를 발견하고 신나게 노는 이야기.\nCut 03/04: 쫑아 notices a small puddle and leans forward with a clever, alert expression, still exactly the same brown dog character.\nEmotion: focused discovery\n\nCharacter lock:\n- Draw exactly one 쫑아 (`jjonga`).\n- Preserve the same canonical brown small dog from the reference images.\n- Preserve the rough black outline, simple 2D hand-drawn pastel style, small black dot eyes, small nose, asymmetric rounded/floppy ears, and alert smart expression.\n- Do not redesign the character, do not switch art style, do not make a realistic dog, and do not create a second copy of the dog.\n\nComposition:\n- 2:3 vertical webtoon panel, soft everyday background, simple readable staging.\n- Keep the panel text-free: no captions, no speech bubbles, no signs, no logos, no watermark.\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitle, watermark, logo, cluttered background",
+      "referenceImages": [
+        "characters/jjonga/jjonga.png",
+        "characters/jjonga/jjonga_stand.png",
+        "characters/jjonga/jjonga_laydown.png",
+        "docs/example/찌루_쫑아_웹툰_파일럿.png"
+      ],
+      "outputFile": "images/cuts/cut-03.png"
+    },
+    {
+      "id": "cut-04",
+      "title": "splash payoff",
+      "cast": [
+        {
+          "slug": "jjonga",
+          "name": "쫑아",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical webtoon panel, no text.\n\nEpisode premise: 비 오는 날 산책을 싫어하던 쫑아가 우비를 입고 나가서 작은 물웅덩이를 발견하고 신나게 노는 이야기.\nCut 04/04: 쫑아 happily splashes in the small puddle with wet paws, proud and playful while preserving the canonical hand-drawn style.\nEmotion: playful payoff\n\nCharacter lock:\n- Draw exactly one 쫑아 (`jjonga`).\n- Preserve the same canonical brown small dog from the reference images.\n- Preserve the rough black outline, simple 2D hand-drawn pastel style, small black dot eyes, small nose, asymmetric rounded/floppy ears, and alert smart expression.\n- Do not redesign the character, do not switch art style, do not make a realistic dog, and do not create a second copy of the dog.\n\nComposition:\n- 2:3 vertical webtoon panel, soft everyday background, simple readable staging.\n- Keep the panel text-free: no captions, no speech bubbles, no signs, no logos, no watermark.\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitle, watermark, logo, cluttered background",
+      "referenceImages": [
+        "characters/jjonga/jjonga.png",
+        "characters/jjonga/jjonga_stand.png",
+        "characters/jjonga/jjonga_laydown.png",
+        "docs/example/찌루_쫑아_웹툰_파일럿.png"
+      ],
+      "outputFile": "images/cuts/cut-04.png"
+    }
+  ]
+}

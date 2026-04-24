@@ -1,0 +1,23 @@
+{
+  "policy": "first appearance of any undefined person or character becomes canonical for later cuts",
+  "characters": {
+    "jjonga": {
+      "name": "쫑아",
+      "source": "characters/jjonga",
+      "referenceMode": "reference-only",
+      "canonicalReferenceImages": [
+        "characters/jjonga/jjonga.png",
+        "characters/jjonga/jjonga_stand.png",
+        "characters/jjonga/jjonga_laydown.png",
+        "docs/example/찌루_쫑아_웹툰_파일럿.png"
+      ],
+      "lockedFromCut": null,
+      "status": "canonical"
+    }
+  },
+  "newCharacterInstructions": [
+    "Assign a stable slug before generation.",
+    "Record first generated design and output image path.",
+    "Reuse the same locked description and image in later cuts."
+  ]
+}
