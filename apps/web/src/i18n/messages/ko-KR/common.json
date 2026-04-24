@@ -5,6 +5,7 @@
   "workspacePath": "/home/kindsr/projects/shortform-factory-studio",
   "searchPlaceholder": "에피소드, 캐릭터, 프레임 노트, 전달 토큰 검색",
   "operator": "운영자",
+  "logout": "로그아웃",
   "nav.production": "프로덕션 데스크",
   "nav.review": "리뷰 스튜디오",
   "nav.request": "요청 빌더",

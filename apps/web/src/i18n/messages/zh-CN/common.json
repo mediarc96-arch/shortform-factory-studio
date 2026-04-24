@@ -5,6 +5,7 @@
   "workspacePath": "/home/kindsr/projects/shortform-factory-studio",
   "searchPlaceholder": "搜索剧集、角色、帧备注、交付令牌",
   "operator": "操作员",
+  "logout": "退出",
   "nav.production": "制作台",
   "nav.review": "审片室",
   "nav.request": "请求构建器",

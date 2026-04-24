@@ -57,6 +57,9 @@ services:
         condition: service_healthy
     environment:
       SFS_API_BASE_URL: http://sfs-console-api:8000
+      SFS_AUTH_SECRET: ${SFS_AUTH_SECRET:-}
+      SFS_OPERATOR_USERNAME: ${SFS_OPERATOR_USERNAME:-sfs-admin}
+      SFS_OPERATOR_PASSWORD: ${SFS_OPERATOR_PASSWORD:-}
       HOSTNAME: 0.0.0.0
       PORT: 3000
     ports:

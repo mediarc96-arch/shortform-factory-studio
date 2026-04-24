@@ -168,6 +168,11 @@ export function ConsoleShell({
           <div className="operator">
             <span>OP</span>
             {common.operator}
+            <form action="/api/auth/logout" method="post">
+              <button className="logout-button" type="submit">
+                {common.logout}
+              </button>
+            </form>
           </div>
         </header>
 

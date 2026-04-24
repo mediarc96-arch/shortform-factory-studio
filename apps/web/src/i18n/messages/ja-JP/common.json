@@ -5,6 +5,7 @@
   "workspacePath": "/home/kindsr/projects/shortform-factory-studio",
   "searchPlaceholder": "エピソード、キャラクター、フレームメモ、配信トークンを検索",
   "operator": "オペレーター",
+  "logout": "ログアウト",
   "nav.production": "制作デスク",
   "nav.review": "レビュースタジオ",
   "nav.request": "リクエストビルダー",

@@ -5,6 +5,7 @@
   "workspacePath": "/home/kindsr/projects/shortform-factory-studio",
   "searchPlaceholder": "Search episode, character, frame note, delivery token",
   "operator": "Operator",
+  "logout": "Log out",
   "nav.production": "Production Desk",
   "nav.review": "Review Studio",
   "nav.request": "Request Builder",
