@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ConsoleShell } from "@/components/console-shell";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { normalizeLocale, SCREEN_IDS, type ScreenId } from "@/i18n/locales";
+import { loadWorkspaceViewModel } from "@/lib/workspace-api";
 
 export default async function ConsolePage({
   params
@@ -16,5 +17,14 @@ export default async function ConsolePage({
     notFound();
   }
 
-  return <ConsoleShell dictionary={getDictionary(locale)} locale={locale} screen={screen} />;
+  const workspace = await loadWorkspaceViewModel();
+
+  return (
+    <ConsoleShell
+      dictionary={getDictionary(locale)}
+      locale={locale}
+      screen={screen}
+      workspace={workspace}
+    />
+  );
 }

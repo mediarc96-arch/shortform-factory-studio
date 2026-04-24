@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import {
   navOrder,
   productionGates,
-  queueEpisodes,
   referenceFiles,
   reviewFrames,
   shots
@@ -20,14 +19,16 @@ import {
 } from "@/i18n/locales";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import { statusLabel } from "@/lib/status";
+import type { WorkspaceViewModel } from "@/lib/workspace-api";
 
 type ConsoleShellProps = {
   dictionary: Dictionary;
   locale: SupportedLocale;
   screen: ScreenId;
+  workspace: WorkspaceViewModel;
 };
 
-export function ConsoleShell({ dictionary, locale, screen }: ConsoleShellProps) {
+export function ConsoleShell({ dictionary, locale, screen, workspace }: ConsoleShellProps) {
   const router = useRouter();
   const common = dictionary.common;
 
@@ -44,13 +45,15 @@ export function ConsoleShell({ dictionary, locale, screen }: ConsoleShellProps) 
   };
 
   const currentScreen = useMemo(() => {
-    if (screen === "production") return <ProductionScreen dictionary={dictionary} navigate={navigate} />;
+    if (screen === "production") {
+      return <ProductionScreen dictionary={dictionary} navigate={navigate} workspace={workspace} />;
+    }
     if (screen === "review") return <ReviewScreen dictionary={dictionary} navigate={navigate} />;
     if (screen === "request") return <RequestScreen dictionary={dictionary} />;
     if (screen === "characters") return <CharactersScreen dictionary={dictionary} />;
     if (screen === "delivery") return <DeliveryScreen dictionary={dictionary} />;
     return <OpsScreen dictionary={dictionary} />;
-  }, [dictionary, screen]);
+  }, [dictionary, screen, workspace]);
 
   return (
     <div className="console-app">
@@ -168,10 +171,12 @@ function ScreenHeader({
 
 function ProductionScreen({
   dictionary,
-  navigate
+  navigate,
+  workspace
 }: {
   dictionary: Dictionary;
   navigate: (screen: ScreenId) => void;
+  workspace: WorkspaceViewModel;
 }) {
   const { common, production } = dictionary;
 
@@ -218,7 +223,10 @@ function ProductionScreen({
             </div>
           </Panel>
 
-          <Panel title={production.queue} meta={production.queueCount}>
+          <Panel
+            title={production.queue}
+            meta={`${workspace.episodeCount} episodes · ${workspace.source}`}
+          >
             <div className="queue-table">
               <div className="queue-row header">
                 <span>Episode</span>
@@ -227,7 +235,7 @@ function ProductionScreen({
                 <span>Next Gate</span>
                 <span>Action</span>
               </div>
-              {queueEpisodes.map((episode) => (
+              {workspace.queue.map((episode) => (
                 <div className="queue-row" key={episode.slug}>
                   <span>{episode.slug}</span>
                   <span>{episode.character}</span>

@@ -4,6 +4,8 @@
   "packageManager": "pnpm@10.30.3",
   "scripts": {
     "dev:web": "pnpm --filter @sfs/web dev",
+    "dev:api": "PYTHONPATH=apps/api/src SFS_WORKSPACE_ROOT=$PWD uvicorn sfs_console.presentation.api:app --host 127.0.0.1 --port 8000",
+    "dev:api:local": "PYTHONPATH=apps/api/src SFS_WORKSPACE_ROOT=$PWD uvicorn sfs_console.presentation.api:app --host 127.0.0.1 --port 8002",
     "build:web": "pnpm --filter @sfs/web build",
     "typecheck:web": "pnpm --filter @sfs/web typecheck",
     "test:web": "pnpm --filter @sfs/web test",
