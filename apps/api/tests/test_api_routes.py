@@ -44,6 +44,16 @@ class ApiRoutesTest(unittest.TestCase):
             self.assertEqual(workspace.status_code, 200)
             self.assertEqual(workspace.json()["episode_count"], 1)
             self.assertEqual(workspace.json()["ready_episode_count"], 1)
+            self.assertEqual(workspace.json()["characters"][0]["slug"], "jjiroo")
+            self.assertEqual(workspace.json()["formats"][0]["slug"], "pet-toon-image-only-v1")
+
+            characters = client.get("/characters")
+            self.assertEqual(characters.status_code, 200)
+            self.assertEqual(characters.json()[0]["rights_status"], "present")
+
+            formats = client.get("/formats")
+            self.assertEqual(formats.status_code, 200)
+            self.assertEqual(formats.json()[0]["slug"], "pet-toon-image-only-v1")
 
             readiness = client.get("/episodes/jjiroo-pilot-001/delivery-readiness")
             self.assertEqual(readiness.status_code, 200)

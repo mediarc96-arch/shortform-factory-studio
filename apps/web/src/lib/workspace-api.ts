@@ -10,19 +10,49 @@ export type WorkspaceEpisode = {
   publish_packet_path: string | null;
 };
 
+export type WorkspaceCharacter = {
+  slug: string;
+  display_name: string;
+  root_path: string;
+  has_bible: boolean;
+  has_prompts: boolean;
+  has_rights: boolean;
+  has_voice: boolean;
+  rights_status: "present" | "missing";
+};
+
+export type WorkspaceFormat = {
+  slug: string;
+  profile_path: string;
+};
+
 export type WorkspaceSnapshot = {
   character_count: number;
   episode_count: number;
   format_count: number;
   ready_episode_count: number;
   blocked_episode_count: number;
+  characters?: WorkspaceCharacter[];
   episodes: WorkspaceEpisode[];
+  formats?: WorkspaceFormat[];
+};
+
+export type CharacterRegistryItem = {
+  slug: string;
+  displayName: string;
+  rightsStatus: "present" | "missing";
+  hasBible: boolean;
+  hasPrompts: boolean;
+  hasVoice: boolean;
 };
 
 export type WorkspaceViewModel = {
   source: "api" | "sample";
   queue: QueueEpisode[];
+  characters: CharacterRegistryItem[];
+  characterCount: number;
   episodeCount: number;
+  formatCount: number;
   readyEpisodeCount: number;
   blockedEpisodeCount: number;
 };
@@ -36,9 +66,21 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
     return {
       source: "sample",
       queue: queueEpisodes,
-      episodeCount: 40,
-      readyEpisodeCount: 1,
-      blockedEpisodeCount: 1
+      characters: [
+        {
+          slug: "jjiroo",
+          displayName: "Jjiroo",
+          rightsStatus: "missing",
+          hasBible: true,
+          hasPrompts: true,
+          hasVoice: false
+        }
+      ],
+      characterCount: 1,
+      episodeCount: queueEpisodes.length,
+      formatCount: 1,
+      readyEpisodeCount: queueEpisodes.filter((episode) => episode.status === "ready").length,
+      blockedEpisodeCount: queueEpisodes.filter((episode) => episode.status === "blocked").length
     };
   }
 
@@ -48,11 +90,22 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
     status: episode.status,
     nextGate: nextGateForEpisode(episode)
   }));
+  const characters = snapshot.characters ?? [];
 
   return {
     source: "api",
     queue,
+    characters: characters.map((character) => ({
+      slug: character.slug,
+      displayName: character.display_name,
+      rightsStatus: character.rights_status,
+      hasBible: character.has_bible,
+      hasPrompts: character.has_prompts,
+      hasVoice: character.has_voice
+    })),
+    characterCount: snapshot.character_count,
     episodeCount: snapshot.episode_count,
+    formatCount: snapshot.format_count,
     readyEpisodeCount: snapshot.ready_episode_count,
     blockedEpisodeCount: snapshot.blocked_episode_count
   };

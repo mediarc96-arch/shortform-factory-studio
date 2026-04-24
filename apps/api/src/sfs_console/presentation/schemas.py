@@ -4,7 +4,13 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from sfs_console.domain import DeliveryReadiness, EpisodeSummary, WorkspaceSnapshot
+from sfs_console.domain import (
+    CharacterSummary,
+    DeliveryReadiness,
+    EpisodeSummary,
+    FormatProfileSummary,
+    WorkspaceSnapshot,
+)
 
 
 def _relative(path: Path | None) -> str | None:
@@ -21,6 +27,39 @@ class GateResponse(BaseModel):
     label: str
     status: str
     detail: str
+
+
+class CharacterResponse(BaseModel):
+    slug: str
+    display_name: str
+    root_path: str
+    has_bible: bool
+    has_prompts: bool
+    has_rights: bool
+    has_voice: bool
+    rights_status: str
+
+    @classmethod
+    def from_domain(cls, character: CharacterSummary) -> "CharacterResponse":
+        return cls(
+            slug=character.slug,
+            display_name=character.display_name,
+            root_path=_relative(character.root_path) or "",
+            has_bible=character.has_bible,
+            has_prompts=character.has_prompts,
+            has_rights=character.has_rights,
+            has_voice=character.has_voice,
+            rights_status=character.rights_status,
+        )
+
+
+class FormatProfileResponse(BaseModel):
+    slug: str
+    profile_path: str
+
+    @classmethod
+    def from_domain(cls, profile: FormatProfileSummary) -> "FormatProfileResponse":
+        return cls(slug=profile.slug, profile_path=_relative(profile.profile_path) or "")
 
 
 class EpisodeResponse(BaseModel):
@@ -51,7 +90,9 @@ class WorkspaceSnapshotResponse(BaseModel):
     format_count: int
     ready_episode_count: int
     blocked_episode_count: int
+    characters: list[CharacterResponse]
     episodes: list[EpisodeResponse]
+    formats: list[FormatProfileResponse]
 
     @classmethod
     def from_domain(cls, snapshot: WorkspaceSnapshot) -> "WorkspaceSnapshotResponse":
@@ -61,7 +102,9 @@ class WorkspaceSnapshotResponse(BaseModel):
             format_count=len(snapshot.formats),
             ready_episode_count=snapshot.ready_episode_count,
             blocked_episode_count=snapshot.blocked_episode_count,
+            characters=[CharacterResponse.from_domain(character) for character in snapshot.characters],
             episodes=[EpisodeResponse.from_domain(episode) for episode in snapshot.episodes],
+            formats=[FormatProfileResponse.from_domain(profile) for profile in snapshot.formats],
         )
 
 

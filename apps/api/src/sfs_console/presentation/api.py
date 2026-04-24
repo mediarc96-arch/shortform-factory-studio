@@ -6,8 +6,10 @@ from sfs_console.application import ListWorkspaceSnapshot, ValidateDeliveryReadi
 from sfs_console.config import Settings
 from sfs_console.infrastructure import FileSystemWorkspaceScanner
 from sfs_console.presentation.schemas import (
+    CharacterResponse,
     DeliveryReadinessResponse,
     EpisodeResponse,
+    FormatProfileResponse,
     HealthResponse,
     WorkspaceSnapshotResponse,
 )
@@ -32,6 +34,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def episodes() -> list[EpisodeResponse]:
         snapshot = ListWorkspaceSnapshot(scanner).execute()
         return [EpisodeResponse.from_domain(episode) for episode in snapshot.episodes]
+
+    @app.get("/characters", response_model=list[CharacterResponse])
+    def characters() -> list[CharacterResponse]:
+        snapshot = ListWorkspaceSnapshot(scanner).execute()
+        return [CharacterResponse.from_domain(character) for character in snapshot.characters]
+
+    @app.get("/formats", response_model=list[FormatProfileResponse])
+    def formats() -> list[FormatProfileResponse]:
+        snapshot = ListWorkspaceSnapshot(scanner).execute()
+        return [FormatProfileResponse.from_domain(profile) for profile in snapshot.formats]
 
     @app.get("/episodes/{episode_slug}/delivery-readiness", response_model=DeliveryReadinessResponse)
     def delivery_readiness(episode_slug: str) -> DeliveryReadinessResponse:

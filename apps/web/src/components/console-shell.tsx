@@ -50,7 +50,7 @@ export function ConsoleShell({ dictionary, locale, screen, workspace }: ConsoleS
     }
     if (screen === "review") return <ReviewScreen dictionary={dictionary} navigate={navigate} />;
     if (screen === "request") return <RequestScreen dictionary={dictionary} />;
-    if (screen === "characters") return <CharactersScreen dictionary={dictionary} />;
+    if (screen === "characters") return <CharactersScreen dictionary={dictionary} workspace={workspace} />;
     if (screen === "delivery") return <DeliveryScreen dictionary={dictionary} />;
     return <OpsScreen dictionary={dictionary} />;
   }, [dictionary, screen, workspace]);
@@ -396,8 +396,16 @@ function RequestScreen({ dictionary }: { dictionary: Dictionary }) {
   );
 }
 
-function CharactersScreen({ dictionary }: { dictionary: Dictionary }) {
+function CharactersScreen({
+  dictionary,
+  workspace
+}: {
+  dictionary: Dictionary;
+  workspace: WorkspaceViewModel;
+}) {
   const { characters } = dictionary;
+  const primaryCharacter = workspace.characters[0];
+
   return (
     <section>
       <ScreenHeader
@@ -425,23 +433,44 @@ function CharactersScreen({ dictionary }: { dictionary: Dictionary }) {
           </div>
         </Panel>
         <div className="stack">
-          <Panel title={characters.dossier} meta={characters.rightsReview}>
+          <Panel title={characters.dossier} meta={primaryCharacter?.rightsStatus ?? characters.rightsReview}>
             <div className="form-grid">
-              <Field label={characters.displayName} value="Jjiroo" />
+              <Field label={characters.displayName} value={primaryCharacter?.displayName ?? "Jjiroo"} />
               <Field label={characters.series} value="Pet Toon" />
               <Field label={characters.voiceDefault} value="warm Korean narrator" />
-              <Field label={characters.rightsStatus} value="needs review" />
+              <Field
+                label={characters.rightsStatus}
+                value={primaryCharacter?.rightsStatus ?? "needs review"}
+              />
               <label className="wide">
                 {characters.negativePrompt}
                 <textarea defaultValue="Do not alter face structure, fur pattern, eye spacing, or collar color." />
               </label>
             </div>
           </Panel>
-          <Panel title={characters.generatedFiles} meta={characters.templateBacked}>
-            <FileRow kind="MD" name="characters/jjiroo/bible.md" detail="identity, behavior, visual canon" />
-            <FileRow kind="MD" name="characters/jjiroo/prompts.md" detail="defaults and banned drift" />
-            <FileRow kind="MD" name="characters/jjiroo/rights.md" detail="external use status" state="review" />
-            <FileRow kind="JS" name="characters/jjiroo/voice.json" detail="voice slots and take policy" />
+          <Panel
+            title={characters.generatedFiles}
+            meta={`${workspace.characterCount} characters · ${workspace.source}`}
+          >
+            <div className="character-list">
+              {workspace.characters.map((character) => (
+                <div className="character-row" key={character.slug}>
+                  <div className="character-avatar">{character.slug.slice(0, 2).toUpperCase()}</div>
+                  <div>
+                    <strong>{character.displayName}</strong>
+                    <span>{`characters/${character.slug}`}</span>
+                  </div>
+                  <div className="character-flags">
+                    <span className={character.hasBible ? "present" : ""}>bible</span>
+                    <span className={character.hasPrompts ? "present" : ""}>prompt</span>
+                    <span className={character.rightsStatus === "present" ? "present" : "missing"}>
+                      rights
+                    </span>
+                    <span className={character.hasVoice ? "present" : ""}>voice</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </Panel>
         </div>
       </div>
