@@ -293,11 +293,19 @@ class IssueDeliveryToken:
         self._token_store = token_store
         self._audit_log = audit_log
 
-    def execute(self, *, episode_slug: str, expires_in_hours: int = 168) -> DeliveryTokenIssue:
+    def execute(
+        self,
+        *,
+        episode_slug: str,
+        expires_in_hours: int = 168,
+        max_accesses: int = 5,
+    ) -> DeliveryTokenIssue:
         if not episode_slug.strip():
             raise ValueError("episode_slug is required")
         if expires_in_hours < 1 or expires_in_hours > 24 * 60:
             raise ValueError("expires_in_hours must be between 1 and 1440")
+        if max_accesses < 1 or max_accesses > 100:
+            raise ValueError("max_accesses must be between 1 and 100")
 
         snapshot = self._scanner.scan()
         episode = next((item for item in snapshot.episodes if item.slug == episode_slug), None)
@@ -320,12 +328,17 @@ class IssueDeliveryToken:
             episode_slug=episode_slug,
             token_hash=hashlib.sha256(token.encode("utf-8")).hexdigest(),
             expires_at=utc_now() + timedelta(hours=expires_in_hours),
+            max_accesses=max_accesses,
         )
         self._audit_log.append_audit_log(
             action="delivery_token.created",
             entity_type="delivery_token",
             entity_id=record.id,
-            payload={"episode_slug": episode_slug, "expires_at": record.expires_at.isoformat()},
+            payload={
+                "episode_slug": episode_slug,
+                "expires_at": record.expires_at.isoformat(),
+                "max_accesses": max_accesses,
+            },
         )
         return DeliveryTokenIssue(record=record, token=token)
 
@@ -353,7 +366,7 @@ class ResolveDeliveryPackage:
         self._scanner = scanner
         self._token_store = token_store
 
-    def execute(self, token: str) -> DeliveryPackage:
+    def execute(self, token: str, *, record_access: bool = False) -> DeliveryPackage:
         if not token.strip():
             raise ValueError("delivery token not found")
 
@@ -361,6 +374,13 @@ class ResolveDeliveryPackage:
         record = self._token_store.get_delivery_token_by_hash(token_hash)
         if not record or record.status != "active" or record.expires_at <= utc_now():
             raise ValueError("delivery token not found")
+        if record_access:
+            if record.access_count >= record.max_accesses:
+                raise ValueError("delivery token access limit reached")
+            accessed = self._token_store.mark_delivery_token_accessed(record.id)
+            if not accessed:
+                raise ValueError("delivery token not found")
+            record = accessed
 
         snapshot = self._scanner.scan()
         episode = next((item for item in snapshot.episodes if item.slug == record.episode_slug), None)
@@ -383,6 +403,8 @@ class ResolveDeliveryPackage:
         return DeliveryPackage(
             episode_slug=record.episode_slug,
             token_id=record.id,
+            max_accesses=record.max_accesses,
+            access_count=record.access_count,
             expires_at=record.expires_at,
             assets=assets,
         )

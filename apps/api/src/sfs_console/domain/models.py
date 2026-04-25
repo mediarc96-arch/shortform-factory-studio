@@ -86,6 +86,8 @@ class DeliveryAsset:
 class DeliveryPackage:
     episode_slug: str
     token_id: str
+    max_accesses: int
+    access_count: int
     expires_at: datetime
     assets: tuple[DeliveryAsset, ...]
 
@@ -137,9 +139,12 @@ class DeliveryTokenRecord:
     episode_slug: str
     token_hash: str
     status: Literal["active", "revoked"]
+    max_accesses: int
+    access_count: int
     expires_at: datetime
     created_at: datetime
     revoked_at: datetime | None = None
+    last_accessed_at: datetime | None = None
 
 
 @dataclass(frozen=True)

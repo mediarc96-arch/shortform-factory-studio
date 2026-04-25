@@ -58,9 +58,12 @@ type DeliveryTokenResponse = {
   id: string;
   episode_slug: string;
   status: string;
+  max_accesses: number;
+  access_count: number;
   expires_at: string;
   created_at: string;
   revoked_at: string | null;
+  last_accessed_at: string | null;
   token: string | null;
 };
 
@@ -709,6 +712,8 @@ function DeliveryScreen({
   const initialEpisode =
     workspace.queue.find((episode) => episode.status === "ready")?.slug ?? workspace.queue[0]?.slug ?? "";
   const [episodeSlug, setEpisodeSlug] = useState(initialEpisode);
+  const [expiresInHours, setExpiresInHours] = useState(168);
+  const [maxAccesses, setMaxAccesses] = useState(5);
   const [token, setToken] = useState<DeliveryTokenResponse | null>(null);
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
@@ -718,7 +723,8 @@ function DeliveryScreen({
     startTransition(async () => {
       const result = await postJson<DeliveryTokenResponse>("/api/sfs/deliveries/tokens", {
         episode_slug: episodeSlug,
-        expires_in_hours: 168
+        expires_in_hours: expiresInHours,
+        max_accesses: maxAccesses
       });
       if (!result.ok) {
         setAction({ tone: "risk", message: result.error });
@@ -802,8 +808,26 @@ function DeliveryScreen({
                   ))}
                 </select>
               </label>
-              <Field label={delivery.expires} value="2026-05-01 23:59 UTC" />
-              <Field label={delivery.maxDownloads} value="5" />
+              <label>
+                {delivery.expires}
+                <input
+                  min={1}
+                  max={1440}
+                  type="number"
+                  value={expiresInHours}
+                  onChange={(event) => setExpiresInHours(Number(event.target.value))}
+                />
+              </label>
+              <label>
+                {delivery.maxDownloads}
+                <input
+                  min={1}
+                  max={100}
+                  type="number"
+                  value={maxAccesses}
+                  onChange={(event) => setMaxAccesses(Number(event.target.value))}
+                />
+              </label>
               <label className="wide">
                 {delivery.clientNote}
                 <textarea defaultValue="Use revision request for timestamped feedback. Do not forward this link outside the approval group." />
@@ -815,7 +839,7 @@ function DeliveryScreen({
                 <strong>{token.status}</strong>
                 <code>{deliveryPath ?? token.id}</code>
                 {deliveryPath ? <a href={deliveryPath}>{delivery.downloadPackage}</a> : null}
-                <span>{token.expires_at}</span>
+                <span>{`${token.access_count}/${token.max_accesses} · ${token.expires_at}`}</span>
               </div>
             ) : null}
           </Panel>

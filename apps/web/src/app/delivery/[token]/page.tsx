@@ -30,7 +30,7 @@ export default async function PublicDeliveryPage({
           <div className="delivery-public-brand">SFS</div>
           <div>
             <h1>{delivery.episode_slug}</h1>
-            <p>만료 시각: {delivery.expires_at}</p>
+            <p>{`${delivery.access_count}/${delivery.max_accesses} access · ${delivery.expires_at}`}</p>
           </div>
         </div>
 

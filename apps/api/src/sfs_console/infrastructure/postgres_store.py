@@ -38,10 +38,20 @@ CREATE TABLE IF NOT EXISTS delivery_tokens (
   episode_slug text NOT NULL,
   token_hash text NOT NULL UNIQUE,
   status text NOT NULL CHECK (status IN ('active', 'revoked')),
+  max_accesses integer NOT NULL DEFAULT 5,
+  access_count integer NOT NULL DEFAULT 0,
   expires_at timestamptz NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
-  revoked_at timestamptz
+  revoked_at timestamptz,
+  last_accessed_at timestamptz
 );
+
+ALTER TABLE delivery_tokens
+  ADD COLUMN IF NOT EXISTS max_accesses integer NOT NULL DEFAULT 5;
+ALTER TABLE delivery_tokens
+  ADD COLUMN IF NOT EXISTS access_count integer NOT NULL DEFAULT 0;
+ALTER TABLE delivery_tokens
+  ADD COLUMN IF NOT EXISTS last_accessed_at timestamptz;
 
 CREATE INDEX IF NOT EXISTS idx_delivery_tokens_episode_slug
   ON delivery_tokens (episode_slug);
@@ -151,16 +161,17 @@ class PostgresSfsStore:
         episode_slug: str,
         token_hash: str,
         expires_at: datetime,
+        max_accesses: int,
     ) -> DeliveryTokenRecord:
         row = self._fetchone(
             """
             INSERT INTO delivery_tokens (
-              id, episode_slug, token_hash, status, expires_at, created_at
+              id, episode_slug, token_hash, status, max_accesses, access_count, expires_at, created_at
             )
-            VALUES (%s, %s, %s, 'active', %s, %s)
+            VALUES (%s, %s, %s, 'active', %s, 0, %s, %s)
             RETURNING *
             """,
-            (str(uuid4()), episode_slug, token_hash, expires_at, utc_now()),
+            (str(uuid4()), episode_slug, token_hash, max_accesses, expires_at, utc_now()),
         )
         return _delivery_token_from_row(row)
 
@@ -180,6 +191,19 @@ class PostgresSfsStore:
         row = self._fetchone_or_none(
             "SELECT * FROM delivery_tokens WHERE token_hash = %s",
             (token_hash,),
+        )
+        return _delivery_token_from_row(row) if row else None
+
+    def mark_delivery_token_accessed(self, token_id: str) -> DeliveryTokenRecord | None:
+        row = self._fetchone_or_none(
+            """
+            UPDATE delivery_tokens
+            SET access_count = access_count + 1,
+                last_accessed_at = %s
+            WHERE id = %s
+            RETURNING *
+            """,
+            (utc_now(), token_id),
         )
         return _delivery_token_from_row(row) if row else None
 
@@ -270,9 +294,12 @@ def _delivery_token_from_row(row: dict[str, Any]) -> DeliveryTokenRecord:
         episode_slug=str(row["episode_slug"]),
         token_hash=str(row["token_hash"]),
         status=row["status"],
+        max_accesses=int(row["max_accesses"]),
+        access_count=int(row["access_count"]),
         expires_at=row["expires_at"],
         created_at=row["created_at"],
         revoked_at=row["revoked_at"],
+        last_accessed_at=row["last_accessed_at"],
     )
 
 

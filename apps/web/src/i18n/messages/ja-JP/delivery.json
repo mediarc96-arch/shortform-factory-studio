@@ -9,7 +9,7 @@
   "accessPolicy": "アクセス方針",
   "tokenized": "トークン方式",
   "expires": "有効期限",
-  "maxDownloads": "最大ダウンロード",
+  "maxDownloads": "アクセス上限",
   "clientNote": "クライアントメモ",
   "audit": "監査ログ",
   "readonly": "読み取り専用",

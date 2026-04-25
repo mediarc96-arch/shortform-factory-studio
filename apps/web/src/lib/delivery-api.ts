@@ -12,6 +12,8 @@ export type PublicDeliveryAsset = {
 export type PublicDeliveryPackage = {
   episode_slug: string;
   token_id: string;
+  max_accesses: number;
+  access_count: number;
   expires_at: string;
   assets: PublicDeliveryAsset[];
 };

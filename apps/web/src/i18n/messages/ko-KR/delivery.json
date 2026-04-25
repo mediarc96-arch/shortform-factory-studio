@@ -9,7 +9,7 @@
   "accessPolicy": "접근 정책",
   "tokenized": "토큰 방식",
   "expires": "만료",
-  "maxDownloads": "최대 다운로드",
+  "maxDownloads": "접근 한도",
   "clientNote": "클라이언트 노트",
   "audit": "감사 로그",
   "readonly": "읽기 전용",

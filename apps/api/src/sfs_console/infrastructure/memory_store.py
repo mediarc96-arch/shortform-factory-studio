@@ -84,12 +84,15 @@ class InMemorySfsStore:
         episode_slug: str,
         token_hash: str,
         expires_at: datetime,
+        max_accesses: int,
     ) -> DeliveryTokenRecord:
         record = DeliveryTokenRecord(
             id=str(uuid4()),
             episode_slug=episode_slug,
             token_hash=token_hash,
             status="active",
+            max_accesses=max_accesses,
+            access_count=0,
             expires_at=expires_at,
             created_at=utc_now(),
         )
@@ -109,6 +112,18 @@ class InMemorySfsStore:
             (record for record in self._delivery_tokens.values() if record.token_hash == token_hash),
             None,
         )
+
+    def mark_delivery_token_accessed(self, token_id: str) -> DeliveryTokenRecord | None:
+        record = self._delivery_tokens.get(token_id)
+        if not record:
+            return None
+        updated = replace(
+            record,
+            access_count=record.access_count + 1,
+            last_accessed_at=utc_now(),
+        )
+        self._delivery_tokens[token_id] = updated
+        return updated
 
     def list_delivery_tokens(self, *, limit: int = 20) -> tuple[DeliveryTokenRecord, ...]:
         return tuple(

@@ -9,7 +9,7 @@
   "accessPolicy": "访问策略",
   "tokenized": "令牌化",
   "expires": "到期时间",
-  "maxDownloads": "最大下载次数",
+  "maxDownloads": "访问上限",
   "clientNote": "客户备注",
   "audit": "审计",
   "readonly": "只读",

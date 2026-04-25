@@ -9,7 +9,7 @@
   "accessPolicy": "Access policy",
   "tokenized": "tokenized",
   "expires": "Expires",
-  "maxDownloads": "Max downloads",
+  "maxDownloads": "Access limit",
   "clientNote": "Client note",
   "audit": "Audit",
   "readonly": "read-only",

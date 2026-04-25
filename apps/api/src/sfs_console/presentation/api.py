@@ -168,6 +168,7 @@ def create_app(
             result = IssueDeliveryToken(scanner, persistence, persistence).execute(
                 episode_slug=request.episode_slug,
                 expires_in_hours=request.expires_in_hours,
+                max_accesses=request.max_accesses,
             )
         except ValueError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
@@ -184,7 +185,7 @@ def create_app(
     @app.get("/public/deliveries/{token}", response_model=DeliveryPackageResponse)
     def public_delivery_package(token: str) -> DeliveryPackageResponse:
         try:
-            package = ResolveDeliveryPackage(scanner, persistence).execute(token)
+            package = ResolveDeliveryPackage(scanner, persistence).execute(token, record_access=True)
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
         return DeliveryPackageResponse.from_domain(package, token=token)

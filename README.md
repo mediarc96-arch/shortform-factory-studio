@@ -64,7 +64,8 @@ Implemented console actions:
 - character template creation under `characters/<slug>`
 - delivery token issue/revoke with token hashes stored at rest
 - public token delivery pages at `/delivery/<token>` for final video, thumbnail,
-  review report, and publish metadata downloads
+  review report, and publish metadata downloads, with expiry, revocation, and
+  access-limit enforcement
 - optional Paperclip issue handoff when `SFS_PAPERCLIP_COMPANY_ID` and a valid
   `SFS_PAPERCLIP_API_TOKEN` are configured
 

@@ -234,15 +234,19 @@ class CharacterTemplateResponse(BaseModel):
 class DeliveryTokenCreateRequest(BaseModel):
     episode_slug: str
     expires_in_hours: int = 168
+    max_accesses: int = 5
 
 
 class DeliveryTokenResponse(BaseModel):
     id: str
     episode_slug: str
     status: str
+    max_accesses: int
+    access_count: int
     expires_at: str
     created_at: str
     revoked_at: str | None
+    last_accessed_at: str | None
     token: str | None = None
 
     @classmethod
@@ -256,9 +260,12 @@ class DeliveryTokenResponse(BaseModel):
             id=record.id,
             episode_slug=record.episode_slug,
             status=record.status,
+            max_accesses=record.max_accesses,
+            access_count=record.access_count,
             expires_at=record.expires_at.isoformat(),
             created_at=record.created_at.isoformat(),
             revoked_at=record.revoked_at.isoformat() if record.revoked_at else None,
+            last_accessed_at=record.last_accessed_at.isoformat() if record.last_accessed_at else None,
             token=token,
         )
 
@@ -286,6 +293,8 @@ class DeliveryAssetResponse(BaseModel):
 class DeliveryPackageResponse(BaseModel):
     episode_slug: str
     token_id: str
+    max_accesses: int
+    access_count: int
     expires_at: str
     assets: list[DeliveryAssetResponse]
 
@@ -294,6 +303,8 @@ class DeliveryPackageResponse(BaseModel):
         return cls(
             episode_slug=package.episode_slug,
             token_id=package.token_id,
+            max_accesses=package.max_accesses,
+            access_count=package.access_count,
             expires_at=package.expires_at.isoformat(),
             assets=[DeliveryAssetResponse.from_domain(asset, token=token) for asset in package.assets],
         )

@@ -54,6 +54,7 @@ class DeliveryTokenStore(Protocol):
         episode_slug: str,
         token_hash: str,
         expires_at: datetime,
+        max_accesses: int,
     ) -> DeliveryTokenRecord:
         """Persist a delivery token hash."""
 
@@ -62,6 +63,9 @@ class DeliveryTokenStore(Protocol):
 
     def get_delivery_token_by_hash(self, token_hash: str) -> DeliveryTokenRecord | None:
         """Return a delivery token by its one-way hash."""
+
+    def mark_delivery_token_accessed(self, token_id: str) -> DeliveryTokenRecord | None:
+        """Increment delivery token access count."""
 
     def list_delivery_tokens(self, *, limit: int = 20) -> tuple[DeliveryTokenRecord, ...]:
         """Return recent delivery tokens."""
