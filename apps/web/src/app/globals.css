@@ -1156,6 +1156,71 @@ h1 {
   text-decoration: underline;
 }
 
+.token-history {
+  display: grid;
+  gap: 7px;
+  overflow-x: auto;
+}
+
+.token-row {
+  display: grid;
+  grid-template-columns:
+    minmax(170px, 1.4fr) minmax(86px, 0.65fr) minmax(72px, 0.55fr)
+    minmax(128px, 0.85fr) minmax(118px, 0.85fr) minmax(92px, 0.55fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 760px;
+  min-height: 48px;
+  padding: 8px;
+  background: #171b1c;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.token-row-head {
+  min-height: 30px;
+  color: var(--quiet);
+  background: transparent;
+  border-color: transparent;
+  font-size: 11px;
+  font-weight: 820;
+}
+
+.token-row > span {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.token-row strong,
+.token-row code {
+  display: block;
+  min-width: 0;
+}
+
+.token-row strong {
+  color: var(--text);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.token-row code {
+  margin-top: 3px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.token-row button {
+  min-height: 30px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
 .character-list {
   display: grid;
   gap: 8px;

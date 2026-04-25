@@ -715,9 +715,55 @@ function DeliveryScreen({
   const [expiresInHours, setExpiresInHours] = useState(168);
   const [maxAccesses, setMaxAccesses] = useState(5);
   const [token, setToken] = useState<DeliveryTokenResponse | null>(null);
+  const [tokens, setTokens] = useState<DeliveryTokenResponse[]>([]);
+  const [tokensLoaded, setTokensLoaded] = useState(false);
+  const [isTokensLoading, setIsTokensLoading] = useState(false);
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
   const deliveryPath = token?.token ? `/delivery/${token.token}` : null;
+  const tokenRows = useMemo(() => {
+    if (!token) {
+      return tokens;
+    }
+    return [token, ...tokens.filter((storedToken) => storedToken.id !== token.id)];
+  }, [token, tokens]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadInitialTokens = async () => {
+      setIsTokensLoading(true);
+      const result = await getJson<DeliveryTokenResponse[]>("/api/sfs/deliveries/tokens");
+      if (!isMounted) {
+        return;
+      }
+      setIsTokensLoading(false);
+      setTokensLoaded(true);
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setTokens(result.data);
+    };
+
+    void loadInitialTokens();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const refreshTokens = async (reportErrors = false) => {
+    const result = await getJson<DeliveryTokenResponse[]>("/api/sfs/deliveries/tokens");
+    setTokensLoaded(true);
+    if (!result.ok) {
+      if (reportErrors) {
+        setAction({ tone: "risk", message: result.error });
+      }
+      return null;
+    }
+    setTokens(result.data);
+    return result.data;
+  };
 
   const generateToken = () => {
     startTransition(async () => {
@@ -731,26 +777,39 @@ function DeliveryScreen({
         return;
       }
       setToken(result.data);
+      setTokens((currentTokens) => [
+        result.data,
+        ...currentTokens.filter((currentToken) => currentToken.id !== result.data.id)
+      ]);
       setAction({ tone: "good", message: `Delivery token issued for ${result.data.episode_slug}.` });
+      await refreshTokens();
     });
   };
 
-  const revokeToken = () => {
-    if (!token) {
+  const revokeToken = (tokenId?: string) => {
+    const selectedToken = tokenId ? tokenRows.find((row) => row.id === tokenId) : token;
+    if (!selectedToken) {
       setAction({ tone: "warn", message: "No active token selected." });
       return;
     }
     startTransition(async () => {
       const result = await postJson<DeliveryTokenResponse>(
-        `/api/sfs/deliveries/tokens/${token.id}/revoke`,
+        `/api/sfs/deliveries/tokens/${selectedToken.id}/revoke`,
         {}
       );
       if (!result.ok) {
         setAction({ tone: "risk", message: result.error });
         return;
       }
-      setToken(result.data);
+      if (token?.id === result.data.id) {
+        setToken(result.data);
+      }
+      setTokens((currentTokens) => [
+        result.data,
+        ...currentTokens.filter((currentToken) => currentToken.id !== result.data.id)
+      ]);
       setAction({ tone: "good", message: `Token ${result.data.id.slice(0, 8)} revoked.` });
+      await refreshTokens();
     });
   };
 
@@ -762,7 +821,11 @@ function DeliveryScreen({
         subtitle={delivery.subtitle}
         actions={
           <>
-            <button type="button" onClick={revokeToken} disabled={isPending || !token}>
+            <button
+              type="button"
+              onClick={() => revokeToken()}
+              disabled={isPending || !token || token.status !== "active"}
+            >
               {common.revokeLink}
             </button>
             <button
@@ -839,9 +902,54 @@ function DeliveryScreen({
                 <strong>{token.status}</strong>
                 <code>{deliveryPath ?? token.id}</code>
                 {deliveryPath ? <a href={deliveryPath}>{delivery.downloadPackage}</a> : null}
-                <span>{`${token.access_count}/${token.max_accesses} · ${token.expires_at}`}</span>
+                <span>{`${token.access_count}/${token.max_accesses} - ${formatDateTime(token.expires_at)}`}</span>
               </div>
             ) : null}
+          </Panel>
+          <Panel
+            title={delivery.tokenHistory}
+            meta={isTokensLoading ? delivery.loadingTokens : `${tokenRows.length} ${delivery.tokens}`}
+          >
+            <div className="token-history">
+              <div className="token-row token-row-head">
+                <span>{delivery.episode}</span>
+                <span>{delivery.status}</span>
+                <span>{delivery.accesses}</span>
+                <span>{delivery.expires}</span>
+                <span>{delivery.lastAccess}</span>
+                <span>{common.revokeLink}</span>
+              </div>
+              {tokenRows.map((row) => (
+                <div className="token-row" key={row.id}>
+                  <span>
+                    <strong>{row.episode_slug}</strong>
+                    <code>{`${row.id.slice(0, 8)} - ${formatDateTime(row.created_at)}`}</code>
+                  </span>
+                  <span>
+                    <span className={`badge ${row.status === "active" ? "ready" : "risk"}`}>
+                      {row.status}
+                    </span>
+                  </span>
+                  <span>{`${row.access_count}/${row.max_accesses}`}</span>
+                  <span>{formatDateTime(row.expires_at)}</span>
+                  <span>{formatDateTime(row.last_accessed_at, delivery.notAccessed)}</span>
+                  <span>
+                    <button
+                      type="button"
+                      onClick={() => revokeToken(row.id)}
+                      disabled={isPending || row.status !== "active"}
+                    >
+                      {common.revokeLink}
+                    </button>
+                  </span>
+                </div>
+              ))}
+              {tokenRows.length === 0 ? (
+                <p className="empty-state">
+                  {tokensLoaded ? delivery.noTokens : delivery.loadingTokens}
+                </p>
+              ) : null}
+            </div>
           </Panel>
           <Panel title={delivery.audit} meta={delivery.readonly}>
             <Note title="2026-04-24 08:12 UTC" text="Producer generated package draft." />
@@ -1220,6 +1328,17 @@ function ActionMessage({ state }: { state: ActionState }) {
     return null;
   }
   return <div className={`action-message ${state.tone}`}>{state.message}</div>;
+}
+
+function formatDateTime(value: string | null, fallback = "n/a") {
+  if (!value) {
+    return fallback;
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+  return date.toISOString().slice(0, 16).replace("T", " ");
 }
 
 function toProductionRequestPayload(draft: ProductionRequestDraft) {
