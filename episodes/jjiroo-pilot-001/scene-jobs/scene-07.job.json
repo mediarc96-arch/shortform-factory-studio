@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Use the uploaded self-rescue still as the exact visual anchor. Show exactly one Jjiroo only. No human body in frame, no duplicate dog, and no extra cream dog appearing in the background. Story beat: Jjiroo calmly climbs out of the river by himself. Approved target pose: Jjiroo climbing out of the river by himself, dripping but calm Camera intent: gentle drift near the shoreline as Jjiroo climbs out Continuity notes: Keep the action minimal: wet paw steps, tiny drip motion, small body settle only. This scene exists only to lock self-rescue cleanly before the punchline. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.\n\nComposition: Preserve the exact uploaded original style and character silhouettes. Keep one Jjiroo only, one Jjonga only, and one readable Tancheon geography from path to river entry to climb-out bank.\n\nAVOID: text, subtitles, speech bubbles, letters, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, duplicate pet, extra dog, wings, broken anatomy, photorealism, 3d, injured ducks, drowning panic, blurry",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/keyframes/kf-07.jpg",
+    "duration": 2,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "seed": 422365
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/renders/picture/scene-07.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/renders/grok/scene-07.manifest.json"
+  }
+}

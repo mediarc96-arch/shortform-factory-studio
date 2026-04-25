@@ -1,0 +1,87 @@
+{
+  "_schema": "pet contents storyboard plan",
+  "_note": "Pilot package imported from uploaded stills. Treat generated_scenes as the approved storyboard cut bundle and preserve the original uploaded style exactly.",
+  "episode": {
+    "slug": "jjiroo-pilot-001",
+    "basis": "uploaded stills -> style lock -> keyframe lock -> sequential xAI scene-video generation",
+    "protagonist": "jjiroo",
+    "supportingPet": "jjonga",
+    "referenceMode": "reference-only",
+    "originalStyleBasis": "generated_scenes/*.png"
+  },
+  "provider": {
+    "preferred": "xai_grok",
+    "model": "grok-imagine-video",
+    "orchestrator": "local_pipeline"
+  },
+  "styleLockFile": "storyboard/style-lock.md",
+  "cutBundleRoot": "generated_scenes",
+  "format": {
+    "aspectRatio": "16:9",
+    "targetCutCount": 8
+  },
+  "globalPromptRules": {
+    "mustPreserve": [
+      "Preserve the exact original uploaded hand-drawn pastel 2D style from generated_scenes.",
+      "Keep Jjiroo cream-colored with droopy ears and a compact silhouette in every shot.",
+      "Keep Jjonga brown and visually distinct from Jjiroo whenever present.",
+      "Keep the same Tancheon geography from riverside walk to duck sighting to splash to climb-out bank."
+    ],
+    "forbid": [
+      "duplicate pet",
+      "extra dog",
+      "wings",
+      "extra limbs",
+      "wrong fur color",
+      "wrong ear shape",
+      "style drift",
+      "text",
+      "speech bubble",
+      "numbers",
+      "logos",
+      "watermarks"
+    ]
+  },
+  "cuts": [
+    {
+      "id": "cut-01",
+      "beat": "Bright walk setup with Jjiroo, Jjonga, and the mother on the Tancheon path.",
+      "outputPath": "generated_scenes/cut_01_walk.png"
+    },
+    {
+      "id": "cut-02",
+      "beat": "Jjiroo notices ducks and freezes with focused curiosity.",
+      "outputPath": "generated_scenes/cut_02_discovery.png"
+    },
+    {
+      "id": "cut-03",
+      "beat": "Jjiroo suddenly bolts free and the mother reacts too late.",
+      "outputPath": "generated_scenes/cut_03_breakaway.png"
+    },
+    {
+      "id": "cut-04",
+      "beat": "Jjiroo dives into the river after the ducks and the splash explodes upward.",
+      "outputPath": "generated_scenes/cut_04_splash.png"
+    },
+    {
+      "id": "cut-05",
+      "beat": "Jjiroo chases the ducks through the water with cute determination.",
+      "outputPath": "generated_scenes/cut_05_chase.png"
+    },
+    {
+      "id": "cut-06",
+      "beat": "The mother enters the river after Jjiroo, who is already farther ahead.",
+      "outputPath": "generated_scenes/cut_06_mother_chase.png"
+    },
+    {
+      "id": "cut-07",
+      "beat": "Jjiroo calmly climbs out of the river by himself.",
+      "outputPath": "generated_scenes/cut_07_self_rescue.png"
+    },
+    {
+      "id": "cut-08",
+      "beat": "Jjiroo gives the soaked mother an innocent puzzled look for the punchline.",
+      "outputPath": "generated_scenes/cut_08_punchline.png"
+    }
+  ]
+}

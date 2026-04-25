@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Use the uploaded mother-chase still as the exact visual anchor. Show exactly one drenched human mother and exactly one cream-colored Jjiroo in the river. No second dog body, no human turning into a dog, and no extra animal beyond the ducks. Story beat: The mother enters the river after Jjiroo, who is already farther ahead. Approved target pose: the mother splashing into the river while Jjiroo stays ahead of her Camera intent: three-quarter rear shot of the mother entering after Jjiroo Continuity notes: Prioritize cast identity lock over extra motion. Keep the shot short and controlled so mother and dog remain separate readable subjects. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.\n\nComposition: Preserve the exact uploaded original style and character silhouettes. Keep one Jjiroo only, one Jjonga only, and one readable Tancheon geography from path to river entry to climb-out bank.\n\nAVOID: text, subtitles, speech bubbles, letters, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, duplicate pet, extra dog, wings, broken anatomy, photorealism, 3d, injured ducks, drowning panic, blurry",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/keyframes/kf-06.jpg",
+    "duration": 2,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "seed": 422365
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/renders/picture/scene-06.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/renders/grok/scene-06.manifest.json"
+  }
+}

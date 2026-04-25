@@ -1,0 +1,151 @@
+{
+  "episode": {
+    "slug": "jjiroo-pilot-001",
+    "_refSourcePacket": "./source-packet.json",
+    "_refStoryboardPlan": "./storyboard/storyboard-plan.json",
+    "_refKeyframePlan": "./keyframe-plan.json"
+  },
+  "globalSettings": {
+    "formatProfile": "pet-contents-vertical-webtoon-v1",
+    "provider": "xai_grok",
+    "preferredProvider": "xai_grok",
+    "continuityTarget": "previous-scene-last-frame",
+    "sceneBoundaryRule": "scene-n final frame and scene-(n+1) opening frame must begin from the same state before motion continues",
+    "aspectRatio": "16:9",
+    "resolution": "1280x720",
+    "fps": 30,
+    "seed": 422365,
+    "styleLockFile": "storyboard/style-lock.md",
+    "style": "uploaded pet-webtoon stills, bright daytime Tancheon riverside, comic anecdote tone",
+    "characterReferenceBase": "generated_scenes/cut_01_walk.png",
+    "negativePromptCommon": "text, subtitles, speech bubbles, letters, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, duplicate pet, extra dog, wings, broken anatomy, photorealism, 3d, injured ducks, drowning panic, blurry",
+    "compositionRule": "Preserve the exact uploaded original style and character silhouettes. Keep one Jjiroo only, one Jjonga only, and one readable Tancheon geography from path to river entry to climb-out bank.",
+    "providerExpectations": {
+      "pictureStage": "Generate mute picture-only clips first.",
+      "continuityRule": "Scene-01 starts from keyframes/kf-01.jpg. Scene-02 through scene-08 start from the prior scene handoff frame and continue the same action state.",
+      "textRule": "Do not bake captions, labels, or readable text into generated frames."
+    }
+  },
+  "futureScenes": [
+    {
+      "sceneId": "scene-01",
+      "sourceCutId": "cut-01",
+      "durationSec": 2.4,
+      "startSeed": "keyframes/kf-01.jpg",
+      "targetPoseCard": "keyframes/kf-01.jpg",
+      "handoffLastFramePath": "assets/refs/scene-01-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-01.mp4",
+      "cameraIntent": "gentle opening push over the path and river edge",
+      "providerExpectation": "Open on a calm readable walk that locks the uploaded drawing style, both dogs, the mother, and the riverside geography immediately.",
+      "continuityNotes": [
+        "Keep Jjiroo and Jjonga visually distinct from the first frame.",
+        "Do not introduce any text or comic bubble from the prompt package."
+      ]
+    },
+    {
+      "sceneId": "scene-02",
+      "sourceCutId": "cut-02",
+      "durationSec": 2.2,
+      "startSeed": "assets/refs/scene-01-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-02.jpg",
+      "handoffLastFramePath": "assets/refs/scene-02-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-02.mp4",
+      "cameraIntent": "slow push-in on Jjiroo locking onto the ducks",
+      "providerExpectation": "Shift from casual walk to focused curiosity without changing art style, pet proportions, or geography.",
+      "continuityNotes": [
+        "Start from the exact walk state reached in scene-01.",
+        "Ducks should appear at the same bank area they later flee from."
+      ]
+    },
+    {
+      "sceneId": "scene-03",
+      "sourceCutId": "cut-03",
+      "durationSec": 1.8,
+      "startSeed": "assets/refs/scene-02-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-03.jpg",
+      "handoffLastFramePath": "assets/refs/scene-03-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-03.mp4",
+      "cameraIntent": "fast low-angle pan following Jjiroo's sudden launch",
+      "providerExpectation": "Make the breakaway feel explosive but keep only one Jjiroo in frame and preserve the uploaded original style.",
+      "continuityNotes": [
+        "Mother reacts behind Jjiroo instead of overtaking the shot.",
+        "Jjonga stays secondary and should not duplicate the protagonist silhouette."
+      ]
+    },
+    {
+      "sceneId": "scene-04",
+      "sourceCutId": "cut-04",
+      "durationSec": 1.6,
+      "startSeed": "assets/refs/scene-03-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-04.jpg",
+      "handoffLastFramePath": "assets/refs/scene-04-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-04.mp4",
+      "cameraIntent": "forward tracking plunge into the river splash",
+      "providerExpectation": "Carry the launch straight into the water entry with a comic splash, not a dangerous panic beat.",
+      "continuityNotes": [
+        "The opening frame must match the end of scene-03 before the plunge continues.",
+        "Keep the same bank edge and duck escape direction."
+      ]
+    },
+    {
+      "sceneId": "scene-05",
+      "sourceCutId": "cut-05",
+      "durationSec": 2.4,
+      "startSeed": "assets/refs/scene-04-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-05.jpg",
+      "handoffLastFramePath": "assets/refs/scene-05-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-05.mp4",
+      "cameraIntent": "medium-wide side tracking shot parallel to the water",
+      "providerExpectation": "Show cute determined swimming with the ducks staying just out of reach, without any predator-prey violence.",
+      "continuityNotes": [
+        "Keep Jjiroo's identity exact and stable in the water.",
+        "Water motion can increase, but not at the cost of style drift."
+      ]
+    },
+    {
+      "sceneId": "scene-06",
+      "sourceCutId": "cut-06",
+      "durationSec": 2.2,
+      "startSeed": "keyframes/kf-06.jpg",
+      "targetPoseCard": "keyframes/kf-06.jpg",
+      "handoffLastFramePath": "assets/refs/scene-06-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-06.mp4",
+      "cameraIntent": "three-quarter rear shot of the mother entering after Jjiroo",
+      "providerExpectation": "Use the uploaded mother-chase still as the exact visual anchor. Show exactly one drenched human mother and exactly one cream-colored Jjiroo in the river. No second dog body, no human turning into a dog, and no extra animal beyond the ducks.",
+      "continuityNotes": [
+        "Prioritize cast identity lock over extra motion.",
+        "Keep the shot short and controlled so mother and dog remain separate readable subjects."
+      ]
+    },
+    {
+      "sceneId": "scene-07",
+      "sourceCutId": "cut-07",
+      "durationSec": 1.8,
+      "startSeed": "keyframes/kf-07.jpg",
+      "targetPoseCard": "keyframes/kf-07.jpg",
+      "handoffLastFramePath": "assets/refs/scene-07-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-07.mp4",
+      "cameraIntent": "gentle drift near the shoreline as Jjiroo climbs out",
+      "providerExpectation": "Use the uploaded self-rescue still as the exact visual anchor. Show exactly one Jjiroo only. No human body in frame, no duplicate dog, and no extra cream dog appearing in the background.",
+      "continuityNotes": [
+        "Keep the action minimal: wet paw steps, tiny drip motion, small body settle only.",
+        "This scene exists only to lock self-rescue cleanly before the punchline."
+      ]
+    },
+    {
+      "sceneId": "scene-08",
+      "sourceCutId": "cut-08",
+      "durationSec": 2.2,
+      "startSeed": "keyframes/kf-08.jpg",
+      "targetPoseCard": "keyframes/kf-08.jpg",
+      "handoffLastFramePath": "assets/refs/scene-08-last-frame.jpg",
+      "outputClipPath": "renders/picture/scene-08.mp4",
+      "cameraIntent": "mostly locked comedy hold with a tiny head tilt",
+      "providerExpectation": "Use the uploaded punchline still as the exact visual anchor. Keep exactly one drenched human mother on the left and exactly one cream-colored Jjiroo on the right. No duplicate dog, no extra body, and no human-to-dog drift.",
+      "continuityNotes": [
+        "Use only minimal motion so the expression and joke stay readable.",
+        "Preserve the mother-versus-dog role split exactly as drawn in the uploaded still."
+      ]
+    }
+  ]
+}

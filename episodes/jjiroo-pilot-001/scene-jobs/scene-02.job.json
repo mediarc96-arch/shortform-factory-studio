@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Shift from casual walk to focused curiosity without changing art style, pet proportions, or geography. Story beat: Jjiroo notices ducks and freezes with focused curiosity. Approved target pose: Jjiroo freezing and focusing on ducks near the riverbank while the world remains calm for a beat Camera intent: slow push-in on Jjiroo locking onto the ducks Continuity notes: Start from the exact walk state reached in scene-01. Ducks should appear at the same bank area they later flee from. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.\n\nComposition: Preserve the exact uploaded original style and character silhouettes. Keep one Jjiroo only, one Jjonga only, and one readable Tancheon geography from path to river entry to climb-out bank.\n\nAVOID: text, subtitles, speech bubbles, letters, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, duplicate pet, extra dog, wings, broken anatomy, photorealism, 3d, injured ducks, drowning panic, blurry",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/assets/refs/scene-01-last-frame.jpg",
+    "duration": 2,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "seed": 422365
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/renders/picture/scene-02.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-pilot-001/renders/grok/scene-02.manifest.json"
+  }
+}

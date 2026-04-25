@@ -1,0 +1,135 @@
+{
+  "_schema": "pet contents xai scene orchestration",
+  "globalSettings": {
+    "model": "grok-imagine-video",
+    "aspectRatio": "16:9",
+    "resolution": "1280x720",
+    "seed": 422365,
+    "compositionRule": "Preserve the exact uploaded original style and character silhouettes. Keep one Jjiroo only, one Jjonga only, and one readable Tancheon geography from path to river entry to climb-out bank.",
+    "negativePromptCommon": "text, subtitles, speech bubbles, letters, numbers, logos, watermarks, wrong pet identity, wrong fur color, wrong ear shape, extra limbs, duplicate pet, extra dog, wings, broken anatomy, photorealism, 3d, injured ducks, drowning panic, blurry"
+  },
+  "scenes": [
+    {
+      "sceneId": "scene-01",
+      "durationSec": 2.4,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Open on a calm readable walk that locks the uploaded drawing style, both dogs, the mother, and the riverside geography immediately. Story beat: Bright walk setup with Jjiroo, Jjonga, and the mother on the Tancheon path. Approved target pose: walk setup with Jjiroo, Jjonga, and the mother together on the bright Tancheon path Camera intent: gentle opening push over the path and river edge Continuity notes: Keep Jjiroo and Jjonga visually distinct from the first frame. Do not introduce any text or comic bubble from the prompt package. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "keyframes/kf-01.jpg"
+      ],
+      "outputPath": "renders/picture/scene-01.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-01-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-02",
+      "durationSec": 2.2,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Shift from casual walk to focused curiosity without changing art style, pet proportions, or geography. Story beat: Jjiroo notices ducks and freezes with focused curiosity. Approved target pose: Jjiroo freezing and focusing on ducks near the riverbank while the world remains calm for a beat Camera intent: slow push-in on Jjiroo locking onto the ducks Continuity notes: Start from the exact walk state reached in scene-01. Ducks should appear at the same bank area they later flee from. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-01-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-02.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-02-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-03",
+      "durationSec": 1.8,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Make the breakaway feel explosive but keep only one Jjiroo in frame and preserve the uploaded original style. Story beat: Jjiroo suddenly bolts free and the mother reacts too late. Approved target pose: Jjiroo bursting forward with the mother reacting behind and Jjonga staying secondary Camera intent: fast low-angle pan following Jjiroo's sudden launch Continuity notes: Mother reacts behind Jjiroo instead of overtaking the shot. Jjonga stays secondary and should not duplicate the protagonist silhouette. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-02-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-03.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-03-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-04",
+      "durationSec": 1.6,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Carry the launch straight into the water entry with a comic splash, not a dangerous panic beat. Story beat: Jjiroo dives into the river after the ducks and the splash explodes upward. Approved target pose: Jjiroo diving into the river with a strong splash and ducks escaping ahead Camera intent: forward tracking plunge into the river splash Continuity notes: The opening frame must match the end of scene-03 before the plunge continues. Keep the same bank edge and duck escape direction. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-03-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-04.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-04-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-05",
+      "durationSec": 2.4,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Show cute determined swimming with the ducks staying just out of reach, without any predator-prey violence. Story beat: Jjiroo chases the ducks through the water with cute determination. Approved target pose: Jjiroo paddling quickly through the water with ducks still out of reach Camera intent: medium-wide side tracking shot parallel to the water Continuity notes: Keep Jjiroo's identity exact and stable in the water. Water motion can increase, but not at the cost of style drift. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-04-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-05.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-05-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-06",
+      "durationSec": 2.2,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Use the uploaded mother-chase still as the exact visual anchor. Show exactly one drenched human mother and exactly one cream-colored Jjiroo in the river. No second dog body, no human turning into a dog, and no extra animal beyond the ducks. Story beat: The mother enters the river after Jjiroo, who is already farther ahead. Approved target pose: the mother splashing into the river while Jjiroo stays ahead of her Camera intent: three-quarter rear shot of the mother entering after Jjiroo Continuity notes: Prioritize cast identity lock over extra motion. Keep the shot short and controlled so mother and dog remain separate readable subjects. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "keyframes/kf-06.jpg"
+      ],
+      "outputPath": "renders/picture/scene-06.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-06-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-07",
+      "durationSec": 1.8,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Use the uploaded self-rescue still as the exact visual anchor. Show exactly one Jjiroo only. No human body in frame, no duplicate dog, and no extra cream dog appearing in the background. Story beat: Jjiroo calmly climbs out of the river by himself. Approved target pose: Jjiroo climbing out of the river by himself, dripping but calm Camera intent: gentle drift near the shoreline as Jjiroo climbs out Continuity notes: Keep the action minimal: wet paw steps, tiny drip motion, small body settle only. This scene exists only to lock self-rescue cleanly before the punchline. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "keyframes/kf-07.jpg"
+      ],
+      "outputPath": "renders/picture/scene-07.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-07-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-08",
+      "durationSec": 2.2,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Use the uploaded punchline still as the exact visual anchor. Keep exactly one drenched human mother on the left and exactly one cream-colored Jjiroo on the right. No duplicate dog, no extra body, and no human-to-dog drift. Story beat: Jjiroo gives the soaked mother an innocent puzzled look for the punchline. Approved target pose: Jjiroo on shore giving the soaked mother a puzzled innocent final look Camera intent: mostly locked comedy hold with a tiny head tilt Continuity notes: Use only minimal motion so the expression and joke stay readable. Preserve the mother-versus-dog role split exactly as drawn in the uploaded still. Style lock: Use the uploaded stills in `generated_scenes/` as the canonical visual basis. Preserve the exact original uploaded drawing style. Do not reinterpret into a prettier, more realistic, more cinematic, or more painterly style. Horizontal 16:9 storytelling frame. Hand-drawn pastel 2D illustration. Rough grainy black pencil outline. Soft flat low-saturation pastel colors. Non-photorealistic, non-3D, storybook finish. Bright daytime Tancheon riverside atmosphere. Jjiroo is the protagonist. Jjiroo must stay cream to light beige, with droopy ears, dot eyes, short muzzle, short legs, and a small rounded No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "keyframes/kf-08.jpg"
+      ],
+      "outputPath": "renders/picture/scene-08.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-08-last-frame.jpg"
+      }
+    }
+  ],
+  "executionOrder": [
+    "generate-scene-01",
+    "extract-scene-01-last-frame",
+    "generate-scene-02",
+    "extract-scene-02-last-frame",
+    "generate-scene-03",
+    "extract-scene-03-last-frame",
+    "generate-scene-04",
+    "extract-scene-04-last-frame",
+    "generate-scene-05",
+    "extract-scene-05-last-frame",
+    "generate-scene-06",
+    "extract-scene-06-last-frame",
+    "generate-scene-07",
+    "extract-scene-07-last-frame",
+    "generate-scene-08",
+    "extract-scene-08-last-frame"
+  ]
+}

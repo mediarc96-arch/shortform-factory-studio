@@ -1,0 +1,80 @@
+{
+  "_schema": "pet contents keyframe plan",
+  "_note": "Each uploaded still becomes the approved keyframe anchor for one scene. Later scenes must begin from the previous scene's last frame without a style reset.",
+  "episode": {
+    "slug": "jjiroo-pilot-001",
+    "basis": "uploaded still lock -> motion-ready keyframes -> sequential scene-video generation"
+  },
+  "styleLockFile": "storyboard/style-lock.md",
+  "storyboardPlanFile": "storyboard/storyboard-plan.json",
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1280x720",
+    "targetDurationSec": 19.2,
+    "targetSceneCount": 8
+  },
+  "continuityRules": {
+    "entryFrameRule": "scene-01 starts from the uploaded anchor still; later scenes start from the previous scene's final frame state",
+    "boundaryRule": "scene-n final frame and scene-(n+1) opening frame must be the same state before motion continues",
+    "identityRule": "Jjiroo, Jjonga, mother proportions, and riverside geography must stay unchanged across the episode",
+    "actionDriftFallback": "if sprinting, splash, or water chase beats drift identity, keep the motion shorter and more controlled rather than widening the action"
+  },
+  "keyframes": [
+    {
+      "id": "kf-01",
+      "futureSceneId": "scene-01",
+      "sourceCutId": "cut-01",
+      "pose": "walk setup with Jjiroo, Jjonga, and the mother together on the bright Tancheon path",
+      "outputPath": "keyframes/kf-01.jpg"
+    },
+    {
+      "id": "kf-02",
+      "futureSceneId": "scene-02",
+      "sourceCutId": "cut-02",
+      "pose": "Jjiroo freezing and focusing on ducks near the riverbank while the world remains calm for a beat",
+      "outputPath": "keyframes/kf-02.jpg"
+    },
+    {
+      "id": "kf-03",
+      "futureSceneId": "scene-03",
+      "sourceCutId": "cut-03",
+      "pose": "Jjiroo bursting forward with the mother reacting behind and Jjonga staying secondary",
+      "outputPath": "keyframes/kf-03.jpg"
+    },
+    {
+      "id": "kf-04",
+      "futureSceneId": "scene-04",
+      "sourceCutId": "cut-04",
+      "pose": "Jjiroo diving into the river with a strong splash and ducks escaping ahead",
+      "outputPath": "keyframes/kf-04.jpg"
+    },
+    {
+      "id": "kf-05",
+      "futureSceneId": "scene-05",
+      "sourceCutId": "cut-05",
+      "pose": "Jjiroo paddling quickly through the water with ducks still out of reach",
+      "outputPath": "keyframes/kf-05.jpg"
+    },
+    {
+      "id": "kf-06",
+      "futureSceneId": "scene-06",
+      "sourceCutId": "cut-06",
+      "pose": "the mother splashing into the river while Jjiroo stays ahead of her",
+      "outputPath": "keyframes/kf-06.jpg"
+    },
+    {
+      "id": "kf-07",
+      "futureSceneId": "scene-07",
+      "sourceCutId": "cut-07",
+      "pose": "Jjiroo climbing out of the river by himself, dripping but calm",
+      "outputPath": "keyframes/kf-07.jpg"
+    },
+    {
+      "id": "kf-08",
+      "futureSceneId": "scene-08",
+      "sourceCutId": "cut-08",
+      "pose": "Jjiroo on shore giving the soaked mother a puzzled innocent final look",
+      "outputPath": "keyframes/kf-08.jpg"
+    }
+  ]
+}

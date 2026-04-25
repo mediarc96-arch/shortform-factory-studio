@@ -1,0 +1,52 @@
+{
+  "_schema": "pet contents source packet",
+  "episode": {
+    "slug": "jjiroo-pilot-001",
+    "title": "찌루 탄천 오리 추격 파일럿"
+  },
+  "cast": {
+    "primaryPets": [
+      {
+        "slug": "jjiroo",
+        "name": "찌루",
+        "role": "protagonist",
+        "referenceFiles": [
+          "references/jjiroo.png",
+          "references/jjiroo_sit.png",
+          "references/jjiroo_laydown.png"
+        ]
+      }
+    ],
+    "supportingPets": [
+      {
+        "slug": "jjonga",
+        "name": "쫑아",
+        "role": "supporting pet",
+        "referenceFiles": [
+          "references/jjonga.png",
+          "references/jjonga_stand.png",
+          "references/jjonga_laydown.png"
+        ]
+      }
+    ],
+    "humans": [
+      {
+        "name": "어머니",
+        "role": "guardian"
+      }
+    ]
+  },
+  "storyTruth": {
+    "setup": "날씨 좋은 날 탄천에서 어머니, 찌루, 쫑아가 산책을 한다.",
+    "trigger": "찌루가 강가 근처 오리들을 보고 집중한다.",
+    "escalation": "찌루가 갑자기 튀어나가고 결국 강으로 뛰어들어 오리를 쫓는다.",
+    "climax": "어머니도 강으로 들어가 찌루를 쫓지만 찌루가 더 빠르게 움직인다.",
+    "ending": "찌루는 스스로 강가로 올라와 젖은 어머니를 태연하게 본다."
+  },
+  "productionPolicy": {
+    "formatProfile": "pet-contents-vertical-webtoon-v1",
+    "productionMode": "reference-only",
+    "textInGeneration": "forbidden",
+    "styleSourceOfTruth": "uploaded generated_scenes stills and references in this episode folder"
+  }
+}
