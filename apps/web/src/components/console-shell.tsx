@@ -126,6 +126,8 @@ type ClientRevisionRequestResponse = {
   updated_at: string;
 };
 
+type RevisionFilter = "open" | "blocked" | "resolved" | "all";
+
 type DeliveryFileView = {
   kind: string;
   name: string;
@@ -788,6 +790,7 @@ function DeliveryScreen({
   const [readiness, setReadiness] = useState<DeliveryReadinessResponse | null>(null);
   const [auditLogs, setAuditLogs] = useState<AuditLogResponse[]>([]);
   const [revisionRequests, setRevisionRequests] = useState<ClientRevisionRequestResponse[]>([]);
+  const [revisionFilter, setRevisionFilter] = useState<RevisionFilter>("open");
   const [tokensLoaded, setTokensLoaded] = useState(false);
   const [isTokensLoading, setIsTokensLoading] = useState(false);
   const [isDeliveryMetaLoading, setIsDeliveryMetaLoading] = useState(false);
@@ -834,6 +837,19 @@ function DeliveryScreen({
       })
       .slice(0, 5);
   }, [auditLogs, episodeSlug, selectedTokens]);
+  const revisionCounts = useMemo(
+    () => ({
+      all: revisionRequests.length,
+      open: revisionRequests.filter((request) => request.status !== "resolved").length,
+      blocked: revisionRequests.filter((request) => request.status === "blocked").length,
+      resolved: revisionRequests.filter((request) => request.status === "resolved").length
+    }),
+    [revisionRequests]
+  );
+  const filteredRevisionRequests = useMemo(
+    () => revisionRequests.filter((request) => matchesRevisionFilter(request, revisionFilter)),
+    [revisionFilter, revisionRequests]
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -1103,6 +1119,38 @@ function DeliveryScreen({
             ) : null}
           </Panel>
           <Panel
+            title={delivery.revisionQueue}
+            meta={`${revisionCounts.open} ${delivery.revisionQueueMeta}`}
+          >
+            <div className="revision-toolbar">
+              {([
+                ["open", `${delivery.revisionFilterOpen} ${revisionCounts.open}`],
+                ["blocked", `${delivery.revisionFilterBlocked} ${revisionCounts.blocked}`],
+                ["resolved", `${delivery.revisionFilterResolved} ${revisionCounts.resolved}`],
+                ["all", `${delivery.revisionFilterAll} ${revisionCounts.all}`]
+              ] as [RevisionFilter, string][]).map(([filter, label]) => (
+                <button
+                  className={revisionFilter === filter ? "active" : ""}
+                  key={filter}
+                  onClick={() => setRevisionFilter(filter)}
+                  type="button"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="revision-list">
+              {filteredRevisionRequests.slice(0, 6).map((request) => (
+                <RevisionRequestRow request={request} key={request.id} />
+              ))}
+              {filteredRevisionRequests.length === 0 ? (
+                <p className="empty-state">
+                  {isDeliveryMetaLoading ? delivery.loadingDeliveryMeta : delivery.noRevisions}
+                </p>
+              ) : null}
+            </div>
+          </Panel>
+          <Panel
             title={delivery.tokenHistory}
             meta={isTokensLoading ? delivery.loadingTokens : `${tokenRows.length} ${delivery.tokens}`}
           >
@@ -1148,16 +1196,6 @@ function DeliveryScreen({
             </div>
           </Panel>
           <Panel title={delivery.audit} meta={delivery.readonly}>
-            {revisionRequests.slice(0, 4).map((request) => {
-              const revisionNote = buildRevisionNote(request);
-              return (
-                <Note
-                  title={revisionNote.title}
-                  text={revisionNote.text}
-                  key={request.id}
-                />
-              );
-            })}
             {visibleAuditLogs.map((entry) => (
               <Note
                 title={`${formatDateTime(entry.created_at)} · ${entry.action}`}
@@ -1165,7 +1203,7 @@ function DeliveryScreen({
                 key={entry.id}
               />
             ))}
-            {revisionRequests.length === 0 && visibleAuditLogs.length === 0 ? (
+            {visibleAuditLogs.length === 0 ? (
               <p className="empty-state">
                 {isDeliveryMetaLoading ? delivery.loadingDeliveryMeta : delivery.noAudit}
               </p>
@@ -1544,6 +1582,23 @@ function buildDeliveryFiles(episode: WorkspaceEpisode | undefined): DeliveryFile
   }));
 }
 
+function RevisionRequestRow({ request }: { request: ClientRevisionRequestResponse }) {
+  const revisionNote = buildRevisionNote(request);
+  const issueRef = request.paperclip_issue?.identifier ?? request.paperclip_issue_ref ?? "not linked";
+  return (
+    <div className="revision-row">
+      <div>
+        <strong>{revisionNote.title}</strong>
+        <span>{revisionNote.text}</span>
+      </div>
+      <div>
+        <span className={`badge ${revisionStatusTone(request.status)}`}>{request.status}</span>
+        <code>{issueRef}</code>
+      </div>
+    </div>
+  );
+}
+
 function buildRevisionNote(request: ClientRevisionRequestResponse) {
   const issue = request.paperclip_issue;
   const issueLabel = issue?.identifier ?? request.paperclip_issue_ref ?? request.status;
@@ -1563,6 +1618,29 @@ function buildRevisionNote(request: ClientRevisionRequestResponse) {
     title: `${formatDateTime(request.created_at)} · ${issueLabel}${paperclipStatus}`,
     text: parts.join(" / ")
   };
+}
+
+function matchesRevisionFilter(request: ClientRevisionRequestResponse, filter: RevisionFilter) {
+  if (filter === "all") {
+    return true;
+  }
+  if (filter === "open") {
+    return request.status !== "resolved";
+  }
+  return request.status === filter;
+}
+
+function revisionStatusTone(status: string) {
+  if (status === "resolved") {
+    return "ready";
+  }
+  if (status === "blocked") {
+    return "risk";
+  }
+  if (status === "in_progress") {
+    return "review";
+  }
+  return "";
 }
 
 function truncateText(value: string, maxLength: number) {

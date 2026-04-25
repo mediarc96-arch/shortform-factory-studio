@@ -35,6 +35,7 @@ shared/
 
 - [docs/REFERENCE_SHORTFORM_WORKFLOW.md](./docs/REFERENCE_SHORTFORM_WORKFLOW.md)
 - [docs/PAPERCLIP_ISSUE_OPERATIONS.md](./docs/PAPERCLIP_ISSUE_OPERATIONS.md)
+- [docs/SFS_CLIENT_REVISION_WORKFLOW.md](./docs/SFS_CLIENT_REVISION_WORKFLOW.md)
 - [docs/CHARACTER_BIBLE_TEMPLATE.md](./docs/CHARACTER_BIBLE_TEMPLATE.md)
 - [docs/EPISODE_PACKET_TEMPLATE.md](./docs/EPISODE_PACKET_TEMPLATE.md)
 - [docs/MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md](./docs/MALMOELAB_HANGUL_QUIZ_OPERATING_MODEL.md)
@@ -72,7 +73,8 @@ Implemented console actions:
 - public token delivery pages at `/delivery/<token>` for final video, thumbnail,
   review report, and publish metadata downloads, with expiry, revocation, and
   access-limit enforcement
-- public revision form length validation and a hidden spam trap field
+- public revision form length validation, hidden spam trap, and token/IP rate
+  limiting
 - optional Paperclip issue handoff when `SFS_PAPERCLIP_COMPANY_ID` and a valid
   `SFS_PAPERCLIP_API_TOKEN` are configured
 

@@ -824,6 +824,76 @@ h1 {
   line-height: 1.45;
 }
 
+.revision-toolbar {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+}
+
+.revision-toolbar button {
+  min-height: 30px;
+  padding: 0 9px;
+  color: var(--muted);
+  background: #171b1c;
+  border-color: var(--line);
+  font-size: 11px;
+}
+
+.revision-toolbar button.active {
+  color: var(--text);
+  background: #202526;
+  border-color: #4b5658;
+}
+
+.revision-list {
+  display: grid;
+  gap: 8px;
+}
+
+.revision-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(112px, auto);
+  gap: 10px;
+  align-items: start;
+  min-height: 58px;
+  padding: 10px;
+  background: #171b1c;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.revision-row strong,
+.revision-row span,
+.revision-row code {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.revision-row strong {
+  font-size: 12px;
+}
+
+.revision-row span {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.revision-row > div:last-child {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+}
+
+.revision-row code {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-align: right;
+}
+
 .timeline {
   display: grid;
   gap: 8px;
