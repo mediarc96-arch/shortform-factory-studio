@@ -1488,6 +1488,14 @@ h1 {
   grid-column: 1 / -1;
 }
 
+.delivery-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .delivery-result-panel {
   place-items: start;
   max-width: 560px;

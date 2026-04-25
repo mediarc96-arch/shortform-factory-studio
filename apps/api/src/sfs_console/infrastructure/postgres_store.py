@@ -78,12 +78,31 @@ CREATE TABLE IF NOT EXISTS client_revision_requests (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_status text;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_priority text;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_title text;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_updated_at text;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_latest_comment text;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_latest_comment_at text;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_synced_at timestamptz;
+ALTER TABLE client_revision_requests
+  ADD COLUMN IF NOT EXISTS paperclip_sync_error text;
+
 CREATE INDEX IF NOT EXISTS idx_client_revision_requests_created_at
   ON client_revision_requests (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_client_revision_requests_episode_slug
   ON client_revision_requests (episode_slug);
 CREATE INDEX IF NOT EXISTS idx_client_revision_requests_token_id
   ON client_revision_requests (token_id);
+CREATE INDEX IF NOT EXISTS idx_client_revision_requests_paperclip_status
+  ON client_revision_requests (paperclip_status);
 
 CREATE TABLE IF NOT EXISTS audit_logs (
   id text PRIMARY KEY,
@@ -319,6 +338,51 @@ class PostgresSfsStore:
         )
         return _client_revision_request_from_row(row)
 
+    def sync_client_revision_paperclip_state(
+        self,
+        *,
+        request_id: str,
+        status: str,
+        paperclip_status: str | None,
+        paperclip_priority: str | None,
+        paperclip_title: str | None,
+        paperclip_updated_at: str | None,
+        paperclip_latest_comment: str | None,
+        paperclip_latest_comment_at: str | None,
+        paperclip_sync_error: str | None,
+    ) -> ClientRevisionRequestRecord:
+        row = self._fetchone(
+            """
+            UPDATE client_revision_requests
+            SET status = %s,
+                paperclip_status = %s,
+                paperclip_priority = %s,
+                paperclip_title = %s,
+                paperclip_updated_at = %s,
+                paperclip_latest_comment = %s,
+                paperclip_latest_comment_at = %s,
+                paperclip_synced_at = %s,
+                paperclip_sync_error = %s,
+                updated_at = %s
+            WHERE id = %s
+            RETURNING *
+            """,
+            (
+                status,
+                paperclip_status,
+                paperclip_priority,
+                paperclip_title,
+                paperclip_updated_at,
+                paperclip_latest_comment,
+                paperclip_latest_comment_at,
+                utc_now(),
+                paperclip_sync_error,
+                utc_now(),
+                request_id,
+            ),
+        )
+        return _client_revision_request_from_row(row)
+
     def append_audit_log(
         self,
         *,
@@ -439,6 +503,14 @@ def _client_revision_request_from_row(row: dict[str, Any]) -> ClientRevisionRequ
         paperclip_issue_ref=row["paperclip_issue_ref"],
         created_at=row["created_at"],
         updated_at=row["updated_at"],
+        paperclip_status=row.get("paperclip_status"),
+        paperclip_priority=row.get("paperclip_priority"),
+        paperclip_title=row.get("paperclip_title"),
+        paperclip_updated_at=row.get("paperclip_updated_at"),
+        paperclip_latest_comment=row.get("paperclip_latest_comment"),
+        paperclip_latest_comment_at=row.get("paperclip_latest_comment_at"),
+        paperclip_synced_at=row.get("paperclip_synced_at"),
+        paperclip_sync_error=row.get("paperclip_sync_error"),
     )
 
 

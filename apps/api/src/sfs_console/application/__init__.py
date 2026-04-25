@@ -14,6 +14,7 @@ from .use_cases import (
     PaperclipIssueSync,
     SyncClientRevisionRequestPaperclip,
     ValidateDeliveryReadiness,
+    client_revision_status_from_paperclip,
 )
 
 __all__ = [
@@ -32,4 +33,5 @@ __all__ = [
     "PaperclipIssueSync",
     "SyncClientRevisionRequestPaperclip",
     "ValidateDeliveryReadiness",
+    "client_revision_status_from_paperclip",
 ]

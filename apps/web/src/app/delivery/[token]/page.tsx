@@ -66,23 +66,33 @@ export default async function PublicDeliveryPage({
           <div className="delivery-form-grid">
             <label>
               이름
-              <input name="requester_name" placeholder="Client" />
+              <input maxLength={120} name="requester_name" placeholder="Client" />
             </label>
             <label>
               이메일
-              <input name="requester_email" placeholder="client@example.com" type="email" />
+              <input
+                maxLength={254}
+                name="requester_email"
+                placeholder="client@example.com"
+                type="email"
+              />
             </label>
             <label className="wide">
               타임스탬프
-              <input name="timestamp" placeholder="예: 00:12 - 오프닝 컷" />
+              <input maxLength={120} name="timestamp" placeholder="예: 00:12 - 오프닝 컷" />
             </label>
             <label className="wide">
               요청 내용
               <textarea
+                maxLength={3000}
                 name="message"
                 placeholder="수정할 장면, 원하는 방향, 기준 파일을 적어주세요."
                 required
               />
+            </label>
+            <label className="delivery-honeypot">
+              Company
+              <input autoComplete="off" name="company" tabIndex={-1} />
             </label>
           </div>
           <button className="primary" type="submit">

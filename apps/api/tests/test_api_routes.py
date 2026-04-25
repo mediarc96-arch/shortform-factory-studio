@@ -372,11 +372,64 @@ class ApiRoutesTest(unittest.TestCase):
             self.assertEqual(revisions.status_code, 200)
             paperclip_issue = revisions.json()[0]["paperclip_issue"]
             self.assertEqual(revisions.json()[0]["paperclip_issue_ref"], "SHO-900")
+            self.assertEqual(revisions.json()[0]["status"], "in_progress")
+            self.assertEqual(revisions.json()[0]["paperclip_status"], "in_progress")
+            self.assertEqual(
+                revisions.json()[0]["paperclip_latest_comment"],
+                "Trim accepted; rendering a shorter pass.",
+            )
+            self.assertIsNotNone(revisions.json()[0]["paperclip_synced_at"])
             self.assertEqual(paperclip_issue["status"], "in_progress")
             self.assertEqual(
                 paperclip_issue["comments"][0]["body"],
                 "Trim accepted; rendering a shorter pass.",
             )
+
+            synced = client.post("/revision-requests/paperclip-sync?episode_slug=jjiroo-pilot-001")
+            self.assertEqual(synced.status_code, 200)
+            self.assertEqual(synced.json()[0]["status"], "in_progress")
+
+    def test_revision_request_rejects_invalid_public_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._write(root / "characters/jjiroo/bible.md", "# Jjiroo")
+            self._write(root / "characters/jjiroo/prompts.md", "# Prompts")
+            self._write(root / "characters/jjiroo/rights.md", "# Rights")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final.mp4", "")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final-thumb.jpg", "")
+            self._write(root / "episodes/jjiroo-pilot-001/review/review-report.md", "# Review")
+            self._write(root / "episodes/jjiroo-pilot-001/publish-packet.json", "{}")
+            client = TestClient(create_app(Settings(workspace_root=root)))
+
+            token_response = client.post(
+                "/deliveries/tokens",
+                json={
+                    "episode_slug": "jjiroo-pilot-001",
+                    "expires_in_hours": 24,
+                    "max_accesses": 2,
+                },
+            )
+            invalid_email = client.post(
+                f"/public/deliveries/{token_response.json()['token']}/revision-requests",
+                json={
+                    "requester_name": "Client",
+                    "requester_email": "not-an-email",
+                    "timestamp": "00:12",
+                    "message": "Please shorten the opening pause.",
+                },
+            )
+            long_message = client.post(
+                f"/public/deliveries/{token_response.json()['token']}/revision-requests",
+                json={
+                    "requester_name": "Client",
+                    "requester_email": "client@example.com",
+                    "timestamp": "00:12",
+                    "message": "x" * 3001,
+                },
+            )
+
+            self.assertEqual(invalid_email.status_code, 422)
+            self.assertEqual(long_message.status_code, 422)
 
     def test_delivery_token_access_limit_blocks_package(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

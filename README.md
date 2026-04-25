@@ -65,11 +65,14 @@ Implemented console actions:
 - delivery token issue/revoke with token hashes stored at rest
 - client revision requests from public delivery links, stored in Postgres and
   optionally handed off to Paperclip as issues
-- Paperclip status/comment sync for client revision requests when the Delivery
-  Room requests `include_paperclip=true`
+- Paperclip status/comment sync for client revision requests, including cached
+  status, latest comment, sync timestamp, and SFS workflow mapping
+- optional operator webhook notification for new client revisions when
+  `SFS_REVISION_NOTIFY_WEBHOOK_URL` is configured
 - public token delivery pages at `/delivery/<token>` for final video, thumbnail,
   review report, and publish metadata downloads, with expiry, revocation, and
   access-limit enforcement
+- public revision form length validation and a hidden spam trap field
 - optional Paperclip issue handoff when `SFS_PAPERCLIP_COMPANY_ID` and a valid
   `SFS_PAPERCLIP_API_TOKEN` are configured
 

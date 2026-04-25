@@ -383,6 +383,14 @@ class ClientRevisionRequestResponse(BaseModel):
     message: str
     status: str
     paperclip_issue_ref: str | None
+    paperclip_status: str | None = None
+    paperclip_priority: str | None = None
+    paperclip_title: str | None = None
+    paperclip_updated_at: str | None = None
+    paperclip_latest_comment: str | None = None
+    paperclip_latest_comment_at: str | None = None
+    paperclip_synced_at: str | None = None
+    paperclip_sync_error: str | None = None
     paperclip_issue: PaperclipIssueSyncResponse | None = None
     created_at: str
     updated_at: str
@@ -404,6 +412,18 @@ class ClientRevisionRequestResponse(BaseModel):
             message=record.message,
             status=record.status,
             paperclip_issue_ref=record.paperclip_issue_ref,
+            paperclip_status=record.paperclip_status,
+            paperclip_priority=record.paperclip_priority,
+            paperclip_title=record.paperclip_title,
+            paperclip_updated_at=record.paperclip_updated_at,
+            paperclip_latest_comment=record.paperclip_latest_comment,
+            paperclip_latest_comment_at=record.paperclip_latest_comment_at,
+            paperclip_synced_at=(
+                record.paperclip_synced_at.isoformat()
+                if record.paperclip_synced_at
+                else None
+            ),
+            paperclip_sync_error=record.paperclip_sync_error,
             paperclip_issue=(
                 PaperclipIssueSyncResponse.from_domain(paperclip_issue)
                 if paperclip_issue

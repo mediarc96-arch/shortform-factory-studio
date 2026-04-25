@@ -15,6 +15,7 @@ class Settings:
     paperclip_api_token: str | None = None
     paperclip_company_id: str | None = None
     paperclip_project_id: str | None = None
+    revision_notify_webhook_url: str | None = None
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -29,6 +30,7 @@ class Settings:
             paperclip_api_token=os.environ.get("PAPERCLIP_API_TOKEN"),
             paperclip_company_id=os.environ.get("PAPERCLIP_COMPANY_ID"),
             paperclip_project_id=os.environ.get("PAPERCLIP_PROJECT_ID"),
+            revision_notify_webhook_url=os.environ.get("SFS_REVISION_NOTIFY_WEBHOOK_URL"),
         )
 
 

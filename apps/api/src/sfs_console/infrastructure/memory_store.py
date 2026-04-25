@@ -194,6 +194,36 @@ class InMemorySfsStore:
         self._client_revision_requests[request_id] = updated
         return updated
 
+    def sync_client_revision_paperclip_state(
+        self,
+        *,
+        request_id: str,
+        status: str,
+        paperclip_status: str | None,
+        paperclip_priority: str | None,
+        paperclip_title: str | None,
+        paperclip_updated_at: str | None,
+        paperclip_latest_comment: str | None,
+        paperclip_latest_comment_at: str | None,
+        paperclip_sync_error: str | None,
+    ) -> ClientRevisionRequestRecord:
+        record = self._client_revision_requests[request_id]
+        updated = replace(
+            record,
+            status=status,
+            paperclip_status=paperclip_status,
+            paperclip_priority=paperclip_priority,
+            paperclip_title=paperclip_title,
+            paperclip_updated_at=paperclip_updated_at,
+            paperclip_latest_comment=paperclip_latest_comment,
+            paperclip_latest_comment_at=paperclip_latest_comment_at,
+            paperclip_synced_at=utc_now(),
+            paperclip_sync_error=paperclip_sync_error,
+            updated_at=utc_now(),
+        )
+        self._client_revision_requests[request_id] = updated
+        return updated
+
     def append_audit_log(
         self,
         *,

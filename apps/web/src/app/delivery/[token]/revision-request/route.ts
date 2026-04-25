@@ -9,6 +9,11 @@ type RouteContext = {
 export async function POST(request: NextRequest, context: RouteContext) {
   const { token } = await context.params;
   const formData = await request.formData();
+  const spamTrap = String(formData.get("company") ?? "").trim();
+  if (spamTrap) {
+    return redirectToResult(request, token, true);
+  }
+
   const payload = {
     requester_name: String(formData.get("requester_name") ?? ""),
     requester_email: String(formData.get("requester_email") ?? ""),
@@ -36,6 +41,10 @@ export async function POST(request: NextRequest, context: RouteContext) {
     sent = false;
   }
 
+  return redirectToResult(request, token, sent);
+}
+
+function redirectToResult(request: NextRequest, token: string, sent: boolean) {
   const redirectUrl = buildPublicUrl(
     `/delivery/${encodeURIComponent(token)}/revision`,
     request.headers

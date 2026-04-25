@@ -9,21 +9,25 @@ from sfs_console.application import (
     CreateClientRevisionRequest,
     IssueDeliveryToken,
     ListWorkspaceSnapshot,
+    PaperclipIssueSync,
     RevokeDeliveryToken,
     ResolveDeliveryPackage,
     SaveProductionRequest,
     SendProductionRequestToPaperclip,
     SyncClientRevisionRequestPaperclip,
     ValidateDeliveryReadiness,
+    client_revision_status_from_paperclip,
 )
-from sfs_console.application.ports import PaperclipIssueClient
+from sfs_console.application.ports import PaperclipIssueClient, RevisionNotifier
 from sfs_console.config import Settings
+from sfs_console.domain import ClientRevisionRequestRecord, PaperclipIssueComment
 from sfs_console.infrastructure import (
     FileSystemCharacterWriter,
     FileSystemWorkspaceScanner,
     InMemorySfsStore,
     PaperclipIssueHttpClient,
     PostgresSfsStore,
+    WebhookRevisionNotifier,
 )
 from sfs_console.presentation.schemas import (
     AuditLogResponse,
@@ -52,6 +56,7 @@ def create_app(
     settings: Settings | None = None,
     store: InMemorySfsStore | PostgresSfsStore | None = None,
     paperclip_client: PaperclipIssueClient | None = None,
+    revision_notifier: RevisionNotifier | None = None,
 ) -> FastAPI:
     resolved_settings = settings or Settings.from_env()
     scanner = FileSystemWorkspaceScanner(resolved_settings.workspace_root)
@@ -63,20 +68,52 @@ def create_app(
         if paperclip_client is not None
         else _build_paperclip_client(resolved_settings)
     )
+    notifier = (
+        revision_notifier
+        if revision_notifier is not None
+        else _build_revision_notifier(resolved_settings)
+    )
 
     app = FastAPI(title="SFS Console API", version="0.1.0")
 
     def client_revision_response(
-        record,
+        record: ClientRevisionRequestRecord,
         *,
         include_paperclip: bool = False,
     ) -> ClientRevisionRequestResponse:
         paperclip_issue = None
         if include_paperclip and paperclip:
             paperclip_issue = SyncClientRevisionRequestPaperclip(paperclip).execute(record)
+            if paperclip_issue:
+                record = _persist_paperclip_sync(record, paperclip_issue)
         return ClientRevisionRequestResponse.from_domain(
             record,
             paperclip_issue=paperclip_issue,
+        )
+
+    def _persist_paperclip_sync(
+        record: ClientRevisionRequestRecord,
+        paperclip_issue: PaperclipIssueSync,
+    ) -> ClientRevisionRequestRecord:
+        latest_comment = paperclip_issue.comments[0] if paperclip_issue.comments else None
+        paperclip_status = paperclip_issue.issue.status if paperclip_issue.issue else None
+        next_status = (
+            record.status
+            if paperclip_issue.error
+            else client_revision_status_from_paperclip(paperclip_status, record.status)
+        )
+        return persistence.sync_client_revision_paperclip_state(
+            request_id=record.id,
+            status=next_status,
+            paperclip_status=paperclip_status,
+            paperclip_priority=paperclip_issue.issue.priority if paperclip_issue.issue else None,
+            paperclip_title=paperclip_issue.issue.title if paperclip_issue.issue else None,
+            paperclip_updated_at=(
+                paperclip_issue.issue.updated_at if paperclip_issue.issue else None
+            ),
+            paperclip_latest_comment=_comment_body(latest_comment),
+            paperclip_latest_comment_at=_comment_created_at(latest_comment),
+            paperclip_sync_error=paperclip_issue.error,
         )
 
     @app.get("/health", response_model=HealthResponse)
@@ -215,6 +252,20 @@ def create_app(
             for record in persistence.list_client_revision_requests(episode_slug=episode_slug)
         ]
 
+    @app.post(
+        "/revision-requests/paperclip-sync",
+        response_model=list[ClientRevisionRequestResponse],
+    )
+    def sync_revision_requests(
+        episode_slug: str | None = None,
+    ) -> list[ClientRevisionRequestResponse]:
+        if not paperclip:
+            raise HTTPException(status_code=503, detail="Paperclip integration is not configured")
+        return [
+            client_revision_response(record, include_paperclip=True)
+            for record in persistence.list_client_revision_requests(episode_slug=episode_slug)
+        ]
+
     @app.get("/public/deliveries/{token}", response_model=DeliveryPackageResponse)
     def public_delivery_package(token: str) -> DeliveryPackageResponse:
         try:
@@ -240,6 +291,7 @@ def create_app(
                 persistence,
                 persistence,
                 paperclip,
+                notifier,
             ).execute(token=token, draft=request.to_draft())
         except ValueError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
@@ -311,6 +363,20 @@ def _build_paperclip_client(settings: Settings) -> PaperclipIssueHttpClient | No
         company_id=settings.paperclip_company_id,
         project_id=settings.paperclip_project_id,
     )
+
+
+def _build_revision_notifier(settings: Settings) -> WebhookRevisionNotifier | None:
+    if not settings.revision_notify_webhook_url:
+        return None
+    return WebhookRevisionNotifier(settings.revision_notify_webhook_url)
+
+
+def _comment_body(comment: PaperclipIssueComment | None) -> str | None:
+    return comment.body if comment else None
+
+
+def _comment_created_at(comment: PaperclipIssueComment | None) -> str | None:
+    return comment.created_at if comment else None
 
 
 app = create_app()

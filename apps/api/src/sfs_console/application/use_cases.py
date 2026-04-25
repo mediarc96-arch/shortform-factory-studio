@@ -16,6 +16,7 @@ from sfs_console.application.ports import (
     DeliveryTokenStore,
     PaperclipIssueClient,
     ProductionRequestStore,
+    RevisionNotifier,
     WorkspaceScanner,
 )
 from sfs_console.domain import (
@@ -36,7 +37,12 @@ from sfs_console.domain.models import ProductionRequestType, utc_now
 
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$")
+EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 MEDIA_ACCESS_GRACE = timedelta(minutes=30)
+REVISION_REQUESTER_MAX_LENGTH = 120
+REVISION_EMAIL_MAX_LENGTH = 254
+REVISION_TIMESTAMP_MAX_LENGTH = 120
+REVISION_MESSAGE_MAX_LENGTH = 3000
 
 
 @dataclass(frozen=True)
@@ -81,6 +87,22 @@ class PaperclipIssueSync:
     issue: PaperclipIssueSummary | None
     comments: tuple[PaperclipIssueComment, ...]
     error: str | None = None
+
+
+def client_revision_status_from_paperclip(
+    paperclip_status: str | None,
+    fallback: str = "sent_to_paperclip",
+) -> str:
+    status = (paperclip_status or "").strip().lower()
+    if status in {"done", "cancelled"}:
+        return "resolved"
+    if status in {"in_progress", "in_review"}:
+        return "in_progress"
+    if status == "blocked":
+        return "blocked"
+    if status in {"backlog", "todo"}:
+        return "sent_to_paperclip"
+    return fallback
 
 
 class ListWorkspaceSnapshot:
@@ -389,17 +411,36 @@ class CreateClientRevisionRequest:
         revision_store: ClientRevisionRequestStore,
         audit_log: AuditLogStore,
         paperclip: PaperclipIssueClient | None = None,
+        notifier: RevisionNotifier | None = None,
     ) -> None:
         self._token_store = token_store
         self._revision_store = revision_store
         self._audit_log = audit_log
         self._paperclip = paperclip
+        self._notifier = notifier
 
     def execute(self, *, token: str, draft: ClientRevisionRequestDraft) -> ClientRevisionRequestRecord:
         if not token.strip():
             raise ValueError("delivery token not found")
-        if not draft.message.strip():
-            raise ValueError("message is required")
+        requester_name = self._validate_text(
+            draft.requester_name,
+            field="requester_name",
+            max_length=REVISION_REQUESTER_MAX_LENGTH,
+            required=False,
+        ) or "Client"
+        requester_email = self._validate_email(draft.requester_email)
+        timestamp_note = self._validate_text(
+            draft.timestamp_note,
+            field="timestamp",
+            max_length=REVISION_TIMESTAMP_MAX_LENGTH,
+            required=False,
+        )
+        message = self._validate_text(
+            draft.message,
+            field="message",
+            max_length=REVISION_MESSAGE_MAX_LENGTH,
+            required=True,
+        )
 
         token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
         delivery_token = self._token_store.get_delivery_token_by_hash(token_hash)
@@ -413,10 +454,10 @@ class CreateClientRevisionRequest:
         record = self._revision_store.create_client_revision_request(
             token_id=delivery_token.id,
             episode_slug=delivery_token.episode_slug,
-            requester_name=draft.requester_name.strip() or "Client",
-            requester_email=draft.requester_email.strip(),
-            timestamp_note=draft.timestamp_note.strip(),
-            message=draft.message.strip(),
+            requester_name=requester_name,
+            requester_email=requester_email,
+            timestamp_note=timestamp_note,
+            message=message,
         )
         self._audit_log.append_audit_log(
             action="client_revision.created",
@@ -429,7 +470,47 @@ class CreateClientRevisionRequest:
             },
             actor="client",
         )
-        return self._send_to_paperclip(record)
+        updated = self._send_to_paperclip(record)
+        self._notify_client_revision_created(updated)
+        return updated
+
+    def _validate_text(
+        self,
+        value: str,
+        *,
+        field: str,
+        max_length: int,
+        required: bool,
+    ) -> str:
+        stripped = value.strip()
+        if required and not stripped:
+            raise ValueError(f"{field} is required")
+        if len(stripped) > max_length:
+            raise ValueError(f"{field} must be {max_length} characters or fewer")
+        return stripped
+
+    def _validate_email(self, value: str) -> str:
+        stripped = value.strip()
+        if len(stripped) > REVISION_EMAIL_MAX_LENGTH:
+            raise ValueError(
+                f"requester_email must be {REVISION_EMAIL_MAX_LENGTH} characters or fewer"
+            )
+        if stripped and not EMAIL_PATTERN.match(stripped):
+            raise ValueError("requester_email must be a valid email address")
+        return stripped
+
+    def _notify_client_revision_created(self, record: ClientRevisionRequestRecord) -> None:
+        if not self._notifier:
+            return
+        try:
+            self._notifier.notify_client_revision_created(record)
+        except ValueError as error:
+            self._audit_log.append_audit_log(
+                action="client_revision.notification_failed",
+                entity_type="client_revision_request",
+                entity_id=record.id,
+                payload={"episode_slug": record.episode_slug, "error": str(error)},
+            )
 
     def _send_to_paperclip(
         self,

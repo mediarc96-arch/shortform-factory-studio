@@ -124,6 +124,26 @@ class ClientRevisionRequestStore(Protocol):
     ) -> ClientRevisionRequestRecord:
         """Attach a Paperclip issue reference to a client revision request."""
 
+    def sync_client_revision_paperclip_state(
+        self,
+        *,
+        request_id: str,
+        status: str,
+        paperclip_status: str | None,
+        paperclip_priority: str | None,
+        paperclip_title: str | None,
+        paperclip_updated_at: str | None,
+        paperclip_latest_comment: str | None,
+        paperclip_latest_comment_at: str | None,
+        paperclip_sync_error: str | None,
+    ) -> ClientRevisionRequestRecord:
+        """Persist the latest Paperclip read model for a client revision request."""
+
+
+class RevisionNotifier(Protocol):
+    def notify_client_revision_created(self, record: ClientRevisionRequestRecord) -> None:
+        """Notify operators that a client submitted a revision request."""
+
 
 class CharacterWriter(Protocol):
     def create_template(

@@ -160,6 +160,14 @@ class ClientRevisionRequestRecord:
     paperclip_issue_ref: str | None
     created_at: datetime
     updated_at: datetime
+    paperclip_status: str | None = None
+    paperclip_priority: str | None = None
+    paperclip_title: str | None = None
+    paperclip_updated_at: str | None = None
+    paperclip_latest_comment: str | None = None
+    paperclip_latest_comment_at: str | None = None
+    paperclip_synced_at: datetime | None = None
+    paperclip_sync_error: str | None = None
 
 
 @dataclass(frozen=True)

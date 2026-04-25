@@ -98,6 +98,14 @@ type ClientRevisionRequestResponse = {
   message: string;
   status: string;
   paperclip_issue_ref: string | null;
+  paperclip_status: string | null;
+  paperclip_priority: string | null;
+  paperclip_title: string | null;
+  paperclip_updated_at: string | null;
+  paperclip_latest_comment: string | null;
+  paperclip_latest_comment_at: string | null;
+  paperclip_synced_at: string | null;
+  paperclip_sync_error: string | null;
   paperclip_issue: {
     ref: string;
     id: string | null;
@@ -952,6 +960,24 @@ function DeliveryScreen({
     });
   };
 
+  const syncPaperclip = () => {
+    if (!episodeSlug) {
+      return;
+    }
+    startTransition(async () => {
+      const result = await postJson<ClientRevisionRequestResponse[]>(
+        `/api/sfs/revision-requests/paperclip-sync?episode_slug=${encodeURIComponent(episodeSlug)}`,
+        {}
+      );
+      if (!result.ok) {
+        setAction({ tone: "risk", message: result.error });
+        return;
+      }
+      setRevisionRequests(result.data);
+      setAction({ tone: "good", message: `Paperclip synced for ${episodeSlug}.` });
+    });
+  };
+
   return (
     <section>
       <ScreenHeader
@@ -960,6 +986,13 @@ function DeliveryScreen({
         subtitle={delivery.subtitle}
         actions={
           <>
+            <button
+              type="button"
+              onClick={syncPaperclip}
+              disabled={isPending || !episodeSlug}
+            >
+              Paperclip sync
+            </button>
             <button
               type="button"
               onClick={() => revokeToken()}
@@ -1514,12 +1547,16 @@ function buildDeliveryFiles(episode: WorkspaceEpisode | undefined): DeliveryFile
 function buildRevisionNote(request: ClientRevisionRequestResponse) {
   const issue = request.paperclip_issue;
   const issueLabel = issue?.identifier ?? request.paperclip_issue_ref ?? request.status;
-  const paperclipStatus = issue?.status ? ` · ${issue.status}` : "";
-  const latestComment = issue?.comments[0]?.body;
+  const issueStatus = issue?.status ?? request.paperclip_status;
+  const paperclipStatus = issueStatus ? ` · ${issueStatus}` : "";
+  const latestComment = issue?.comments[0]?.body ?? request.paperclip_latest_comment;
+  const syncError = issue?.error ?? request.paperclip_sync_error;
   const parts = [
     `${request.timestamp ? `${request.timestamp} · ` : ""}${request.message}`,
+    `SFS: ${request.status}`,
     latestComment ? `Paperclip: ${truncateText(latestComment, 150)}` : "",
-    issue?.error ? `Paperclip sync failed: ${issue.error}` : ""
+    request.paperclip_synced_at ? `Synced: ${formatDateTime(request.paperclip_synced_at)}` : "",
+    syncError ? `Paperclip sync failed: ${syncError}` : ""
   ].filter(Boolean);
 
   return {
