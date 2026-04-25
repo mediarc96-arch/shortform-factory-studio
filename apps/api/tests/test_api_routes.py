@@ -267,11 +267,53 @@ class ApiRoutesTest(unittest.TestCase):
 
             self.assertEqual(response.status_code, 200)
             first = client.get(f"/public/deliveries/{response.json()['token']}")
+            asset = client.get(f"/public/deliveries/{response.json()['token']}/files/final_video")
             second = client.get(f"/public/deliveries/{response.json()['token']}")
 
             self.assertEqual(first.status_code, 200)
             self.assertEqual(first.json()["access_count"], 1)
+            self.assertEqual(asset.status_code, 200)
             self.assertEqual(second.status_code, 404)
+            audit = client.get("/audit-logs")
+            self.assertIn(
+                "delivery_asset.requested",
+                {entry["action"] for entry in audit.json()},
+            )
+
+    def test_delivery_asset_direct_access_consumes_limit_and_blocks_new_package(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._write(root / "characters/jjiroo/bible.md", "# Jjiroo")
+            self._write(root / "characters/jjiroo/prompts.md", "# Prompts")
+            self._write(root / "characters/jjiroo/rights.md", "# Rights")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final.mp4", "")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final-thumb.jpg", "")
+            self._write(root / "episodes/jjiroo-pilot-001/review/review-report.md", "# Review")
+            self._write(root / "episodes/jjiroo-pilot-001/publish-packet.json", "{}")
+            client = TestClient(create_app(Settings(workspace_root=root)))
+
+            response = client.post(
+                "/deliveries/tokens",
+                json={"episode_slug": "jjiroo-pilot-001", "expires_in_hours": 24, "max_accesses": 1},
+            )
+
+            self.assertEqual(response.status_code, 200)
+            asset = client.get(f"/public/deliveries/{response.json()['token']}/files/final_video")
+            package = client.get(f"/public/deliveries/{response.json()['token']}")
+            tokens = client.get("/deliveries/tokens")
+            audit = client.get("/audit-logs")
+
+            self.assertEqual(asset.status_code, 200)
+            self.assertEqual(package.status_code, 404)
+            self.assertEqual(tokens.json()[0]["access_count"], 1)
+            self.assertIn(
+                "delivery_token.accessed",
+                {entry["action"] for entry in audit.json()},
+            )
+            self.assertIn(
+                "delivery_asset.requested",
+                {entry["action"] for entry in audit.json()},
+            )
 
     def test_ops_health_route_reports_components(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

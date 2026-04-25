@@ -185,7 +185,10 @@ def create_app(
     @app.get("/public/deliveries/{token}", response_model=DeliveryPackageResponse)
     def public_delivery_package(token: str) -> DeliveryPackageResponse:
         try:
-            package = ResolveDeliveryPackage(scanner, persistence).execute(token, record_access=True)
+            package = ResolveDeliveryPackage(scanner, persistence, persistence).execute(
+                token,
+                record_access=True,
+            )
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
         return DeliveryPackageResponse.from_domain(package, token=token)
@@ -193,7 +196,12 @@ def create_app(
     @app.get("/public/deliveries/{token}/files/{asset_key}")
     def public_delivery_asset(token: str, asset_key: str) -> FileResponse:
         try:
-            asset = ResolveDeliveryPackage(scanner, persistence).get_asset(token, asset_key)
+            asset = ResolveDeliveryPackage(scanner, persistence, persistence).get_asset(
+                token,
+                asset_key,
+                record_access=True,
+                allow_recent_media_access=True,
+            )
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
         return FileResponse(

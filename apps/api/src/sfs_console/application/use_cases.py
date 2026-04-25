@@ -32,6 +32,7 @@ from sfs_console.domain.models import ProductionRequestType, utc_now
 
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$")
+MEDIA_ACCESS_GRACE = timedelta(minutes=30)
 
 
 @dataclass(frozen=True)
@@ -362,11 +363,23 @@ class RevokeDeliveryToken:
 
 
 class ResolveDeliveryPackage:
-    def __init__(self, scanner: WorkspaceScanner, token_store: DeliveryTokenStore) -> None:
+    def __init__(
+        self,
+        scanner: WorkspaceScanner,
+        token_store: DeliveryTokenStore,
+        audit_log: AuditLogStore | None = None,
+    ) -> None:
         self._scanner = scanner
         self._token_store = token_store
+        self._audit_log = audit_log
 
-    def execute(self, token: str, *, record_access: bool = False) -> DeliveryPackage:
+    def execute(
+        self,
+        token: str,
+        *,
+        record_access: bool = False,
+        allow_recent_media_access: bool = False,
+    ) -> DeliveryPackage:
         if not token.strip():
             raise ValueError("delivery token not found")
 
@@ -374,13 +387,26 @@ class ResolveDeliveryPackage:
         record = self._token_store.get_delivery_token_by_hash(token_hash)
         if not record or record.status != "active" or record.expires_at <= utc_now():
             raise ValueError("delivery token not found")
+        access_limit_reached = record.access_count >= record.max_accesses
+        if access_limit_reached and not (
+            allow_recent_media_access and self._has_recent_media_access(record)
+        ):
+            raise ValueError("delivery token access limit reached")
         if record_access:
-            if record.access_count >= record.max_accesses:
-                raise ValueError("delivery token access limit reached")
-            accessed = self._token_store.mark_delivery_token_accessed(record.id)
-            if not accessed:
-                raise ValueError("delivery token not found")
-            record = accessed
+            if not access_limit_reached:
+                accessed = self._token_store.mark_delivery_token_accessed(record.id)
+                if not accessed:
+                    raise ValueError("delivery token not found")
+                record = accessed
+                self._append_audit(
+                    action="delivery_token.accessed",
+                    entity_id=record.id,
+                    payload={
+                        "episode_slug": record.episode_slug,
+                        "access_count": record.access_count,
+                        "max_accesses": record.max_accesses,
+                    },
+                )
 
         snapshot = self._scanner.scan()
         episode = next((item for item in snapshot.episodes if item.slug == record.episode_slug), None)
@@ -409,12 +435,55 @@ class ResolveDeliveryPackage:
             assets=assets,
         )
 
-    def get_asset(self, token: str, asset_key: str) -> DeliveryAsset:
-        package = self.execute(token)
+    def get_asset(
+        self,
+        token: str,
+        asset_key: str,
+        *,
+        record_access: bool = False,
+        allow_recent_media_access: bool = False,
+    ) -> DeliveryAsset:
+        package = self.execute(
+            token,
+            record_access=record_access,
+            allow_recent_media_access=allow_recent_media_access,
+        )
         asset = next((item for item in package.assets if item.key == asset_key), None)
         if not asset:
             raise ValueError("delivery asset not found")
+        self._append_audit(
+            action="delivery_asset.requested",
+            entity_id=package.token_id,
+            payload={
+                "episode_slug": package.episode_slug,
+                "asset_key": asset.key,
+                "filename": asset.path.name,
+                "access_count": package.access_count,
+                "max_accesses": package.max_accesses,
+            },
+        )
         return asset
+
+    def _has_recent_media_access(self, record: DeliveryTokenRecord) -> bool:
+        if not record.last_accessed_at:
+            return False
+        return utc_now() - record.last_accessed_at <= MEDIA_ACCESS_GRACE
+
+    def _append_audit(
+        self,
+        *,
+        action: str,
+        entity_id: str,
+        payload: dict[str, object],
+    ) -> None:
+        if not self._audit_log:
+            return
+        self._audit_log.append_audit_log(
+            action=action,
+            entity_type="delivery_token",
+            entity_id=entity_id,
+            payload=payload,
+        )
 
     def _asset(
         self,
