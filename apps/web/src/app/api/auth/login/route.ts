@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   AUTH_COOKIE_NAME,
+  buildPublicUrl,
   createSessionToken,
   getSessionMaxAgeSeconds,
   isAuthConfigured,
@@ -15,13 +16,13 @@ export async function POST(request: NextRequest) {
   const nextPath = normalizeNextPath(String(formData.get("next") ?? ""));
 
   if (!isAuthConfigured() || !isValidOperatorCredential(username, password)) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = buildPublicUrl("/login", request.headers);
     loginUrl.searchParams.set("error", "1");
     loginUrl.searchParams.set("next", nextPath);
     return NextResponse.redirect(loginUrl, { status: 303 });
   }
 
-  const response = NextResponse.redirect(new URL(nextPath, request.url), { status: 303 });
+  const response = NextResponse.redirect(buildPublicUrl(nextPath, request.headers), { status: 303 });
   response.cookies.set({
     name: AUTH_COOKIE_NAME,
     value: await createSessionToken(username),

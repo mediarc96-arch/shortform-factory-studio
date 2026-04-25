@@ -79,6 +79,19 @@ export function normalizeNextPath(value: string | null): string {
   return value;
 }
 
+export function buildPublicUrl(path: string, headers: Headers): URL {
+  const configuredOrigin = normalizeOrigin(process.env.SFS_PUBLIC_ORIGIN);
+  if (configuredOrigin) {
+    return new URL(path, configuredOrigin);
+  }
+
+  const forwardedHost = firstForwardedValue(headers.get("x-forwarded-host"));
+  const forwardedProto = firstForwardedValue(headers.get("x-forwarded-proto"));
+  const host = forwardedHost || headers.get("host") || "sfs.devscent.com";
+  const proto = forwardedProto || (isLocalHost(host) ? "http" : "https");
+  return new URL(path, `${proto}://${host}`);
+}
+
 async function sign(value: string): Promise<string> {
   const key = await importHmacKey();
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(value));
@@ -140,4 +153,23 @@ function base64UrlToBytes(value: string): Uint8Array<ArrayBuffer> {
     bytes[index] = binary.charCodeAt(index);
   }
   return bytes;
+}
+
+function normalizeOrigin(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return `${url.protocol}//${url.host}`;
+  } catch {
+    return null;
+  }
+}
+
+function firstForwardedValue(value: string | null): string | null {
+  return value?.split(",")[0]?.trim() || null;
+}
+
+function isLocalHost(host: string): boolean {
+  const hostname = host.split(":")[0];
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "0.0.0.0";
 }
