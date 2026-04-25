@@ -11,6 +11,8 @@ from .use_cases import (
     ResolveDeliveryPackage,
     SaveProductionRequest,
     SendProductionRequestToPaperclip,
+    PaperclipIssueSync,
+    SyncClientRevisionRequestPaperclip,
     ValidateDeliveryReadiness,
 )
 
@@ -27,5 +29,7 @@ __all__ = [
     "ResolveDeliveryPackage",
     "SaveProductionRequest",
     "SendProductionRequestToPaperclip",
+    "PaperclipIssueSync",
+    "SyncClientRevisionRequestPaperclip",
     "ValidateDeliveryReadiness",
 ]

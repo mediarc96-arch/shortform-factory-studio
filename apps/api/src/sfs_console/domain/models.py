@@ -163,6 +163,25 @@ class ClientRevisionRequestRecord:
 
 
 @dataclass(frozen=True)
+class PaperclipIssueSummary:
+    ref: str
+    id: str
+    identifier: str | None
+    title: str
+    status: str
+    priority: str | None
+    updated_at: str | None
+
+
+@dataclass(frozen=True)
+class PaperclipIssueComment:
+    id: str
+    body: str
+    author: str
+    created_at: str
+
+
+@dataclass(frozen=True)
 class AuditLogEntry:
     id: str
     action: str

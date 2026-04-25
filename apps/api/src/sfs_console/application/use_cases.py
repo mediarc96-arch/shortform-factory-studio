@@ -27,6 +27,8 @@ from sfs_console.domain import (
     DeliveryTokenRecord,
     EpisodeSummary,
     GateStatus,
+    PaperclipIssueComment,
+    PaperclipIssueSummary,
     ProductionRequestRecord,
     WorkspaceSnapshot,
 )
@@ -71,6 +73,14 @@ class ClientRevisionRequestDraft:
     requester_email: str
     timestamp_note: str
     message: str
+
+
+@dataclass(frozen=True)
+class PaperclipIssueSync:
+    ref: str
+    issue: PaperclipIssueSummary | None
+    comments: tuple[PaperclipIssueComment, ...]
+    error: str | None = None
 
 
 class ListWorkspaceSnapshot:
@@ -470,6 +480,33 @@ class CreateClientRevisionRequest:
             },
         )
         return updated
+
+
+class SyncClientRevisionRequestPaperclip:
+    def __init__(self, paperclip: PaperclipIssueClient) -> None:
+        self._paperclip = paperclip
+
+    def execute(self, record: ClientRevisionRequestRecord) -> PaperclipIssueSync | None:
+        if not record.paperclip_issue_ref:
+            return None
+        try:
+            issue = self._paperclip.get_issue(record.paperclip_issue_ref)
+            if not issue:
+                return PaperclipIssueSync(
+                    ref=record.paperclip_issue_ref,
+                    issue=None,
+                    comments=(),
+                    error="Paperclip issue not found",
+                )
+            comments = self._paperclip.list_issue_comments(record.paperclip_issue_ref, limit=5)
+            return PaperclipIssueSync(ref=record.paperclip_issue_ref, issue=issue, comments=comments)
+        except ValueError as error:
+            return PaperclipIssueSync(
+                ref=record.paperclip_issue_ref,
+                issue=None,
+                comments=(),
+                error=str(error),
+            )
 
 
 class ResolveDeliveryPackage:

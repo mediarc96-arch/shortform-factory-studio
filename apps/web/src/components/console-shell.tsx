@@ -98,7 +98,24 @@ type ClientRevisionRequestResponse = {
   message: string;
   status: string;
   paperclip_issue_ref: string | null;
+  paperclip_issue: {
+    ref: string;
+    id: string | null;
+    identifier: string | null;
+    title: string | null;
+    status: string | null;
+    priority: string | null;
+    updated_at: string | null;
+    comments: {
+      id: string;
+      body: string;
+      author: string;
+      created_at: string;
+    }[];
+    error: string | null;
+  } | null;
   created_at: string;
+  updated_at: string;
 };
 
 type DeliveryFileView = {
@@ -848,7 +865,7 @@ function DeliveryScreen({
         ),
         getJson<AuditLogResponse[]>("/api/sfs/audit-logs"),
         getJson<ClientRevisionRequestResponse[]>(
-          `/api/sfs/revision-requests?episode_slug=${encodeURIComponent(episodeSlug)}`
+          `/api/sfs/revision-requests?episode_slug=${encodeURIComponent(episodeSlug)}&include_paperclip=true`
         )
       ]);
       if (!isMounted) {
@@ -1098,13 +1115,16 @@ function DeliveryScreen({
             </div>
           </Panel>
           <Panel title={delivery.audit} meta={delivery.readonly}>
-            {revisionRequests.slice(0, 4).map((request) => (
-              <Note
-                title={`${formatDateTime(request.created_at)} · ${request.paperclip_issue_ref ?? request.status}`}
-                text={`${request.timestamp ? `${request.timestamp} · ` : ""}${request.message}`}
-                key={request.id}
-              />
-            ))}
+            {revisionRequests.slice(0, 4).map((request) => {
+              const revisionNote = buildRevisionNote(request);
+              return (
+                <Note
+                  title={revisionNote.title}
+                  text={revisionNote.text}
+                  key={request.id}
+                />
+              );
+            })}
             {visibleAuditLogs.map((entry) => (
               <Note
                 title={`${formatDateTime(entry.created_at)} · ${entry.action}`}
@@ -1489,6 +1509,30 @@ function buildDeliveryFiles(episode: WorkspaceEpisode | undefined): DeliveryFile
     detail: path ?? detail,
     state: path ? "ok" : "review"
   }));
+}
+
+function buildRevisionNote(request: ClientRevisionRequestResponse) {
+  const issue = request.paperclip_issue;
+  const issueLabel = issue?.identifier ?? request.paperclip_issue_ref ?? request.status;
+  const paperclipStatus = issue?.status ? ` · ${issue.status}` : "";
+  const latestComment = issue?.comments[0]?.body;
+  const parts = [
+    `${request.timestamp ? `${request.timestamp} · ` : ""}${request.message}`,
+    latestComment ? `Paperclip: ${truncateText(latestComment, 150)}` : "",
+    issue?.error ? `Paperclip sync failed: ${issue.error}` : ""
+  ].filter(Boolean);
+
+  return {
+    title: `${formatDateTime(request.created_at)} · ${issueLabel}${paperclipStatus}`,
+    text: parts.join(" / ")
+  };
+}
+
+function truncateText(value: string, maxLength: number) {
+  if (value.length <= maxLength) {
+    return value;
+  }
+  return `${value.slice(0, Math.max(0, maxLength - 3))}...`;
 }
 
 function OpsNode({ label, title, text }: { label: string; title: string; text: string }) {

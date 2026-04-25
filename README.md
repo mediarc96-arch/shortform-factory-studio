@@ -65,6 +65,8 @@ Implemented console actions:
 - delivery token issue/revoke with token hashes stored at rest
 - client revision requests from public delivery links, stored in Postgres and
   optionally handed off to Paperclip as issues
+- Paperclip status/comment sync for client revision requests when the Delivery
+  Room requests `include_paperclip=true`
 - public token delivery pages at `/delivery/<token>` for final video, thumbnail,
   review report, and publish metadata downloads, with expiry, revocation, and
   access-limit enforcement

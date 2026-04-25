@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from sfs_console.application import (
     CharacterTemplateDraft,
     ClientRevisionRequestDraft,
+    PaperclipIssueSync,
     ProductionRequestDraft,
 )
 from sfs_console.domain import (
@@ -330,6 +331,48 @@ class ClientRevisionRequestCreateRequest(BaseModel):
         )
 
 
+class PaperclipIssueCommentResponse(BaseModel):
+    id: str
+    body: str
+    author: str
+    created_at: str
+
+
+class PaperclipIssueSyncResponse(BaseModel):
+    ref: str
+    id: str | None
+    identifier: str | None
+    title: str | None
+    status: str | None
+    priority: str | None
+    updated_at: str | None
+    comments: list[PaperclipIssueCommentResponse]
+    error: str | None = None
+
+    @classmethod
+    def from_domain(cls, sync: PaperclipIssueSync) -> "PaperclipIssueSyncResponse":
+        issue = sync.issue
+        return cls(
+            ref=sync.ref,
+            id=issue.id if issue else None,
+            identifier=issue.identifier if issue else None,
+            title=issue.title if issue else None,
+            status=issue.status if issue else None,
+            priority=issue.priority if issue else None,
+            updated_at=issue.updated_at if issue else None,
+            comments=[
+                PaperclipIssueCommentResponse(
+                    id=comment.id,
+                    body=comment.body,
+                    author=comment.author,
+                    created_at=comment.created_at,
+                )
+                for comment in sync.comments
+            ],
+            error=sync.error,
+        )
+
+
 class ClientRevisionRequestResponse(BaseModel):
     id: str
     token_id: str
@@ -340,11 +383,17 @@ class ClientRevisionRequestResponse(BaseModel):
     message: str
     status: str
     paperclip_issue_ref: str | None
+    paperclip_issue: PaperclipIssueSyncResponse | None = None
     created_at: str
     updated_at: str
 
     @classmethod
-    def from_domain(cls, record: ClientRevisionRequestRecord) -> "ClientRevisionRequestResponse":
+    def from_domain(
+        cls,
+        record: ClientRevisionRequestRecord,
+        *,
+        paperclip_issue: PaperclipIssueSync | None = None,
+    ) -> "ClientRevisionRequestResponse":
         return cls(
             id=record.id,
             token_id=record.token_id,
@@ -355,6 +404,11 @@ class ClientRevisionRequestResponse(BaseModel):
             message=record.message,
             status=record.status,
             paperclip_issue_ref=record.paperclip_issue_ref,
+            paperclip_issue=(
+                PaperclipIssueSyncResponse.from_domain(paperclip_issue)
+                if paperclip_issue
+                else None
+            ),
             created_at=record.created_at.isoformat(),
             updated_at=record.updated_at.isoformat(),
         )

@@ -22,6 +22,7 @@ try:
         SendProductionRequestToPaperclip,
     )
     from sfs_console.config import Settings
+    from sfs_console.domain import PaperclipIssueComment, PaperclipIssueSummary
     from sfs_console.domain.models import utc_now
     from sfs_console.infrastructure import InMemorySfsStore
     from sfs_console.presentation import create_app
@@ -33,6 +34,8 @@ except Exception:  # pragma: no cover - dependency guard for bare Python environ
     SaveProductionRequest = None  # type: ignore[assignment]
     SendProductionRequestToPaperclip = None  # type: ignore[assignment]
     Settings = None  # type: ignore[assignment]
+    PaperclipIssueComment = None  # type: ignore[assignment]
+    PaperclipIssueSummary = None  # type: ignore[assignment]
     utc_now = None  # type: ignore[assignment]
     InMemorySfsStore = None  # type: ignore[assignment]
     create_app = None  # type: ignore[assignment]
@@ -294,6 +297,86 @@ class ApiRoutesTest(unittest.TestCase):
 
             revoked_package = client.get(f"/public/deliveries/{response.json()['token']}")
             self.assertEqual(revoked_package.status_code, 404)
+
+    def test_revision_request_route_can_include_paperclip_state(self) -> None:
+        class FakePaperclip:
+            def create_issue(
+                self,
+                *,
+                title: str,
+                description: str,
+                origin_kind: str | None = None,
+                origin_id: str | None = None,
+            ) -> str:
+                return "SHO-900"
+
+            def get_issue(self, issue_ref: str):
+                return PaperclipIssueSummary(
+                    ref=issue_ref,
+                    id="issue-900",
+                    identifier=issue_ref,
+                    title="SFS client revision: jjiroo-pilot-001",
+                    status="in_progress",
+                    priority="medium",
+                    updated_at="2026-04-25T00:00:00.000Z",
+                )
+
+            def list_issue_comments(self, issue_ref: str, *, limit: int = 5):
+                return (
+                    PaperclipIssueComment(
+                        id="comment-1",
+                        body="Trim accepted; rendering a shorter pass.",
+                        author="operator",
+                        created_at="2026-04-25T00:05:00.000Z",
+                    ),
+                )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._write(root / "characters/jjiroo/bible.md", "# Jjiroo")
+            self._write(root / "characters/jjiroo/prompts.md", "# Prompts")
+            self._write(root / "characters/jjiroo/rights.md", "# Rights")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final.mp4", "")
+            self._write(root / "episodes/jjiroo-pilot-001/renders/final/final-thumb.jpg", "")
+            self._write(root / "episodes/jjiroo-pilot-001/review/review-report.md", "# Review")
+            self._write(root / "episodes/jjiroo-pilot-001/publish-packet.json", "{}")
+            client = TestClient(
+                create_app(
+                    Settings(workspace_root=root),
+                    paperclip_client=FakePaperclip(),
+                )
+            )
+
+            token_response = client.post(
+                "/deliveries/tokens",
+                json={
+                    "episode_slug": "jjiroo-pilot-001",
+                    "expires_in_hours": 24,
+                    "max_accesses": 2,
+                },
+            )
+            revision = client.post(
+                f"/public/deliveries/{token_response.json()['token']}/revision-requests",
+                json={
+                    "requester_name": "Client",
+                    "requester_email": "client@example.com",
+                    "timestamp": "00:12",
+                    "message": "Please shorten the opening pause.",
+                },
+            )
+            revisions = client.get(
+                "/revision-requests?episode_slug=jjiroo-pilot-001&include_paperclip=true"
+            )
+
+            self.assertEqual(revision.status_code, 200)
+            self.assertEqual(revisions.status_code, 200)
+            paperclip_issue = revisions.json()[0]["paperclip_issue"]
+            self.assertEqual(revisions.json()[0]["paperclip_issue_ref"], "SHO-900")
+            self.assertEqual(paperclip_issue["status"], "in_progress")
+            self.assertEqual(
+                paperclip_issue["comments"][0]["body"],
+                "Trim accepted; rendering a shorter pass.",
+            )
 
     def test_delivery_token_access_limit_blocks_package(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

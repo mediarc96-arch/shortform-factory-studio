@@ -13,8 +13,10 @@ from sfs_console.application import (
     ResolveDeliveryPackage,
     SaveProductionRequest,
     SendProductionRequestToPaperclip,
+    SyncClientRevisionRequestPaperclip,
     ValidateDeliveryReadiness,
 )
+from sfs_console.application.ports import PaperclipIssueClient
 from sfs_console.config import Settings
 from sfs_console.infrastructure import (
     FileSystemCharacterWriter,
@@ -49,15 +51,33 @@ from sfs_console.presentation.schemas import (
 def create_app(
     settings: Settings | None = None,
     store: InMemorySfsStore | PostgresSfsStore | None = None,
+    paperclip_client: PaperclipIssueClient | None = None,
 ) -> FastAPI:
     resolved_settings = settings or Settings.from_env()
     scanner = FileSystemWorkspaceScanner(resolved_settings.workspace_root)
     persistence = store or _build_store(resolved_settings)
     persistence.initialize()
     character_writer = FileSystemCharacterWriter(resolved_settings.workspace_root)
-    paperclip = _build_paperclip_client(resolved_settings)
+    paperclip = (
+        paperclip_client
+        if paperclip_client is not None
+        else _build_paperclip_client(resolved_settings)
+    )
 
     app = FastAPI(title="SFS Console API", version="0.1.0")
+
+    def client_revision_response(
+        record,
+        *,
+        include_paperclip: bool = False,
+    ) -> ClientRevisionRequestResponse:
+        paperclip_issue = None
+        if include_paperclip and paperclip:
+            paperclip_issue = SyncClientRevisionRequestPaperclip(paperclip).execute(record)
+        return ClientRevisionRequestResponse.from_domain(
+            record,
+            paperclip_issue=paperclip_issue,
+        )
 
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
@@ -186,9 +206,12 @@ def create_app(
         return DeliveryTokenResponse.from_domain(record)
 
     @app.get("/revision-requests", response_model=list[ClientRevisionRequestResponse])
-    def revision_requests(episode_slug: str | None = None) -> list[ClientRevisionRequestResponse]:
+    def revision_requests(
+        episode_slug: str | None = None,
+        include_paperclip: bool = False,
+    ) -> list[ClientRevisionRequestResponse]:
         return [
-            ClientRevisionRequestResponse.from_domain(record)
+            client_revision_response(record, include_paperclip=include_paperclip)
             for record in persistence.list_client_revision_requests(episode_slug=episode_slug)
         ]
 

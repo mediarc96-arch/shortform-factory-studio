@@ -8,6 +8,8 @@ from sfs_console.domain import (
     AuditLogEntry,
     ClientRevisionRequestRecord,
     DeliveryTokenRecord,
+    PaperclipIssueComment,
+    PaperclipIssueSummary,
     ProductionRequestRecord,
     WorkspaceSnapshot,
 )
@@ -147,3 +149,14 @@ class PaperclipIssueClient(Protocol):
         origin_id: str | None = None,
     ) -> str:
         """Create a Paperclip issue and return its external reference."""
+
+    def get_issue(self, issue_ref: str) -> PaperclipIssueSummary | None:
+        """Return a Paperclip issue by UUID or identifier."""
+
+    def list_issue_comments(
+        self,
+        issue_ref: str,
+        *,
+        limit: int = 5,
+    ) -> tuple[PaperclipIssueComment, ...]:
+        """Return recent Paperclip issue comments."""
