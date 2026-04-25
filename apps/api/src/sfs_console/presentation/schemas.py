@@ -5,11 +5,16 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from sfs_console.application import CharacterTemplateDraft, ProductionRequestDraft
+from sfs_console.application import (
+    CharacterTemplateDraft,
+    ClientRevisionRequestDraft,
+    ProductionRequestDraft,
+)
 from sfs_console.domain import (
     AuditLogEntry,
     CharacterSummary,
     CharacterTemplateResult,
+    ClientRevisionRequestRecord,
     DeliveryAsset,
     DeliveryPackage,
     DeliveryReadiness,
@@ -307,6 +312,51 @@ class DeliveryPackageResponse(BaseModel):
             access_count=package.access_count,
             expires_at=package.expires_at.isoformat(),
             assets=[DeliveryAssetResponse.from_domain(asset, token=token) for asset in package.assets],
+        )
+
+
+class ClientRevisionRequestCreateRequest(BaseModel):
+    requester_name: str = ""
+    requester_email: str = ""
+    timestamp: str = ""
+    message: str
+
+    def to_draft(self) -> ClientRevisionRequestDraft:
+        return ClientRevisionRequestDraft(
+            requester_name=self.requester_name,
+            requester_email=self.requester_email,
+            timestamp_note=self.timestamp,
+            message=self.message,
+        )
+
+
+class ClientRevisionRequestResponse(BaseModel):
+    id: str
+    token_id: str
+    episode_slug: str
+    requester_name: str
+    requester_email: str
+    timestamp: str
+    message: str
+    status: str
+    paperclip_issue_ref: str | None
+    created_at: str
+    updated_at: str
+
+    @classmethod
+    def from_domain(cls, record: ClientRevisionRequestRecord) -> "ClientRevisionRequestResponse":
+        return cls(
+            id=record.id,
+            token_id=record.token_id,
+            episode_slug=record.episode_slug,
+            requester_name=record.requester_name,
+            requester_email=record.requester_email,
+            timestamp=record.timestamp_note,
+            message=record.message,
+            status=record.status,
+            paperclip_issue_ref=record.paperclip_issue_ref,
+            created_at=record.created_at.isoformat(),
+            updated_at=record.updated_at.isoformat(),
         )
 
 

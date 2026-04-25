@@ -10,6 +10,7 @@
     "typecheck:web": "pnpm --filter @sfs/web typecheck",
     "test:web": "pnpm --filter @sfs/web test",
     "test:api": "python3 -m unittest discover -s apps/api/tests",
+    "smoke:sfs": "python3 scripts/sfs_console_smoke.py",
     "test": "pnpm test:web && python3 -m unittest discover -s apps/api/tests"
   }
 }

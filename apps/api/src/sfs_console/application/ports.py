@@ -4,7 +4,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Protocol
 
-from sfs_console.domain import AuditLogEntry, DeliveryTokenRecord, ProductionRequestRecord, WorkspaceSnapshot
+from sfs_console.domain import (
+    AuditLogEntry,
+    ClientRevisionRequestRecord,
+    DeliveryTokenRecord,
+    ProductionRequestRecord,
+    WorkspaceSnapshot,
+)
 from sfs_console.domain.models import ProductionRequestType
 
 
@@ -85,6 +91,36 @@ class AuditLogStore(Protocol):
 
     def list_audit_logs(self, *, limit: int = 30) -> tuple[AuditLogEntry, ...]:
         """Return recent audit events."""
+
+
+class ClientRevisionRequestStore(Protocol):
+    def create_client_revision_request(
+        self,
+        *,
+        token_id: str,
+        episode_slug: str,
+        requester_name: str,
+        requester_email: str,
+        timestamp_note: str,
+        message: str,
+    ) -> ClientRevisionRequestRecord:
+        """Persist a client-submitted delivery revision request."""
+
+    def list_client_revision_requests(
+        self,
+        *,
+        limit: int = 20,
+        episode_slug: str | None = None,
+    ) -> tuple[ClientRevisionRequestRecord, ...]:
+        """Return recent client revision requests."""
+
+    def set_client_revision_paperclip_issue_ref(
+        self,
+        *,
+        request_id: str,
+        issue_ref: str,
+    ) -> ClientRevisionRequestRecord:
+        """Attach a Paperclip issue reference to a client revision request."""
 
 
 class CharacterWriter(Protocol):

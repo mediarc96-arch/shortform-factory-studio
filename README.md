@@ -63,11 +63,25 @@ Implemented console actions:
 - audit log writes for production request, character, and delivery actions
 - character template creation under `characters/<slug>`
 - delivery token issue/revoke with token hashes stored at rest
+- client revision requests from public delivery links, stored in Postgres and
+  optionally handed off to Paperclip as issues
 - public token delivery pages at `/delivery/<token>` for final video, thumbnail,
   review report, and publish metadata downloads, with expiry, revocation, and
   access-limit enforcement
 - optional Paperclip issue handoff when `SFS_PAPERCLIP_COMPANY_ID` and a valid
   `SFS_PAPERCLIP_API_TOKEN` are configured
+
+DB schema changes are tracked under `apps/api/migrations` with Alembic. The API
+container applies migrations on startup when Postgres is configured.
+
+The web app uses an OFL-compatible Noto-first font stack; see
+[docs/FONT_LICENSES.md](./docs/FONT_LICENSES.md).
+
+Production smoke check:
+
+```bash
+pnpm smoke:sfs
+```
 
 ## Quiz Pipeline
 

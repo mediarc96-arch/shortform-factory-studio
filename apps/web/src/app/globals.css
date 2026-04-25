@@ -1459,6 +1459,60 @@ h1 {
   font-family: var(--mono);
 }
 
+.delivery-revision-form {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  background: #171b1c;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.delivery-revision-form h2 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.delivery-revision-form button {
+  justify-self: start;
+}
+
+.delivery-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.delivery-form-grid .wide {
+  grid-column: 1 / -1;
+}
+
+.delivery-result-panel {
+  place-items: start;
+  max-width: 560px;
+}
+
+.delivery-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.delivery-result-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  color: #191209;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 780;
+  text-decoration: none;
+}
+
 @media (max-width: 1180px) {
   .console-app {
     grid-template-columns: 230px minmax(0, 1fr);
@@ -1545,6 +1599,10 @@ h1 {
   .delivery-file-list a {
     grid-template-columns: 1fr;
     align-items: start;
+  }
+
+  .delivery-form-grid {
+    grid-template-columns: 1fr;
   }
 }
 

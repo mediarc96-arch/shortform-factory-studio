@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 from sfs_console.application import (
     BuildProductionRequestMarkdown,
     CreateCharacterTemplate,
+    CreateClientRevisionRequest,
     IssueDeliveryToken,
     ListWorkspaceSnapshot,
     RevokeDeliveryToken,
@@ -27,6 +28,8 @@ from sfs_console.presentation.schemas import (
     CharacterCreateRequest,
     CharacterResponse,
     CharacterTemplateResponse,
+    ClientRevisionRequestCreateRequest,
+    ClientRevisionRequestResponse,
     DeliveryTokenCreateRequest,
     DeliveryPackageResponse,
     DeliveryTokenResponse,
@@ -182,6 +185,13 @@ def create_app(
             raise HTTPException(status_code=404, detail=str(error)) from error
         return DeliveryTokenResponse.from_domain(record)
 
+    @app.get("/revision-requests", response_model=list[ClientRevisionRequestResponse])
+    def revision_requests(episode_slug: str | None = None) -> list[ClientRevisionRequestResponse]:
+        return [
+            ClientRevisionRequestResponse.from_domain(record)
+            for record in persistence.list_client_revision_requests(episode_slug=episode_slug)
+        ]
+
     @app.get("/public/deliveries/{token}", response_model=DeliveryPackageResponse)
     def public_delivery_package(token: str) -> DeliveryPackageResponse:
         try:
@@ -192,6 +202,25 @@ def create_app(
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
         return DeliveryPackageResponse.from_domain(package, token=token)
+
+    @app.post(
+        "/public/deliveries/{token}/revision-requests",
+        response_model=ClientRevisionRequestResponse,
+    )
+    def create_public_revision_request(
+        token: str,
+        request: ClientRevisionRequestCreateRequest,
+    ) -> ClientRevisionRequestResponse:
+        try:
+            record = CreateClientRevisionRequest(
+                persistence,
+                persistence,
+                persistence,
+                paperclip,
+            ).execute(token=token, draft=request.to_draft())
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
+        return ClientRevisionRequestResponse.from_domain(record)
 
     @app.get("/public/deliveries/{token}/files/{asset_key}")
     def public_delivery_asset(token: str, asset_key: str) -> FileResponse:

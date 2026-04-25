@@ -148,6 +148,21 @@ class DeliveryTokenRecord:
 
 
 @dataclass(frozen=True)
+class ClientRevisionRequestRecord:
+    id: str
+    token_id: str
+    episode_slug: str
+    requester_name: str
+    requester_email: str
+    timestamp_note: str
+    message: str
+    status: str
+    paperclip_issue_ref: str | None
+    created_at: datetime
+    updated_at: datetime
+
+
+@dataclass(frozen=True)
 class AuditLogEntry:
     id: str
     action: str

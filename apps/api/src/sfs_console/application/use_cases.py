@@ -12,6 +12,7 @@ from typing import Literal
 from sfs_console.application.ports import (
     AuditLogStore,
     CharacterWriter,
+    ClientRevisionRequestStore,
     DeliveryTokenStore,
     PaperclipIssueClient,
     ProductionRequestStore,
@@ -19,6 +20,7 @@ from sfs_console.application.ports import (
 )
 from sfs_console.domain import (
     CharacterTemplateResult,
+    ClientRevisionRequestRecord,
     DeliveryAsset,
     DeliveryPackage,
     DeliveryReadiness,
@@ -61,6 +63,14 @@ class CharacterTemplateDraft:
 class DeliveryTokenIssue:
     record: DeliveryTokenRecord
     token: str
+
+
+@dataclass(frozen=True)
+class ClientRevisionRequestDraft:
+    requester_name: str
+    requester_email: str
+    timestamp_note: str
+    message: str
 
 
 class ListWorkspaceSnapshot:
@@ -360,6 +370,106 @@ class RevokeDeliveryToken:
             payload={"episode_slug": record.episode_slug},
         )
         return record
+
+
+class CreateClientRevisionRequest:
+    def __init__(
+        self,
+        token_store: DeliveryTokenStore,
+        revision_store: ClientRevisionRequestStore,
+        audit_log: AuditLogStore,
+        paperclip: PaperclipIssueClient | None = None,
+    ) -> None:
+        self._token_store = token_store
+        self._revision_store = revision_store
+        self._audit_log = audit_log
+        self._paperclip = paperclip
+
+    def execute(self, *, token: str, draft: ClientRevisionRequestDraft) -> ClientRevisionRequestRecord:
+        if not token.strip():
+            raise ValueError("delivery token not found")
+        if not draft.message.strip():
+            raise ValueError("message is required")
+
+        token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
+        delivery_token = self._token_store.get_delivery_token_by_hash(token_hash)
+        if (
+            not delivery_token
+            or delivery_token.status != "active"
+            or delivery_token.expires_at <= utc_now()
+        ):
+            raise ValueError("delivery token not found")
+
+        record = self._revision_store.create_client_revision_request(
+            token_id=delivery_token.id,
+            episode_slug=delivery_token.episode_slug,
+            requester_name=draft.requester_name.strip() or "Client",
+            requester_email=draft.requester_email.strip(),
+            timestamp_note=draft.timestamp_note.strip(),
+            message=draft.message.strip(),
+        )
+        self._audit_log.append_audit_log(
+            action="client_revision.created",
+            entity_type="client_revision_request",
+            entity_id=record.id,
+            payload={
+                "episode_slug": record.episode_slug,
+                "token_id": record.token_id,
+                "has_requester_email": bool(record.requester_email),
+            },
+            actor="client",
+        )
+        return self._send_to_paperclip(record)
+
+    def _send_to_paperclip(
+        self,
+        record: ClientRevisionRequestRecord,
+    ) -> ClientRevisionRequestRecord:
+        if not self._paperclip:
+            return record
+        try:
+            issue_ref = self._paperclip.create_issue(
+                title=f"SFS client revision: {record.episode_slug}",
+                description="\n".join(
+                    [
+                        f"# Client revision request: {record.episode_slug}",
+                        "",
+                        "## Requester",
+                        f"- name: {record.requester_name}",
+                        f"- email: {record.requester_email or 'not provided'}",
+                        f"- timestamp: {record.timestamp_note or 'not provided'}",
+                        f"- delivery token id: {record.token_id}",
+                        "",
+                        "## Requested change",
+                        record.message,
+                    ]
+                ),
+                origin_kind="sfs_console.client_revision_request",
+                origin_id=record.id,
+            )
+        except ValueError as error:
+            self._audit_log.append_audit_log(
+                action="client_revision.paperclip_handoff_failed",
+                entity_type="client_revision_request",
+                entity_id=record.id,
+                payload={"episode_slug": record.episode_slug, "error": str(error)},
+            )
+            return record
+
+        updated = self._revision_store.set_client_revision_paperclip_issue_ref(
+            request_id=record.id,
+            issue_ref=issue_ref,
+        )
+        self._audit_log.append_audit_log(
+            action="client_revision.paperclip_handoff",
+            entity_type="client_revision_request",
+            entity_id=updated.id,
+            payload={
+                "episode_slug": updated.episode_slug,
+                "paperclip_issue_ref": issue_ref,
+            },
+        )
+        return updated
 
 
 class ResolveDeliveryPackage:

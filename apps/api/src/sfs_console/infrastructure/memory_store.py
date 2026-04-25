@@ -4,7 +4,12 @@ from dataclasses import replace
 from datetime import datetime
 from uuid import uuid4
 
-from sfs_console.domain import AuditLogEntry, DeliveryTokenRecord, ProductionRequestRecord
+from sfs_console.domain import (
+    AuditLogEntry,
+    ClientRevisionRequestRecord,
+    DeliveryTokenRecord,
+    ProductionRequestRecord,
+)
 from sfs_console.domain.models import ProductionRequestType, utc_now
 
 
@@ -12,6 +17,7 @@ class InMemorySfsStore:
     def __init__(self) -> None:
         self._production_requests: dict[str, ProductionRequestRecord] = {}
         self._delivery_tokens: dict[str, DeliveryTokenRecord] = {}
+        self._client_revision_requests: dict[str, ClientRevisionRequestRecord] = {}
         self._audit_logs: dict[str, AuditLogEntry] = {}
 
     def initialize(self) -> None:
@@ -131,6 +137,62 @@ class InMemorySfsStore:
                 :limit
             ]
         )
+
+    def create_client_revision_request(
+        self,
+        *,
+        token_id: str,
+        episode_slug: str,
+        requester_name: str,
+        requester_email: str,
+        timestamp_note: str,
+        message: str,
+    ) -> ClientRevisionRequestRecord:
+        now = utc_now()
+        record = ClientRevisionRequestRecord(
+            id=str(uuid4()),
+            token_id=token_id,
+            episode_slug=episode_slug,
+            requester_name=requester_name,
+            requester_email=requester_email,
+            timestamp_note=timestamp_note,
+            message=message,
+            status="received",
+            paperclip_issue_ref=None,
+            created_at=now,
+            updated_at=now,
+        )
+        self._client_revision_requests[record.id] = record
+        return record
+
+    def list_client_revision_requests(
+        self,
+        *,
+        limit: int = 20,
+        episode_slug: str | None = None,
+    ) -> tuple[ClientRevisionRequestRecord, ...]:
+        records = self._client_revision_requests.values()
+        if episode_slug:
+            records = [record for record in records if record.episode_slug == episode_slug]
+        return tuple(
+            sorted(records, key=lambda item: item.created_at, reverse=True)[:limit]
+        )
+
+    def set_client_revision_paperclip_issue_ref(
+        self,
+        *,
+        request_id: str,
+        issue_ref: str,
+    ) -> ClientRevisionRequestRecord:
+        record = self._client_revision_requests[request_id]
+        updated = replace(
+            record,
+            status="sent_to_paperclip",
+            paperclip_issue_ref=issue_ref,
+            updated_at=utc_now(),
+        )
+        self._client_revision_requests[request_id] = updated
+        return updated
 
     def append_audit_log(
         self,

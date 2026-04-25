@@ -8,6 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 COPY apps/api/pyproject.toml apps/api/pyproject.toml
+COPY apps/api/alembic.ini apps/api/alembic.ini
+COPY apps/api/migrations apps/api/migrations
 
 RUN python - <<'PY'
 import pathlib

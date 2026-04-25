@@ -54,6 +54,7 @@ export type FormatRegistryItem = {
 
 export type WorkspaceViewModel = {
   source: "api" | "sample";
+  episodes: WorkspaceEpisode[];
   queue: QueueEpisode[];
   characters: CharacterRegistryItem[];
   formats: FormatRegistryItem[];
@@ -70,6 +71,15 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
   if (!snapshot) {
     return {
       source: "sample",
+      episodes: queueEpisodes.map((episode) => ({
+        slug: episode.slug,
+        character_slug: episode.character,
+        status: episode.status,
+        final_output_path: null,
+        thumbnail_path: null,
+        review_report_path: null,
+        publish_packet_path: null
+      })),
       queue: queueEpisodes,
       characters: [
         {
@@ -101,6 +111,7 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
 
   return {
     source: "api",
+    episodes: snapshot.episodes,
     queue,
     characters: characters.map((character) => ({
       slug: character.slug,

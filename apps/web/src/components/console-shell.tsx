@@ -24,7 +24,7 @@ import type {
   ProductionRequestRecord
 } from "@/lib/production-request-api";
 import { statusLabel } from "@/lib/status";
-import type { WorkspaceViewModel } from "@/lib/workspace-api";
+import type { WorkspaceEpisode, WorkspaceViewModel } from "@/lib/workspace-api";
 
 type ConsoleShellProps = {
   dictionary: Dictionary;
@@ -65,6 +65,47 @@ type DeliveryTokenResponse = {
   revoked_at: string | null;
   last_accessed_at: string | null;
   token: string | null;
+};
+
+type DeliveryReadinessResponse = {
+  episode_slug: string;
+  status: "ready" | "blocked";
+  gates: {
+    key: string;
+    label: string;
+    status: "present" | "missing";
+    detail: string;
+  }[];
+};
+
+type AuditLogResponse = {
+  id: string;
+  action: string;
+  entity_type: string;
+  entity_id: string;
+  payload: Record<string, unknown>;
+  actor: string;
+  created_at: string;
+};
+
+type ClientRevisionRequestResponse = {
+  id: string;
+  token_id: string;
+  episode_slug: string;
+  requester_name: string;
+  requester_email: string;
+  timestamp: string;
+  message: string;
+  status: string;
+  paperclip_issue_ref: string | null;
+  created_at: string;
+};
+
+type DeliveryFileView = {
+  kind: string;
+  name: string;
+  detail: string;
+  state: "ok" | "review";
 };
 
 type OpsHealthResponse = {
@@ -710,23 +751,64 @@ function DeliveryScreen({
 }) {
   const { common, delivery } = dictionary;
   const initialEpisode =
-    workspace.queue.find((episode) => episode.status === "ready")?.slug ?? workspace.queue[0]?.slug ?? "";
+    workspace.episodes.find((episode) => episode.status === "ready")?.slug ??
+    workspace.episodes[0]?.slug ??
+    workspace.queue[0]?.slug ??
+    "";
   const [episodeSlug, setEpisodeSlug] = useState(initialEpisode);
   const [expiresInHours, setExpiresInHours] = useState(168);
   const [maxAccesses, setMaxAccesses] = useState(5);
   const [token, setToken] = useState<DeliveryTokenResponse | null>(null);
   const [tokens, setTokens] = useState<DeliveryTokenResponse[]>([]);
+  const [readiness, setReadiness] = useState<DeliveryReadinessResponse | null>(null);
+  const [auditLogs, setAuditLogs] = useState<AuditLogResponse[]>([]);
+  const [revisionRequests, setRevisionRequests] = useState<ClientRevisionRequestResponse[]>([]);
   const [tokensLoaded, setTokensLoaded] = useState(false);
   const [isTokensLoading, setIsTokensLoading] = useState(false);
+  const [isDeliveryMetaLoading, setIsDeliveryMetaLoading] = useState(false);
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
-  const deliveryPath = token?.token ? `/delivery/${token.token}` : null;
+  const deliveryPath = token?.token && token.episode_slug === episodeSlug ? `/delivery/${token.token}` : null;
+  const episodeOptions = workspace.episodes.length
+    ? workspace.episodes
+    : workspace.queue.map((episode) => ({
+        slug: episode.slug,
+        character_slug: episode.character,
+        status: episode.status,
+        final_output_path: null,
+        thumbnail_path: null,
+        review_report_path: null,
+        publish_packet_path: null
+      }));
+  const selectedEpisode = useMemo(
+    () => episodeOptions.find((episode) => episode.slug === episodeSlug) ?? episodeOptions[0],
+    [episodeOptions, episodeSlug]
+  );
   const tokenRows = useMemo(() => {
     if (!token) {
       return tokens;
     }
     return [token, ...tokens.filter((storedToken) => storedToken.id !== token.id)];
   }, [token, tokens]);
+  const selectedTokens = useMemo(
+    () => tokenRows.filter((row) => row.episode_slug === episodeSlug),
+    [episodeSlug, tokenRows]
+  );
+  const includedFiles = useMemo(
+    () => buildDeliveryFiles(selectedEpisode),
+    [selectedEpisode]
+  );
+  const visibleAuditLogs = useMemo(() => {
+    const tokenIds = new Set(selectedTokens.map((row) => row.id));
+    return auditLogs
+      .filter((entry) => {
+        const payloadEpisode = typeof entry.payload.episode_slug === "string"
+          ? entry.payload.episode_slug
+          : "";
+        return payloadEpisode === episodeSlug || tokenIds.has(entry.entity_id);
+      })
+      .slice(0, 5);
+  }, [auditLogs, episodeSlug, selectedTokens]);
 
   useEffect(() => {
     let isMounted = true;
@@ -751,6 +833,46 @@ function DeliveryScreen({
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!episodeSlug) {
+      return;
+    }
+    let isMounted = true;
+
+    const loadDeliveryMeta = async () => {
+      setIsDeliveryMetaLoading(true);
+      const [readinessResult, auditResult, revisionResult] = await Promise.all([
+        getJson<DeliveryReadinessResponse>(
+          `/api/sfs/episodes/${encodeURIComponent(episodeSlug)}/delivery-readiness`
+        ),
+        getJson<AuditLogResponse[]>("/api/sfs/audit-logs"),
+        getJson<ClientRevisionRequestResponse[]>(
+          `/api/sfs/revision-requests?episode_slug=${encodeURIComponent(episodeSlug)}`
+        )
+      ]);
+      if (!isMounted) {
+        return;
+      }
+      setIsDeliveryMetaLoading(false);
+      if (readinessResult.ok) {
+        setReadiness(readinessResult.data);
+      } else {
+        setReadiness(null);
+      }
+      if (auditResult.ok) {
+        setAuditLogs(auditResult.data);
+      }
+      if (revisionResult.ok) {
+        setRevisionRequests(revisionResult.data);
+      }
+    };
+
+    void loadDeliveryMeta();
+    return () => {
+      isMounted = false;
+    };
+  }, [episodeSlug]);
 
   const refreshTokens = async (reportErrors = false) => {
     const result = await getJson<DeliveryTokenResponse[]>("/api/sfs/deliveries/tokens");
@@ -844,8 +966,12 @@ function DeliveryScreen({
           <div className="phone-preview">
             <div className="phone-art" />
             <div className="phone-copy">
-              <h2>jjiroo-pilot-001 delivery</h2>
-              <p>Final video, thumbnail, review report, and publish metadata are available until 2026-05-01.</p>
+              <h2>{selectedEpisode?.slug ?? delivery.noEpisode}</h2>
+              <p>
+                {selectedTokens[0]
+                  ? `${selectedTokens[0].access_count}/${selectedTokens[0].max_accesses} · ${formatDateTime(selectedTokens[0].expires_at)}`
+                  : delivery.noTokensForEpisode}
+              </p>
               <button className="primary" type="button">
                 {delivery.downloadPackage}
               </button>
@@ -853,18 +979,38 @@ function DeliveryScreen({
           </div>
         </Panel>
         <div className="stack">
-          <Panel title={delivery.includedFiles} meta={delivery.selected}>
-            <FileRow kind="MP4" name="final-vertical.mp4" detail="1080x1920, approved" />
-            <FileRow kind="PNG" name="thumbnail.png" detail="client preview image" />
-            <FileRow kind="MD" name="review-report.md" detail="scene notes and QA result" />
-            <FileRow kind="JS" name="publish-packet.json" detail="title, description, tags" />
+          <Panel
+            title={delivery.includedFiles}
+            meta={`${includedFiles.filter((file) => file.state === "ok").length}/4`}
+          >
+            {includedFiles.map((file) => (
+              <FileRow
+                kind={file.kind}
+                name={file.name}
+                detail={file.detail}
+                state={file.state}
+                key={file.kind}
+              />
+            ))}
+            {readiness ? (
+              <Checklist
+                items={readiness.gates.map((gate) => [
+                  `${gate.label}: ${gate.detail}`,
+                  gate.status === "present"
+                ])}
+              />
+            ) : (
+              <p className="empty-state">
+                {isDeliveryMetaLoading ? delivery.loadingDeliveryMeta : delivery.noReadiness}
+              </p>
+            )}
           </Panel>
           <Panel title={delivery.accessPolicy} meta={delivery.tokenized}>
             <div className="form-grid">
               <label className="wide">
                 Episode
                 <select value={episodeSlug} onChange={(event) => setEpisodeSlug(event.target.value)}>
-                  {workspace.queue.map((episode) => (
+                  {episodeOptions.map((episode) => (
                     <option value={episode.slug} key={episode.slug}>
                       {episode.slug}
                     </option>
@@ -952,8 +1098,25 @@ function DeliveryScreen({
             </div>
           </Panel>
           <Panel title={delivery.audit} meta={delivery.readonly}>
-            <Note title="2026-04-24 08:12 UTC" text="Producer generated package draft." />
-            <Note title="2026-04-24 08:18 UTC" text="Rights gate passed after Character Lab update." />
+            {revisionRequests.slice(0, 4).map((request) => (
+              <Note
+                title={`${formatDateTime(request.created_at)} · ${request.paperclip_issue_ref ?? request.status}`}
+                text={`${request.timestamp ? `${request.timestamp} · ` : ""}${request.message}`}
+                key={request.id}
+              />
+            ))}
+            {visibleAuditLogs.map((entry) => (
+              <Note
+                title={`${formatDateTime(entry.created_at)} · ${entry.action}`}
+                text={`${entry.actor} · ${entry.entity_type}/${entry.entity_id}`}
+                key={entry.id}
+              />
+            ))}
+            {revisionRequests.length === 0 && visibleAuditLogs.length === 0 ? (
+              <p className="empty-state">
+                {isDeliveryMetaLoading ? delivery.loadingDeliveryMeta : delivery.noAudit}
+              </p>
+            ) : null}
           </Panel>
         </div>
       </div>
@@ -1311,6 +1474,21 @@ function FileRow({
       <em>{state}</em>
     </div>
   );
+}
+
+function buildDeliveryFiles(episode: WorkspaceEpisode | undefined): DeliveryFileView[] {
+  const files = [
+    ["MP4", "final_video", episode?.final_output_path, "final render"] as const,
+    ["IMG", "thumbnail", episode?.thumbnail_path, "client preview image"] as const,
+    ["MD", "review_report", episode?.review_report_path, "scene notes and QA result"] as const,
+    ["JSON", "publish_packet", episode?.publish_packet_path, "title, description, tags"] as const
+  ];
+  return files.map(([kind, fallbackName, path, detail]) => ({
+    kind,
+    name: path ? path.split("/").pop() || fallbackName : fallbackName,
+    detail: path ?? detail,
+    state: path ? "ok" : "review"
+  }));
 }
 
 function OpsNode({ label, title, text }: { label: string; title: string; text: string }) {

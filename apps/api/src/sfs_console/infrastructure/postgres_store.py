@@ -1,10 +1,16 @@
 from __future__ import annotations
 
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from sfs_console.domain import AuditLogEntry, DeliveryTokenRecord, ProductionRequestRecord
+from sfs_console.domain import (
+    AuditLogEntry,
+    ClientRevisionRequestRecord,
+    DeliveryTokenRecord,
+    ProductionRequestRecord,
+)
 from sfs_console.domain.models import ProductionRequestType, utc_now
 
 
@@ -58,6 +64,27 @@ CREATE INDEX IF NOT EXISTS idx_delivery_tokens_episode_slug
 CREATE INDEX IF NOT EXISTS idx_delivery_tokens_status_expires_at
   ON delivery_tokens (status, expires_at);
 
+CREATE TABLE IF NOT EXISTS client_revision_requests (
+  id text PRIMARY KEY,
+  token_id text NOT NULL,
+  episode_slug text NOT NULL,
+  requester_name text NOT NULL,
+  requester_email text NOT NULL,
+  timestamp_note text NOT NULL,
+  message text NOT NULL,
+  status text NOT NULL DEFAULT 'received',
+  paperclip_issue_ref text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_client_revision_requests_created_at
+  ON client_revision_requests (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_client_revision_requests_episode_slug
+  ON client_revision_requests (episode_slug);
+CREATE INDEX IF NOT EXISTS idx_client_revision_requests_token_id
+  ON client_revision_requests (token_id);
+
 CREATE TABLE IF NOT EXISTS audit_logs (
   id text PRIMARY KEY,
   action text NOT NULL,
@@ -80,6 +107,8 @@ class PostgresSfsStore:
         self._database_url = database_url
 
     def initialize(self) -> None:
+        if self._run_migrations():
+            return
         with self._connect() as conn:
             conn.execute(SCHEMA_SQL)
             conn.commit()
@@ -214,6 +243,82 @@ class PostgresSfsStore:
         )
         return tuple(_delivery_token_from_row(row) for row in rows)
 
+    def create_client_revision_request(
+        self,
+        *,
+        token_id: str,
+        episode_slug: str,
+        requester_name: str,
+        requester_email: str,
+        timestamp_note: str,
+        message: str,
+    ) -> ClientRevisionRequestRecord:
+        now = utc_now()
+        row = self._fetchone(
+            """
+            INSERT INTO client_revision_requests (
+              id, token_id, episode_slug, requester_name, requester_email,
+              timestamp_note, message, status, created_at, updated_at
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, 'received', %s, %s)
+            RETURNING *
+            """,
+            (
+                str(uuid4()),
+                token_id,
+                episode_slug,
+                requester_name,
+                requester_email,
+                timestamp_note,
+                message,
+                now,
+                now,
+            ),
+        )
+        return _client_revision_request_from_row(row)
+
+    def list_client_revision_requests(
+        self,
+        *,
+        limit: int = 20,
+        episode_slug: str | None = None,
+    ) -> tuple[ClientRevisionRequestRecord, ...]:
+        if episode_slug:
+            rows = self._fetchall(
+                """
+                SELECT * FROM client_revision_requests
+                WHERE episode_slug = %s
+                ORDER BY created_at DESC
+                LIMIT %s
+                """,
+                (episode_slug, limit),
+            )
+        else:
+            rows = self._fetchall(
+                "SELECT * FROM client_revision_requests ORDER BY created_at DESC LIMIT %s",
+                (limit,),
+            )
+        return tuple(_client_revision_request_from_row(row) for row in rows)
+
+    def set_client_revision_paperclip_issue_ref(
+        self,
+        *,
+        request_id: str,
+        issue_ref: str,
+    ) -> ClientRevisionRequestRecord:
+        row = self._fetchone(
+            """
+            UPDATE client_revision_requests
+            SET status = 'sent_to_paperclip',
+                paperclip_issue_ref = %s,
+                updated_at = %s
+            WHERE id = %s
+            RETURNING *
+            """,
+            (issue_ref, utc_now(), request_id),
+        )
+        return _client_revision_request_from_row(row)
+
     def append_audit_log(
         self,
         *,
@@ -268,6 +373,24 @@ class PostgresSfsStore:
             rows = conn.execute(sql, params).fetchall()
         return [dict(row) for row in rows]
 
+    def _run_migrations(self) -> bool:
+        api_root = Path(__file__).resolve().parents[3]
+        config_path = api_root / "alembic.ini"
+        script_location = api_root / "migrations"
+        if not config_path.exists() or not script_location.exists():
+            return False
+        try:
+            from alembic import command
+            from alembic.config import Config
+        except ImportError:
+            return False
+
+        config = Config(str(config_path))
+        config.set_main_option("script_location", str(script_location))
+        config.attributes["database_url"] = _sqlalchemy_url(self._database_url)
+        command.upgrade(config, "head")
+        return True
+
 
 def _production_request_from_row(row: dict[str, Any]) -> ProductionRequestRecord:
     return ProductionRequestRecord(
@@ -303,6 +426,22 @@ def _delivery_token_from_row(row: dict[str, Any]) -> DeliveryTokenRecord:
     )
 
 
+def _client_revision_request_from_row(row: dict[str, Any]) -> ClientRevisionRequestRecord:
+    return ClientRevisionRequestRecord(
+        id=str(row["id"]),
+        token_id=str(row["token_id"]),
+        episode_slug=str(row["episode_slug"]),
+        requester_name=str(row["requester_name"]),
+        requester_email=str(row["requester_email"]),
+        timestamp_note=str(row["timestamp_note"]),
+        message=str(row["message"]),
+        status=str(row["status"]),
+        paperclip_issue_ref=row["paperclip_issue_ref"],
+        created_at=row["created_at"],
+        updated_at=row["updated_at"],
+    )
+
+
 def _audit_log_from_row(row: dict[str, Any]) -> AuditLogEntry:
     return AuditLogEntry(
         id=str(row["id"]),
@@ -313,3 +452,9 @@ def _audit_log_from_row(row: dict[str, Any]) -> AuditLogEntry:
         actor=str(row["actor"]),
         created_at=row["created_at"],
     )
+
+
+def _sqlalchemy_url(url: str) -> str:
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg://", 1)
+    return url

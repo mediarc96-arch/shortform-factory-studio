@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import timedelta
+import hashlib
 import sys
 import tempfile
 import unittest
@@ -13,19 +15,25 @@ try:
     from fastapi.testclient import TestClient
 
     from sfs_console.application import (
+        ClientRevisionRequestDraft,
+        CreateClientRevisionRequest,
         ProductionRequestDraft,
         SaveProductionRequest,
         SendProductionRequestToPaperclip,
     )
     from sfs_console.config import Settings
+    from sfs_console.domain.models import utc_now
     from sfs_console.infrastructure import InMemorySfsStore
     from sfs_console.presentation import create_app
 except Exception:  # pragma: no cover - dependency guard for bare Python environments
     TestClient = None  # type: ignore[assignment]
+    ClientRevisionRequestDraft = None  # type: ignore[assignment]
+    CreateClientRevisionRequest = None  # type: ignore[assignment]
     ProductionRequestDraft = None  # type: ignore[assignment]
     SaveProductionRequest = None  # type: ignore[assignment]
     SendProductionRequestToPaperclip = None  # type: ignore[assignment]
     Settings = None  # type: ignore[assignment]
+    utc_now = None  # type: ignore[assignment]
     InMemorySfsStore = None  # type: ignore[assignment]
     create_app = None  # type: ignore[assignment]
 
@@ -146,6 +154,28 @@ class ApiRoutesTest(unittest.TestCase):
         self.assertEqual(paperclip.calls[0]["origin_kind"], "sfs_console.production_request")
         self.assertEqual(paperclip.calls[0]["origin_id"], record.id)
 
+        client_token = "client-token"
+        store.create_delivery_token(
+            episode_slug="jjiroo-pilot-002",
+            token_hash=hashlib.sha256(client_token.encode("utf-8")).hexdigest(),
+            expires_at=utc_now() + timedelta(hours=1),
+            max_accesses=1,
+        )
+
+        revision = CreateClientRevisionRequest(store, store, store, paperclip).execute(
+            token=client_token,
+            draft=ClientRevisionRequestDraft(
+                requester_name="Client",
+                requester_email="client@example.com",
+                timestamp_note="00:12",
+                message="Please trim this beat.",
+            ),
+        )
+
+        self.assertEqual(revision.paperclip_issue_ref, "SHO-123")
+        self.assertEqual(paperclip.calls[1]["origin_kind"], "sfs_console.client_revision_request")
+        self.assertEqual(paperclip.calls[1]["origin_id"], revision.id)
+
     def test_production_request_preview_rejects_missing_required_fields(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             client = TestClient(create_app(Settings(workspace_root=Path(tmp))))
@@ -233,6 +263,23 @@ class ApiRoutesTest(unittest.TestCase):
                 {asset["key"] for asset in package.json()["assets"]},
                 {"final_video", "thumbnail", "review_report", "publish_packet"},
             )
+
+            revision = client.post(
+                f"/public/deliveries/{response.json()['token']}/revision-requests",
+                json={
+                    "requester_name": "Client",
+                    "requester_email": "client@example.com",
+                    "timestamp": "00:12",
+                    "message": "Please shorten the opening pause.",
+                },
+            )
+            self.assertEqual(revision.status_code, 200)
+            self.assertEqual(revision.json()["episode_slug"], "jjiroo-pilot-001")
+            self.assertEqual(revision.json()["status"], "received")
+
+            revisions = client.get("/revision-requests?episode_slug=jjiroo-pilot-001")
+            self.assertEqual(revisions.status_code, 200)
+            self.assertEqual(revisions.json()[0]["id"], revision.json()["id"])
 
             asset = client.get(f"/public/deliveries/{response.json()['token']}/files/final_video")
             self.assertEqual(asset.status_code, 200)

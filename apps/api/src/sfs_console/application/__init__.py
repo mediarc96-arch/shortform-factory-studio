@@ -2,6 +2,8 @@ from .use_cases import (
     BuildProductionRequestMarkdown,
     CharacterTemplateDraft,
     CreateCharacterTemplate,
+    CreateClientRevisionRequest,
+    ClientRevisionRequestDraft,
     IssueDeliveryToken,
     ListWorkspaceSnapshot,
     ProductionRequestDraft,
@@ -15,7 +17,9 @@ from .use_cases import (
 __all__ = [
     "BuildProductionRequestMarkdown",
     "CharacterTemplateDraft",
+    "ClientRevisionRequestDraft",
     "CreateCharacterTemplate",
+    "CreateClientRevisionRequest",
     "IssueDeliveryToken",
     "ListWorkspaceSnapshot",
     "ProductionRequestDraft",
