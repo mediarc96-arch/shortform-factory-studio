@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import mimetypes
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 
@@ -214,6 +216,30 @@ def create_app(
             character_has_rights=bool(character and character.has_rights),
         )
         return DeliveryReadinessResponse.from_domain(readiness)
+
+    @app.get("/episodes/{episode_slug}/files/{asset_key}")
+    def episode_asset(episode_slug: str, asset_key: str) -> FileResponse:
+        snapshot = ListWorkspaceSnapshot(scanner).execute()
+        episode = next((item for item in snapshot.episodes if item.slug == episode_slug), None)
+        if not episode:
+            raise HTTPException(status_code=404, detail="episode not found")
+        assets = {
+            "final_video": (episode.final_output_path, "video/mp4"),
+            "thumbnail": (episode.thumbnail_path, "image/jpeg"),
+            "review_report": (episode.review_report_path, "text/markdown"),
+            "publish_packet": (episode.publish_packet_path, "application/json"),
+        }
+        if asset_key not in assets:
+            raise HTTPException(status_code=404, detail="episode asset not found")
+        path, fallback_content_type = assets[asset_key]
+        if path is None:
+            raise HTTPException(status_code=404, detail="episode asset not found")
+        return FileResponse(
+            path=path,
+            media_type=mimetypes.guess_type(path.name)[0] or fallback_content_type,
+            filename=path.name,
+            content_disposition_type="inline",
+        )
 
     @app.get("/deliveries/tokens", response_model=list[DeliveryTokenResponse])
     def delivery_tokens() -> list[DeliveryTokenResponse]:

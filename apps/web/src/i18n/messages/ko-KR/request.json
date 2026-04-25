@@ -7,10 +7,13 @@
   "missingField": "누락 항목 1개",
   "requestType": "요청 유형",
   "formatProfile": "포맷 프로필",
+  "selectFormat": "포맷 선택",
   "episodeSlug": "에피소드 slug",
   "character": "캐릭터",
+  "selectCharacter": "캐릭터 선택",
   "referencePath": "레퍼런스 경로",
   "outputTarget": "출력 조건",
   "completionCriteria": "완료 기준",
-  "creativeBrief": "크리에이티브 브리프"
+  "creativeBrief": "크리에이티브 브리프",
+  "emptyMarkdown": "필수 항목을 입력한 뒤 검증을 실행하면 Paperclip 마크다운이 생성됩니다."
 }

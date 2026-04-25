@@ -7,10 +7,13 @@
   "missingField": "不足項目 1 件",
   "requestType": "リクエスト種別",
   "formatProfile": "フォーマットプロファイル",
+  "selectFormat": "フォーマットを選択",
   "episodeSlug": "エピソード slug",
   "character": "キャラクター",
+  "selectCharacter": "キャラクターを選択",
   "referencePath": "参照パス",
   "outputTarget": "出力条件",
   "completionCriteria": "完了基準",
-  "creativeBrief": "クリエイティブブリーフ"
+  "creativeBrief": "クリエイティブブリーフ",
+  "emptyMarkdown": "必須項目を入力して検証すると Paperclip Markdown が生成されます。"
 }

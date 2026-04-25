@@ -7,6 +7,9 @@
   "referenceWall": "Canonical Reference Wall",
   "safeRefs": "7 refs seguras para producción",
   "dossier": "Dossier del personaje",
+  "selectedCharacter": "Personaje seleccionado",
+  "newTemplate": "Nueva plantilla de personaje",
+  "selectCharacter": "Selecciona un personaje para ver el estado de sus archivos.",
   "rightsReview": "revisión de derechos",
   "displayName": "Nombre visible",
   "series": "Serie",
@@ -14,5 +17,6 @@
   "rightsStatus": "Estado de derechos",
   "negativePrompt": "Bloqueo de prompt negativo",
   "generatedFiles": "Archivos generados",
-  "templateBacked": "basado en plantilla"
+  "templateBacked": "basado en plantilla",
+  "requiredToCreate": "Se requieren campos obligatorios y un slug único."
 }

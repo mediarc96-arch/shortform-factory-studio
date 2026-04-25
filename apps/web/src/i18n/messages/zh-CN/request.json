@@ -7,10 +7,13 @@
   "missingField": "缺少 1 个字段",
   "requestType": "请求类型",
   "formatProfile": "格式配置",
+  "selectFormat": "选择格式",
   "episodeSlug": "剧集 slug",
   "character": "角色",
+  "selectCharacter": "选择角色",
   "referencePath": "参考路径",
   "outputTarget": "输出条件",
   "completionCriteria": "完成标准",
-  "creativeBrief": "创意简报"
+  "creativeBrief": "创意简报",
+  "emptyMarkdown": "填写必填项并执行校验后，会生成 Paperclip Markdown。"
 }

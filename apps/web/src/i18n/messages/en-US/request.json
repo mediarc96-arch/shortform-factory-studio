@@ -7,10 +7,13 @@
   "missingField": "1 missing field",
   "requestType": "Request type",
   "formatProfile": "Format profile",
+  "selectFormat": "Select format",
   "episodeSlug": "Episode slug",
   "character": "Character",
+  "selectCharacter": "Select character",
   "referencePath": "Reference path",
   "outputTarget": "Output target",
   "completionCriteria": "Completion criteria",
-  "creativeBrief": "Creative brief"
+  "creativeBrief": "Creative brief",
+  "emptyMarkdown": "Enter the required fields and run validation to generate Paperclip markdown."
 }

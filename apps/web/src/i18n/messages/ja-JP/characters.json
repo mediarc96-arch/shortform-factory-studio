@@ -7,6 +7,9 @@
   "referenceWall": "Canonical Reference Wall",
   "safeRefs": "制作安全参照 7 件",
   "dossier": "キャラクター資料",
+  "selectedCharacter": "選択中のキャラクター",
+  "newTemplate": "新規キャラクターテンプレート",
+  "selectCharacter": "キャラクターを選択するとファイル状態を確認できます。",
   "rightsReview": "権利確認",
   "displayName": "表示名",
   "series": "シリーズ",
@@ -14,5 +17,6 @@
   "rightsStatus": "権利状態",
   "negativePrompt": "ネガティブプロンプトロック",
   "generatedFiles": "生成ファイル",
-  "templateBacked": "テンプレート準拠"
+  "templateBacked": "テンプレート準拠",
+  "requiredToCreate": "必須項目と重複しない slug が必要です。"
 }

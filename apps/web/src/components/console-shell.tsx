@@ -166,7 +166,7 @@ export function ConsoleShell({
     if (screen === "production") {
       return <ProductionScreen dictionary={dictionary} navigate={navigate} workspace={workspace} />;
     }
-    if (screen === "review") return <ReviewScreen dictionary={dictionary} navigate={navigate} />;
+    if (screen === "review") return <ReviewScreen dictionary={dictionary} navigate={navigate} workspace={workspace} />;
     if (screen === "request") {
       return <RequestScreen dictionary={dictionary} requestPreview={requestPreview} workspace={workspace} />;
     }
@@ -304,6 +304,7 @@ function ProductionScreen({
   workspace: WorkspaceViewModel;
 }) {
   const { common, production } = dictionary;
+  const previewEpisode = getPreviewEpisode(workspace);
 
   return (
     <section>
@@ -327,7 +328,7 @@ function ProductionScreen({
       <div className="workspace-grid">
         <div className="stack">
           <Panel title={production.activeReview} meta={production.needsRights} tone="warn">
-            <MediaPreview />
+            <MediaPreview episode={previewEpisode} />
             <div className="status-strip">
               <InfoCell title={production.picture} detail={production.pictureDetail} />
               <InfoCell title={production.dubbing} detail={production.dubbingDetail} />
@@ -404,12 +405,15 @@ function ProductionScreen({
 
 function ReviewScreen({
   dictionary,
-  navigate
+  navigate,
+  workspace
 }: {
   dictionary: Dictionary;
   navigate: (screen: ScreenId) => void;
+  workspace: WorkspaceViewModel;
 }) {
   const { common, review } = dictionary;
+  const previewEpisode = getPreviewEpisode(workspace);
 
   return (
     <section>
@@ -429,7 +433,7 @@ function ReviewScreen({
       <div className="workspace-grid">
         <div className="stack">
           <Panel title={review.player} meta={review.format}>
-            <MediaPreview />
+            <MediaPreview episode={previewEpisode} />
             <div className="timeline">
               <Track label="picture" clips={[18, 24, 22, 25]} />
               <Track label="voice" clips={[31, 28, 18]} tone="voice" />
@@ -487,24 +491,16 @@ function RequestScreen({
   workspace: WorkspaceViewModel;
 }) {
   const { common, request } = dictionary;
-  const initialDraft: ProductionRequestDraft = requestPreview?.draft ?? {
-    requestType: "new_episode",
-    episodeSlug: "jjiroo-pilot-002",
-    characterSlug: "jjiroo",
-    formatProfileSlug: "pet-toon-image-only-v1",
-    outputTarget: "vertical 1080x1920 mp4",
-    referencePath: "characters/jjiroo/refs/canonical-pack",
-    completionCriteria: "final mp4, thumbnail, review report, publish metadata packet",
-    creativeBrief: "Build a short vertical episode from existing character canon and keep the model stable."
-  };
+  const initialDraft: ProductionRequestDraft = createEmptyProductionRequestDraft(workspace);
   const [draft, setDraft] = useState<ProductionRequestDraft>(initialDraft);
-  const [markdown, setMarkdown] = useState(requestPreview?.markdown ?? "");
+  const [markdown, setMarkdown] = useState("");
   const [savedRequests, setSavedRequests] = useState<ProductionRequestRecord[]>(
     requestPreview?.savedRequests ?? []
   );
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
-  const previewSource = requestPreview?.source ?? "sample";
+  const previewSource = markdown ? requestPreview?.source ?? "api" : "empty";
+  const isDraftComplete = isProductionRequestComplete(draft);
 
   const validateDraft = () => {
     startTransition(async () => {
@@ -568,7 +564,12 @@ function RequestScreen({
             <button type="button" onClick={validateDraft} disabled={isPending}>
               {common.validate}
             </button>
-            <button className="primary" type="button" onClick={saveDraft} disabled={isPending}>
+            <button
+              className="primary"
+              type="button"
+              onClick={saveDraft}
+              disabled={isPending || !isDraftComplete}
+            >
               Save draft
             </button>
           </>
@@ -607,7 +608,11 @@ function RequestScreen({
           </div>
         </Panel>
         <Panel title={request.generatedMarkdown} meta={`Paperclip · ${previewSource}`}>
-          <pre className="markdown-preview">{markdown}</pre>
+          {markdown ? (
+            <pre className="markdown-preview">{markdown}</pre>
+          ) : (
+            <p className="empty-state">{request.emptyMarkdown}</p>
+          )}
         </Panel>
       </div>
     </section>
@@ -622,18 +627,27 @@ function CharactersScreen({
   workspace: WorkspaceViewModel;
 }) {
   const { characters } = dictionary;
-  const primaryCharacter = workspace.characters[0];
+  const router = useRouter();
+  const [selectedCharacterSlug, setSelectedCharacterSlug] = useState(workspace.characters[0]?.slug ?? "");
+  const selectedCharacter =
+    workspace.characters.find((character) => character.slug === selectedCharacterSlug) ??
+    workspace.characters[0];
+  const existingCharacterSlugs = useMemo(
+    () => new Set(workspace.characters.map((character) => character.slug)),
+    [workspace.characters]
+  );
   const [payload, setPayload] = useState<CharacterCreatePayload>({
-    slug: "new-character",
-    display_name: "New Character",
-    series: "Pet Toon",
-    voice_default: "warm Korean narrator",
+    slug: "",
+    display_name: "",
+    series: "",
+    voice_default: "",
     rights_status: "needs_review",
-    negative_prompt: "Do not alter face structure, fur pattern, eye spacing, or collar color."
+    negative_prompt: ""
   });
   const [createdFiles, setCreatedFiles] = useState<string[]>([]);
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
+  const canCreateCharacter = isCharacterCreateReady(payload, existingCharacterSlugs);
 
   const update = <Key extends keyof CharacterCreatePayload>(
     key: Key,
@@ -641,6 +655,10 @@ function CharactersScreen({
   ) => setPayload({ ...payload, [key]: value });
 
   const createCharacter = () => {
+    if (!canCreateCharacter) {
+      setAction({ tone: "warn", message: characters.requiredToCreate });
+      return;
+    }
     startTransition(async () => {
       const result = await postJson<{ slug: string; created_files: string[] }>(
         "/api/sfs/characters",
@@ -652,6 +670,8 @@ function CharactersScreen({
       }
       setCreatedFiles(result.data.created_files);
       setAction({ tone: "good", message: `Created characters/${result.data.slug}.` });
+      setSelectedCharacterSlug(result.data.slug);
+      router.refresh();
     });
   };
 
@@ -663,12 +683,14 @@ function CharactersScreen({
         subtitle={characters.subtitle}
         actions={
           <>
-            <button type="button">{characters.importRefs}</button>
+            <button type="button" disabled>
+              {characters.importRefs}
+            </button>
             <button
               className="primary"
               type="button"
               onClick={createCharacter}
-              disabled={isPending}
+              disabled={isPending || !canCreateCharacter}
             >
               {characters.createCharacter}
             </button>
@@ -687,7 +709,29 @@ function CharactersScreen({
           </div>
         </Panel>
         <div className="stack">
-          <Panel title={characters.dossier} meta={primaryCharacter?.rightsStatus ?? characters.rightsReview}>
+          <Panel
+            title={characters.selectedCharacter}
+            meta={selectedCharacter?.rightsStatus ?? characters.rightsReview}
+          >
+            {selectedCharacter ? (
+              <div className="character-detail">
+                <InfoCell title="slug" detail={selectedCharacter.slug} />
+                <InfoCell title={characters.displayName} detail={selectedCharacter.displayName} />
+                <InfoCell title={characters.rightsStatus} detail={selectedCharacter.rightsStatus} />
+                <div className="character-flags detail-flags">
+                  <span className={selectedCharacter.hasBible ? "present" : ""}>bible</span>
+                  <span className={selectedCharacter.hasPrompts ? "present" : ""}>prompt</span>
+                  <span className={selectedCharacter.rightsStatus === "present" ? "present" : "missing"}>
+                    rights
+                  </span>
+                  <span className={selectedCharacter.hasVoice ? "present" : ""}>voice</span>
+                </div>
+              </div>
+            ) : (
+              <p className="empty-state">{characters.selectCharacter}</p>
+            )}
+          </Panel>
+          <Panel title={characters.newTemplate} meta={characters.requiredToCreate}>
             <div className="form-grid">
               <EditableField
                 label="slug"
@@ -745,7 +789,12 @@ function CharactersScreen({
           >
             <div className="character-list">
               {workspace.characters.map((character) => (
-                <div className="character-row" key={character.slug}>
+                <button
+                  className={`character-row ${selectedCharacter?.slug === character.slug ? "active" : ""}`}
+                  key={character.slug}
+                  onClick={() => setSelectedCharacterSlug(character.slug)}
+                  type="button"
+                >
                   <div className="character-avatar">{character.slug.slice(0, 2).toUpperCase()}</div>
                   <div>
                     <strong>{character.displayName}</strong>
@@ -759,7 +808,7 @@ function CharactersScreen({
                     </span>
                     <span className={character.hasVoice ? "present" : ""}>voice</span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </Panel>
@@ -1331,15 +1380,24 @@ function Panel({
   );
 }
 
-function MediaPreview() {
+function MediaPreview({ episode }: { episode?: WorkspaceEpisode }) {
+  if (episode?.final_output_path) {
+    const videoPath = episodeAssetPath(episode.slug, "final_video");
+    const posterPath = episode.thumbnail_path ? episodeAssetPath(episode.slug, "thumbnail") : undefined;
+    return (
+      <div className="media-preview has-video" aria-label={`Video preview for ${episode.slug}`}>
+        <video controls preload="metadata" poster={posterPath} src={videoPath} />
+        <span className="timecode">{episode.slug}</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="media-preview" aria-label="Video preview placeholder">
+    <div className="media-preview unavailable" aria-label="Video preview unavailable">
       <div className="scene-card primary-scene" />
       <div className="scene-card secondary-scene" />
-      <button type="button" className="play-button" aria-label="Play preview">
-        ▶
-      </button>
-      <span className="timecode">00:19:08 / 00:42:00</span>
+      <span className="preview-state">No playable final mp4</span>
+      <span className="timecode">{episode?.slug ?? "No episode selected"}</span>
     </div>
   );
 }
@@ -1430,6 +1488,55 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
+function createEmptyProductionRequestDraft(workspace: WorkspaceViewModel): ProductionRequestDraft {
+  return {
+    requestType: "new_episode",
+    episodeSlug: "",
+    characterSlug: "",
+    formatProfileSlug: workspace.formats[0]?.slug ?? "",
+    outputTarget: "",
+    referencePath: "",
+    completionCriteria: "",
+    creativeBrief: ""
+  };
+}
+
+function isProductionRequestComplete(draft: ProductionRequestDraft) {
+  return [
+    draft.episodeSlug,
+    draft.characterSlug,
+    draft.formatProfileSlug,
+    draft.outputTarget,
+    draft.referencePath,
+    draft.completionCriteria,
+    draft.creativeBrief
+  ].every((value) => value.trim().length > 0);
+}
+
+function isCharacterCreateReady(payload: CharacterCreatePayload, existingSlugs: Set<string>) {
+  return (
+    Boolean(payload.slug.trim()) &&
+    Boolean(payload.display_name.trim()) &&
+    Boolean(payload.series.trim()) &&
+    Boolean(payload.voice_default.trim()) &&
+    Boolean(payload.negative_prompt.trim()) &&
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(payload.slug.trim()) &&
+    !existingSlugs.has(payload.slug.trim())
+  );
+}
+
+function getPreviewEpisode(workspace: WorkspaceViewModel) {
+  return (
+    workspace.episodes.find((episode) => episode.final_output_path && episode.status !== "blocked") ??
+    workspace.episodes.find((episode) => episode.final_output_path) ??
+    workspace.episodes[0]
+  );
+}
+
+function episodeAssetPath(episodeSlug: string, assetKey: "final_video" | "thumbnail") {
+  return `/api/sfs-media/episodes/${encodeURIComponent(episodeSlug)}/files/${assetKey}`;
+}
+
 function FormGrid({
   draft,
   request,
@@ -1441,12 +1548,11 @@ function FormGrid({
   setDraft: (draft: ProductionRequestDraft) => void;
   workspace: WorkspaceViewModel;
 }) {
-  const formatOptions =
-    workspace.formats.length > 0 ? workspace.formats.map((format) => format.slug) : [draft.formatProfileSlug];
+  const formatOptions = workspace.formats.length > 0 ? workspace.formats.map((format) => format.slug) : [];
   const characterOptions =
     workspace.characters.length > 0
       ? workspace.characters.map((character) => character.slug)
-      : [draft.characterSlug];
+      : [];
   const update = <Key extends keyof ProductionRequestDraft>(
     key: Key,
     value: ProductionRequestDraft[Key]
@@ -1474,6 +1580,9 @@ function FormGrid({
           value={draft.formatProfileSlug}
           onChange={(event) => update("formatProfileSlug", event.target.value)}
         >
+          <option value="" disabled>
+            {request.selectFormat}
+          </option>
           {formatOptions.map((format) => (
             <option value={format} key={format}>
               {format}
@@ -1492,6 +1601,9 @@ function FormGrid({
           value={draft.characterSlug}
           onChange={(event) => update("characterSlug", event.target.value)}
         >
+          <option value="" disabled>
+            {request.selectCharacter}
+          </option>
           {characterOptions.map((character) => (
             <option value={character} key={character}>
               {character}

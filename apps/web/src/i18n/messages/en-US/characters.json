@@ -7,6 +7,9 @@
   "referenceWall": "Canonical Reference Wall",
   "safeRefs": "7 production-safe refs",
   "dossier": "Character dossier",
+  "selectedCharacter": "Selected character",
+  "newTemplate": "New character template",
+  "selectCharacter": "Select a character to inspect its file status.",
   "rightsReview": "rights review",
   "displayName": "Display name",
   "series": "Series",
@@ -14,5 +17,6 @@
   "rightsStatus": "Rights status",
   "negativePrompt": "Negative prompt lock",
   "generatedFiles": "Generated files",
-  "templateBacked": "template backed"
+  "templateBacked": "template backed",
+  "requiredToCreate": "Required fields and a unique slug are needed."
 }

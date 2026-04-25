@@ -554,12 +554,21 @@ h1 {
   overflow: hidden;
 }
 
-.media-preview::before {
+.media-preview.unavailable::before {
   content: "";
   position: absolute;
   inset: 18px;
   border: 1px solid rgba(244, 239, 229, 0.14);
   border-radius: 6px;
+}
+
+.media-preview video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  background: #080a0b;
+  object-fit: contain;
 }
 
 .scene-card {
@@ -598,6 +607,22 @@ h1 {
   transform: translate(-50%, -50%);
   font-size: 18px;
   font-weight: 900;
+}
+
+.preview-state {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: calc(100% - 44px);
+  padding: 9px 11px;
+  color: var(--text);
+  background: rgba(13, 15, 16, 0.84);
+  border: 1px solid rgba(244, 239, 229, 0.16);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: center;
+  transform: translate(-50%, -50%);
 }
 
 .timecode {
@@ -1303,9 +1328,55 @@ h1 {
   align-items: center;
   min-height: 58px;
   padding: 9px;
+  width: 100%;
+  color: var(--text);
   background: #171b1c;
   border: 1px solid var(--line);
   border-radius: 7px;
+  text-align: left;
+}
+
+.character-row:hover,
+.character-row.active {
+  background: #202526;
+  border-color: #4b5658;
+}
+
+.character-detail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.character-detail > div:not(.character-flags) {
+  min-height: 58px;
+  padding: 10px;
+  background: #171b1c;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.character-detail strong,
+.character-detail span {
+  display: block;
+  min-width: 0;
+}
+
+.character-detail strong {
+  font-size: 12px;
+}
+
+.character-detail span {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.detail-flags {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  max-width: none;
 }
 
 .character-avatar {
@@ -1653,6 +1724,10 @@ h1 {
 
   .character-row {
     grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .character-detail {
+    grid-template-columns: 1fr;
   }
 
   .character-flags {

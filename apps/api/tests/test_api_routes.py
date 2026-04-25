@@ -80,6 +80,13 @@ class ApiRoutesTest(unittest.TestCase):
             self.assertEqual(readiness.status_code, 200)
             self.assertEqual(readiness.json()["status"], "ready")
 
+            video = client.get("/episodes/jjiroo-pilot-001/files/final_video")
+            self.assertEqual(video.status_code, 200)
+            self.assertEqual(video.headers["content-type"], "video/mp4")
+
+            missing_asset = client.get("/episodes/jjiroo-pilot-001/files/unknown")
+            self.assertEqual(missing_asset.status_code, 404)
+
     def test_production_request_preview_route(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             client = TestClient(create_app(Settings(workspace_root=Path(tmp))))

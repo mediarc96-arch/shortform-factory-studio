@@ -34,6 +34,7 @@ episodes/daehan-pilot-codex-002/review/frames/
 episodes/daehan-pilot-codex-003/renders/picture-lock/
 episodes/daehan-pilot-codex-003/review/final-frames/
 episodes/daehan-pilot-codex-003/review/frames/
+characters/_quarantine/
 
 # secrets (local pilot only — Paperclip seal is used in agent runtime)
 .env
