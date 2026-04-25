@@ -10,6 +10,8 @@ from sfs_console.domain import (
     AuditLogEntry,
     CharacterSummary,
     CharacterTemplateResult,
+    DeliveryAsset,
+    DeliveryPackage,
     DeliveryReadiness,
     DeliveryTokenRecord,
     EpisodeSummary,
@@ -258,6 +260,42 @@ class DeliveryTokenResponse(BaseModel):
             created_at=record.created_at.isoformat(),
             revoked_at=record.revoked_at.isoformat() if record.revoked_at else None,
             token=token,
+        )
+
+
+class DeliveryAssetResponse(BaseModel):
+    key: str
+    label: str
+    filename: str
+    content_type: str
+    size_bytes: int
+    download_path: str
+
+    @classmethod
+    def from_domain(cls, asset: DeliveryAsset, *, token: str) -> "DeliveryAssetResponse":
+        return cls(
+            key=asset.key,
+            label=asset.label,
+            filename=asset.path.name,
+            content_type=asset.content_type,
+            size_bytes=asset.path.stat().st_size,
+            download_path=f"/delivery/{token}/files/{asset.key}",
+        )
+
+
+class DeliveryPackageResponse(BaseModel):
+    episode_slug: str
+    token_id: str
+    expires_at: str
+    assets: list[DeliveryAssetResponse]
+
+    @classmethod
+    def from_domain(cls, package: DeliveryPackage, *, token: str) -> "DeliveryPackageResponse":
+        return cls(
+            episode_slug=package.episode_slug,
+            token_id=package.token_id,
+            expires_at=package.expires_at.isoformat(),
+            assets=[DeliveryAssetResponse.from_domain(asset, token=token) for asset in package.assets],
         )
 
 

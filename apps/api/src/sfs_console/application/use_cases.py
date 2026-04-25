@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import timedelta
 import hashlib
+import mimetypes
+from pathlib import Path
 import re
 import secrets
 from typing import Literal
@@ -17,6 +19,8 @@ from sfs_console.application.ports import (
 )
 from sfs_console.domain import (
     CharacterTemplateResult,
+    DeliveryAsset,
+    DeliveryPackage,
     DeliveryReadiness,
     DeliveryTokenRecord,
     EpisodeSummary,
@@ -342,3 +346,62 @@ class RevokeDeliveryToken:
             payload={"episode_slug": record.episode_slug},
         )
         return record
+
+
+class ResolveDeliveryPackage:
+    def __init__(self, scanner: WorkspaceScanner, token_store: DeliveryTokenStore) -> None:
+        self._scanner = scanner
+        self._token_store = token_store
+
+    def execute(self, token: str) -> DeliveryPackage:
+        if not token.strip():
+            raise ValueError("delivery token not found")
+
+        token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
+        record = self._token_store.get_delivery_token_by_hash(token_hash)
+        if not record or record.status != "active" or record.expires_at <= utc_now():
+            raise ValueError("delivery token not found")
+
+        snapshot = self._scanner.scan()
+        episode = next((item for item in snapshot.episodes if item.slug == record.episode_slug), None)
+        if not episode:
+            raise ValueError("episode not found")
+
+        assets = tuple(
+            asset
+            for asset in (
+                self._asset("final_video", "Final video", episode.final_output_path, "video/mp4"),
+                self._asset("thumbnail", "Thumbnail", episode.thumbnail_path, "image/jpeg"),
+                self._asset("review_report", "Review report", episode.review_report_path, "text/markdown"),
+                self._asset("publish_packet", "Publish packet", episode.publish_packet_path, "application/json"),
+            )
+            if asset is not None
+        )
+        if len(assets) < 4:
+            raise ValueError("delivery package is incomplete")
+
+        return DeliveryPackage(
+            episode_slug=record.episode_slug,
+            token_id=record.id,
+            expires_at=record.expires_at,
+            assets=assets,
+        )
+
+    def get_asset(self, token: str, asset_key: str) -> DeliveryAsset:
+        package = self.execute(token)
+        asset = next((item for item in package.assets if item.key == asset_key), None)
+        if not asset:
+            raise ValueError("delivery asset not found")
+        return asset
+
+    def _asset(
+        self,
+        key: Literal["final_video", "thumbnail", "review_report", "publish_packet"],
+        label: str,
+        path: Path | None,
+        content_type: str,
+    ) -> DeliveryAsset | None:
+        if path is None:
+            return None
+        guessed_content_type = mimetypes.guess_type(path.name)[0] or content_type
+        return DeliveryAsset(key=key, label=label, path=path, content_type=guessed_content_type)

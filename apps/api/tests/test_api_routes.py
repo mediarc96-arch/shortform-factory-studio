@@ -223,6 +223,17 @@ class ApiRoutesTest(unittest.TestCase):
             self.assertEqual(response.json()["status"], "active")
             self.assertIsInstance(response.json()["token"], str)
 
+            package = client.get(f"/public/deliveries/{response.json()['token']}")
+            self.assertEqual(package.status_code, 200)
+            self.assertEqual(package.json()["episode_slug"], "jjiroo-pilot-001")
+            self.assertEqual(
+                {asset["key"] for asset in package.json()["assets"]},
+                {"final_video", "thumbnail", "review_report", "publish_packet"},
+            )
+
+            asset = client.get(f"/public/deliveries/{response.json()['token']}/files/final_video")
+            self.assertEqual(asset.status_code, 200)
+
             tokens = client.get("/deliveries/tokens")
             self.assertEqual(tokens.status_code, 200)
             self.assertIsNone(tokens.json()[0]["token"])
@@ -230,6 +241,9 @@ class ApiRoutesTest(unittest.TestCase):
             revoked = client.post(f"/deliveries/tokens/{response.json()['id']}/revoke")
             self.assertEqual(revoked.status_code, 200)
             self.assertEqual(revoked.json()["status"], "revoked")
+
+            revoked_package = client.get(f"/public/deliveries/{response.json()['token']}")
+            self.assertEqual(revoked_package.status_code, 404)
 
     def test_ops_health_route_reports_components(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -176,6 +176,13 @@ class PostgresSfsStore:
         )
         return _delivery_token_from_row(row) if row else None
 
+    def get_delivery_token_by_hash(self, token_hash: str) -> DeliveryTokenRecord | None:
+        row = self._fetchone_or_none(
+            "SELECT * FROM delivery_tokens WHERE token_hash = %s",
+            (token_hash,),
+        )
+        return _delivery_token_from_row(row) if row else None
+
     def list_delivery_tokens(self, *, limit: int = 20) -> tuple[DeliveryTokenRecord, ...]:
         rows = self._fetchall(
             "SELECT * FROM delivery_tokens ORDER BY created_at DESC LIMIT %s",

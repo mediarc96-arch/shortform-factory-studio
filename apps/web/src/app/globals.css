@@ -1145,6 +1145,17 @@ h1 {
   overflow-wrap: anywhere;
 }
 
+.token-box a {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 780;
+  text-decoration: none;
+}
+
+.token-box a:hover {
+  text-decoration: underline;
+}
+
 .character-list {
   display: grid;
   gap: 8px;
@@ -1285,6 +1296,104 @@ h1 {
   line-height: 1.45;
 }
 
+.public-delivery {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.delivery-public-panel {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 860px);
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.delivery-public-header {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.delivery-public-brand {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--ink);
+  background: var(--accent);
+  border-radius: 8px;
+  font-weight: 900;
+}
+
+.delivery-public-panel h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.delivery-public-panel p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.delivery-video {
+  width: 100%;
+  max-height: min(70vh, 720px);
+  background: #050606;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.delivery-file-list {
+  display: grid;
+  gap: 8px;
+}
+
+.delivery-file-list a {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.5fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 48px;
+  padding: 9px 10px;
+  color: var(--text);
+  background: #171b1c;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  text-decoration: none;
+}
+
+.delivery-file-list a:hover {
+  border-color: var(--line-strong);
+}
+
+.delivery-file-list strong {
+  font-size: 12px;
+}
+
+.delivery-file-list span,
+.delivery-file-list code {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.delivery-file-list code {
+  color: var(--quiet);
+  font-family: var(--mono);
+}
+
 @media (max-width: 1180px) {
   .console-app {
     grid-template-columns: 230px minmax(0, 1fr);
@@ -1366,6 +1475,11 @@ h1 {
 
   .ops-map {
     grid-template-columns: 1fr;
+  }
+
+  .delivery-file-list a {
+    grid-template-columns: 1fr;
+    align-items: start;
   }
 }
 

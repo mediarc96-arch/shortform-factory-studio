@@ -104,6 +104,12 @@ class InMemorySfsStore:
         self._delivery_tokens[token_id] = updated
         return updated
 
+    def get_delivery_token_by_hash(self, token_hash: str) -> DeliveryTokenRecord | None:
+        return next(
+            (record for record in self._delivery_tokens.values() if record.token_hash == token_hash),
+            None,
+        )
+
     def list_delivery_tokens(self, *, limit: int = 20) -> tuple[DeliveryTokenRecord, ...]:
         return tuple(
             sorted(self._delivery_tokens.values(), key=lambda item: item.created_at, reverse=True)[

@@ -60,6 +60,9 @@ class DeliveryTokenStore(Protocol):
     def revoke_delivery_token(self, token_id: str) -> DeliveryTokenRecord | None:
         """Revoke a token by id."""
 
+    def get_delivery_token_by_hash(self, token_hash: str) -> DeliveryTokenRecord | None:
+        """Return a delivery token by its one-way hash."""
+
     def list_delivery_tokens(self, *, limit: int = 20) -> tuple[DeliveryTokenRecord, ...]:
         """Return recent delivery tokens."""
 

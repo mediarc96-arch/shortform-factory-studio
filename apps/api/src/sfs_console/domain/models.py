@@ -75,6 +75,22 @@ class DeliveryReadiness:
 
 
 @dataclass(frozen=True)
+class DeliveryAsset:
+    key: Literal["final_video", "thumbnail", "review_report", "publish_packet"]
+    label: str
+    path: Path
+    content_type: str
+
+
+@dataclass(frozen=True)
+class DeliveryPackage:
+    episode_slug: str
+    token_id: str
+    expires_at: datetime
+    assets: tuple[DeliveryAsset, ...]
+
+
+@dataclass(frozen=True)
 class WorkspaceSnapshot:
     characters: tuple[CharacterSummary, ...]
     episodes: tuple[EpisodeSummary, ...]

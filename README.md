@@ -63,6 +63,8 @@ Implemented console actions:
 - audit log writes for production request, character, and delivery actions
 - character template creation under `characters/<slug>`
 - delivery token issue/revoke with token hashes stored at rest
+- public token delivery pages at `/delivery/<token>` for final video, thumbnail,
+  review report, and publish metadata downloads
 - optional Paperclip issue handoff when `SFS_PAPERCLIP_COMPANY_ID` and a valid
   `SFS_PAPERCLIP_API_TOKEN` are configured
 

@@ -712,6 +712,7 @@ function DeliveryScreen({
   const [token, setToken] = useState<DeliveryTokenResponse | null>(null);
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
+  const deliveryPath = token?.token ? `/delivery/${token.token}` : null;
 
   const generateToken = () => {
     startTransition(async () => {
@@ -812,7 +813,8 @@ function DeliveryScreen({
             {token ? (
               <div className="token-box">
                 <strong>{token.status}</strong>
-                <code>{token.token ?? token.id}</code>
+                <code>{deliveryPath ?? token.id}</code>
+                {deliveryPath ? <a href={deliveryPath}>{delivery.downloadPackage}</a> : null}
                 <span>{token.expires_at}</span>
               </div>
             ) : null}

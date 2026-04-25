@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 
 from sfs_console.application import (
     BuildProductionRequestMarkdown,
@@ -8,6 +9,7 @@ from sfs_console.application import (
     IssueDeliveryToken,
     ListWorkspaceSnapshot,
     RevokeDeliveryToken,
+    ResolveDeliveryPackage,
     SaveProductionRequest,
     SendProductionRequestToPaperclip,
     ValidateDeliveryReadiness,
@@ -26,6 +28,7 @@ from sfs_console.presentation.schemas import (
     CharacterResponse,
     CharacterTemplateResponse,
     DeliveryTokenCreateRequest,
+    DeliveryPackageResponse,
     DeliveryTokenResponse,
     DeliveryReadinessResponse,
     EpisodeResponse,
@@ -177,6 +180,26 @@ def create_app(
         except ValueError as error:
             raise HTTPException(status_code=404, detail=str(error)) from error
         return DeliveryTokenResponse.from_domain(record)
+
+    @app.get("/public/deliveries/{token}", response_model=DeliveryPackageResponse)
+    def public_delivery_package(token: str) -> DeliveryPackageResponse:
+        try:
+            package = ResolveDeliveryPackage(scanner, persistence).execute(token)
+        except ValueError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+        return DeliveryPackageResponse.from_domain(package, token=token)
+
+    @app.get("/public/deliveries/{token}/files/{asset_key}")
+    def public_delivery_asset(token: str, asset_key: str) -> FileResponse:
+        try:
+            asset = ResolveDeliveryPackage(scanner, persistence).get_asset(token, asset_key)
+        except ValueError as error:
+            raise HTTPException(status_code=404, detail=str(error)) from error
+        return FileResponse(
+            path=asset.path,
+            media_type=asset.content_type,
+            filename=asset.path.name,
+        )
 
     @app.get("/audit-logs", response_model=list[AuditLogResponse])
     def audit_logs() -> list[AuditLogResponse]:

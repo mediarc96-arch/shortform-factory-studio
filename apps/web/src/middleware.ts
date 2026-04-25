@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE_NAME, isAuthConfigured, normalizeNextPath, verifySessionToken } from "@/lib/auth";
 
-const PUBLIC_PREFIXES = ["/_next", "/api/auth", "/login"];
+const PUBLIC_PREFIXES = ["/_next", "/api/auth", "/delivery", "/login"];
 
 export async function middleware(request: NextRequest) {
   if (!isAuthConfigured() || isPublicPath(request.nextUrl.pathname)) {
