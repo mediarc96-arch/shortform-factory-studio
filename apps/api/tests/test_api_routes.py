@@ -49,6 +49,7 @@ class ApiRoutesTest(unittest.TestCase):
             self._write(root / "characters/jjiroo/bible.md", "# Jjiroo")
             self._write(root / "characters/jjiroo/prompts.md", "# Prompts")
             self._write(root / "characters/jjiroo/rights.md", "# Rights")
+            self._write(root / "characters/jjiroo/refs/canonical-wall/01-front-neutral.jpg", "")
             self._write(root / "formats/pet-toon-image-only-v1/profile.json", "{}")
             self._write(root / "episodes/jjiroo-pilot-001/renders/final/final.mp4", "")
             self._write(root / "episodes/jjiroo-pilot-001/renders/final/final-thumb.jpg", "")
@@ -66,11 +67,23 @@ class ApiRoutesTest(unittest.TestCase):
             self.assertEqual(workspace.json()["episode_count"], 1)
             self.assertEqual(workspace.json()["ready_episode_count"], 1)
             self.assertEqual(workspace.json()["characters"][0]["slug"], "jjiroo")
+            self.assertEqual(
+                workspace.json()["characters"][0]["reference_images"][0]["filename"],
+                "01-front-neutral.jpg",
+            )
+            self.assertEqual(
+                workspace.json()["characters"][0]["reference_images"][0]["slot"],
+                "front-neutral",
+            )
             self.assertEqual(workspace.json()["formats"][0]["slug"], "pet-toon-image-only-v1")
 
             characters = client.get("/characters")
             self.assertEqual(characters.status_code, 200)
             self.assertEqual(characters.json()[0]["rights_status"], "present")
+
+            reference = client.get("/characters/jjiroo/refs/01-front-neutral.jpg")
+            self.assertEqual(reference.status_code, 200)
+            self.assertEqual(reference.headers["content-type"], "image/jpeg")
 
             formats = client.get("/formats")
             self.assertEqual(formats.status_code, 200)

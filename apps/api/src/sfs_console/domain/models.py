@@ -24,6 +24,13 @@ class GateStatus:
 
 
 @dataclass(frozen=True)
+class CharacterReferenceImage:
+    slot: str
+    filename: str
+    path: Path
+
+
+@dataclass(frozen=True)
 class CharacterSummary:
     slug: str
     display_name: str
@@ -32,6 +39,7 @@ class CharacterSummary:
     has_prompts: bool
     has_rights: bool
     has_voice: bool
+    reference_images: tuple[CharacterReferenceImage, ...] = ()
 
     @property
     def rights_status(self) -> AssetStatus:

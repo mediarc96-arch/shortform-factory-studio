@@ -5,7 +5,7 @@
   "importRefs": "Importar refs",
   "createCharacter": "Crear personaje",
   "referenceWall": "Canonical Reference Wall",
-  "safeRefs": "7 refs seguras para producción",
+  "safeRefs": "refs canónicas por personaje",
   "dossier": "Dossier del personaje",
   "selectedCharacter": "Personaje seleccionado",
   "newTemplate": "Nueva plantilla de personaje",
@@ -18,5 +18,19 @@
   "negativePrompt": "Bloqueo de prompt negativo",
   "generatedFiles": "Archivos generados",
   "templateBacked": "basado en plantilla",
-  "requiredToCreate": "Se requieren campos obligatorios y un slug único."
+  "requiredToCreate": "Se requieren campos obligatorios y un slug único.",
+  "referenceReady": "listo",
+  "referenceMissing": "faltante",
+  "referenceSlotLabels": {
+    "front-neutral": "Frente neutro",
+    "three-quarter": "Tres cuartos",
+    "side-profile": "Perfil lateral",
+    "back-view": "Vista posterior",
+    "happy-expression": "Expresión feliz",
+    "surprised-expression": "Expresión sorpresa",
+    "teaching-pose": "Pose de clase",
+    "walking-pose": "Pose caminando",
+    "close-up": "Primer plano rostro",
+    "style-lock": "Bloqueo de estilo"
+  }
 }

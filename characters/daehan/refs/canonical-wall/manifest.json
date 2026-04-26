@@ -1,0 +1,108 @@
+{
+  "character": "daehan",
+  "kind": "canonical-reference-wall-generated-sample-v1",
+  "generatedAt": "2026-04-26T01:54:14Z",
+  "sourcePolicy": "generated sample slots from the existing front character reference; human approval is required before training or production lock",
+  "slots": [
+    {
+      "slot": "front-neutral",
+      "labelKo": "정면 기본",
+      "labelEn": "Front neutral",
+      "status": "present",
+      "file": "01-front-neutral.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 1,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "three-quarter",
+      "labelKo": "3/4 각도",
+      "labelEn": "Three-quarter",
+      "status": "present",
+      "file": "02-three-quarter.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 2,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "side-profile",
+      "labelKo": "측면 프로필",
+      "labelEn": "Side profile",
+      "status": "present",
+      "file": "03-side-profile.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 3,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "back-view",
+      "labelKo": "후면",
+      "labelEn": "Back view",
+      "status": "present",
+      "file": "04-back-view.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 4,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "happy-expression",
+      "labelKo": "웃는 표정",
+      "labelEn": "Happy expression",
+      "status": "present",
+      "file": "05-happy-expression.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 5,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "surprised-expression",
+      "labelKo": "놀란 표정",
+      "labelEn": "Surprised expression",
+      "status": "present",
+      "file": "06-surprised-expression.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 6,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "teaching-pose",
+      "labelKo": "수업 포즈",
+      "labelEn": "Teaching pose",
+      "status": "present",
+      "file": "07-teaching-pose.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 7,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "walking-pose",
+      "labelKo": "걷기 포즈",
+      "labelEn": "Walking pose",
+      "status": "present",
+      "file": "08-walking-pose.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 8,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "close-up",
+      "labelKo": "얼굴 클로즈업",
+      "labelEn": "Face close-up",
+      "status": "present",
+      "file": "09-close-up.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 9,
+      "generationMode": "image_gen_reference_sheet_sample"
+    },
+    {
+      "slot": "style-lock",
+      "labelKo": "스타일 잠금",
+      "labelEn": "Style lock",
+      "status": "present",
+      "file": "10-style-lock.jpg",
+      "source": "_generated-reference-sheet.png",
+      "sourcePanel": 10,
+      "generationMode": "image_gen_reference_sheet_sample"
+    }
+  ]
+}

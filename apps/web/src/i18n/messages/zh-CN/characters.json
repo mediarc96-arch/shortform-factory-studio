@@ -5,7 +5,7 @@
   "importRefs": "导入参考",
   "createCharacter": "创建角色",
   "referenceWall": "Canonical Reference Wall",
-  "safeRefs": "7 个制作安全参考",
+  "safeRefs": "按角色的 canonical refs",
   "dossier": "角色档案",
   "selectedCharacter": "已选角色",
   "newTemplate": "新角色模板",
@@ -18,5 +18,19 @@
   "negativePrompt": "负面提示词锁定",
   "generatedFiles": "生成文件",
   "templateBacked": "基于模板",
-  "requiredToCreate": "需要填写必填项，并使用不重复的 slug。"
+  "requiredToCreate": "需要填写必填项，并使用不重复的 slug。",
+  "referenceReady": "已具备",
+  "referenceMissing": "缺失",
+  "referenceSlotLabels": {
+    "front-neutral": "正面基础",
+    "three-quarter": "四分之三角度",
+    "side-profile": "侧面轮廓",
+    "back-view": "背面",
+    "happy-expression": "微笑表情",
+    "surprised-expression": "惊讶表情",
+    "teaching-pose": "教学姿势",
+    "walking-pose": "行走姿势",
+    "close-up": "面部特写",
+    "style-lock": "风格锁定"
+  }
 }

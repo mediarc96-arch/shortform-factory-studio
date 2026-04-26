@@ -692,6 +692,7 @@ h1 {
 
 .shot strong,
 .shot span,
+.reference strong,
 .reference span {
   display: block;
   padding: 0 8px;
@@ -702,6 +703,12 @@ h1 {
 
 .shot strong {
   margin-top: 8px;
+  font-size: 12px;
+}
+
+.reference strong {
+  margin-top: 8px;
+  color: var(--text);
   font-size: 12px;
 }
 
@@ -744,6 +751,11 @@ h1 {
   min-height: 48px;
   padding: 9px 10px;
   background: #171b1c;
+}
+
+.queue-row.selected {
+  background: #202727;
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .queue-row.header {
@@ -1152,8 +1164,17 @@ h1 {
 }
 
 .ref-art {
+  display: grid;
+  place-items: center;
   aspect-ratio: 1;
   background: #213235;
+}
+
+.ref-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .ref-art.variant-1 {
@@ -1164,8 +1185,18 @@ h1 {
   background: #3a2d25;
 }
 
+.reference.missing {
+  border-style: dashed;
+}
+
+.ref-art .ref-placeholder {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
 .reference span {
-  padding: 7px 8px;
+  padding: 2px 8px 8px;
   color: var(--muted);
   font-size: 11px;
 }

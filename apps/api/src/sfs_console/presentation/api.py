@@ -141,6 +141,33 @@ def create_app(
         snapshot = ListWorkspaceSnapshot(scanner).execute()
         return [CharacterResponse.from_domain(character) for character in snapshot.characters]
 
+    @app.get("/characters/{character_slug}/refs/{asset_name}")
+    def character_reference_asset(character_slug: str, asset_name: str) -> FileResponse:
+        snapshot = ListWorkspaceSnapshot(scanner).execute()
+        character = next((item for item in snapshot.characters if item.slug == character_slug), None)
+        if not character:
+            raise HTTPException(status_code=404, detail="character not found")
+
+        reference = next((item for item in character.reference_images if item.filename == asset_name), None)
+        if not reference:
+            raise HTTPException(status_code=404, detail="character reference not found")
+
+        reference_root = (character.root_path / "refs" / "canonical-wall").resolve()
+        path = reference.path.resolve()
+        if path.parent != reference_root:
+            raise HTTPException(status_code=404, detail="character reference not found")
+
+        media_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+        if not media_type.startswith("image/"):
+            raise HTTPException(status_code=404, detail="character reference not found")
+
+        return FileResponse(
+            path=path,
+            media_type=media_type,
+            filename=path.name,
+            content_disposition_type="inline",
+        )
+
     @app.get("/formats", response_model=list[FormatProfileResponse])
     def formats() -> list[FormatProfileResponse]:
         snapshot = ListWorkspaceSnapshot(scanner).execute()

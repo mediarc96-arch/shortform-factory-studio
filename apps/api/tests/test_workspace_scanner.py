@@ -31,6 +31,8 @@ class WorkspaceScannerTest(unittest.TestCase):
             root = Path(tmp)
             self._write(root / "characters/jjiroo/bible.md", "# Jjiroo")
             self._write(root / "characters/jjiroo/prompts.md", "# Prompts")
+            self._write(root / "characters/jjiroo/refs/canonical-wall/01-front-neutral.jpg", "")
+            self._write(root / "characters/jjiroo/refs/canonical-wall/_overview.jpg", "")
             self._write(root / "formats/pet-toon-image-only-v1/profile.json", "{}")
             self._write(root / "episodes/jjiroo-pilot-001/renders/final/final.mp4", "")
             self._write(root / "episodes/jjiroo-pilot-001/review/review-report.md", "# Review")
@@ -38,6 +40,9 @@ class WorkspaceScannerTest(unittest.TestCase):
             snapshot = FileSystemWorkspaceScanner(root).scan()
 
             self.assertEqual(len(snapshot.characters), 1)
+            self.assertEqual(len(snapshot.characters[0].reference_images), 1)
+            self.assertEqual(snapshot.characters[0].reference_images[0].slot, "front-neutral")
+            self.assertEqual(snapshot.characters[0].reference_images[0].filename, "01-front-neutral.jpg")
             self.assertEqual(len(snapshot.formats), 1)
             self.assertEqual(len(snapshot.episodes), 1)
             self.assertEqual(snapshot.episodes[0].slug, "jjiroo-pilot-001")

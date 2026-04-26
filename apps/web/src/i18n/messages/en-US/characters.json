@@ -5,7 +5,7 @@
   "importRefs": "Import refs",
   "createCharacter": "Create character",
   "referenceWall": "Canonical Reference Wall",
-  "safeRefs": "7 production-safe refs",
+  "safeRefs": "character canonical refs",
   "dossier": "Character dossier",
   "selectedCharacter": "Selected character",
   "newTemplate": "New character template",
@@ -18,5 +18,19 @@
   "negativePrompt": "Negative prompt lock",
   "generatedFiles": "Generated files",
   "templateBacked": "template backed",
-  "requiredToCreate": "Required fields and a unique slug are needed."
+  "requiredToCreate": "Required fields and a unique slug are needed.",
+  "referenceReady": "ready",
+  "referenceMissing": "missing",
+  "referenceSlotLabels": {
+    "front-neutral": "Front neutral",
+    "three-quarter": "Three-quarter",
+    "side-profile": "Side profile",
+    "back-view": "Back view",
+    "happy-expression": "Happy expression",
+    "surprised-expression": "Surprised expression",
+    "teaching-pose": "Teaching pose",
+    "walking-pose": "Walking pose",
+    "close-up": "Face close-up",
+    "style-lock": "Style lock"
+  }
 }

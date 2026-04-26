@@ -2,7 +2,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from sfs_console.domain import CharacterSummary, EpisodeSummary, FormatProfileSummary, WorkspaceSnapshot
+from sfs_console.domain import (
+    CharacterReferenceImage,
+    CharacterSummary,
+    EpisodeSummary,
+    FormatProfileSummary,
+    WorkspaceSnapshot,
+)
+
+
+REFERENCE_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
 
 class FileSystemWorkspaceScanner:
@@ -38,9 +47,39 @@ class FileSystemWorkspaceScanner:
                     has_prompts=(path / "prompts.md").exists(),
                     has_rights=(path / "rights.md").exists(),
                     has_voice=(path / "voice.json").exists(),
+                    reference_images=self._scan_character_reference_images(path),
                 )
             )
         return tuple(characters)
+
+    def _scan_character_reference_images(self, character_path: Path) -> tuple[CharacterReferenceImage, ...]:
+        reference_root = character_path / "refs" / "canonical-wall"
+        if not reference_root.exists():
+            return ()
+
+        references: list[CharacterReferenceImage] = []
+        for image in sorted(reference_root.iterdir(), key=lambda item: item.name):
+            if (
+                not image.is_file()
+                or image.name.startswith((".", "_"))
+                or image.suffix.lower() not in REFERENCE_IMAGE_EXTENSIONS
+            ):
+                continue
+            references.append(
+                CharacterReferenceImage(
+                    slot=self._reference_slot_from_filename(image.name),
+                    filename=image.name,
+                    path=image,
+                )
+            )
+        return tuple(references)
+
+    def _reference_slot_from_filename(self, filename: str) -> str:
+        stem = Path(filename).stem
+        parts = stem.split("-", 1)
+        if len(parts) == 2 and parts[0].isdigit():
+            return parts[1]
+        return stem
 
     def _scan_formats(self) -> tuple[FormatProfileSummary, ...]:
         format_root = self._root / "formats"

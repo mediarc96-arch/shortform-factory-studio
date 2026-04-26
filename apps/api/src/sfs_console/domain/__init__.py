@@ -1,5 +1,6 @@
 from .models import (
     AuditLogEntry,
+    CharacterReferenceImage,
     CharacterSummary,
     CharacterTemplateResult,
     ClientRevisionRequestRecord,
@@ -19,6 +20,7 @@ from .models import (
 
 __all__ = [
     "AuditLogEntry",
+    "CharacterReferenceImage",
     "CharacterSummary",
     "CharacterTemplateResult",
     "ClientRevisionRequestRecord",

@@ -5,7 +5,7 @@
   "importRefs": "레퍼런스 가져오기",
   "createCharacter": "캐릭터 생성",
   "referenceWall": "Canonical Reference Wall",
-  "safeRefs": "제작 안전 레퍼런스 7개",
+  "safeRefs": "캐릭터별 canonical refs",
   "dossier": "캐릭터 문서",
   "selectedCharacter": "선택된 캐릭터",
   "newTemplate": "신규 캐릭터 템플릿",
@@ -18,5 +18,19 @@
   "negativePrompt": "네거티브 프롬프트 잠금",
   "generatedFiles": "생성 파일",
   "templateBacked": "템플릿 기반",
-  "requiredToCreate": "필수 항목과 중복되지 않는 slug가 필요합니다."
+  "requiredToCreate": "필수 항목과 중복되지 않는 slug가 필요합니다.",
+  "referenceReady": "확보",
+  "referenceMissing": "미확보",
+  "referenceSlotLabels": {
+    "front-neutral": "정면 기본",
+    "three-quarter": "3/4 각도",
+    "side-profile": "측면 프로필",
+    "back-view": "후면",
+    "happy-expression": "웃는 표정",
+    "surprised-expression": "놀란 표정",
+    "teaching-pose": "수업 포즈",
+    "walking-pose": "걷기 포즈",
+    "close-up": "얼굴 클로즈업",
+    "style-lock": "스타일 잠금"
+  }
 }

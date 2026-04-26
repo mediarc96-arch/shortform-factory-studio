@@ -82,17 +82,17 @@ export const reviewFrames = [
   ["1904", "ok"]
 ] as const;
 
-export const referenceFiles = [
-  "front-neutral.png",
-  "side-profile.png",
-  "happy-expression.png",
-  "rain-scene.png",
-  "thumbnail-safe.png",
-  "walking-pose.png",
-  "close-up.png",
-  "unsafe-archive.png",
-  "turnaround.png",
-  "style-lock.png"
+export const canonicalReferenceSlots = [
+  { id: "front-neutral", fallbackFile: "01-front-neutral.png" },
+  { id: "three-quarter", fallbackFile: "02-three-quarter.png" },
+  { id: "side-profile", fallbackFile: "03-side-profile.png" },
+  { id: "back-view", fallbackFile: "04-back-view.png" },
+  { id: "happy-expression", fallbackFile: "05-happy-expression.png" },
+  { id: "surprised-expression", fallbackFile: "06-surprised-expression.png" },
+  { id: "teaching-pose", fallbackFile: "07-teaching-pose.png" },
+  { id: "walking-pose", fallbackFile: "08-walking-pose.png" },
+  { id: "close-up", fallbackFile: "09-close-up.png" },
+  { id: "style-lock", fallbackFile: "10-style-lock.png" }
 ] as const;
 
 export const navOrder: ScreenId[] = [

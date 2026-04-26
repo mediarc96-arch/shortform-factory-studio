@@ -5,7 +5,7 @@
   "importRefs": "参照を取り込む",
   "createCharacter": "キャラクター作成",
   "referenceWall": "Canonical Reference Wall",
-  "safeRefs": "制作安全参照 7 件",
+  "safeRefs": "キャラクター別 canonical refs",
   "dossier": "キャラクター資料",
   "selectedCharacter": "選択中のキャラクター",
   "newTemplate": "新規キャラクターテンプレート",
@@ -18,5 +18,19 @@
   "negativePrompt": "ネガティブプロンプトロック",
   "generatedFiles": "生成ファイル",
   "templateBacked": "テンプレート準拠",
-  "requiredToCreate": "必須項目と重複しない slug が必要です。"
+  "requiredToCreate": "必須項目と重複しない slug が必要です。",
+  "referenceReady": "確保",
+  "referenceMissing": "未確保",
+  "referenceSlotLabels": {
+    "front-neutral": "正面基本",
+    "three-quarter": "3/4角度",
+    "side-profile": "側面プロフィール",
+    "back-view": "背面",
+    "happy-expression": "笑顔",
+    "surprised-expression": "驚き表情",
+    "teaching-pose": "授業ポーズ",
+    "walking-pose": "歩きポーズ",
+    "close-up": "顔クローズアップ",
+    "style-lock": "スタイル固定"
+  }
 }

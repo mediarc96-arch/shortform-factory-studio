@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import {
+  canonicalReferenceSlots,
   navOrder,
   productionGates,
-  referenceFiles,
   reviewFrames,
   shots
 } from "@/features/console-data";
@@ -31,6 +31,7 @@ type ConsoleShellProps = {
   locale: SupportedLocale;
   requestPreview?: ProductionRequestPreview;
   screen: ScreenId;
+  selectedEpisodeSlug?: string;
   workspace: WorkspaceViewModel;
 };
 
@@ -145,6 +146,7 @@ export function ConsoleShell({
   locale,
   requestPreview,
   screen,
+  selectedEpisodeSlug,
   workspace
 }: ConsoleShellProps) {
   const router = useRouter();
@@ -154,26 +156,50 @@ export function ConsoleShell({
     document.documentElement.lang = locale;
   }, [locale]);
 
-  const navigate = (nextScreen: ScreenId) => {
-    router.push(`/${toLocaleSegment(locale)}/${nextScreen}`);
+  const navigate = (nextScreen: ScreenId, options: { episodeSlug?: string } = {}) => {
+    router.push(buildConsolePath(locale, nextScreen, options.episodeSlug));
   };
 
   const switchLocale = (nextLocale: SupportedLocale) => {
-    router.push(`/${toLocaleSegment(nextLocale)}/${screen}`);
+    router.push(buildConsolePath(nextLocale, screen, selectedEpisodeSlug));
   };
 
   const currentScreen = useMemo(() => {
     if (screen === "production") {
-      return <ProductionScreen dictionary={dictionary} navigate={navigate} workspace={workspace} />;
+      return (
+        <ProductionScreen
+          dictionary={dictionary}
+          navigate={navigate}
+          selectedEpisodeSlug={selectedEpisodeSlug}
+          workspace={workspace}
+        />
+      );
     }
-    if (screen === "review") return <ReviewScreen dictionary={dictionary} navigate={navigate} workspace={workspace} />;
+    if (screen === "review") {
+      return (
+        <ReviewScreen
+          dictionary={dictionary}
+          navigate={navigate}
+          selectedEpisodeSlug={selectedEpisodeSlug}
+          workspace={workspace}
+        />
+      );
+    }
     if (screen === "request") {
       return <RequestScreen dictionary={dictionary} requestPreview={requestPreview} workspace={workspace} />;
     }
     if (screen === "characters") return <CharactersScreen dictionary={dictionary} workspace={workspace} />;
-    if (screen === "delivery") return <DeliveryScreen dictionary={dictionary} workspace={workspace} />;
+    if (screen === "delivery") {
+      return (
+        <DeliveryScreen
+          dictionary={dictionary}
+          selectedEpisodeSlug={selectedEpisodeSlug}
+          workspace={workspace}
+        />
+      );
+    }
     return <OpsScreen dictionary={dictionary} />;
-  }, [dictionary, requestPreview, screen, workspace]);
+  }, [dictionary, requestPreview, screen, selectedEpisodeSlug, workspace]);
 
   return (
     <div className="console-app">
@@ -297,14 +323,17 @@ function ScreenHeader({
 function ProductionScreen({
   dictionary,
   navigate,
+  selectedEpisodeSlug,
   workspace
 }: {
   dictionary: Dictionary;
-  navigate: (screen: ScreenId) => void;
+  navigate: (screen: ScreenId, options?: { episodeSlug?: string }) => void;
+  selectedEpisodeSlug?: string;
   workspace: WorkspaceViewModel;
 }) {
   const { common, production } = dictionary;
-  const previewEpisode = getPreviewEpisode(workspace);
+  const previewEpisode = getPreviewEpisode(workspace, selectedEpisodeSlug);
+  const selectedSlug = previewEpisode?.slug;
 
   return (
     <section>
@@ -327,7 +356,11 @@ function ProductionScreen({
 
       <div className="workspace-grid">
         <div className="stack">
-          <Panel title={production.activeReview} meta={production.needsRights} tone="warn">
+          <Panel
+            title={production.activeReview}
+            meta={previewEpisode ? `${previewEpisode.slug} · ${production.needsRights}` : production.needsRights}
+            tone="warn"
+          >
             <MediaPreview episode={previewEpisode} />
             <div className="status-strip">
               <InfoCell title={production.picture} detail={production.pictureDetail} />
@@ -362,12 +395,22 @@ function ProductionScreen({
                 <span>Action</span>
               </div>
               {workspace.queue.map((episode) => (
-                <div className="queue-row" key={episode.slug}>
+                <div
+                  className={`queue-row ${episode.slug === selectedSlug ? "selected" : ""}`}
+                  key={episode.slug}
+                >
                   <span>{episode.slug}</span>
                   <span>{episode.character}</span>
                   <span className={`badge ${episode.status}`}>{statusLabel(episode.status)}</span>
                   <span>{episode.nextGate}</span>
-                  <button type="button" onClick={() => navigate(episode.status === "ready" ? "delivery" : "review")}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigate(episode.status === "ready" ? "delivery" : "review", {
+                        episodeSlug: episode.slug
+                      })
+                    }
+                  >
                     {episode.status === "ready" ? "Package" : "Open"}
                   </button>
                 </div>
@@ -406,14 +449,16 @@ function ProductionScreen({
 function ReviewScreen({
   dictionary,
   navigate,
+  selectedEpisodeSlug,
   workspace
 }: {
   dictionary: Dictionary;
-  navigate: (screen: ScreenId) => void;
+  navigate: (screen: ScreenId, options?: { episodeSlug?: string }) => void;
+  selectedEpisodeSlug?: string;
   workspace: WorkspaceViewModel;
 }) {
   const { common, review } = dictionary;
-  const previewEpisode = getPreviewEpisode(workspace);
+  const previewEpisode = getPreviewEpisode(workspace, selectedEpisodeSlug);
 
   return (
     <section>
@@ -424,7 +469,11 @@ function ReviewScreen({
         actions={
           <>
             <button type="button">{common.requestRevision}</button>
-            <button className="primary" type="button" onClick={() => navigate("delivery")}>
+            <button
+              className="primary"
+              type="button"
+              onClick={() => navigate("delivery", { episodeSlug: previewEpisode?.slug })}
+            >
               {common.approveDelivery}
             </button>
           </>
@@ -432,7 +481,10 @@ function ReviewScreen({
       />
       <div className="workspace-grid">
         <div className="stack">
-          <Panel title={review.player} meta={review.format}>
+          <Panel
+            title={review.player}
+            meta={previewEpisode ? `${previewEpisode.slug} · ${review.format}` : review.format}
+          >
             <MediaPreview episode={previewEpisode} />
             <div className="timeline">
               <Track label="picture" clips={[18, 24, 22, 25]} />
@@ -628,10 +680,20 @@ function CharactersScreen({
 }) {
   const { characters } = dictionary;
   const router = useRouter();
-  const [selectedCharacterSlug, setSelectedCharacterSlug] = useState(workspace.characters[0]?.slug ?? "");
+  const initialCharacterSlug =
+    workspace.characters.find((character) => character.referenceImages.length > 0)?.slug ??
+    workspace.characters[0]?.slug ??
+    "";
+  const [selectedCharacterSlug, setSelectedCharacterSlug] = useState(initialCharacterSlug);
   const selectedCharacter =
     workspace.characters.find((character) => character.slug === selectedCharacterSlug) ??
     workspace.characters[0];
+  const selectedReferenceImages = selectedCharacter?.referenceImages ?? [];
+  const referencesBySlot = new Map(selectedReferenceImages.map((image) => [image.slot, image]));
+  const referenceWallMeta =
+    selectedCharacter
+      ? `${selectedCharacter.slug} · ${selectedReferenceImages.length}/${canonicalReferenceSlots.length} refs`
+      : characters.safeRefs;
   const existingCharacterSlugs = useMemo(
     () => new Set(workspace.characters.map((character) => character.slug)),
     [workspace.characters]
@@ -698,14 +760,29 @@ function CharactersScreen({
         }
       />
       <div className="workspace-grid">
-        <Panel title={characters.referenceWall} meta={characters.safeRefs}>
+        <Panel title={characters.referenceWall} meta={referenceWallMeta}>
           <div className="reference-wall">
-            {referenceFiles.map((file, index) => (
-              <div className="reference" key={file}>
-                <div className={`ref-art variant-${index % 3}`} />
-                <span>{file}</span>
-              </div>
-            ))}
+            {canonicalReferenceSlots.map((slot, index) => {
+              const image = referencesBySlot.get(slot.id);
+              const label = referenceSlotLabel(characters.referenceSlotLabels, slot.id);
+              return (
+                <div className={`reference ${image ? "" : "missing"}`} key={slot.id}>
+                  <div className={`ref-art variant-${index % 3}`}>
+                    {selectedCharacter && image ? (
+                      <img
+                        alt={`${selectedCharacter.displayName} ${label}`}
+                        loading="lazy"
+                        src={characterReferenceUrl(selectedCharacter.slug, image.filename)}
+                      />
+                    ) : (
+                      <span className="ref-placeholder">{characters.referenceMissing}</span>
+                    )}
+                  </div>
+                  <strong>{label}</strong>
+                  <span>{image ? characters.referenceReady : characters.referenceMissing}</span>
+                </div>
+              );
+            })}
           </div>
         </Panel>
         <div className="stack">
@@ -820,16 +897,19 @@ function CharactersScreen({
 
 function DeliveryScreen({
   dictionary,
+  selectedEpisodeSlug,
   workspace
 }: {
   dictionary: Dictionary;
+  selectedEpisodeSlug?: string;
   workspace: WorkspaceViewModel;
 }) {
   const { common, delivery } = dictionary;
+  const episodeOptions = useMemo(() => getEpisodeOptions(workspace), [workspace]);
   const initialEpisode =
-    workspace.episodes.find((episode) => episode.status === "ready")?.slug ??
-    workspace.episodes[0]?.slug ??
-    workspace.queue[0]?.slug ??
+    episodeOptions.find((episode) => episode.slug === selectedEpisodeSlug)?.slug ??
+    episodeOptions.find((episode) => episode.status === "ready")?.slug ??
+    episodeOptions[0]?.slug ??
     "";
   const [episodeSlug, setEpisodeSlug] = useState(initialEpisode);
   const [expiresInHours, setExpiresInHours] = useState(168);
@@ -846,17 +926,6 @@ function DeliveryScreen({
   const [action, setAction] = useState<ActionState>({ tone: "idle", message: "" });
   const [isPending, startTransition] = useTransition();
   const deliveryPath = token?.token && token.episode_slug === episodeSlug ? `/delivery/${token.token}` : null;
-  const episodeOptions = workspace.episodes.length
-    ? workspace.episodes
-    : workspace.queue.map((episode) => ({
-        slug: episode.slug,
-        character_slug: episode.character,
-        status: episode.status,
-        final_output_path: null,
-        thumbnail_path: null,
-        review_report_path: null,
-        publish_packet_path: null
-      }));
   const selectedEpisode = useMemo(
     () => episodeOptions.find((episode) => episode.slug === episodeSlug) ?? episodeOptions[0],
     [episodeOptions, episodeSlug]
@@ -899,6 +968,12 @@ function DeliveryScreen({
     () => revisionRequests.filter((request) => matchesRevisionFilter(request, revisionFilter)),
     [revisionFilter, revisionRequests]
   );
+
+  useEffect(() => {
+    if (selectedEpisodeSlug && episodeOptions.some((episode) => episode.slug === selectedEpisodeSlug)) {
+      setEpisodeSlug(selectedEpisodeSlug);
+    }
+  }, [episodeOptions, selectedEpisodeSlug]);
 
   useEffect(() => {
     let isMounted = true;
@@ -1525,11 +1600,38 @@ function isCharacterCreateReady(payload: CharacterCreatePayload, existingSlugs: 
   );
 }
 
-function getPreviewEpisode(workspace: WorkspaceViewModel) {
+function buildConsolePath(locale: SupportedLocale, screen: ScreenId, episodeSlug?: string) {
+  const basePath = `/${toLocaleSegment(locale)}/${screen}`;
+  return episodeSlug ? `${basePath}?episode=${encodeURIComponent(episodeSlug)}` : basePath;
+}
+
+function getEpisodeOptions(workspace: WorkspaceViewModel): WorkspaceEpisode[] {
+  if (workspace.episodes.length) {
+    return workspace.episodes;
+  }
+  return workspace.queue.map((episode) => ({
+    slug: episode.slug,
+    character_slug: episode.character,
+    status: episode.status,
+    final_output_path: null,
+    thumbnail_path: null,
+    review_report_path: null,
+    publish_packet_path: null
+  }));
+}
+
+function getPreviewEpisode(workspace: WorkspaceViewModel, selectedEpisodeSlug?: string) {
+  const episodeOptions = getEpisodeOptions(workspace);
+  const selectedEpisode = selectedEpisodeSlug
+    ? episodeOptions.find((episode) => episode.slug === selectedEpisodeSlug)
+    : undefined;
+  if (selectedEpisode) {
+    return selectedEpisode;
+  }
   return (
-    workspace.episodes.find((episode) => episode.final_output_path && episode.status !== "blocked") ??
-    workspace.episodes.find((episode) => episode.final_output_path) ??
-    workspace.episodes[0]
+    episodeOptions.find((episode) => episode.final_output_path && episode.status !== "blocked") ??
+    episodeOptions.find((episode) => episode.final_output_path) ??
+    episodeOptions[0]
   );
 }
 
@@ -1760,6 +1862,14 @@ function truncateText(value: string, maxLength: number) {
     return value;
   }
   return `${value.slice(0, Math.max(0, maxLength - 3))}...`;
+}
+
+function characterReferenceUrl(characterSlug: string, filename: string) {
+  return `/api/sfs-media/characters/${encodeURIComponent(characterSlug)}/refs/${encodeURIComponent(filename)}`;
+}
+
+function referenceSlotLabel(labels: Record<string, string>, slot: string) {
+  return labels[slot] ?? slot;
 }
 
 function OpsNode({ label, title, text }: { label: string; title: string; text: string }) {

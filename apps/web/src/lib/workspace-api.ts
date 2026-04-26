@@ -20,6 +20,13 @@ export type WorkspaceCharacter = {
   has_rights: boolean;
   has_voice: boolean;
   rights_status: "present" | "missing";
+  reference_images?: CharacterReferenceImage[];
+};
+
+export type CharacterReferenceImage = {
+  slot: string;
+  filename: string;
+  path: string;
 };
 
 export type WorkspaceFormat = {
@@ -45,6 +52,7 @@ export type CharacterRegistryItem = {
   hasBible: boolean;
   hasPrompts: boolean;
   hasVoice: boolean;
+  referenceImages: CharacterReferenceImage[];
 };
 
 export type FormatRegistryItem = {
@@ -88,7 +96,8 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
           rightsStatus: "missing",
           hasBible: true,
           hasPrompts: true,
-          hasVoice: false
+          hasVoice: false,
+          referenceImages: []
         }
       ],
       formats: [{ slug: "pet-toon-image-only-v1", profilePath: "formats/pet-toon-image-only-v1/profile.json" }],
@@ -119,7 +128,8 @@ export async function loadWorkspaceViewModel(): Promise<WorkspaceViewModel> {
       rightsStatus: character.rights_status,
       hasBible: character.has_bible,
       hasPrompts: character.has_prompts,
-      hasVoice: character.has_voice
+      hasVoice: character.has_voice,
+      referenceImages: character.reference_images ?? []
     })),
     formats: formats.map((format) => ({
       slug: format.slug,

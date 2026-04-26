@@ -109,6 +109,19 @@ class GateResponse(BaseModel):
     detail: str
 
 
+class CharacterReferenceImageResponse(BaseModel):
+    slot: str
+    filename: str
+    path: str
+
+    @classmethod
+    def from_domain(cls, reference: object) -> "CharacterReferenceImageResponse":
+        slot = getattr(reference, "slot")
+        filename = getattr(reference, "filename")
+        path = getattr(reference, "path")
+        return cls(slot=slot, filename=filename, path=_relative(path) or "")
+
+
 class CharacterResponse(BaseModel):
     slug: str
     display_name: str
@@ -118,6 +131,7 @@ class CharacterResponse(BaseModel):
     has_rights: bool
     has_voice: bool
     rights_status: str
+    reference_images: list[CharacterReferenceImageResponse]
 
     @classmethod
     def from_domain(cls, character: CharacterSummary) -> "CharacterResponse":
@@ -130,6 +144,10 @@ class CharacterResponse(BaseModel):
             has_rights=character.has_rights,
             has_voice=character.has_voice,
             rights_status=character.rights_status,
+            reference_images=[
+                CharacterReferenceImageResponse.from_domain(reference)
+                for reference in character.reference_images
+            ],
         )
 
 
