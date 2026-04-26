@@ -21,8 +21,7 @@ SFS Console은 v2 와이어프레임 전체가 완성된 상태가 아니다. �
 ## 로그인
 
 1. `https://sfs.devscent.com`에 접속한다.
-2. nginx Basic Auth를 통과한다.
-3. SFS Console 로그인 폼에서 operator 계정으로 로그인한다.
+2. SFS Console 로그인 폼에서 operator 계정으로 로그인한다.
 
 환경변수는 project `.env`의 `SFS_OPERATOR_USERNAME`, `SFS_OPERATOR_PASSWORD`,
 `SFS_AUTH_SECRET`을 사용한다.

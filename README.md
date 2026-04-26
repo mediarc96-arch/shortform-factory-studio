@@ -50,9 +50,10 @@ shared/
 docker compose up -d --build
 ```
 
-The public domain is protected by nginx Basic Auth and the web app also checks
-an operator session cookie. Set `SFS_AUTH_SECRET`, `SFS_OPERATOR_USERNAME`, and
-`SFS_OPERATOR_PASSWORD` in the local `.env` before starting the web container.
+The public domain is served through nginx, while operator access is enforced by
+the web app login and session cookie. Set `SFS_AUTH_SECRET`,
+`SFS_OPERATOR_USERNAME`, and `SFS_OPERATOR_PASSWORD` in the local `.env` before
+starting the web container.
 
 The API scans this workspace, stores request/delivery metadata in the shared
 Postgres database `shortform_factory`, and only writes files for explicit

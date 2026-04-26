@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import base64
 import json
 import os
 from http.cookiejar import CookieJar
@@ -16,7 +15,7 @@ API_URL = os.environ.get("SFS_SMOKE_API_URL", "https://api.devscent.com/openapi.
 SECRET_FILE = Path(
     os.environ.get("SFS_SMOKE_PASSWORD_FILE", "/home/kindsr/.config/sfs-console/basic-auth.txt")
 )
-USERNAME = os.environ.get("SFS_CONSOLE_BASIC_USER", "sfs-admin")
+USERNAME = os.environ.get("SFS_OPERATOR_USERNAME", os.environ.get("SFS_CONSOLE_BASIC_USER", "sfs-admin"))
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -31,12 +30,13 @@ class NoRedirect(HTTPRedirectHandler):
 
 def main() -> None:
     username, password = read_credentials()
-    auth_header = basic_auth_header(username, password)
     cookies = CookieJar()
     opener = build_opener(HTTPCookieProcessor(cookies), NoRedirect())
 
-    no_auth_status, _ = request(opener, "GET", f"{BASE_URL}/ko/delivery", allow_error=True)
-    assert_equal(no_auth_status, 401, "console requires nginx Basic Auth")
+    no_auth_status, no_auth_headers = request(opener, "GET", f"{BASE_URL}/ko/delivery", allow_error=True)
+    assert_equal(no_auth_status, 307, "console redirects unauthenticated users to app login")
+    if "/login" not in no_auth_headers.get("location", ""):
+        raise AssertionError(f"unexpected unauthenticated redirect: {no_auth_headers.get('location', '')}")
 
     login_body = urlencode(
         {"username": username, "password": password, "next": "/ko/delivery"}
@@ -46,7 +46,6 @@ def main() -> None:
         "POST",
         f"{BASE_URL}/api/auth/login",
         headers={
-            "authorization": auth_header,
             "content-type": "application/x-www-form-urlencoded",
         },
         body=login_body,
@@ -61,11 +60,18 @@ def main() -> None:
         opener,
         "GET",
         f"{BASE_URL}/ko/delivery",
-        headers={"authorization": auth_header},
     )
     assert_equal(page_status, 200, "authenticated delivery page loads")
     if "SFS Console" not in page_body and "딜리버리" not in page_body:
         raise AssertionError("authenticated delivery page did not contain expected console text")
+
+    api_no_auth_status, _ = request(
+        build_opener(),
+        "GET",
+        f"{BASE_URL}/api/sfs/ops/health",
+        allow_error=True,
+    )
+    assert_equal(api_no_auth_status, 401, "app API requires operator session")
 
     api_status, api_body = request(build_opener(), "GET", API_URL)
     assert_equal(api_status, 200, "api.devscent.com openapi loads")
@@ -77,7 +83,7 @@ def main() -> None:
 
 
 def read_credentials() -> tuple[str, str]:
-    raw = os.environ.get("SFS_CONSOLE_BASIC_PASSWORD")
+    raw = os.environ.get("SFS_OPERATOR_PASSWORD", os.environ.get("SFS_CONSOLE_BASIC_PASSWORD"))
     username = USERNAME
     if raw is None and SECRET_FILE.exists():
         raw = SECRET_FILE.read_text(encoding="utf-8").strip()
@@ -98,11 +104,6 @@ def read_credentials() -> tuple[str, str]:
         if not raw:
             raise RuntimeError("password key is missing from SFS smoke password file")
     return username, raw.strip()
-
-
-def basic_auth_header(username: str, password: str) -> str:
-    token = base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("ascii")
-    return f"Basic {token}"
 
 
 def request(
