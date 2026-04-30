@@ -44,7 +44,10 @@ raw pet episode narrative를 storyboard-first workflow로 제작한다.
 - If this issue or an approved follow-up comment contains `대본:`, treat that section as the authoritative narration source for dubbing.
 - If `대본:` exists, estimate rough narration timing with a local/basic no-paid-API guide TTS or equivalent timing pass before finalizing runtime and scene durations.
 - Scene video must follow approved storyboard cuts and motion keyframes rather than fresh prose prompts.
-- Require `scene-n` final frame and `scene-(n+1)` opening frame to begin from the same visual state.
+- Lock both a start frame and an end frame for each scene before scene-video generation.
+- Declare each scene boundary as either `continuous_handoff` or `transition_cut`.
+- Use `continuous_handoff` when the next scene must continue the same action, pose, camera baseline, prop state, and location from the prior final frame.
+- Use `transition_cut` when the edit intentionally changes time, location, camera angle, scale, or emotional beat; define transition type, duration, purpose, and audio/visual bridge.
 
 ## Story Input
 {{RAW_EPISODE_NARRATIVE}}

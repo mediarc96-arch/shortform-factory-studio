@@ -44,6 +44,20 @@ def ensure_keyframe_from_storyboard(source_path: Path, output_path: Path) -> Non
         image.convert("RGB").save(output_path, format="JPEG", quality=95)
 
 
+def keyframe_output_path(keyframe: dict, key: str) -> str:
+    value = keyframe.get(key)
+    if isinstance(value, dict):
+        value = value.get("outputPath")
+    return str(value or "").strip()
+
+
+def keyframe_source_cut_id(keyframe: dict, key: str = "sourceCutId") -> str:
+    value = keyframe.get(key)
+    if isinstance(value, dict):
+        value = value.get("sourceCutId")
+    return str(value or keyframe.get("sourceCutId") or "").strip()
+
+
 def scene_prompt(
     *,
     protagonist_name: str,
@@ -69,11 +83,43 @@ def scene_prompt(
 
     keyframe_pose = str((keyframe or {}).get("pose") or "").strip()
     if keyframe_pose:
-        parts.append(f"Approved target pose: {keyframe_pose}")
+        parts.append(f"Approved start pose: {keyframe_pose}")
+
+    keyframe_end_pose = str((keyframe or {}).get("endPose") or "").strip()
+    if keyframe_end_pose:
+        parts.append(f"Approved end pose: {keyframe_end_pose}")
+
+    target_end_frame = str(scene.get("targetEndFramePath") or scene.get("endFramePath") or "").strip()
+    if target_end_frame:
+        parts.append(f"Aim the final frame toward the approved end frame file: {target_end_frame}.")
 
     camera_intent = str(scene.get("cameraIntent") or "").strip()
     if camera_intent:
         parts.append(f"Camera intent: {camera_intent}")
+
+    boundary = scene.get("boundaryToNext") or {}
+    boundary_mode = str(boundary.get("mode") or scene.get("boundaryMode") or "").strip()
+    if boundary_mode:
+        parts.append(f"Boundary mode after this scene: {boundary_mode}.")
+    if boundary_mode == "continuous_handoff":
+        parts.append("Final frame must be suitable as the next scene's first frame.")
+    elif boundary_mode == "transition_cut":
+        transition_type = str(boundary.get("transitionType") or "").strip()
+        transition_purpose = str(boundary.get("purpose") or "").strip()
+        transition_bridge = str(boundary.get("audioVisualBridge") or "").strip()
+        if transition_type or transition_purpose or transition_bridge:
+            parts.append(
+                "Transition note: "
+                + " ".join(
+                    value
+                    for value in [
+                        f"type={transition_type}" if transition_type else "",
+                        f"purpose={transition_purpose}" if transition_purpose else "",
+                        f"bridge={transition_bridge}" if transition_bridge else "",
+                    ]
+                    if value
+                )
+            )
 
     continuity_notes = [str(note).strip() for note in list(scene.get("continuityNotes") or []) if str(note).strip()]
     if continuity_notes:
@@ -116,13 +162,21 @@ def main() -> int:
     style_summary = summarize_style_lock(episode_dir / str(global_settings.get("styleLockFile") or "storyboard/style-lock.md"))
 
     for keyframe in keyframes:
-        source_cut_id = str(keyframe.get("sourceCutId") or "")
+        source_cut_id = keyframe_source_cut_id(keyframe)
         source_cut = cuts_by_id.get(source_cut_id)
         if not source_cut:
             continue
         source_path = (episode_dir / str(source_cut["outputPath"])).resolve()
-        output_path = (episode_dir / str(keyframe["outputPath"])).resolve()
-        ensure_keyframe_from_storyboard(source_path, output_path)
+        start_output = keyframe_output_path(keyframe, "outputPath") or keyframe_output_path(keyframe, "startFrame")
+        if start_output:
+            ensure_keyframe_from_storyboard(source_path, (episode_dir / start_output).resolve())
+
+        end_source_cut_id = keyframe_source_cut_id(keyframe, "endSourceCutId")
+        end_source_cut = cuts_by_id.get(end_source_cut_id) if end_source_cut_id else source_cut
+        end_output = keyframe_output_path(keyframe, "endFramePath") or keyframe_output_path(keyframe, "endFrame")
+        if end_output and end_source_cut:
+            end_source_path = (episode_dir / str(end_source_cut["outputPath"])).resolve()
+            ensure_keyframe_from_storyboard(end_source_path, (episode_dir / end_output).resolve())
 
     scenes: list[dict] = []
     execution_order: list[str] = []
@@ -135,30 +189,40 @@ def main() -> int:
         if not output_path:
             raise ValueError(f"{scene_id} is missing outputClipPath/outputPath")
         handoff_path = str(scene.get("handoffLastFramePath") or f"assets/refs/{scene_id}-last-frame.jpg")
-        start_seed = str(scene.get("startSeed") or "").strip()
+        start_seed = str(scene.get("startSeed") or keyframe_output_path(keyframe or {}, "outputPath") or "").strip()
         if not start_seed:
             raise ValueError(f"{scene_id} is missing startSeed")
+        target_end_frame = str(
+            scene.get("targetEndFramePath")
+            or scene.get("endFramePath")
+            or keyframe_output_path(keyframe or {}, "endFramePath")
+            or ""
+        ).strip()
+        boundary = scene.get("boundaryToNext") or (keyframe or {}).get("boundaryToNext") or {}
 
-        scenes.append(
-            {
-                "sceneId": scene_id,
-                "durationSec": float(scene.get("durationSec") or 3.0),
-                "prompt": scene_prompt(
-                    protagonist_name=protagonist_name,
-                    source_cut=source_cut,
-                    keyframe=keyframe,
-                    scene=scene,
-                    global_settings=global_settings,
-                    style_summary=style_summary,
-                ),
-                "referenceImages": [start_seed],
-                "outputPath": output_path,
-                "handoff": {
-                    "extractLastFrame": True,
-                    "lastFramePath": handoff_path,
-                },
-            }
-        )
+        scene_payload = {
+            "sceneId": scene_id,
+            "durationSec": float(scene.get("durationSec") or 3.0),
+            "prompt": scene_prompt(
+                protagonist_name=protagonist_name,
+                source_cut=source_cut,
+                keyframe=keyframe,
+                scene={**scene, "targetEndFramePath": target_end_frame, "boundaryToNext": boundary},
+                global_settings=global_settings,
+                style_summary=style_summary,
+            ),
+            "referenceImages": [start_seed],
+            "outputPath": output_path,
+            "handoff": {
+                "extractLastFrame": True,
+                "lastFramePath": handoff_path,
+            },
+        }
+        if target_end_frame:
+            scene_payload["targetEndFramePath"] = target_end_frame
+        if boundary:
+            scene_payload["boundaryToNext"] = boundary
+        scenes.append(scene_payload)
         execution_order.extend([f"generate-{scene_id}", f"extract-{scene_id}-last-frame"])
 
     orchestration_job = {

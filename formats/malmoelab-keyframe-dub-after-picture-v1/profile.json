@@ -5,7 +5,7 @@
   "runnerHints": {
     "basePrep": "Prepare or select a clean 16:9 character base plate with the teacher on the right quarter and an empty board on the left.",
     "keyframeGate": "Generate and review five keyframes before any video generation.",
-    "pictureStage": "Generate five mute 6-second clips sequentially using the previous scene's last frame as the next scene seed.",
+    "pictureStage": "Generate five mute 6-second clips with explicit continuous_handoff or transition_cut boundary rules.",
     "dubStage": "Lock picture first, then add the six standard voice slots.",
     "typeStage": "Apply board typography only after dub lock."
   },
@@ -18,8 +18,10 @@
     "defaultSceneCount": 5,
     "defaultClipDurationSec": 6.0,
     "defaultTotalDurationSec": 30.0,
-    "continuityMode": "previous-scene-last-frame-seeds-next-scene",
-    "sceneStartRule": "scene-1 starts from approved keyframe-01; later scenes start from prior clip final frame",
+    "continuityMode": "per-boundary: continuous_handoff or transition_cut",
+    "sceneStartRule": "each scene declares an approved start frame; continuous_handoff scenes use the prior clip final frame as the next start seed, while transition_cut scenes use their own approved start frame",
+    "sceneBoundaryRule": "each boundary declares boundaryMode. Use continuous_handoff for uninterrupted classroom gesture continuity. Use transition_cut for intentional time, angle, scale, or beat changes and define transition type, duration, purpose, and audio/visual bridge.",
+    "sceneFrameRule": "each scene should lock both a start frame and an end frame before motion generation",
     "scenePoseTargetRule": "approved keyframes define the target pose and expression for each scene block",
     "textInGeneration": "forbidden",
     "defaultAspectRatio": "16:9",

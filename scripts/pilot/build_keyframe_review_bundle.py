@@ -92,7 +92,7 @@ def main() -> int:
             "## Next Step",
             "",
             "- Approve or reject each keyframe before generating any 6-second scene videos.",
-            "- After approval, scene-1 starts from `kf-01`; later scenes start from the previous scene's final frame."
+        "- After approval, each scene must declare a start frame, end frame, and boundary mode. Use `continuous_handoff` only when the next scene should start from the previous scene's final frame; use `transition_cut` when a planned edit transition bridges different frames."
         ]
     )
 

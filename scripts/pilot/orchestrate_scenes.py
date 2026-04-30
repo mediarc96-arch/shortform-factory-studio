@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Walk `video-generation-job.json` and drive Grok scene generation with
-frame-handoff continuity.
+explicit scene-boundary continuity.
 
 For each scene in executionOrder:
   1. Build a per-scene job.json compatible with run_xai_grok_scene.py
      (absolute paths so `normalize_request` can base64-embed the images)
   2. Invoke run_xai_grok_scene.py as a subprocess
   3. If handoff.extractLastFrame=true, extract last frame via
-     extract_last_frame.py so the next scene can seed off it
+     extract_last_frame.py for either next-scene handoff or QA reference.
 
 Idempotent — scenes whose output .mp4 already exists are skipped unless --force.
 """
@@ -149,9 +149,10 @@ def build_scene_job(scene: dict, *, global_settings: dict, episode_dir: Path, re
         negative_prompt=global_settings.get("negativePromptCommon"),
     )
 
-    # xAI API rejects `image` + `reference_images` together. Continuity seed
-    # wins: the previous scene's last frame guarantees motion handoff, while
-    # the character ref is already present in that frame.
+    # xAI API rejects `image` + `reference_images` together. The scene's
+    # declared start seed wins. For `continuous_handoff` this should be the
+    # previous scene's final frame; for `transition_cut` it may be the next
+    # scene's own approved start frame.
     request_payload: dict[str, Any] = {
         "model": global_settings.get("model", "grok-imagine-video"),
         "prompt": prompt,

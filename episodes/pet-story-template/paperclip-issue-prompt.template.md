@@ -38,7 +38,10 @@ pet-shortform
 - If this issue or an approved follow-up comment contains `대본:`, treat that section as the authoritative narration source for `POST` dubbing.
 - If `대본:` exists, estimate rough narration timing with a local/basic no-paid-API guide TTS or equivalent timing pass before finalizing runtime.
 - Do not force pet scenes to `6s` each. Use the default `4 / 4 / 4 / 5 / 5s` baseline only when narration timing does not require a different split.
-- Require `scene-n` final frame and `scene-(n+1)` first frame to start from the same state. Use the prior scene handoff frame as the next scene seed.
+- For each scene, lock both a start frame and an end frame before scene-video generation.
+- For each scene boundary, declare `boundaryMode`:
+  - `continuous_handoff`: use the prior scene final frame as the next scene start seed.
+  - `transition_cut`: allow the next scene to use its own approved start frame, but define the transition type, duration, reason, and audio/visual bridge.
 
 ## Character Canon
 - protagonist: `{{PET_NAME}}`
@@ -88,7 +91,7 @@ pet-shortform
 ## Quality Gates
 - character continuity holds across all scenes
 - environment continuity holds across all scenes
-- each scene handoff preserves the same opening state from the prior scene's last frame
+- each scene declares `startFrame`, `endFrame`, and `boundaryMode`; `continuous_handoff` boundaries preserve the prior final frame as the next opening state, while `transition_cut` boundaries include a clear transition plan
 - no visible text is baked into generated footage
 - the climax reads clearly without showing real ingestion
 - the final reaction shot lands as the comedic payoff

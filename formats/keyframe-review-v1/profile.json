@@ -1,7 +1,7 @@
 {
   "id": "keyframe-review-v1",
   "label": "Daehan 2D Keyframe Review V1",
-  "description": "2D 대한 캐릭터 기반으로 clean base와 keyframe을 먼저 승인받은 뒤, 승인된 키프레임과 이전 씬 마지막 프레임을 이용해 6초 영상 클립을 순차 생성하는 실험 포맷.",
+  "description": "2D 대한 캐릭터 기반으로 clean base와 keyframe을 먼저 승인받은 뒤, 씬별 시작/종료 프레임과 boundary mode를 이용해 6초 영상 클립을 순차 생성하는 실험 포맷.",
   "runnerHints": {
     "basePrep": "scripts/pilot/prepare_daehan_2d_base.py",
     "keyframeGenerator": "scripts/pilot/generate_daehan_keyframes.py",
@@ -15,8 +15,10 @@
   },
   "sceneGenerationPolicy": {
     "clipDurationSec": 6.0,
-    "continuityMode": "previous-scene-last-frame-seeds-next-scene",
-    "sceneStartRule": "scene-1 starts from approved keyframe-01; later scenes start from prior clip's extracted final frame",
+    "continuityMode": "per-boundary: continuous_handoff or transition_cut",
+    "sceneStartRule": "each scene declares an approved start frame; continuous_handoff scenes use the prior clip final frame as the next start seed, while transition_cut scenes use their own approved start frame",
+    "sceneBoundaryRule": "each boundary declares boundaryMode. Use continuous_handoff for uninterrupted action continuity. Use transition_cut for intentional time, angle, scale, location, or emotional beat changes.",
+    "sceneFrameRule": "each scene should lock both a start frame and an end frame before motion generation",
     "scenePoseTargetRule": "approved keyframes define the target pose and expression for each scene block"
   },
   "audioPolicy": {

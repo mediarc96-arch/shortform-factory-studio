@@ -10,7 +10,12 @@
     "formatProfile": "pet-contents-vertical-webtoon-v1",
     "provider": "pending",
     "preferredProvider": "{{VIDEO_PROVIDER}}",
-    "continuityTarget": "previous-scene-last-frame",
+    "continuityTarget": "per-boundary-continuity",
+    "sceneBoundaryPolicy": {
+      "allowedModes": ["continuous_handoff", "transition_cut"],
+      "continuous_handoff": "previous scene final frame is the next scene start seed",
+      "transition_cut": "next scene may use its own approved start frame, but transition type, duration, purpose, and audio/visual bridge must be declared"
+    },
     "aspectRatio": "9:16",
     "resolution": "1080x1920",
     "fps": 30,
@@ -23,80 +28,166 @@
     {
       "sceneId": "scene-01",
       "durationSec": "{{SCENE_01_DURATION}}",
-      "startSeed": "keyframes/kf-01.jpg",
+      "startSeed": "keyframes/kf-01-start.jpg",
+      "startFramePath": "keyframes/kf-01-start.jpg",
+      "targetEndFramePath": "keyframes/kf-01-end.jpg",
       "cameraIntent": "{{SCENE_01_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_01_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_01_TO_02_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_01_TO_02_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_01_TO_02_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_01_TO_02_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-01-last-frame.jpg"
     },
     {
       "sceneId": "scene-02",
       "durationSec": "{{SCENE_02_DURATION}}",
-      "startSeed": "assets/refs/scene-01-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-01 final frame",
+      "startSeed": "{{SCENE_02_START_SEED}}",
+      "startFramePath": "keyframes/kf-02-start.jpg",
+      "targetEndFramePath": "keyframes/kf-02-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-01-last-frame.jpg; if transition_cut, use keyframes/kf-02-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_02_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_02_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_02_TO_03_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_02_TO_03_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_02_TO_03_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_02_TO_03_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-02-last-frame.jpg"
     },
     {
       "sceneId": "scene-03",
       "durationSec": "{{SCENE_03_DURATION}}",
-      "startSeed": "assets/refs/scene-02-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-02 final frame",
+      "startSeed": "{{SCENE_03_START_SEED}}",
+      "startFramePath": "keyframes/kf-03-start.jpg",
+      "targetEndFramePath": "keyframes/kf-03-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-02-last-frame.jpg; if transition_cut, use keyframes/kf-03-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_03_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_03_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_03_TO_04_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_03_TO_04_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_03_TO_04_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_03_TO_04_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-03-last-frame.jpg"
     },
     {
       "sceneId": "scene-04",
       "durationSec": "{{SCENE_04_DURATION}}",
-      "startSeed": "assets/refs/scene-03-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-03 final frame",
+      "startSeed": "{{SCENE_04_START_SEED}}",
+      "startFramePath": "keyframes/kf-04-start.jpg",
+      "targetEndFramePath": "keyframes/kf-04-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-03-last-frame.jpg; if transition_cut, use keyframes/kf-04-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_04_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_04_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_04_TO_05_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_04_TO_05_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_04_TO_05_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_04_TO_05_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-04-last-frame.jpg"
     },
     {
       "sceneId": "scene-05",
       "durationSec": "{{SCENE_05_DURATION}}",
-      "startSeed": "assets/refs/scene-04-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-04 final frame",
+      "startSeed": "{{SCENE_05_START_SEED}}",
+      "startFramePath": "keyframes/kf-05-start.jpg",
+      "targetEndFramePath": "keyframes/kf-05-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-04-last-frame.jpg; if transition_cut, use keyframes/kf-05-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_05_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_05_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_05_TO_06_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_05_TO_06_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_05_TO_06_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_05_TO_06_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-05-last-frame.jpg"
     },
     {
       "sceneId": "scene-06",
       "durationSec": "{{SCENE_06_DURATION}}",
-      "startSeed": "assets/refs/scene-05-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-05 final frame",
+      "startSeed": "{{SCENE_06_START_SEED}}",
+      "startFramePath": "keyframes/kf-06-start.jpg",
+      "targetEndFramePath": "keyframes/kf-06-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-05-last-frame.jpg; if transition_cut, use keyframes/kf-06-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_06_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_06_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_06_TO_07_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_06_TO_07_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_06_TO_07_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_06_TO_07_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-06-last-frame.jpg"
     },
     {
       "sceneId": "scene-07",
       "durationSec": "{{SCENE_07_DURATION}}",
-      "startSeed": "assets/refs/scene-06-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-06 final frame",
+      "startSeed": "{{SCENE_07_START_SEED}}",
+      "startFramePath": "keyframes/kf-07-start.jpg",
+      "targetEndFramePath": "keyframes/kf-07-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-06-last-frame.jpg; if transition_cut, use keyframes/kf-07-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_07_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_07_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_07_TO_08_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_07_TO_08_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_07_TO_08_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_07_TO_08_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-07-last-frame.jpg"
     },
     {
       "sceneId": "scene-08",
       "durationSec": "{{SCENE_08_DURATION}}",
-      "startSeed": "assets/refs/scene-07-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-07 final frame",
+      "startSeed": "{{SCENE_08_START_SEED}}",
+      "startFramePath": "keyframes/kf-08-start.jpg",
+      "targetEndFramePath": "keyframes/kf-08-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-07-last-frame.jpg; if transition_cut, use keyframes/kf-08-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_08_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_08_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_08_TO_09_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_08_TO_09_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_08_TO_09_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_08_TO_09_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-08-last-frame.jpg"
     },
     {
       "sceneId": "scene-09",
       "durationSec": "{{SCENE_09_DURATION}}",
-      "startSeed": "assets/refs/scene-08-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-08 final frame",
+      "startSeed": "{{SCENE_09_START_SEED}}",
+      "startFramePath": "keyframes/kf-09-start.jpg",
+      "targetEndFramePath": "keyframes/kf-09-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-08-last-frame.jpg; if transition_cut, use keyframes/kf-09-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_09_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "{{SCENE_09_BOUNDARY_MODE}}",
+        "transitionType": "{{SCENE_09_TO_10_TRANSITION_TYPE}}",
+        "durationSec": "{{SCENE_09_TO_10_TRANSITION_DURATION}}",
+        "purpose": "{{SCENE_09_TO_10_TRANSITION_PURPOSE}}",
+        "audioVisualBridge": "{{SCENE_09_TO_10_BRIDGE}}"
+      },
       "handoffLastFramePath": "assets/refs/scene-09-last-frame.jpg"
     },
     {
       "sceneId": "scene-10",
       "durationSec": "{{SCENE_10_DURATION}}",
-      "startSeed": "assets/refs/scene-09-last-frame.jpg",
-      "openingStateRule": "must begin from the same state as scene-09 final frame",
+      "startSeed": "{{SCENE_10_START_SEED}}",
+      "startFramePath": "keyframes/kf-10-start.jpg",
+      "targetEndFramePath": "keyframes/kf-10-end.jpg",
+      "openingStateRule": "if previous boundary is continuous_handoff, use assets/refs/scene-09-last-frame.jpg; if transition_cut, use keyframes/kf-10-start.jpg or another approved start frame",
       "cameraIntent": "{{SCENE_10_CAMERA}}",
+      "boundaryToNext": {
+        "mode": "terminal"
+      },
       "handoffLastFramePath": "assets/refs/scene-10-last-frame.jpg"
     }
   ]

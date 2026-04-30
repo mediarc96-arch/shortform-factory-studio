@@ -81,7 +81,10 @@
 ### `[RENDER]`
 
 - storyboard / keyframe / style lock을 반영한 scene video가 생성됨
-- scene-n final frame과 scene-(n+1) first frame이 이어짐
+- 각 scene의 start frame과 end frame이 잠겨 있음
+- 각 scene boundary가 `continuous_handoff` 또는 `transition_cut`으로 명시됨
+- `continuous_handoff` boundary는 scene-n final frame과 scene-(n+1) first frame이 이어짐
+- `transition_cut` boundary는 전환 방식, 전환 길이, 목적, 오디오/시각 브리지가 명시됨
 - provider manifest가 남음
 - 날개, 추가 다리, 복제 강아지, 잘못된 털색 같은 비의도 변형이 없음
 

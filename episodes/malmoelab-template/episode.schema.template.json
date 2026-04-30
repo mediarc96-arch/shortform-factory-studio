@@ -34,9 +34,9 @@
   },
   "policies": {
     "continuityPolicy": {
-      "target": "scene-last-frame-handoff",
+      "target": "per-boundary-continuity",
       "sceneDurationSec": 6.0,
-      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "entryFrameRule": "scene-1 uses approved keyframe-01; each later scene declares a boundaryMode. continuous_handoff uses the previous scene final frame as the next start seed; transition_cut uses its own approved start frame and a transition note.",
       "poseTargetRule": "approved keyframes are the target pose cards for each 6-second clip",
       "contentContinuityFocus": [
         "same-2d-character-identity",

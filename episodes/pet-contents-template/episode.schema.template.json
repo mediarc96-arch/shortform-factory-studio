@@ -27,9 +27,11 @@
       "defaultCutCount": 10
     },
     "continuityPolicy": {
-      "target": "scene-last-frame-handoff",
-      "entryFrameRule": "scene-01 uses approved storyboard or keyframe anchor; later scenes use previous scene final frame",
-      "cutBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues"
+      "target": "per-boundary-continuity",
+      "sceneFrameRule": "each scene locks both a start frame and an end frame before video generation",
+      "boundaryModes": ["continuous_handoff", "transition_cut"],
+      "continuousHandoffRule": "use the prior scene final frame as the next scene start seed when action, pose, camera, props, and location must continue",
+      "transitionCutRule": "use an approved independent next-scene start frame when the edit intentionally changes time, location, angle, scale, or emotional beat; define transition type, duration, purpose, and audio/visual bridge"
     },
     "audioPolicy": {
       "timingGuideRule": "if issue includes `대본:`, estimate rough narration timing with a local/basic no-paid-API guide TTS or equivalent timing pass before final runtime is locked",

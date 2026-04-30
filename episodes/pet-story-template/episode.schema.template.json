@@ -33,11 +33,11 @@
   },
   "policies": {
     "continuityPolicy": {
-      "target": "scene-last-frame-handoff",
+      "target": "per-boundary-continuity",
       "sceneDurationSec": 4.5,
       "defaultSceneDurationPlanSec": [4.0, 4.0, 4.0, 5.0, 5.0],
-      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
-      "cutBoundaryRule": "scene-n final frame and scene-(n+1) opening frame should begin from the same state before motion continues",
+      "entryFrameRule": "scene-1 uses approved keyframe-01; each later scene declares a boundaryMode. continuous_handoff uses the previous scene final frame as the next start seed; transition_cut uses its own approved start frame and a transition note.",
+      "cutBoundaryRule": "each scene locks a start frame and end frame. continuous_handoff boundaries preserve the same state across the cut; transition_cut boundaries may use different frames when the edit intentionally changes time, angle, location, scale, or emotion.",
       "poseTargetRule": "approved keyframes are the target pose cards for each scene clip",
       "contentContinuityFocus": [
         "same-pet-identity",

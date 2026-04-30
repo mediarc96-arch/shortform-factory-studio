@@ -29,13 +29,36 @@ def write_json(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def scene_prompt(scene_id: str, provider_expectation: str, continuity_notes: list[str], display_name: str) -> str:
+def scene_prompt(
+    scene_id: str,
+    provider_expectation: str,
+    continuity_notes: list[str],
+    display_name: str,
+    boundary_to_next: dict | None = None,
+    target_end_frame: str = "",
+) -> str:
     notes = " ".join(note.strip() for note in continuity_notes if str(note).strip())
+    boundary = boundary_to_next or {}
+    boundary_mode = str(boundary.get("mode") or "").strip()
+    boundary_note = ""
+    if boundary_mode == "continuous_handoff":
+        boundary_note = "Final frame must be suitable as the next scene's first frame. "
+    elif boundary_mode == "transition_cut":
+        transition_type = str(boundary.get("transitionType") or "").strip()
+        transition_purpose = str(boundary.get("purpose") or "").strip()
+        transition_bridge = str(boundary.get("audioVisualBridge") or "").strip()
+        boundary_note = (
+            "This scene ends before an intentional edit transition. "
+            f"Transition type: {transition_type}. Purpose: {transition_purpose}. Bridge: {transition_bridge}. "
+        )
+    target_note = f"Aim the final frame toward approved end frame file {target_end_frame}. " if target_end_frame else ""
     return (
         f"Use the provided frame as the exact first frame. Keep the same {display_name} teacher identity, "
         "the same empty classroom, the same camera distance, and the same right-quarter composition. "
         f"{provider_expectation.strip()} "
         f"{notes} "
+        f"{target_note}"
+        f"{boundary_note}"
         "Transition naturally toward the approved target pose and expression. "
         "No camera reset, no tighter crop, and no text anywhere."
     ).strip()
@@ -172,6 +195,8 @@ def build_scene_job(
     handoff_path = (episode_dir / str(scene["handoffLastFramePath"])).resolve()
     provider_expectation = str(scene.get("providerExpectation") or "")
     continuity_notes = list(scene.get("continuityNotes") or [])
+    boundary_to_next = scene.get("boundaryToNext") or {}
+    target_end_frame = str(scene.get("targetEndFramePath") or scene.get("endFramePath") or "")
 
     return {
         "provider": "xai_grok",
@@ -183,6 +208,8 @@ def build_scene_job(
                 provider_expectation=provider_expectation,
                 continuity_notes=continuity_notes,
                 display_name=display_name,
+                boundary_to_next=boundary_to_next,
+                target_end_frame=target_end_frame,
             ),
             "image": relpath(scene_jobs_dir, start_seed),
             "duration": int(round(float(scene.get("durationSec") or 6.0))),
