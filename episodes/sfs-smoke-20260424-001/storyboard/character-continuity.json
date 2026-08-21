@@ -1,0 +1,70 @@
+{
+  "policy": "first appearance of any undefined person or character becomes canonical for later cuts",
+  "characters": {
+    "jjiroo": {
+      "name": "찌루",
+      "source": "characters/jjiroo",
+      "referenceMode": "manual-chatgpt-reference-upload",
+      "canonicalReferenceImages": [
+        "characters/jjiroo/jjiroo.png",
+        "characters/jjiroo/jjiroo_sit.png",
+        "characters/jjiroo/jjiroo_laydown.png"
+      ],
+      "lockedFromCut": null,
+      "status": "canonical",
+      "styleLock": "cream-colored small dog, drooping ears, small black dot eyes, short muzzle, rounded soft body, rough black outline, low-saturation pastel hand-drawn fill",
+      "allowedInstancesPerCut": 1,
+      "forbidden": [
+        "duplicate pet",
+        "second version of same character",
+        "extra animal",
+        "wings",
+        "extra limbs",
+        "merged face",
+        "wrong fur color",
+        "wrong ear shape",
+        "changed eye style",
+        "photorealism",
+        "glossy 3D render",
+        "style drift",
+        "text",
+        "subtitles",
+        "logos",
+        "watermarks"
+      ]
+    }
+  },
+  "newCharacterInstructions": [
+    "Assign a stable slug before prompting ChatGPT.",
+    "Describe first generated design and output image path after the human receives it.",
+    "Reuse the same locked description and image in later cuts."
+  ],
+  "missingAssets": {
+    "canonicalReferencePack": "characters/jjiroo/refs/canonical-pack",
+    "rightsNote": "characters/jjiroo/rights.md",
+    "approval": "Board approved internal smoke preparation without these files in /SHO/issues/SHO-77#comment-c612c7fb-7824-4ee4-bab6-b362a9ff233d",
+    "restriction": "Internal prompt handoff only; no external publish until rights.md exists or board signs a publish-specific rights waiver."
+  },
+  "cutCardinality": {
+    "cut-01": {
+      "jjiroo": 1,
+      "otherPets": 0,
+      "extraAnimals": 0
+    },
+    "cut-02": {
+      "jjiroo": 1,
+      "otherPets": 0,
+      "extraAnimals": 0
+    },
+    "cut-03": {
+      "jjiroo": 1,
+      "otherPets": 0,
+      "extraAnimals": 0
+    },
+    "cut-04": {
+      "jjiroo": 1,
+      "otherPets": 0,
+      "extraAnimals": 0
+    }
+  }
+}

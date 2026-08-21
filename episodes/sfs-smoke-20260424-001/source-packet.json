@@ -1,0 +1,65 @@
+{
+  "workType": "new_pet_toon_episode",
+  "channelLane": "pet",
+  "projectLane": "pet-toon",
+  "outputPolicy": "manual-chatgpt-prompt-handoff",
+  "series": "pet-toon",
+  "formatProfile": "pet-toon-image-only-v1",
+  "episode": {
+    "slug": "sfs-smoke-20260424-001",
+    "title": "SFS 콘솔 스모크 테스트",
+    "rawNarrative": "SFS console 새 에피소드 요청이 정상 저장되는지 확인하는 내부 smoke test 상황. 찌루가 따뜻한 실내 작업 공간에서 빈 요청 카드, 작은 카메라, 간식 접시 주변을 호기심 있게 살피고, 마지막에는 준비 완료처럼 얌전히 앉아 사람을 바라보는 4컷 pet-toon 이미지-only 프롬프트 핸드오프. 이미지 안에는 글자, 로고, 화면 UI를 넣지 않는다.",
+    "cutCount": 4
+  },
+  "protagonist": {
+    "name": "찌루",
+    "slug": "jjiroo",
+    "referenceFolder": "characters/jjiroo",
+    "referenceMode": "manual-chatgpt-reference-upload",
+    "referenceImages": [
+      "characters/jjiroo/jjiroo.png",
+      "characters/jjiroo/jjiroo_sit.png",
+      "characters/jjiroo/jjiroo_laydown.png"
+    ]
+  },
+  "outputs": {
+    "chatgptPrompt": "chatgpt-image-prompt.md",
+    "humanSavedCutImages": "images/cuts/*.png",
+    "humanSavedWebtoonStrip": "images/episode-strip.png",
+    "manifest": "pet-toon-manifest.json"
+  },
+  "hardRules": [
+    "The agent writes prompts only; it does not call image generation APIs.",
+    "Preserve the canonical Jjiroo drawing style almost exactly from the three fallback reference images.",
+    "Do not create video outputs, keyframe plans, camera plans, dubbing, typography, QA packets, or publish packets in this issue.",
+    "Do not add text, subtitles, logos, watermarks, readable UI, or written labels inside generated images.",
+    "For every cut, draw exactly one jjiroo and no duplicate pets, extra animals, wings, extra limbs, merged faces, wrong fur color, wrong ear shape, or style drift.",
+    "No external publish until characters/jjiroo/rights.md exists or the board signs a publish-specific rights waiver."
+  ],
+  "rightsAndReferenceStatus": {
+    "canonicalReferencePack": "characters/jjiroo/refs/canonical-pack",
+    "rightsNote": "characters/jjiroo/rights.md",
+    "approval": "Board approved internal smoke preparation without these files in /SHO/issues/SHO-77#comment-c612c7fb-7824-4ee4-bab6-b362a9ff233d",
+    "restriction": "Internal prompt handoff only; no external publish until rights.md exists or board signs a publish-specific rights waiver."
+  },
+  "issueLinks": {
+    "parentIssue": "/SHO/issues/SHO-77",
+    "approvalComment": "/SHO/issues/SHO-77#comment-c612c7fb-7824-4ee4-bab6-b362a9ff233d",
+    "handoffIssue": "/SHO/issues/SHO-86"
+  },
+  "manualHandoff": {
+    "operatorUploads": [
+      "characters/jjiroo/jjiroo.png",
+      "characters/jjiroo/jjiroo_sit.png",
+      "characters/jjiroo/jjiroo_laydown.png"
+    ],
+    "operatorSaves": [
+      "images/episode-strip.png",
+      "images/cuts/cut-01.png",
+      "images/cuts/cut-02.png",
+      "images/cuts/cut-03.png",
+      "images/cuts/cut-04.png"
+    ],
+    "noAgentImageGeneration": true
+  }
+}

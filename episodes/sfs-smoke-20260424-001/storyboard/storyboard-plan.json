@@ -1,0 +1,139 @@
+{
+  "episodeSlug": "sfs-smoke-20260424-001",
+  "title": "SFS 콘솔 스모크 테스트",
+  "formatProfile": "pet-toon-image-only-v1",
+  "outputPolicy": "manual-chatgpt-prompt-handoff",
+  "provider": "chatgpt_manual",
+  "referenceMode": "manual-chatgpt-reference-upload",
+  "promptFile": "chatgpt-image-prompt.md",
+  "plannedHumanOutputs": {
+    "cutImages": [
+      "images/cuts/cut-01.png",
+      "images/cuts/cut-02.png",
+      "images/cuts/cut-03.png",
+      "images/cuts/cut-04.png"
+    ],
+    "webtoonStrip": "images/episode-strip.png"
+  },
+  "cuts": [
+    {
+      "id": "cut-01",
+      "title": "new request scent",
+      "beat": "찌루가 따뜻한 실내 작업 공간 바닥에서 글자 없는 빈 요청 카드와 작은 카메라 소품을 발견하고 코를 먼저 들이민다.",
+      "emotion": "curious, alert, gentle pet-comedy setup",
+      "setting": "warm indoor desk-side workspace, no readable UI, no text on props",
+      "shotGoal": "새 요청이 들어온 느낌을 글자 없이 소품과 찌루의 냄새 맡는 행동으로 전달한다.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "otherPets": 0,
+        "extraAnimals": 0
+      },
+      "cast": [
+        {
+          "slug": "jjiroo",
+          "name": "찌루",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical 2:3 webtoon panel, no text.\n\nUse the uploaded reference images as the strict source for Jjiroo. Preserve the simple 2D hand-drawn pastel style, cream-colored fur, rough black outline, small black dot eyes, short muzzle, drooping ears, rounded small body, and curious nose-first posture.\n\nEpisode premise: SFS console 새 에피소드 요청이 정상 저장되는지 확인하는 내부 smoke test 상황. 찌루가 따뜻한 실내 작업 공간에서 빈 요청 카드, 작은 카메라, 간식 접시 주변을 호기심 있게 살피고, 마지막에는 준비 완료처럼 얌전히 앉아 사람을 바라보는 4컷 pet-toon 이미지-only 프롬프트 핸드오프. 이미지 안에는 글자, 로고, 화면 UI를 넣지 않는다.\nCut 01/04: 찌루가 따뜻한 실내 작업 공간 바닥에서 글자 없는 빈 요청 카드와 작은 카메라 소품을 발견하고 코를 먼저 들이민다.\nEmotion: curious, alert, gentle pet-comedy setup\nSetting continuity: warm indoor desk-side workspace, no readable UI, no text on props\nShot goal: 새 요청이 들어온 느낌을 글자 없이 소품과 찌루의 냄새 맡는 행동으로 전달한다.\n\nCast cardinality:\n- exactly one Jjiroo (`jjiroo`)\n- zero duplicate dogs\n- zero extra animals\n- no visible person unless only implied by Jjiroo's eyeline\n\nComposition:\n- Vertical 2:3 single panel, warm everyday indoor pet-comedy tone.\n- Use blank, text-free props only; the request card must have no readable writing.\n- No captions, speech bubbles, UI screens, signs, logos, or watermarks.\n\nAvoid:\nduplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs",
+      "referenceImages": [
+        "characters/jjiroo/jjiroo.png",
+        "characters/jjiroo/jjiroo_sit.png",
+        "characters/jjiroo/jjiroo_laydown.png"
+      ],
+      "plannedHumanOutputFile": "images/cuts/cut-01.png"
+    },
+    {
+      "id": "cut-02",
+      "title": "sniff test around props",
+      "beat": "찌루가 빈 카드, 카메라, 간식 접시 사이를 킁킁거리며 확인한다. 소품은 단순하고 글자 없는 형태다.",
+      "emotion": "focused, investigative, food-motivated curiosity",
+      "setting": "same indoor workspace, props remain in the same relative positions",
+      "shotGoal": "console smoke test를 시스템 화면이 아니라 찌루의 검수 행동처럼 보이게 한다.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "otherPets": 0,
+        "extraAnimals": 0
+      },
+      "cast": [
+        {
+          "slug": "jjiroo",
+          "name": "찌루",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical 2:3 webtoon panel, no text.\n\nUse the uploaded reference images as the strict source for Jjiroo. Preserve the simple 2D hand-drawn pastel style, cream-colored fur, rough black outline, small black dot eyes, short muzzle, drooping ears, rounded small body, and curious nose-first posture.\n\nEpisode premise: SFS console 새 에피소드 요청이 정상 저장되는지 확인하는 내부 smoke test 상황. 찌루가 따뜻한 실내 작업 공간에서 빈 요청 카드, 작은 카메라, 간식 접시 주변을 호기심 있게 살피고, 마지막에는 준비 완료처럼 얌전히 앉아 사람을 바라보는 4컷 pet-toon 이미지-only 프롬프트 핸드오프. 이미지 안에는 글자, 로고, 화면 UI를 넣지 않는다.\nCut 02/04: 찌루가 빈 카드, 카메라, 간식 접시 사이를 킁킁거리며 확인한다. 소품은 단순하고 글자 없는 형태다.\nEmotion: focused, investigative, food-motivated curiosity\nSetting continuity: same indoor workspace, props remain in the same relative positions\nShot goal: console smoke test를 시스템 화면이 아니라 찌루의 검수 행동처럼 보이게 한다.\n\nCast cardinality:\n- exactly one Jjiroo (`jjiroo`)\n- zero duplicate dogs\n- zero extra animals\n- no visible person unless only implied by Jjiroo's eyeline\n\nComposition:\n- Vertical 2:3 single panel, warm everyday indoor pet-comedy tone.\n- Use blank, text-free props only; the request card must have no readable writing.\n- No captions, speech bubbles, UI screens, signs, logos, or watermarks.\n\nAvoid:\nduplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs",
+      "referenceImages": [
+        "characters/jjiroo/jjiroo.png",
+        "characters/jjiroo/jjiroo_sit.png",
+        "characters/jjiroo/jjiroo_laydown.png"
+      ],
+      "plannedHumanOutputFile": "images/cuts/cut-02.png"
+    },
+    {
+      "id": "cut-03",
+      "title": "treat lock moment",
+      "beat": "찌루가 간식 접시 앞에서 멈춰 앉아 작은 점눈으로 집중한다. 빈 요청 카드는 옆에 그대로 놓여 있다.",
+      "emotion": "expectant, intensely focused, cute restraint",
+      "setting": "same workspace, treat plate foreground, blank card side prop",
+      "shotGoal": "찌루의 식탐과 집중력을 살려 중간 리텐션 포인트를 만든다.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "otherPets": 0,
+        "extraAnimals": 0
+      },
+      "cast": [
+        {
+          "slug": "jjiroo",
+          "name": "찌루",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical 2:3 webtoon panel, no text.\n\nUse the uploaded reference images as the strict source for Jjiroo. Preserve the simple 2D hand-drawn pastel style, cream-colored fur, rough black outline, small black dot eyes, short muzzle, drooping ears, rounded small body, and curious nose-first posture.\n\nEpisode premise: SFS console 새 에피소드 요청이 정상 저장되는지 확인하는 내부 smoke test 상황. 찌루가 따뜻한 실내 작업 공간에서 빈 요청 카드, 작은 카메라, 간식 접시 주변을 호기심 있게 살피고, 마지막에는 준비 완료처럼 얌전히 앉아 사람을 바라보는 4컷 pet-toon 이미지-only 프롬프트 핸드오프. 이미지 안에는 글자, 로고, 화면 UI를 넣지 않는다.\nCut 03/04: 찌루가 간식 접시 앞에서 멈춰 앉아 작은 점눈으로 집중한다. 빈 요청 카드는 옆에 그대로 놓여 있다.\nEmotion: expectant, intensely focused, cute restraint\nSetting continuity: same workspace, treat plate foreground, blank card side prop\nShot goal: 찌루의 식탐과 집중력을 살려 중간 리텐션 포인트를 만든다.\n\nCast cardinality:\n- exactly one Jjiroo (`jjiroo`)\n- zero duplicate dogs\n- zero extra animals\n- no visible person unless only implied by Jjiroo's eyeline\n\nComposition:\n- Vertical 2:3 single panel, warm everyday indoor pet-comedy tone.\n- Use blank, text-free props only; the request card must have no readable writing.\n- No captions, speech bubbles, UI screens, signs, logos, or watermarks.\n\nAvoid:\nduplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs",
+      "referenceImages": [
+        "characters/jjiroo/jjiroo.png",
+        "characters/jjiroo/jjiroo_sit.png",
+        "characters/jjiroo/jjiroo_laydown.png"
+      ],
+      "plannedHumanOutputFile": "images/cuts/cut-03.png"
+    },
+    {
+      "id": "cut-04",
+      "title": "prompt ready pose",
+      "beat": "찌루가 간식 옆에 얌전히 앉아 사람 쪽을 올려다본다. 준비 완료처럼 보이지만 이미지 안에는 어떤 글자도 없다.",
+      "emotion": "satisfied, ready, innocent payoff",
+      "setting": "same indoor workspace, clean final arrangement, no UI screens or written labels",
+      "shotGoal": "manual ChatGPT prompt handoff가 준비됐다는 내부 smoke-test 마무리를 글자 없이 행동으로 닫는다.",
+      "castCardinality": {
+        "jjiroo": 1,
+        "otherPets": 0,
+        "extraAnimals": 0
+      },
+      "cast": [
+        {
+          "slug": "jjiroo",
+          "name": "찌루",
+          "count": 1
+        }
+      ],
+      "prompt": "Create one clean vertical 2:3 webtoon panel, no text.\n\nUse the uploaded reference images as the strict source for Jjiroo. Preserve the simple 2D hand-drawn pastel style, cream-colored fur, rough black outline, small black dot eyes, short muzzle, drooping ears, rounded small body, and curious nose-first posture.\n\nEpisode premise: SFS console 새 에피소드 요청이 정상 저장되는지 확인하는 내부 smoke test 상황. 찌루가 따뜻한 실내 작업 공간에서 빈 요청 카드, 작은 카메라, 간식 접시 주변을 호기심 있게 살피고, 마지막에는 준비 완료처럼 얌전히 앉아 사람을 바라보는 4컷 pet-toon 이미지-only 프롬프트 핸드오프. 이미지 안에는 글자, 로고, 화면 UI를 넣지 않는다.\nCut 04/04: 찌루가 간식 옆에 얌전히 앉아 사람 쪽을 올려다본다. 준비 완료처럼 보이지만 이미지 안에는 어떤 글자도 없다.\nEmotion: satisfied, ready, innocent payoff\nSetting continuity: same indoor workspace, clean final arrangement, no UI screens or written labels\nShot goal: manual ChatGPT prompt handoff가 준비됐다는 내부 smoke-test 마무리를 글자 없이 행동으로 닫는다.\n\nCast cardinality:\n- exactly one Jjiroo (`jjiroo`)\n- zero duplicate dogs\n- zero extra animals\n- no visible person unless only implied by Jjiroo's eyeline\n\nComposition:\n- Vertical 2:3 single panel, warm everyday indoor pet-comedy tone.\n- Use blank, text-free props only; the request card must have no readable writing.\n- No captions, speech bubbles, UI screens, signs, logos, or watermarks.\n\nAvoid:\nduplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs\n",
+      "negativePrompt": "duplicate pet, second version of same character, extra animal, extra animals, extra limbs, wings, merged face, wrong fur color, wrong ear shape, changed eye style, photorealism, realistic fur, glossy 3D render, unrelated manga style, unrelated anime style, text, subtitles, subtitle, speech bubble, watermark, logo, cluttered background, readable signs",
+      "referenceImages": [
+        "characters/jjiroo/jjiroo.png",
+        "characters/jjiroo/jjiroo_sit.png",
+        "characters/jjiroo/jjiroo_laydown.png"
+      ],
+      "plannedHumanOutputFile": "images/cuts/cut-04.png"
+    }
+  ],
+  "episodePremise": "SFS console 새 에피소드 요청이 정상 저장되는지 확인하는 내부 smoke test 상황. 찌루가 따뜻한 실내 작업 공간에서 빈 요청 카드, 작은 카메라, 간식 접시 주변을 호기심 있게 살피고, 마지막에는 준비 완료처럼 얌전히 앉아 사람을 바라보는 4컷 pet-toon 이미지-only 프롬프트 핸드오프. 이미지 안에는 글자, 로고, 화면 UI를 넣지 않는다.",
+  "rightsAndReferenceStatus": {
+    "canonicalReferencePack": "characters/jjiroo/refs/canonical-pack",
+    "rightsNote": "characters/jjiroo/rights.md",
+    "approval": "Board approved internal smoke preparation without these files in /SHO/issues/SHO-77#comment-c612c7fb-7824-4ee4-bab6-b362a9ff233d",
+    "restriction": "Internal prompt handoff only; no external publish until rights.md exists or board signs a publish-specific rights waiver."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "status": "prompt_ready",
+  "blocker": null,
+  "episodeDir": "episodes/sfs-smoke-20260424-001",
+  "sourcePacket": "source-packet.json",
+  "styleLock": "storyboard/style-lock.md",
+  "storyboardPlan": "storyboard/storyboard-plan.json",
+  "characterContinuity": "storyboard/character-continuity.json",
+  "chatgptPrompt": "chatgpt-image-prompt.md",
+  "plannedHumanCutImages": [
+    "images/cuts/cut-01.png",
+    "images/cuts/cut-02.png",
+    "images/cuts/cut-03.png",
+    "images/cuts/cut-04.png"
+  ],
+  "plannedHumanWebtoonStrip": "images/episode-strip.png",
+  "generatedImagesByAgent": [],
+  "note": "Pet Toon is complete when this ChatGPT prompt handoff exists. A human operator generates and saves images separately.",
+  "generatedAt": "2026-04-28T02:37:13Z",
+  "referenceImagesToUpload": [
+    "characters/jjiroo/jjiroo.png",
+    "characters/jjiroo/jjiroo_sit.png",
+    "characters/jjiroo/jjiroo_laydown.png"
+  ],
+  "missingAssetsRecorded": {
+    "canonicalReferencePack": "characters/jjiroo/refs/canonical-pack",
+    "rightsNote": "characters/jjiroo/rights.md",
+    "approval": "Board approved internal smoke preparation without these files in /SHO/issues/SHO-77#comment-c612c7fb-7824-4ee4-bab6-b362a9ff233d",
+    "restriction": "Internal prompt handoff only; no external publish until rights.md exists or board signs a publish-specific rights waiver."
+  },
+  "forbiddenOutputsForThisIssue": [
+    "keyframe-plan.json",
+    "storyboard/camera-plan.md",
+    "video-generation-job.json",
+    "scene videos",
+    "dubbing",
+    "SFX",
+    "BGM",
+    "typography overlays",
+    "QA video packets",
+    "publish packets"
+  ],
+  "nextGate": "Human operator uploads the three reference images to ChatGPT, pastes chatgpt-image-prompt.md, then saves images/episode-strip.png and images/cuts/cut-XX.png before any MP4/QA/publish work opens."
+}
