@@ -1,0 +1,201 @@
+{
+  "formatVersion": "pet-contents-voice-slots@0.1",
+  "episodeSlug": "jjiroo-tancheon-duck-chase-002",
+  "timingSource": "local-basic-korean-narration-estimate-6.7chars-per-sec",
+  "_note": "Issue `대본:` is authoritative for story truth, but the approved brief requires a compressed retelling. No canonical `characters/jjiroo/voice.json` exists yet, so this packet stays narrator-led and targets the channel-level pet narrator env.",
+  "characterVoiceConfig": null,
+  "estimatedNarrationRuntimeSec": 20.0,
+  "pictureRuntimeSec": 30.0,
+  "slots": [
+    {
+      "voiceSlotId": "scene-01-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "탄천 산책은 평화로웠어요.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-01",
+      "plannedStartSec": 0.15,
+      "plannedDurationSec": 1.9,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-01-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-02-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "찌루와 쫑아도 신난 날이었죠.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-02",
+      "plannedStartSec": 2.65,
+      "plannedDurationSec": 2.05,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-02-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-03-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "그때 찌루가 오리를 봐버렸어요.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-03",
+      "plannedStartSec": 5.15,
+      "plannedDurationSec": 2.15,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-03-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-04-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "살금살금 다가가더니,",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-04",
+      "plannedStartSec": 7.7,
+      "plannedDurationSec": 1.65,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-04-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-05-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "하네스 끊고 전광석화 돌진.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-05",
+      "plannedStartSec": 10.45,
+      "plannedDurationSec": 1.85,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-05-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-06-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "강물까지 따라 들어갔죠.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-06",
+      "plannedStartSec": 13.45,
+      "plannedDurationSec": 1.75,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-06-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-07-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "놀란 엄마도 물에 뛰어들었는데,",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-07",
+      "plannedStartSec": 16.45,
+      "plannedDurationSec": 2.3,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-07-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-08-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "찌루가 더 빨랐어요.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-08",
+      "plannedStartSec": 19.85,
+      "plannedDurationSec": 1.45,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-08-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-09-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "혼자 다시 땅 위로 올라오고,",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-09",
+      "plannedStartSec": 23.25,
+      "plannedDurationSec": 1.9,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-09-line.wav"
+    },
+    {
+      "voiceSlotId": "scene-10-line",
+      "kind": "narration-line",
+      "speaker": "narrator",
+      "text": "엄마한테 왜 거기 있어? 하는 눈빛.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-10",
+      "plannedStartSec": 26.3,
+      "plannedDurationSec": 2.6,
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_PET_NARRATOR",
+      "recordingTarget": "dubbing/audio-overrides/scene-10-line.wav"
+    }
+  ]
+}

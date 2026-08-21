@@ -1,0 +1,17 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Sunny Tancheon walk establishes mother, Jjiroo, and Jjonga moving together along the riverside path. Approved target pose: Jjiroo and Jjonga walking lightly along the riverside path in harness, mother behind them, open daylight and shallow river visible Camera intent: gentle vertical medium-wide opening push over a calm riverside walk Continuity notes: Use the same harness colors and pet silhouettes as the storyboard lock. The river, dirt path, and walking direction become the baseline geography for every later scene. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.\n\nComposition: Keep Jjiroo and Jjonga identical to the approved storyboard and keyframe plan. Preserve the same Tancheon riverside geography from duck sighting to water entry to climb-out bank. Keep generated frames text-free and comic rather than dangerous.\n\nAVOID: text, letters, subtitles, captions, numbers, logos, watermarks, duplicate pet, second version of same dog, extra dog, extra animal, wings, extra limbs, duplicated head, merged face, broken anatomy, wrong pet identity, wrong fur color, wrong harness color, wrong ear shape, style drift, photorealistic repaint, glossy anime repaint, horror tone, drowning panic, duck injury, violent duck capture, bite attack, gore, blurry",
+    "image": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-tancheon-duck-chase-002/storyboard/webtoon-cuts/cut-01.png",
+    "duration": 2,
+    "aspect_ratio": "9:16",
+    "resolution": "720p",
+    "seed": 713602
+  },
+  "runner": {
+    "outputFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-tancheon-duck-chase-002/renders/picture/scene-01.mp4",
+    "manifestFile": "/home/kindsr/projects/shortform-factory-studio/episodes/jjiroo-tancheon-duck-chase-002/renders/grok/scene-01.manifest.json"
+  }
+}

@@ -1,0 +1,16 @@
+kind,id,timeSec,text
+voice,scene-01-line,0.15,탄천 산책은 평화로웠어요.
+voice,scene-02-line,2.65,찌루와 쫑아도 신난 날이었죠.
+voice,scene-03-line,5.15,그때 찌루가 오리를 봐버렸어요.
+voice,scene-04-line,7.7,"살금살금 다가가더니,"
+voice,scene-05-line,10.45,하네스 끊고 전광석화 돌진.
+voice,scene-06-line,13.45,강물까지 따라 들어갔죠.
+voice,scene-07-line,16.45,"놀란 엄마도 물에 뛰어들었는데,"
+voice,scene-08-line,19.85,찌루가 더 빨랐어요.
+voice,scene-09-line,23.25,"혼자 다시 땅 위로 올라오고,"
+voice,scene-10-line,26.3,엄마한테 왜 거기 있어? 하는 눈빛.
+typography,scene-03-caption,5.55,오리 발견
+typography,scene-05-pop,10.75,전광석화 돌진
+typography,scene-07-caption,16.85,엄마도 입수
+typography,scene-09-caption,23.55,혼자 다시 올라옴
+typography,scene-10-ending-caption,26.65,왜 거기 있어?

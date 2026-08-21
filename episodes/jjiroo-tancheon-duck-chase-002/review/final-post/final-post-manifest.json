@@ -1,0 +1,22 @@
+{
+  "episodeSlug": "jjiroo-tancheon-duck-chase-002",
+  "status": "post_review_ready",
+  "finalVideo": "episodes/jjiroo-tancheon-duck-chase-002/renders/final/jjiroo-tancheon-duck-chase-002-final-review.mp4",
+  "reviewDir": "episodes/jjiroo-tancheon-duck-chase-002/review/final-post",
+  "durationSec": 30.0,
+  "aspectRatio": "9:16",
+  "dub": {
+    "provider": "edge_tts_guide",
+    "voice": "ko-KR-SunHiNeural",
+    "selectedDir": "episodes/jjiroo-tancheon-duck-chase-002/renders/dub-lock/narration-selected"
+  },
+  "typographySlots": [
+    "scene-03-caption",
+    "scene-05-pop",
+    "scene-07-caption",
+    "scene-09-caption",
+    "scene-10-ending-caption"
+  ],
+  "publishReady": false,
+  "qaRequired": true
+}

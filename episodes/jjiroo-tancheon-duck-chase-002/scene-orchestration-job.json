@@ -1,0 +1,165 @@
+{
+  "_schema": "pet contents xai scene orchestration",
+  "globalSettings": {
+    "model": "grok-imagine-video",
+    "aspectRatio": "9:16",
+    "resolution": "1080x1920",
+    "seed": 713602,
+    "compositionRule": "Keep Jjiroo and Jjonga identical to the approved storyboard and keyframe plan. Preserve the same Tancheon riverside geography from duck sighting to water entry to climb-out bank. Keep generated frames text-free and comic rather than dangerous.",
+    "negativePromptCommon": "text, letters, subtitles, captions, numbers, logos, watermarks, duplicate pet, second version of same dog, extra dog, extra animal, wings, extra limbs, duplicated head, merged face, broken anatomy, wrong pet identity, wrong fur color, wrong harness color, wrong ear shape, style drift, photorealistic repaint, glossy anime repaint, horror tone, drowning panic, duck injury, violent duck capture, bite attack, gore, blurry"
+  },
+  "scenes": [
+    {
+      "sceneId": "scene-01",
+      "durationSec": 2.5,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Sunny Tancheon walk establishes mother, Jjiroo, and Jjonga moving together along the riverside path. Approved target pose: Jjiroo and Jjonga walking lightly along the riverside path in harness, mother behind them, open daylight and shallow river visible Camera intent: gentle vertical medium-wide opening push over a calm riverside walk Continuity notes: Use the same harness colors and pet silhouettes as the storyboard lock. The river, dirt path, and walking direction become the baseline geography for every later scene. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "storyboard/webtoon-cuts/cut-01.png"
+      ],
+      "outputPath": "renders/picture/scene-01.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-01-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-02",
+      "durationSec": 2.5,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: The two dogs enjoy the walk by sniffing dirt, grass, and the environment before the incident begins. Approved target pose: low-angle dog-height view of Jjiroo sniffing the ground while Jjonga stays nearby and the mother is partially framed above Camera intent: subtle dog-height handheld drift with slice-of-life detail Continuity notes: Do not introduce ducks yet. Keep the mother secondary and the riverbank relationship unchanged. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-01-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-02.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-02-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-03",
+      "durationSec": 2.5,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Jjiroo spots ducks resting near the riverbank and locks onto them with sudden focused curiosity. Approved target pose: Jjiroo frozen in alert reaction with eyes wide, ducks readable near the bank, Jjonga secondary behind him Camera intent: tiny push-in on Jjiroo's duck-lock reaction Continuity notes: The ducks must appear at the same resting zone that later connects to the chase and water entry. Jjonga remains secondary and calm; no sudden breed or scale drift. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-02-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-03.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-03-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-04",
+      "durationSec": 2.8,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Jjiroo lowers into a stalking posture and edges forward while the ducks are still momentarily unaware. Approved target pose: Jjiroo crouched low with intense forward focus, harness taut, ducks still ahead, riverbank readable Camera intent: slow lateral creep during a coiled stalking hold Continuity notes: Jjiroo's crouch direction must match the sprint direction in scene-05. Do not let the ducks relocate or the bank shape change between scenes. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-03-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-04.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-04-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-05",
+      "durationSec": 3.0,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Jjiroo snaps free and rockets toward the ducks as they burst away toward the river. Approved target pose: Jjiroo sprinting diagonally after breaking free, ducks scattering toward the water, mother lagging behind Camera intent: aggressive diagonal chase frame with a sudden acceleration release Continuity notes: Keep Jjonga out of the pursuit lane. The final frame should land at the exact bank edge that becomes the splash point in scene-06. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-04-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-05.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-05-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-06",
+      "durationSec": 3.0,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Jjiroo commits to the chase and dives into the shallow river after the ducks. Approved target pose: Jjiroo launching into or just hitting the shallow river with a splash at the exact bank entry point established in scene-05 while Jjonga remains back on shore Camera intent: fast drop into a splash impact at the same bank edge Continuity notes: Keep the splash comic and energetic, not panicked or dangerous. The river entry point must stay readable for the later mother entry. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-05-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-06.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-06-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-07",
+      "durationSec": 3.4,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: The mother jumps into the river after Jjiroo, who is already swimming ahead. Approved target pose: mother entering the river behind while Jjiroo already swims ahead midstream and ducks stay farther in front Camera intent: forward chase framing with layered depth from shore into river Continuity notes: The mother enters after Jjiroo, never simultaneously. Jjiroo stays the emotional center; the mother is rescue context, not the lead. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-06-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-07.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-07-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-08",
+      "durationSec": 3.4,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Jjiroo moves fast through the current while the mother struggles behind, creating a brief lost-him scare. Approved target pose: Jjiroo confidently swimming ahead, mother struggling behind, ducks escaping farther away and out of reach Camera intent: vertical tracking follow along the river lane Continuity notes: Distance between Jjiroo and the mother should widen without making the scene feel like an emergency. By the end of the scene, Jjiroo begins redirecting from chase mode toward the climb-out bank. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-07-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-08.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-08-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-09",
+      "durationSec": 3.0,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Jjiroo gives up on the ducks, returns to shore, and climbs out on his own. Approved target pose: wet Jjiroo climbing out of the river on his own at the readable bank exit while the mother remains in the water behind Camera intent: easing pullback toward the self-recovery climb-out point Continuity notes: The climb-out bank must feel like the same river geography, not a reset to a new shoreline. End with Jjiroo fully on land and turning his attention back toward the mother. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-08-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-09.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-09-last-frame.jpg"
+      }
+    },
+    {
+      "sceneId": "scene-10",
+      "durationSec": 3.9,
+      "prompt": "Use the provided frame as the exact first frame. Keep the same 찌루 identity, the same approved original drawing style, and the same storyboard-established geography. Preserve the approved pet design exactly. Do not reinterpret the character into a different art style. Story beat: Final payoff: Jjiroo stands safely on shore and gives the soaked mother a puzzled, innocent look. Approved target pose: Jjiroo safely on the bank, dripping but calm, head slightly tilted toward the soaked mother behind him with a puzzled innocent look Camera intent: mostly locked comedy hold with a tiny blink and head-tilt reaction Continuity notes: Only minimal facial and head movement should be added. Leave room for the final lower-third caption in POST and keep the frame completely text-free. Style lock: episode slug: `jjiroo-tancheon-duck-chase-002` production mode: `reference-only` canonical character folders: `characters/jjiroo` missing, `characters/jjonga` missing source packet: `../source-packet.json` original-style basis: `../../jjiroo-tancheon-duck-chase-001/storyboard/style-lock.md` target output: vertical `9:16` storyboard/webtoon cuts for downstream `BRIEF` Preserve the same original drawing style basis from `001`. Do not beautify, repaint, or reinterpret into a different illustration style. Warm observational pet webtoon look, clean linework, soft painterly shading, bright daytime r No text, subtitles, logos, or watermarks anywhere in frame. Keep the tone comic, readable, safe, and non-violent.",
+      "referenceImages": [
+        "assets/refs/scene-09-last-frame.jpg"
+      ],
+      "outputPath": "renders/picture/scene-10.mp4",
+      "handoff": {
+        "extractLastFrame": true,
+        "lastFramePath": "assets/refs/scene-10-last-frame.jpg"
+      }
+    }
+  ],
+  "executionOrder": [
+    "generate-scene-01",
+    "extract-scene-01-last-frame",
+    "generate-scene-02",
+    "extract-scene-02-last-frame",
+    "generate-scene-03",
+    "extract-scene-03-last-frame",
+    "generate-scene-04",
+    "extract-scene-04-last-frame",
+    "generate-scene-05",
+    "extract-scene-05-last-frame",
+    "generate-scene-06",
+    "extract-scene-06-last-frame",
+    "generate-scene-07",
+    "extract-scene-07-last-frame",
+    "generate-scene-08",
+    "extract-scene-08-last-frame",
+    "generate-scene-09",
+    "extract-scene-09-last-frame",
+    "generate-scene-10",
+    "extract-scene-10-last-frame"
+  ]
+}
