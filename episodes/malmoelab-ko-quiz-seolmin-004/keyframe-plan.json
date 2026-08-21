@@ -1,0 +1,131 @@
+{
+  "_schema": "malmoelab keyframe plan",
+  "_note": "003 기준. keyframe 5장을 먼저 잠그고 난 뒤에만 scene video로 넘어간다. 이번 BRIEF는 keyframe plan only이며 이미지는 생성하지 않는다.",
+  "episode": {
+    "slug": "malmoelab-ko-quiz-seolmin-004",
+    "basis": "Seolmin 2D reference -> cleaned base -> approved keyframes -> sequential video generation",
+    "targetDurationSec": 30,
+    "targetAspectRatio": "16:9"
+  },
+  "baseImage": {
+    "source": "characters/seolmin/Seolmin.png",
+    "cleanedPath": "assets/refs/seolmin-2d-clean-base.jpg",
+    "widePrepPath": "assets/refs/seolmin-2d-clean-base-wide-rough.jpg",
+    "refinedWidePath": "assets/refs/seolmin-2d-clean-base-wide-refined.jpg"
+  },
+  "framingRule": {
+    "aspectRatio": "16:9",
+    "canvas": [
+      1280,
+      720
+    ],
+    "characterZone": {
+      "xPctRange": [
+        73,
+        100
+      ],
+      "yPctRange": [
+        0,
+        100
+      ]
+    },
+    "chalkboardZone": {
+      "xPctRange": [
+        0,
+        73
+      ],
+      "yPctRange": [
+        5,
+        90
+      ]
+    }
+  },
+  "styleLock": {
+    "renderStyle": "2D anime illustration matching characters/seolmin/Seolmin.png",
+    "protagonist": "seolmin",
+    "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+    "productionMode": "reference-only",
+    "characterTraining": "not-approved",
+    "avoid": "3D render, photorealistic, text, chalk writing, labels, subtitle artifacts, extra characters, dark horror tone, adult-realistic body proportions, changed eye color, missing gat, missing red tassels"
+  },
+  "textPolicy": {
+    "generatedImageText": "forbidden",
+    "generatedVideoText": "forbidden",
+    "typographyStage": "post-dub-lock",
+    "blankSentence": "___ 앞에서 친구를 만납니다.",
+    "fullSentence": "학교 앞에서 친구를 만납니다.",
+    "romanization": "hakgyo apeseo chingureul mannapnida.",
+    "romanizationCaveat": "source-packet romanization is render fallback only"
+  },
+  "reusePolicies": {
+    "opening": "bible.md and voice.json reference characters/seolmin/1_Opening_Seolmin.mp4, but the current folder contains characters/seolmin/1_Opening.mp4. Use 1_Opening.mp4 as available downstream fallback if an opening clip is needed; do not rename files or alter Seolmin canon in this issue.",
+    "voice": "Follow characters/seolmin/voice.json; opening prefers approved reusable voice pack when available, ending remains generated-or-human-dub until a fixed ending asset exists.",
+    "ending": "No fixed ending video asset exists yet, so scene-5-ending-wave remains a generated keyframe/video target."
+  },
+  "reviewFlow": {
+    "gate": "user-review-before-video",
+    "reviewBundle": {
+      "report": "review/review-report.md",
+      "overview": "review/contact-sheets/overview.jpg"
+    }
+  },
+  "sceneStructure": [
+    "scene-1-opening-handoff",
+    "scene-2-lesson-intro",
+    "scene-3-repeat-listen",
+    "scene-4-quiz-point",
+    "scene-5-ending-wave"
+  ],
+  "keyframes": [
+    {
+      "id": "kf-01-opening-handoff",
+      "anchorSec": 0.0,
+      "futureSceneId": "scene-1-opening-handoff",
+      "purpose": "standard 003 greeting handoff",
+      "pose": "front-facing, bright welcoming smile, lively but stable classroom host energy, small wave toward viewer, board remains empty",
+      "outputPath": "keyframes/kf-01-opening-handoff.jpg"
+    },
+    {
+      "id": "kf-02-lesson-intro",
+      "anchorSec": 6.0,
+      "futureSceneId": "scene-2-lesson-intro",
+      "purpose": "full sentence introduction",
+      "pose": "front-facing, mouth slightly open mid-speech, compact teaching gesture toward the empty board, warm school-friend lesson energy, no text baked into scene",
+      "outputPath": "keyframes/kf-02-lesson-intro.jpg"
+    },
+    {
+      "id": "kf-03-repeat-listen",
+      "anchorSec": 12.0,
+      "futureSceneId": "scene-3-repeat-listen",
+      "purpose": "repeat after me pause",
+      "pose": "front-facing, patient smile, one hand inviting the viewer to repeat, attentive listening pose, classroom continuity unchanged",
+      "outputPath": "keyframes/kf-03-repeat-listen.jpg"
+    },
+    {
+      "id": "kf-04-quiz-point",
+      "anchorSec": 18.0,
+      "futureSceneId": "scene-4-quiz-point",
+      "purpose": "blank sentence recall check",
+      "pose": "front-facing, playful curious teacher, one hand pointing toward the blank sentence area on the board, bright quiz energy, no generated writing",
+      "outputPath": "keyframes/kf-04-quiz-point.jpg"
+    },
+    {
+      "id": "kf-05-ending-wave",
+      "anchorSec": 24.0,
+      "futureSceneId": "scene-5-ending-wave",
+      "purpose": "cta goodbye",
+      "pose": "front-facing, bright smile, small wave near shoulder, gentle goodbye energy, same classroom continuity, leaves clean space for CTA typography",
+      "outputPath": "keyframes/kf-05-ending-wave.jpg"
+    }
+  ],
+  "reviewChecklist": [
+    "2D 설민 스타일이 characters/seolmin/Seolmin.png와 계속 같아 보이는가",
+    "왼쪽 칠판이 비어 있고 글자가 전혀 없는가",
+    "설민이 오른쪽 쿼터 근처에 일관되게 서 있는가",
+    "모자, 복장, 귀걸이, 붉은 술 장식이 유지되는가",
+    "5-scene 구조가 scene-1-opening-handoff부터 scene-5-ending-wave까지 유지되는가",
+    "학교 예문 텍스트는 생성 이미지가 아니라 후반 typography로만 들어가도록 남겨져 있는가",
+    "다섯 장의 포즈 차이가 한눈에 읽히는가",
+    "1_Opening_Seolmin.mp4 파일명 불일치가 downstream caveat로 유지되는가"
+  ]
+}

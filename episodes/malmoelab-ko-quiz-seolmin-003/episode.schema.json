@@ -1,0 +1,186 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-003",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "characterSlug": "seolmin",
+  "characterRoot": "characters/seolmin",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
+  "status": "brief-ready",
+  "createdAt": "2026-04-28T02:38:59Z",
+  "reusableAssets": {
+    "characterImage2D": "characters/seolmin/Seolmin.png",
+    "bible": "characters/seolmin/bible.md",
+    "promptSet": "characters/seolmin/prompts.md",
+    "voiceConfig": "characters/seolmin/voice.json",
+    "rightsNote": "characters/seolmin/rights.md",
+    "openingVideoConfigured": "characters/seolmin/1_Opening_Seolmin.mp4",
+    "openingVideoAvailableFallback": "characters/seolmin/1_Opening.mp4",
+    "helloClip": "characters/seolmin/1_Hello_Seolmin.mp4",
+    "preferredHandwritingFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "lesson": {
+    "topicType": "sentence-lesson-with-blank-quiz",
+    "sourceRef": "malmoelab.word_example:8f9648cc-fbba-4273-85e1-c70688710a38",
+    "sourceBaseUrl": "https://malmoelab.com",
+    "wordId": "fd874697-abd0-443f-8f28-4a09922bf748",
+    "senseId": "5200c051-deec-4c5e-b530-5995a84917f4",
+    "exampleId": "8f9648cc-fbba-4273-85e1-c70688710a38",
+    "sentenceKo": "여름에는 가족과 여행을 갑니다.",
+    "sentenceEn": "In summer I go on a trip with my family.",
+    "sentenceRomanized": "yeoreumeneun gajokgwa yeohaengeul gapnida.",
+    "sentenceBlankKo": "여름에는 가족과 ___을 갑니다.",
+    "sentenceBlankRomanized": "yeoreumeneun gajokgwa ___eul gapnida.",
+    "focusWord": "여행",
+    "focusWordRomanized": "yeohaeng",
+    "focusWordRomanizationSource": "render_fallback",
+    "focusWordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "focusWordReadingText": "",
+    "focusWordGloss": "trip",
+    "focusWordDefinition": "집을 떠나 다른 지방이나 나라를 두루 구경하며 다니는 일.",
+    "focusWordDefinitionEn": "The act of leaving home and traveling around other regions or countries.",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요.",
+    "reuseStatus": "unused_example_selected"
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1920x1080",
+    "fps": 30,
+    "durationSec": 30,
+    "sceneCount": 5,
+    "sceneDurationSec": 6.0
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "sceneDurationSec": 6.0,
+      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "poseTargetRule": "approved keyframes are the target pose cards for each 6-second clip",
+      "contentContinuityFocus": [
+        "same-2d-character-identity",
+        "same-empty-classroom-board",
+        "teacher-on-right-quarter",
+        "no-text-in-generated-video",
+        "readable-pose-change-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "generationStage": "mute-video-only",
+      "dubStage": "post-picture-lock",
+      "voiceInheritance": "characters/seolmin/voice.json"
+    },
+    "scriptPolicy": {
+      "basis": "daehan-pilot-codex-003 spoken structure",
+      "openingLineStructure": "안녕하세요. 여러분과 한글을 함께 공부할 설민입니다!...",
+      "endingLineStructure": "말모이랩닷컴에서 더 알아보아요. 안녕!",
+      "voiceSlotPattern": [
+        "scene-1-opening-greeting-ko",
+        "scene-2-intro-ko",
+        "scene-3-repeat-cue-ko",
+        "scene-3-sentence-ko",
+        "scene-4-cta-ko",
+        "scene-5-ending-ko"
+      ]
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-dub-lock",
+      "chalkStyle": "bold-handwritten-chalk",
+      "blankQuizStage": "scene-4-quiz-point"
+    },
+    "disclosurePolicy": {
+      "placement": "metadata-description-only",
+      "visibleFrameDisclosure": false,
+      "attributionRequired": true
+    },
+    "productionMode": {
+      "characterMode": "reference-only",
+      "characterTraining": "not-approved"
+    }
+  },
+  "brief": {
+    "targetViewer": "English-speaking beginner Korean learner who wants one quick sentence practice with a recall check.",
+    "whyClickNow": "Learn and repeat one Korean travel sentence in 30 seconds, then check the missing word while the context is fresh.",
+    "viewerPromise": "The viewer learns 여행 through the real sentence 여름에는 가족과 여행을 갑니다 instead of an isolated vocabulary card.",
+    "angle": "Use a summer family-trip sentence so the meaning is easy to infer before the blank recall beat.",
+    "hookOptions": [
+      "Which word fits this Korean sentence?",
+      "Learn one Korean travel sentence with Seolmin",
+      "Read it once, then fill the Korean blank"
+    ],
+    "proofPlan": [
+      "Open with Seolmin's standard 003 greeting.",
+      "Introduce the full sentence before any blank recall.",
+      "Repeat the full sentence once for pronunciation rhythm.",
+      "Use the blank sentence in scene-4 as the recall check.",
+      "Close with the standard Malmoelab CTA and Seolmin farewell."
+    ],
+    "packagingRule": "Title, thumbnail, and opening frame must promise a short Korean sentence practice without reducing the episode to a standalone 여행 flashcard.",
+    "engagementCopy": "Double tap if you know it."
+  },
+  "structure": {
+    "basis": "daehan-pilot-codex-003 spoken and scene structure",
+    "scenes": [
+      {
+        "id": "scene-1-opening-handoff",
+        "durationSec": 6.0,
+        "goal": "Open with the standard 003 greeting and establish Seolmin as the host."
+      },
+      {
+        "id": "scene-2-lesson-intro",
+        "durationSec": 6.0,
+        "goal": "Introduce the full lesson sentence: 여름에는 가족과 여행을 갑니다."
+      },
+      {
+        "id": "scene-3-repeat-listen",
+        "durationSec": 6.0,
+        "goal": "Use the repeat cue and then read the full lesson sentence once."
+      },
+      {
+        "id": "scene-4-quiz-point",
+        "durationSec": 6.0,
+        "goal": "Switch to the blank sentence: 여름에는 가족과 ___을 갑니다."
+      },
+      {
+        "id": "scene-5-ending-wave",
+        "durationSec": 6.0,
+        "goal": "Deliver CTA plus short farewell."
+      }
+    ]
+  },
+  "productionNotes": {
+    "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+    "openingAssetCaveat": "bible.md and voice.json reference characters/seolmin/1_Opening_Seolmin.mp4, but the current folder contains characters/seolmin/1_Opening.mp4. Use the available 1_Opening.mp4 as downstream fallback if needed; do not rename assets or change canon in this BRIEF step.",
+    "openingReusePolicy": "Reuse the 003 greeting structure with only the character name changed to Seolmin; follow characters/seolmin/voice.json for source priority.",
+    "endingTreatment": "No fixed ending asset exists yet; keep scene-5 as a generated farewell shot plus downstream dub and typography.",
+    "canonicalOrder": [
+      "source",
+      "brief",
+      "script",
+      "keyframe-review",
+      "picture",
+      "dub",
+      "typography",
+      "qa",
+      "publish"
+    ],
+    "romanizationSourceNote": "Use source-packet.json romanization as render fallback only because source reading data was unavailable."
+  },
+  "sourcePacketFile": "./source-packet.json",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "videoGenerationJobFile": "./video-generation-job.json"
+}

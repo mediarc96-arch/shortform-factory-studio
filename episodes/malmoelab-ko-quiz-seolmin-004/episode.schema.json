@@ -1,0 +1,197 @@
+{
+  "formatVersion": "malmoelab-vnext-episode@0.1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-004",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "characterSlug": "seolmin",
+  "characterRoot": "characters/seolmin",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "formatProfilePath": "formats/malmoelab-keyframe-dub-after-picture-v1/profile.json",
+  "status": "final-export",
+  "createdAt": "2026-08-04T05:34:10Z",
+  "reusableAssets": {
+    "characterImage2D": "characters/seolmin/Seolmin.png",
+    "bible": "characters/seolmin/bible.md",
+    "promptSet": "characters/seolmin/prompts.md",
+    "voiceConfig": "characters/seolmin/voice.json",
+    "rightsNote": "characters/seolmin/rights.md",
+    "openingVideoConfigured": "characters/seolmin/1_Opening_Seolmin.mp4",
+    "openingVideoAvailableFallback": "characters/seolmin/1_Opening.mp4",
+    "helloClip": "characters/seolmin/1_Hello_Seolmin.mp4",
+    "preferredHandwritingFont": "shared/fonts/NanumSquareRoundB.ttf",
+    "preferredStrokeFont": "shared/fonts/NanumGothic-Bold.ttf"
+  },
+  "lesson": {
+    "topicType": "sentence-lesson-with-blank-quiz",
+    "sourceRef": "malmoelab.word_example:6abefc16-6ac6-4953-b0cb-0768912e4634",
+    "sourceBaseUrl": "https://malmoelab.com",
+    "wordId": "e00c2be8-8e1a-408f-a2ee-23f17ad8f5cd",
+    "senseId": "14b0dda3-e404-4d3c-854f-736855ee028b",
+    "exampleId": "6abefc16-6ac6-4953-b0cb-0768912e4634",
+    "sentenceKo": "학교 앞에서 친구를 만납니다.",
+    "sentenceEn": "I meet a friend in front of the school.",
+    "sentenceRomanized": "hakgyo apeseo chingureul mannapnida.",
+    "sentenceBlankKo": "___ 앞에서 친구를 만납니다.",
+    "sentenceBlankRomanized": "___ apeseo chingureul mannapnida.",
+    "focusWord": "학교",
+    "focusWordRomanized": "hakgyo",
+    "focusWordRomanizationSource": "render_fallback",
+    "focusWordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "focusWordReadingText": "",
+    "focusWordGloss": "school",
+    "focusWordDefinition": "일정한 목적, 교과 과정, 제도 등에 따라 학생을 교육하는 기관.",
+    "focusWordDefinitionEn": "An institution that educates students according to a specific purpose, curriculum, system, etc.",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "serviceCtaKo": "malmoelab.com에서 더 알아보아요.",
+    "reuseStatus": "unused_example_selected"
+  },
+  "renderTargets": {
+    "aspectRatio": "16:9",
+    "resolution": "1280x720",
+    "fps": 30,
+    "durationSec": 30,
+    "sceneCount": 5,
+    "sceneDurationSec": 6.0
+  },
+  "policies": {
+    "continuityPolicy": {
+      "target": "scene-last-frame-handoff",
+      "sceneDurationSec": 6.0,
+      "entryFrameRule": "scene-1 uses approved keyframe-01; scene-n uses previous scene final frame",
+      "poseTargetRule": "approved keyframes are the target pose cards for each 6-second clip",
+      "contentContinuityFocus": [
+        "same-2d-character-identity",
+        "same-empty-classroom-board",
+        "teacher-on-right-quarter",
+        "no-text-in-generated-video",
+        "readable-pose-change-per-scene"
+      ]
+    },
+    "audioPolicy": {
+      "contentVoiceSourcePriority": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "contentTtsProvider": "supertone",
+      "fallbackTtsProvider": "elevenlabs",
+      "generationStage": "mute-video-only",
+      "dubStage": "post-picture-lock",
+      "voiceInheritance": "characters/seolmin/voice.json"
+    },
+    "scriptPolicy": {
+      "basis": "daehan-pilot-codex-003 spoken structure",
+      "openingLineStructure": "안녕하세요. 여러분과 한글을 함께 공부할 설민입니다!...",
+      "endingLineStructure": "말모이랩닷컴에서 더 알아보아요. 안녕!",
+      "voiceSlotPattern": [
+        "scene-1-opening-greeting-ko",
+        "scene-2-intro-ko",
+        "scene-3-repeat-cue-ko",
+        "scene-3-sentence-ko",
+        "scene-4-cta-ko",
+        "scene-5-ending-ko"
+      ]
+    },
+    "textPolicy": {
+      "generationStage": "no-text-in-video",
+      "typographyStage": "post-dub-lock",
+      "chalkStyle": "bold-handwritten-chalk",
+      "blankQuizStage": "scene-4-quiz-point"
+    },
+    "disclosurePolicy": {
+      "placement": "metadata-description-only",
+      "visibleFrameDisclosure": false,
+      "attributionRequired": true
+    },
+    "productionMode": {
+      "characterMode": "reference-only",
+      "characterTraining": "not-approved"
+    }
+  },
+  "brief": {
+    "targetViewer": "English-speaking beginner Korean learner who wants one quick sentence practice with a recall check.",
+    "whyClickNow": "Learn and repeat one Korean school sentence in 30 seconds, then check the missing word while the context is fresh.",
+    "viewerPromise": "The viewer learns 학교 through the real sentence 학교 앞에서 친구를 만납니다 instead of an isolated vocabulary card.",
+    "angle": "Use a school-front friend-meeting sentence so the meaning is easy to infer before the blank recall beat.",
+    "hookOptions": [
+      "Which word fits this Korean sentence?",
+      "Learn one Korean school sentence with Seolmin",
+      "Read it once, then fill the Korean blank"
+    ],
+    "proofPlan": [
+      "Open with Seolmin's standard 003 greeting.",
+      "Introduce the full sentence before any blank recall.",
+      "Repeat the full sentence once for pronunciation rhythm.",
+      "Use the blank sentence in scene-4 as the recall check.",
+      "Close with the standard Malmoelab CTA and Seolmin farewell."
+    ],
+    "packagingRule": "Title, thumbnail, and opening frame must promise a short Korean sentence practice without reducing the episode to a standalone 학교 flashcard.",
+    "engagementCopy": "Double tap if you know it."
+  },
+  "structure": {
+    "basis": "daehan-pilot-codex-003 spoken and scene structure",
+    "scenes": [
+      {
+        "id": "scene-1-opening-handoff",
+        "durationSec": 6.0,
+        "goal": "Open with the standard 003 greeting and establish Seolmin as the host."
+      },
+      {
+        "id": "scene-2-lesson-intro",
+        "durationSec": 6.0,
+        "goal": "Introduce the full lesson sentence: 학교 앞에서 친구를 만납니다."
+      },
+      {
+        "id": "scene-3-repeat-listen",
+        "durationSec": 6.0,
+        "goal": "Use the repeat cue and then read the full lesson sentence once."
+      },
+      {
+        "id": "scene-4-quiz-point",
+        "durationSec": 6.0,
+        "goal": "Switch to the blank sentence: ___ 앞에서 친구를 만납니다."
+      },
+      {
+        "id": "scene-5-ending-wave",
+        "durationSec": 6.0,
+        "goal": "Deliver CTA plus short farewell."
+      }
+    ]
+  },
+  "productionNotes": {
+    "referencePacketPath": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+    "openingAssetCaveat": "bible.md and voice.json reference characters/seolmin/1_Opening_Seolmin.mp4, but the current folder contains characters/seolmin/1_Opening.mp4. Use the available 1_Opening.mp4 as downstream fallback if needed; do not rename assets or change canon in this BRIEF step.",
+    "openingReusePolicy": "Reuse the 003 greeting structure with only the character name changed to Seolmin; follow characters/seolmin/voice.json for source priority.",
+    "endingTreatment": "No fixed ending asset exists yet; keep scene-5 as a generated farewell shot plus downstream dub and typography.",
+    "canonicalOrder": [
+      "source",
+      "brief",
+      "script",
+      "keyframe-review",
+      "picture",
+      "dub",
+      "typography",
+      "qa",
+      "publish"
+    ],
+    "romanizationSourceNote": "Use source-packet.json romanization as render fallback only because source reading data was unavailable."
+  },
+  "sourcePacketFile": "./source-packet.json",
+  "keyframePlanFile": "./keyframe-plan.json",
+  "voiceSlotsFile": "./voice-slots.json",
+  "typographySlotsFile": "./typography-slots.json",
+  "videoGenerationJobFile": "./video-generation-job.json",
+  "notes": {
+    "currentExecutionMode": "malmoelab-keyframe-dub-after-picture-v1-final",
+    "latestReviewReport": "./review/final-review-report.md",
+    "latestReviewSeverity": "pending-visual-qa",
+    "pictureLockPath": "./renders/picture-lock/malmoelab-ko-quiz-seolmin-004-picture-lock.mp4",
+    "dubMixPath": "./renders/dub-lock/malmoelab-ko-quiz-seolmin-004-guide-dub.m4a",
+    "dubbingPackagePath": "./dubbing/README.md",
+    "dubbingCuesPath": "./dubbing/dubbing-cues.csv",
+    "finalExportPath": "./renders/final/malmoelab-ko-quiz-seolmin-004-final.mp4",
+    "thumbnailPath": "./renders/final/malmoelab-ko-quiz-seolmin-004-final-thumb.jpg"
+  }
+}

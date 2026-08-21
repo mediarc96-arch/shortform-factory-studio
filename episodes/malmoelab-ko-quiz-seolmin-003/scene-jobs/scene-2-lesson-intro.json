@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same Seolmin teacher identity, the same empty classroom, the same camera distance, and the same right-quarter composition. Carry the same classroom framing forward and shift into the full-sentence teaching beat for 여름에는 가족과 여행을 갑니다 without generating any text. Seolmin gestures compactly toward the clean board while staying on the right quarter. This scene introduces the full sentence in performance only; all Korean and romanization stay for post typography. Keep the classroom lighting, camera height, board size, and character scale continuous from scene 1. Transition naturally toward the approved target pose and expression. No camera reset, no tighter crop, and no text anywhere.",
+    "image": "../assets/refs/scene-1-last-frame.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-2-lesson-intro.mp4",
+    "manifestFile": "../renders/grok/scene-2-lesson-intro.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-2-last-frame.jpg"
+  }
+}

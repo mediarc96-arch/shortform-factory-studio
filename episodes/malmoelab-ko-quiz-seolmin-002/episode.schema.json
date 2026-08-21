@@ -85,19 +85,19 @@
   "brief": {
     "targetViewer": "English-speaking beginner Korean learner who can solve a simple everyday fill-in-the-blank challenge",
     "whyClickNow": "Solve one Korean blank in under 30 seconds and immediately confirm the answer, pronunciation, and meaning.",
-    "viewerPromise": "The viewer learns coffee vocabulary through a real everyday sentence instead of an isolated flashcard.",
-    "angle": "Use a morning-routine sentence to make the answer feel guessable before the reveal.",
+    "viewerPromise": "The viewer learns one everyday vocabulary item through a real morning-routine sentence instead of an isolated flashcard.",
+    "angle": "Teach the complete sentence first, repeat it once, then use the blank as a scene-4 recall check.",
     "hookOptions": [
       "Which word fits this Korean blank?",
       "Can you guess the missing Korean word before the reveal?",
       "Fill in this Korean blank in 30 seconds"
     ],
     "proofPlan": [
-      "Show the blank sentence first.",
-      "Hold the answer through the think/listen beat.",
-      "Reveal the focus word, romanization, gloss, and full sentence together."
+      "Introduce the complete lesson sentence in scene 2.",
+      "Repeat the complete lesson sentence in scene 3.",
+      "Switch to the blank sentence only in scene 4 so the viewer recalls the missing word."
     ],
-    "packagingRule": "Title, thumbnail, and opening frame must all promise the same fill-in-the-blank challenge without exposing the answer word.",
+    "packagingRule": "Title, thumbnail, description, and opening frame must keep the answer out of public pre-watch copy while matching the lesson-first blank-recall structure.",
     "engagementCopy": "Double tap if you know it."
   },
   "structure": {
@@ -121,7 +121,7 @@
       {
         "id": "scene-4-quiz-point",
         "durationSec": 6.0,
-        "goal": "Switch to the blank sentence and ask the recall quiz."
+        "goal": "Switch to the blank sentence and ask the recall quiz without adding an answer reveal beat."
       },
       {
         "id": "scene-5-ending-wave",

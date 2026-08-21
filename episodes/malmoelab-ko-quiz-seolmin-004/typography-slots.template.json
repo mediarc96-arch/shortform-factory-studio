@@ -1,0 +1,56 @@
+{
+  "formatVersion": "malmoelab-vnext-typography-slots@0.1",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "stylePresets": {
+    "malmoelab-board-handwritten-bold": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "bold-handwritten-chalk",
+      "surface": "chalkboard",
+      "fill": "#F4F5F0",
+      "strokeFill": "#DDE1D8",
+      "strokeWidth": 3
+    },
+    "malmoelab-cta-soft": {
+      "fontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "clean-subtitle-cta",
+      "surface": "subtitle-lower-third"
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-2-sentence-main",
+      "sceneId": "scene-2-lesson-intro",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "textKo": "{{SENTENCE_KO}}",
+      "textRomanized": "{{SENTENCE_ROMANIZED}}",
+      "stylePreset": "malmoelab-board-handwritten-bold"
+    },
+    {
+      "slotId": "scene-3-repeat-sentence",
+      "sceneId": "scene-3-repeat-listen",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "textKo": "{{SENTENCE_KO}}",
+      "textRomanized": "{{SENTENCE_ROMANIZED}}",
+      "stylePreset": "malmoelab-board-handwritten-bold"
+    },
+    {
+      "slotId": "scene-4-quiz-blank",
+      "sceneId": "scene-4-quiz-point",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "textKo": "{{SENTENCE_BLANK_KO}}",
+      "textRomanized": "{{SENTENCE_BLANK_ROMANIZED}}",
+      "stylePreset": "malmoelab-board-handwritten-bold"
+    },
+    {
+      "slotId": "scene-4-cta-lower-third",
+      "sceneId": "scene-5-ending-wave",
+      "surface": "subtitle-lower-third",
+      "text": "{{SERVICE_CTA_KO}}",
+      "stylePreset": "malmoelab-cta-soft"
+    }
+  ]
+}

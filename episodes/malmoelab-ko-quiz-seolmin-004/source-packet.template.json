@@ -1,0 +1,42 @@
+{
+  "_template": "malmoelab-keyframe-dub-after-picture-v1",
+  "_instructions": "모든 {{PLACEHOLDER}} 값을 실제 데이터로 치환한다. 이 템플릿은 source-of-truth lesson packet이다.",
+  "episodeSlug": "{{EPISODE_SLUG}}",
+  "seriesSlug": "{{SERIES_SLUG}}",
+  "characterSlug": "{{CHARACTER_SLUG}}",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "createdAt": "{{ISO8601_TIMESTAMP}}",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "{{WORD_ID}}",
+    "senseId": "{{SENSE_ID}}",
+    "exampleId": "{{EXAMPLE_ID}}",
+    "wordText": "{{WORD_TEXT}}",
+    "wordRomanized": "{{WORD_ROMANIZED}}",
+    "partOfSpeech": "{{PART_OF_SPEECH}}",
+    "topikLevel": "{{TOPIK_LEVEL}}",
+    "difficultyScore": "{{DIFFICULTY_SCORE}}",
+    "englishGloss": "{{ENGLISH_GLOSS}}"
+  },
+  "lesson": {
+    "sentenceKo": "{{SENTENCE_KO}}",
+    "sentenceEn": "{{SENTENCE_EN}}",
+    "sentenceRomanized": "{{SENTENCE_ROMANIZED}}",
+    "sentenceBlankKo": "{{SENTENCE_BLANK_KO}}",
+    "sentenceBlankRomanized": "{{SENTENCE_BLANK_ROMANIZED}}",
+    "focusWord": "{{FOCUS_WORD}}",
+    "serviceCtaKo": "{{SERVICE_CTA_KO}}"
+  },
+  "reusableAssets": {
+    "characterImage2D": "characters/{{CHARACTER_SLUG}}/{{CHARACTER_IMAGE_FILE}}",
+    "voiceConfig": "characters/{{CHARACTER_SLUG}}/voice.json"
+  },
+  "productionPolicy": {
+    "keyframeStage": "review-before-video",
+    "pictureStage": "mute-video-only",
+    "dubStage": "post-picture-lock",
+    "typographyStage": "post-dub-lock",
+    "textInGeneration": "forbidden"
+  }
+}

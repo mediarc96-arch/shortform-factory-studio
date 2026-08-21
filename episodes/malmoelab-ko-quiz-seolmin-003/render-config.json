@@ -1,0 +1,100 @@
+{
+  "outputSlug": "malmoelab-ko-quiz-seolmin-003",
+  "_note": "EDIT-stage render config snapshot. Do not render in SHO-89; this file is ready for the downstream RENDER/POST path and keeps local renderer inputs synchronized with the locked source packet.",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-003",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "protagonist": "seolmin",
+  "productionMode": "reference-only",
+  "teacherImage": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/Seolmin.png",
+  "fps": 30,
+  "durationSeconds": 30,
+  "aspectRatio": "16:9",
+  "resolution": "1920x1080",
+  "ctaUrl": "https://malmoelab.com",
+  "buttonCaption": "malmoelab.com에서 더 알아보아요.",
+  "viewerPromise": {
+    "primary": "Seolmin teaches one beginner Korean travel sentence in a classroom-style short.",
+    "secondary": "The viewer hears the full sentence first, repeats it, then solves the missing-word quiz while the context is fresh."
+  },
+  "lesson": {
+    "focusWord": "여행",
+    "focusWordRomanization": "yeohaeng",
+    "focusWordRomanizationStatus": "render_fallback",
+    "focusWordGloss": "trip",
+    "sentenceKo": "여름에는 가족과 여행을 갑니다.",
+    "sentenceRomanized": "yeoreumeneun gajokgwa yeohaengeul gapnida.",
+    "sentenceEn": "In summer I go on a trip with my family.",
+    "blankSentenceKo": "여름에는 가족과 ___을 갑니다.",
+    "blankSentenceRomanized": "yeoreumeneun gajokgwa ___eul gapnida."
+  },
+  "scenePlan": [
+    {
+      "sceneId": "scene-1-opening-handoff",
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "role": "host intro"
+    },
+    {
+      "sceneId": "scene-2-lesson-intro",
+      "startSec": 6.0,
+      "endSec": 12.0,
+      "role": "full sentence teaching beat"
+    },
+    {
+      "sceneId": "scene-3-repeat-listen",
+      "startSec": 12.0,
+      "endSec": 18.0,
+      "role": "repeat-after-me reinforcement"
+    },
+    {
+      "sceneId": "scene-4-quiz-point",
+      "startSec": 18.0,
+      "endSec": 24.0,
+      "role": "blank-fill quiz prompt"
+    },
+    {
+      "sceneId": "scene-5-ending-wave",
+      "startSec": 24.0,
+      "endSec": 30.0,
+      "role": "cta and signoff"
+    }
+  ],
+  "narration": {
+    "enabled": false,
+    "mode": "post-picture-lock",
+    "contentLanguageCode": "ko",
+    "learnerLanguageCode": "en",
+    "voice": "SUPERTONE_VOICE_ID_SEOLMIN",
+    "segments": []
+  },
+  "aiAssetGeneration": {
+    "enabled": false,
+    "model": "gemini-3.1-flash-image-preview",
+    "outputDir": "renders/generated-assets",
+    "referenceImage": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/Seolmin.png",
+    "imageSize": "2K"
+  },
+  "assetSourcePaths": {
+    "characterRoot": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin",
+    "rightsMemo": "/home/kindsr/projects/shortform-factory-studio/characters/seolmin/rights.md",
+    "sourcePacket": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/source-packet.json",
+    "episodePacket": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/packet.md",
+    "episodeSchema": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/episode.schema.json",
+    "keyframePlan": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/keyframe-plan.json",
+    "voiceSlots": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/voice-slots.json",
+    "typographySlots": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/typography-slots.json",
+    "videoGenerationJob": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/video-generation-job.json"
+  },
+  "finalOutputs": {
+    "previewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/renders/final/malmoelab-ko-quiz-seolmin-003-picture-preview.mp4",
+    "pictureLockPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/renders/picture-lock/malmoelab-ko-quiz-seolmin-003-picture-lock.mp4",
+    "audioMixPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/renders/dub-lock/malmoelab-ko-quiz-seolmin-003-guide-dub.m4a",
+    "finalVideoPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/renders/final/malmoelab-ko-quiz-seolmin-003-final.mp4",
+    "thumbnailPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/renders/final/malmoelab-ko-quiz-seolmin-003-final-thumb.jpg",
+    "renderManifestPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/renders/final/render-manifest.json",
+    "reviewOverviewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/review/final-contact-sheets/overview.jpg"
+  },
+  "publishPacketFile": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-003/publish-packet.json",
+  "assetCaveat": "characters/seolmin/bible.md and characters/seolmin/voice.json reference characters/seolmin/1_Opening_Seolmin.mp4, but the current folder contains characters/seolmin/1_Opening.mp4. Use the available 1_Opening.mp4 as downstream opening fallback if needed; do not rename assets or change canon."
+}

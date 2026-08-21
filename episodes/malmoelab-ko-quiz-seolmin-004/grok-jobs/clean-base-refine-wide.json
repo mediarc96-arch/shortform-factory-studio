@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-quiz-seolmin-004",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "This is a 16:9 widescreen base plate for a Korean lesson video. Keep the same Seolmin identity, teacher outfit, classroom tone, and right-side placement. Smooth out the chalkboard and wall so the entire frame looks naturally painted as one scene with no seams or stretching artifacts. The left board area must remain completely empty and clean for later typography. No text anywhere.",
+    "image": {
+      "url": "../assets/refs/seolmin-2d-clean-base-wide-rough.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../assets/refs/seolmin-2d-clean-base-wide-refined.jpg",
+    "manifestFile": "../assets/refs/seolmin-2d-clean-base-wide-refined.manifest.json"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "formatVersion": "malmoelab-vnext-typography-slots@0.1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-003",
+  "_note": "003 typography lock. Sentence text appears in scene-2 and scene-3, blank question appears in scene-4, CTA lower third appears in scene-5. Typography is post-dub/post-picture only.",
+  "copyLocks": {
+    "focusWord": "여행",
+    "focusWordRomanized": "yeohaeng",
+    "focusWordRomanizationStatus": "render_fallback",
+    "focusWordGloss": "trip",
+    "fullSentence": "여름에는 가족과 여행을 갑니다.",
+    "fullSentenceRomanized": "yeoreumeneun gajokgwa yeohaengeul gapnida.",
+    "blankedSentence": "여름에는 가족과 ___을 갑니다.",
+    "blankedSentenceRomanized": "yeoreumeneun gajokgwa ___eul gapnida.",
+    "sentenceTranslation": "In summer I go on a trip with my family.",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 여행",
+    "ctaKo": "malmoelab.com에서 더 알아보아요.",
+    "ctaEn": "Learn more at malmoelab.com"
+  },
+  "stylePresets": {
+    "malmoelab-board-handwritten-bold": {
+      "fontPath": "shared/fonts/NanumSquareRoundB.ttf",
+      "strokeAssistFontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "bold-handwritten-chalk",
+      "surface": "chalkboard",
+      "fill": "#F4F5F0",
+      "strokeFill": "#DDE1D8",
+      "strokeWidth": 3
+    },
+    "malmoelab-subtitle-cta-soft": {
+      "fontPath": "shared/fonts/NanumGothic-Bold.ttf",
+      "look": "clean-subtitle-cta",
+      "surface": "subtitle-lower-third"
+    }
+  },
+  "slots": [
+    {
+      "slotId": "scene-2-sentence-main",
+      "sceneId": "scene-2-lesson-intro",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "text": "여름에는 가족과 여행을 갑니다.",
+      "textKo": "여름에는 가족과 여행을 갑니다.",
+      "textRomanized": "yeoreumeneun gajokgwa yeohaengeul gapnida.",
+      "romanizationStatus": "render_fallback",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 6.1,
+      "plannedOutTimeSec": 11.5,
+      "inTimeSec": 6.5,
+      "outTimeSec": 11.75
+    },
+    {
+      "slotId": "scene-3-repeat-sentence",
+      "sceneId": "scene-3-repeat-listen",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "text": "여름에는 가족과 여행을 갑니다.",
+      "textKo": "여름에는 가족과 여행을 갑니다.",
+      "textRomanized": "yeoreumeneun gajokgwa yeohaengeul gapnida.",
+      "romanizationStatus": "render_fallback",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 13.0,
+      "plannedOutTimeSec": 18.0,
+      "inTimeSec": 14.44,
+      "outTimeSec": 17.66
+    },
+    {
+      "slotId": "scene-4-quiz-blank",
+      "sceneId": "scene-4-quiz-point",
+      "surface": "chalkboard",
+      "layout": "ko-plus-romanized",
+      "text": "여름에는 가족과 ___을 갑니다.",
+      "textKo": "여름에는 가족과 ___을 갑니다.",
+      "textRomanized": "yeoreumeneun gajokgwa ___eul gapnida.",
+      "romanizationStatus": "render_fallback",
+      "stylePreset": "malmoelab-board-handwritten-bold",
+      "plannedInTimeSec": 20.0,
+      "plannedOutTimeSec": 26.0,
+      "inTimeSec": 18.15,
+      "outTimeSec": 29.85
+    },
+    {
+      "slotId": "scene-4-cta-lower-third",
+      "sceneId": "scene-5-ending-wave",
+      "surface": "subtitle-lower-third",
+      "text": "malmoelab.com에서 더 알아보아요.",
+      "stylePreset": "malmoelab-subtitle-cta-soft",
+      "plannedInTimeSec": 24.15,
+      "plannedOutTimeSec": 27.1,
+      "inTimeSec": 26.5,
+      "outTimeSec": 29.75
+    }
+  ]
+}

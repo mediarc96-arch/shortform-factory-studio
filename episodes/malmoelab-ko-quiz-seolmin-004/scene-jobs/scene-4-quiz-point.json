@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same Seolmin teacher identity, the same empty classroom, the same camera distance, and the same right-quarter composition. Land the blank-recall pointing pose clearly so the board can carry ___ 앞에서 친구를 만납니다 in post, while the generated picture stays text-free. Seolmin points toward the blank-sentence area with playful quiz energy. Do not reveal 학교 visually or add any generated writing, chalk marks, answer icons, or English prompt text. Carry the same board, camera baseline, and teacher scale into the next scene through the extracted last frame. Transition naturally toward the approved target pose and expression. No camera reset, no tighter crop, and no text anywhere.",
+    "image": "../assets/refs/scene-3-last-frame.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-4-quiz-point.mp4",
+    "manifestFile": "../renders/grok/scene-4-quiz-point.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-4-last-frame.jpg"
+  }
+}

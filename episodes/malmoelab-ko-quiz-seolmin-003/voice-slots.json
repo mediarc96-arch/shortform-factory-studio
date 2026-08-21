@@ -1,0 +1,137 @@
+{
+  "formatVersion": "malmoelab-vnext-voice-slots@0.1",
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-003",
+  "voiceConfigPath": "characters/seolmin/voice.json",
+  "_note": "003 spoken structure lock. Script-stage only: no audio has been generated in this issue. Voice selection inherits from characters/seolmin/voice.json; ttsVoiceEnv mirrors the configured Seolmin Supertone env key.",
+  "assetCaveat": "characters/seolmin/bible.md and characters/seolmin/voice.json reference characters/seolmin/1_Opening_Seolmin.mp4, but the current folder contains characters/seolmin/1_Opening.mp4. Use the available 1_Opening.mp4 as downstream opening fallback if needed; do not rename assets or change canon here.",
+  "slots": [
+    {
+      "voiceSlotId": "scene-1-opening-greeting-ko",
+      "kind": "episode-line",
+      "speaker": "seolmin",
+      "text": "안녕하세요. 여러분과 한글을 함께 공부할 설민입니다!",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-1-opening-handoff",
+      "plannedStartSec": 0.0,
+      "plannedDurationSec": 1.8,
+      "recordingTarget": "dubbing/audio-overrides/scene-1-opening-greeting-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "guideAsset": "dubbing/guide-audio/scene-1-opening-greeting-ko.mp3",
+      "performanceNote": "Warm opening greeting. Same structure as 003, only the character name changes."
+    },
+    {
+      "voiceSlotId": "scene-2-intro-ko",
+      "kind": "episode-line",
+      "speaker": "seolmin",
+      "text": "오늘 배울 문장은 여름에는 가족과 여행을 갑니다, 입니다.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-2-lesson-intro",
+      "plannedStartSec": 6.0,
+      "plannedDurationSec": 3.4,
+      "recordingTarget": "dubbing/audio-overrides/scene-2-intro-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "guideAsset": "dubbing/guide-audio/scene-2-intro-ko.mp3",
+      "performanceNote": "Introduce the full lesson sentence. This is not the quiz prompt."
+    },
+    {
+      "voiceSlotId": "scene-3-repeat-cue-ko",
+      "kind": "episode-line",
+      "speaker": "seolmin",
+      "text": "따라해 볼까요?",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-3-repeat-listen",
+      "plannedStartSec": 12.0,
+      "plannedDurationSec": 0.9,
+      "pauseAfterSec": 1.0,
+      "recordingTarget": "dubbing/audio-overrides/scene-3-repeat-cue-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "guideAsset": "dubbing/guide-audio/scene-3-repeat-cue-ko.mp3",
+      "performanceNote": "Repeat invitation. Keep it bright and encouraging."
+    },
+    {
+      "voiceSlotId": "scene-3-sentence-ko",
+      "kind": "episode-line",
+      "speaker": "seolmin",
+      "text": "여름에는 가족과 여행을 갑니다.",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-3-repeat-listen",
+      "plannedStartSec": 13.0,
+      "plannedDurationSec": 2.7,
+      "pauseAfterSec": 1.0,
+      "recordingTarget": "dubbing/audio-overrides/scene-3-sentence-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "guideAsset": "dubbing/guide-audio/scene-3-sentence-ko.mp3",
+      "performanceNote": "Read the full lesson sentence after the repeat cue."
+    },
+    {
+      "voiceSlotId": "scene-4-cta-ko",
+      "kind": "episode-line",
+      "speaker": "seolmin",
+      "text": "빈칸에 들어갈 말은 무엇일까요?",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-4-quiz-point",
+      "plannedStartSec": 20.0,
+      "plannedDurationSec": 2.1,
+      "recordingTarget": "dubbing/audio-overrides/scene-4-cta-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "guideAsset": "dubbing/guide-audio/scene-4-cta-ko.mp3",
+      "performanceNote": "Blank-quiz question only. Do not reveal the answer in the spoken line."
+    },
+    {
+      "voiceSlotId": "scene-5-ending-ko",
+      "kind": "episode-line",
+      "speaker": "seolmin",
+      "text": "말모이랩닷컴에서 더 알아보아요. 안녕!",
+      "preferredSources": [
+        "human-dub",
+        "actor-dub",
+        "voice-pack",
+        "supertone-guide",
+        "elevenlabs-guide"
+      ],
+      "sceneId": "scene-5-ending-wave",
+      "plannedStartSec": 24.9,
+      "plannedDurationSec": 2.5,
+      "recordingTarget": "dubbing/audio-overrides/scene-5-ending-ko.wav",
+      "ttsProvider": "supertone",
+      "ttsVoiceEnv": "SUPERTONE_VOICE_ID_SEOLMIN",
+      "guideAsset": "dubbing/guide-audio/scene-5-ending-ko.mp3",
+      "performanceNote": "Short smile-through goodbye. Same ending structure as 003."
+    }
+  ]
+}

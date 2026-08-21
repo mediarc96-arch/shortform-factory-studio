@@ -1,0 +1,20 @@
+{
+  "provider": "xai_grok",
+  "taskType": "image_to_video",
+  "request": {
+    "model": "grok-imagine-video",
+    "prompt": "Use the provided frame as the exact first frame. Keep the same Seolmin teacher identity, the same empty classroom, the same camera distance, and the same right-quarter composition. Open on a bright Seolmin greeting beat that establishes the classroom host while leaving the board completely empty for later sentence typography. Seolmin faces the viewer on the right quarter with a small welcoming wave and friendly smile. No readable board text, subtitle artifacts, logos, or answer hints appear in the generated frame. Preserve Seolmin's chibi proportions, pale platinum-blue hair, purple eyes, black hanbok teacher outfit, gat, gold trim, and red tassels. Transition naturally toward the approved target pose and expression. No camera reset, no tighter crop, and no text anywhere.",
+    "image": "../keyframes/kf-01-opening-handoff.jpg",
+    "duration": 6,
+    "aspect_ratio": "16:9",
+    "resolution": "720p"
+  },
+  "runner": {
+    "outputFile": "../renders/picture/scene-1-opening-handoff.mp4",
+    "manifestFile": "../renders/grok/scene-1-opening-handoff.manifest.json"
+  },
+  "handoff": {
+    "extractLastFrame": true,
+    "lastFramePath": "../assets/refs/scene-1-last-frame.jpg"
+  }
+}

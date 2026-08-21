@@ -1,0 +1,16 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-004",
+  "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+  "resolution": "1280x720",
+  "fps": 30,
+  "durationSeconds": 30,
+  "previewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-004/renders/final/malmoelab-ko-quiz-seolmin-004-picture-preview.mp4",
+  "pictureLockPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-004/renders/picture-lock/malmoelab-ko-quiz-seolmin-004-picture-lock.mp4",
+  "audioMixPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-004/renders/dub-lock/malmoelab-ko-quiz-seolmin-004-guide-dub.m4a",
+  "finalVideoPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-004/renders/final/malmoelab-ko-quiz-seolmin-004-final.mp4",
+  "thumbnailPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-004/renders/final/malmoelab-ko-quiz-seolmin-004-final-thumb.jpg",
+  "reviewOverviewPath": "/home/kindsr/projects/shortform-factory-studio/episodes/malmoelab-ko-quiz-seolmin-004/review/final-contact-sheets/overview.jpg",
+  "audioMeanDb": -25.6,
+  "audioMaxDb": -5.7,
+  "resolutionTruthNote": "Aligned packet declarations to delivered Grok 720p export; no re-render required."
+}

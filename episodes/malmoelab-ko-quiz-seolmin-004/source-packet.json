@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-004",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-08-04T05:33:17+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "e00c2be8-8e1a-408f-a2ee-23f17ad8f5cd",
+    "senseId": "14b0dda3-e404-4d3c-854f-736855ee028b",
+    "exampleId": "6abefc16-6ac6-4953-b0cb-0768912e4634",
+    "wordText": "학교",
+    "wordRomanization": "hakgyo",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "일정한 목적, 교과 과정, 제도 등에 따라 학생을 교육하는 기관.",
+    "definitionTranslated": "An institution that educates students according to a specific purpose, curriculum, system, etc.",
+    "englishGloss": "school",
+    "exampleText": "학교 앞에서 친구를 만납니다.",
+    "exampleTranslationText": "I meet a friend in front of the school.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 학교",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "___ 앞에서 친구를 만납니다.",
+    "fullSentence": "학교 앞에서 친구를 만납니다.",
+    "blankedSentenceRomanization": "___ apeseo chingureul mannapnida.",
+    "fullSentenceRomanization": "hakgyo apeseo chingureul mannapnida.",
+    "answerWord": "학교",
+    "answerRomanization": "hakgyo",
+    "answerGloss": "school",
+    "answerTranslation": "I meet a friend in front of the school."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "_schema": "xAI image edit job · malmoelab-ko-quiz-seolmin-004 keyframe",
+  "provider": "xai_grok",
+  "taskType": "image_edit",
+  "request": {
+    "model": "grok-imagine-image",
+    "prompt": "Keep the exact same 2D anime illustration matching characters/seolmin/Seolmin.png. Use the input image as the canonical base for Seolmin. front-facing, playful curious teacher, one hand pointing toward the blank sentence area on the board, bright quiz energy, no generated writing. Keep the teacher on the right quarter of frame and keep the entire chalkboard empty and clean for later typography. Avoid: 3D render, photorealistic, text, chalk writing, labels, subtitle artifacts, extra characters, dark horror tone, adult-realistic body proportions, changed eye color, missing gat, missing red tassels.",
+    "image": {
+      "url": "../assets/refs/seolmin-2d-clean-base-wide-refined.jpg"
+    },
+    "n": 1
+  },
+  "runner": {
+    "outputFile": "../keyframes/kf-04-quiz-point.jpg",
+    "manifestFile": "../keyframes/kf-04-quiz-point.manifest.json"
+  }
+}

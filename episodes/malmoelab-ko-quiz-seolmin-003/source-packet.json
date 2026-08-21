@@ -1,0 +1,58 @@
+{
+  "episodeSlug": "malmoelab-ko-quiz-seolmin-003",
+  "seriesSlug": "malmoelab-hangul-quiz",
+  "contentLanguageCode": "ko",
+  "learnerLanguageCode": "en",
+  "narrationLanguageCode": "ko",
+  "selectedAt": "2026-04-27T03:38:06+00:00",
+  "source": {
+    "sourceType": "malmoelab.word_example",
+    "languageCode": "ko",
+    "baseUrl": "https://malmoelab.com",
+    "wordId": "fd874697-abd0-443f-8f28-4a09922bf748",
+    "senseId": "5200c051-deec-4c5e-b530-5995a84917f4",
+    "exampleId": "8f9648cc-fbba-4273-85e1-c70688710a38",
+    "wordText": "여행",
+    "wordRomanization": "yeohaeng",
+    "wordRomanizationSource": "render_fallback",
+    "wordRomanizationNote": "Stored romanization contained Hangul; generated fallback for render use only.",
+    "wordReadingText": "",
+    "partOfSpeech": "noun",
+    "topikLevel": 1,
+    "difficultyScore": 22.1,
+    "definition": "집을 떠나 다른 지방이나 나라를 두루 구경하며 다니는 일.",
+    "definitionTranslated": "The act of leaving home and traveling around other regions or countries.",
+    "englishGloss": "trip",
+    "exampleText": "여름에는 가족과 여행을 갑니다.",
+    "exampleTranslationText": "In summer I go on a trip with my family.",
+    "exampleRegisterLabel": "",
+    "senseRegisterLabel": ""
+  },
+  "quiz": {
+    "promptLanguageCode": "en",
+    "titleCardTitle": "말모이랩 한글공부",
+    "titleCardSubtitle": "15-second fill-in-the-blank quiz",
+    "questionCaption": "Which word fits the blank?",
+    "engagementCaption": "Double tap if you know it.",
+    "revealCaption": "Answer: 여행",
+    "ctaCaption": "Learn more at malmoelab.com",
+    "blankedSentence": "여름에는 가족과 ___을 갑니다.",
+    "fullSentence": "여름에는 가족과 여행을 갑니다.",
+    "blankedSentenceRomanization": "yeoreumeneun gajokgwa ___eul gapnida.",
+    "fullSentenceRomanization": "yeoreumeneun gajokgwa yeohaengeul gapnida.",
+    "answerWord": "여행",
+    "answerRomanization": "yeohaeng",
+    "answerGloss": "trip",
+    "answerTranslation": "In summer I go on a trip with my family."
+  },
+  "dedupe": {
+    "ledgerPath": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "wasPreviouslyUsed": false,
+    "reuseRequired": false,
+    "selectionStatus": "unused_example_selected"
+  },
+  "ledger": {
+    "path": "/home/kindsr/projects/shortform-factory-studio/data/used_sentences.jsonl",
+    "reserved": true
+  }
+}

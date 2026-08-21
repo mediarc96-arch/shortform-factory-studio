@@ -14,8 +14,8 @@
   "ctaUrl": "https://malmoelab.com",
   "buttonCaption": "Learn more at malmoelab.com",
   "viewerPromise": {
-    "primary": "Seolmin hosts a fast Korean blank-fill quiz built around one everyday sentence.",
-    "secondary": "The viewer solves the blank before the reveal, then gets pronunciation and meaning in the payoff beat."
+    "primary": "Seolmin teaches one everyday Korean sentence, then checks recall with a blank-fill prompt.",
+    "secondary": "The viewer hears and reads the full sentence first, repeats it, then tries the missing word in scene 4."
   },
   "lesson": {
     "focusWord": "커피",
@@ -37,19 +37,19 @@
       "sceneId": "scene-2-lesson-intro",
       "startSec": 6.0,
       "endSec": 12.0,
-      "role": "blank sentence prompt"
+      "role": "full lesson sentence intro"
     },
     {
       "sceneId": "scene-3-repeat-listen",
       "startSec": 12.0,
       "endSec": 18.0,
-      "role": "think/listen hint beat"
+      "role": "repeat cue and full sentence read"
     },
     {
       "sceneId": "scene-4-quiz-point",
       "startSec": 18.0,
       "endSec": 24.0,
-      "role": "answer reveal and sentence payoff"
+      "role": "blank recall prompt"
     },
     {
       "sceneId": "scene-5-ending-wave",

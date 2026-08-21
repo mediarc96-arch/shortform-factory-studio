@@ -1,0 +1,216 @@
+{
+  "provider": "xai_grok",
+  "episode": {
+    "slug": "malmoelab-ko-quiz-seolmin-004",
+    "_refSourcePacket": "./source-packet.json",
+    "_refEpisodeSchema": "./episode.schema.json",
+    "_refKeyframePlan": "./keyframe-plan.json",
+    "_refVoiceSlots": "./voice-slots.json",
+    "_refTypographySlots": "./typography-slots.json"
+  },
+  "globalSettings": {
+    "formatProfile": "malmoelab-keyframe-dub-after-picture-v1",
+    "provider": "xai_grok",
+    "preferredProvider": "xai_grok",
+    "fallbackProvider": "runway",
+    "continuityTarget": "previous-scene-last-frame",
+    "aspectRatio": "16:9",
+    "targetDurationSec": 30,
+    "sceneDurationSec": 6.0,
+    "resolution": "1280x720",
+    "fps": 30,
+    "seed": 531004,
+    "style": "2D anime illustration matching characters/seolmin/Seolmin.png",
+    "characterReferenceBase": "assets/refs/seolmin-2d-clean-base-wide-refined.jpg",
+    "negativePromptCommon": "text, letters, Korean characters, subtitles, numbers, logos, watermarks, chalk writing, calligraphy, labels, extra characters, extra teachers, 3D render, photorealistic, adult-realistic body proportions, changed eye color, missing gat, missing red tassels, distorted hands, deformed face, blurry, low quality",
+    "compositionRule": "Keep Seolmin as the same 2D chibi Korean teacher from characters/seolmin/Seolmin.png. Keep the teacher on the right quarter and keep the chalkboard empty on the left three-quarters for later typography.",
+    "providerExpectations": {
+      "keyframeGate": "Approve all five Seolmin keyframes before any scene video generation begins.",
+      "pictureStage": "Generate mute picture-only clips first, then hand off for picture lock, dub, and typography.",
+      "continuityRule": "Scene 1 starts from approved keyframe 01; scenes 2-5 start from the previous scene final frame and aim toward the approved next keyframe pose card.",
+      "textRule": "Do not bake Korean, romanization, English prompts, answer text, CTA, subtitles, logos, watermarks, chalk writing, or any readable text into generated frames.",
+      "styleRule": "Use characters/seolmin as the visual canon. Preserve reference-only mode; do not create character LoRA, new canon, or a redesigned Seolmin identity.",
+      "sceneDelivery": "Each completed scene should yield one picture clip, one provider manifest, and one extracted last-frame asset for the next scene handoff."
+    }
+  },
+  "_note": "EDIT-stage handoff only. Preserve daehan-pilot-codex-003 order: greeting -> lesson sentence -> repeat -> blank quiz -> ending. Lesson lock: 학교 / 학교 앞에서 친구를 만납니다. Render, dubbing, typography, QA, and publish are downstream tasks.",
+  "stageGates": [
+    {
+      "stage": "keyframe-review",
+      "status": "required-before-picture",
+      "requiredAssets": [
+        "keyframes/kf-01-opening-handoff.jpg",
+        "keyframes/kf-02-lesson-intro.jpg",
+        "keyframes/kf-03-repeat-listen.jpg",
+        "keyframes/kf-04-quiz-point.jpg",
+        "keyframes/kf-05-ending-wave.jpg"
+      ],
+      "reviewBundle": {
+        "report": "review/review-report.md",
+        "overview": "review/contact-sheets/overview.jpg"
+      }
+    },
+    {
+      "stage": "picture-lock",
+      "status": "required-before-dub",
+      "requiredAssets": [
+        "renders/picture/scene-1-opening-handoff.mp4",
+        "renders/picture/scene-2-lesson-intro.mp4",
+        "renders/picture/scene-3-repeat-listen.mp4",
+        "renders/picture/scene-4-quiz-point.mp4",
+        "renders/picture/scene-5-ending-wave.mp4"
+      ],
+      "outputPath": "renders/picture-lock/malmoelab-ko-quiz-seolmin-004-picture-lock.mp4"
+    },
+    {
+      "stage": "dub-lock",
+      "status": "post-picture-only",
+      "source": "voice-slots.json",
+      "outputPath": "renders/dub-lock/malmoelab-ko-quiz-seolmin-004-guide-dub.m4a"
+    },
+    {
+      "stage": "typography",
+      "status": "last",
+      "source": "typography-slots.json",
+      "outputPath": "renders/final/malmoelab-ko-quiz-seolmin-004-final.mp4"
+    }
+  ],
+  "textPolicy": {
+    "generatedPictureText": "forbidden",
+    "typographyStage": "post-dub-lock",
+    "fullSentence": "학교 앞에서 친구를 만납니다.",
+    "blankSentence": "___ 앞에서 친구를 만납니다.",
+    "romanization": "hakgyo apeseo chingureul mannapnida.",
+    "romanizationCaveat": "source-packet romanization is render fallback only, not authoritative learning content"
+  },
+  "assetCaveats": {
+    "openingVideoConfigured": "characters/seolmin/1_Opening_Seolmin.mp4",
+    "openingVideoAvailableFallback": "characters/seolmin/1_Opening.mp4",
+    "characterReferenceBaseSource": "copied from malmoelab-ko-quiz-seolmin-003 assets/refs for continuity; regenerate only if identity review fails",
+    "policy": "Use the available opening fallback only if an opening clip is needed downstream. Do not rename assets or alter Seolmin canon in this episode."
+  },
+  "futureScenes": [
+    {
+      "sceneId": "scene-1-opening-handoff",
+      "durationSec": 6.0,
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "boundaryMode": "continuous_handoff",
+      "startSeed": "keyframes/kf-01-opening-handoff.jpg",
+      "targetPoseCard": "keyframes/kf-01-opening-handoff.jpg",
+      "outputPath": "renders/picture/scene-1-opening-handoff.mp4",
+      "manifestPath": "renders/grok/scene-1-opening-handoff.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-1-last-frame.jpg",
+      "providerExpectation": "Open on a bright Seolmin greeting beat that establishes the classroom host while leaving the board completely empty for later sentence typography.",
+      "continuityNotes": [
+        "Seolmin faces the viewer on the right quarter with a small welcoming wave and friendly smile.",
+        "No readable board text, subtitle artifacts, logos, or answer hints appear in the generated frame.",
+        "Preserve Seolmin's chibi proportions, pale platinum-blue hair, purple eyes, black hanbok teacher outfit, gat, gold trim, and red tassels."
+      ]
+    },
+    {
+      "sceneId": "scene-2-lesson-intro",
+      "durationSec": 6.0,
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "boundaryMode": "continuous_handoff",
+      "startSeed": "assets/refs/scene-1-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-02-lesson-intro.jpg",
+      "outputPath": "renders/picture/scene-2-lesson-intro.mp4",
+      "manifestPath": "renders/grok/scene-2-lesson-intro.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-2-last-frame.jpg",
+      "providerExpectation": "Carry the same classroom framing forward and shift into the full-sentence teaching beat for 학교 앞에서 친구를 만납니다 without generating any text.",
+      "continuityNotes": [
+        "Seolmin gestures compactly toward the clean board while staying on the right quarter.",
+        "This scene introduces the full sentence in performance only; all Korean and romanization stay for post typography.",
+        "Keep the classroom lighting, camera height, board size, and character scale continuous from scene 1."
+      ]
+    },
+    {
+      "sceneId": "scene-3-repeat-listen",
+      "durationSec": 6.0,
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "boundaryMode": "continuous_handoff",
+      "startSeed": "assets/refs/scene-2-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-03-repeat-listen.jpg",
+      "outputPath": "renders/picture/scene-3-repeat-listen.mp4",
+      "manifestPath": "renders/grok/scene-3-repeat-listen.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-3-last-frame.jpg",
+      "providerExpectation": "Preserve the lesson setup and create a patient repeat-after-me hold that supports the spoken cue and full sentence replay.",
+      "continuityNotes": [
+        "Seolmin invites the viewer to repeat, then settles into an attentive listening expression.",
+        "Keep the board empty even though post typography will repeat the full sentence over this scene.",
+        "Motion should be gentle and readable, with no reset to a different classroom or different Seolmin design."
+      ]
+    },
+    {
+      "sceneId": "scene-4-quiz-point",
+      "durationSec": 6.0,
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "boundaryMode": "continuous_handoff",
+      "startSeed": "assets/refs/scene-3-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-04-quiz-point.jpg",
+      "outputPath": "renders/picture/scene-4-quiz-point.mp4",
+      "manifestPath": "renders/grok/scene-4-quiz-point.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-4-last-frame.jpg",
+      "providerExpectation": "Land the blank-recall pointing pose clearly so the board can carry ___ 앞에서 친구를 만납니다 in post, while the generated picture stays text-free.",
+      "continuityNotes": [
+        "Seolmin points toward the blank-sentence area with playful quiz energy.",
+        "Do not reveal 학교 visually or add any generated writing, chalk marks, answer icons, or English prompt text.",
+        "Carry the same board, camera baseline, and teacher scale into the next scene through the extracted last frame."
+      ]
+    },
+    {
+      "sceneId": "scene-5-ending-wave",
+      "durationSec": 6.0,
+      "startSec": 0.0,
+      "endSec": 6.0,
+      "boundaryMode": "continuous_handoff",
+      "startSeed": "assets/refs/scene-4-last-frame.jpg",
+      "targetPoseCard": "keyframes/kf-05-ending-wave.jpg",
+      "outputPath": "renders/picture/scene-5-ending-wave.mp4",
+      "manifestPath": "renders/grok/scene-5-ending-wave.manifest.json",
+      "handoffLastFramePath": "assets/refs/scene-5-last-frame.jpg",
+      "providerExpectation": "End on a gentle Seolmin farewell wave with room for the downstream CTA lower-third and no fixed ending clip dependency.",
+      "continuityNotes": [
+        "Keep the same Seolmin identity, classroom continuity, and right-quarter framing through the final wave.",
+        "Leave the board and lower-third region clean for typography.",
+        "No visible-frame AI disclosure, watermark, logo, or generated CTA text."
+      ]
+    }
+  ],
+  "expectedOutputs": {
+    "keyframeJobDir": "grok-jobs",
+    "sceneJobDir": "scene-jobs",
+    "keyframes": [
+      "keyframes/kf-01-opening-handoff.jpg",
+      "keyframes/kf-02-lesson-intro.jpg",
+      "keyframes/kf-03-repeat-listen.jpg",
+      "keyframes/kf-04-quiz-point.jpg",
+      "keyframes/kf-05-ending-wave.jpg"
+    ],
+    "pictureClips": [
+      "renders/picture/scene-1-opening-handoff.mp4",
+      "renders/picture/scene-2-lesson-intro.mp4",
+      "renders/picture/scene-3-repeat-listen.mp4",
+      "renders/picture/scene-4-quiz-point.mp4",
+      "renders/picture/scene-5-ending-wave.mp4"
+    ],
+    "providerManifests": [
+      "renders/grok/scene-1-opening-handoff.manifest.json",
+      "renders/grok/scene-2-lesson-intro.manifest.json",
+      "renders/grok/scene-3-repeat-listen.manifest.json",
+      "renders/grok/scene-4-quiz-point.manifest.json",
+      "renders/grok/scene-5-ending-wave.manifest.json"
+    ],
+    "lastFrameHandoffs": [
+      "assets/refs/scene-1-last-frame.jpg",
+      "assets/refs/scene-2-last-frame.jpg",
+      "assets/refs/scene-3-last-frame.jpg",
+      "assets/refs/scene-4-last-frame.jpg",
+      "assets/refs/scene-5-last-frame.jpg"
+    ]
+  }
+}
