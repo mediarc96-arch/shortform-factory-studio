@@ -1,0 +1,81 @@
+{
+  "episodeSlug": "chiyo-space-drift-001",
+  "issue": {
+    "identifier": "SHO-90",
+    "parentIdentifier": "SHO-11",
+    "workType": "internal_previs",
+    "status": "previs_ready"
+  },
+  "formatProfile": "internal-previs-9x16-v1",
+  "runtimeSeconds": 12,
+  "aspectRatio": "9:16",
+  "productionMode": "reference-only",
+  "protagonist": "chiyo",
+  "referenceAssets": [
+    "characters/chiyo/치요_IMG_1285.jpg"
+  ],
+  "sourceDocuments": [
+    "episodes/chiyo-space-drift-001/packet.md",
+    "characters/chiyo/bible.md",
+    "characters/chiyo/prompts.md",
+    "characters/chiyo/rights.md"
+  ],
+  "deliverables": [
+    "episodes/chiyo-space-drift-001/previs-plan.md",
+    "episodes/chiyo-space-drift-001/motion-test-prompt.md",
+    "episodes/chiyo-space-drift-001/previs-manifest.json"
+  ],
+  "shotPlan": [
+    {
+      "id": "shot-01-cold-open",
+      "timeRange": "0.0-2.5s",
+      "cast": {
+        "chiyo": 1
+      },
+      "motion": "front-facing float, slow downward star-particle drift",
+      "continuityLock": "face, headpiece, white hair, mint highlights, and lime-mint eyes readable in first frame"
+    },
+    {
+      "id": "shot-02-drift-expand",
+      "timeRange": "2.5-5.5s",
+      "cast": {
+        "chiyo": 1
+      },
+      "motion": "subtle camera drift toward a 3/4 side view with distant planet parallax",
+      "continuityLock": "chibi proportions, long ponytail, headpiece, and outfit unchanged"
+    },
+    {
+      "id": "shot-03-light-discovery",
+      "timeRange": "5.5-8.5s",
+      "cast": {
+        "chiyo": 1
+      },
+      "motion": "Chiyo remains left of frame while a small mint light appears on the right",
+      "continuityLock": "only eye direction changes; expression remains restrained"
+    },
+    {
+      "id": "shot-04-loop-ending",
+      "timeRange": "8.5-12.0s",
+      "cast": {
+        "chiyo": 1
+      },
+      "motion": "half-front hold while looking at the light, final star drift aligns with opening",
+      "continuityLock": "single Chiyo, same costume, same hair and headpiece silhouette"
+    }
+  ],
+  "rightsAndPublishing": {
+    "internalPrevisOnly": true,
+    "publishReady": false,
+    "externalRenderApproved": false,
+    "recurringSeriesApproved": false,
+    "trainingOrLoraApproved": false,
+    "blockingDocument": "characters/chiyo/rights.md",
+    "blockerSummary": "rights.md still has TBD fields for owner, generation method, permission scope, commercial use, derivative use, external distribution, credit needs, and third-party IP risk"
+  },
+  "renderHandoff": {
+    "requiredNow": false,
+    "jobFile": null,
+    "reason": "Current assignment requests internal previs packet only; external motion generation requires Head of Content approval first."
+  },
+  "nextGate": "rights_resolution"
+}
